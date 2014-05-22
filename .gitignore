@@ -1,0 +1,11 @@
+EXE/
+Library/
+obj/
+Temp/
+
+*.csproj
+*.sln
+*.userprefs
+*.suo
+*.unityproj
+*.db
