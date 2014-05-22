@@ -1,0 +1,46 @@
+This is the list of sounds I expect we'll need, which I'll post in this folder as I get something useful.
+
+Everything in the folder is to be considered WIP.  I'll begin by getting all sounds thrown together before
+	working to improve their quality for the final product.
+
+Music will be written as the art direction nears completion. The SFX will evolve to match the final art style.
+
+==============================================================================================================
+SOUNDS BY NAME, GROUPED BY CATEGORY
+(-) = TO DO (+) = DONE
+
++AmbientLoop: Stereo sound of ambient "Space Ship" sounds.  Looped, implement as 2D sound.
+
++Footsteps: Loop of metallic footfalls.  When the player moves, this loop will play.
+-FloorSlick: Sound played when player skids across slick floor.  Probably will be looped and ducked until player 
+	is in motion on a slick (controlled by script).
+
++FlaskPickup: Sound played when potion is picked up.  A sloshy clinky sound.
++FlaskDrink: Sound played when player drinks potion.  A large gulping sound.
++FlaskThrow: Sound played when player throws the empty flask.  Whoosh sound.
++FlaskBreak: Sound played when a thrown flask breaks in the environment.  Glass smashing sound.
+
++WallMove: Sound played when a wall moves or rotates due to player interaction.
+-LaserTrip: Sound played when a player steps in front of a laser trip line.
++TrapFloor: Sound played when a trap door opens.
+
++PowerCorePickup: Sound played when the player collects a power core.
+-PowerCoreLoop: Sound the power core makes in the environment.  Looped, impement as 3D sound.
++FinalDoorOpen: Sound made by the door unlocked by the power cores.
+
++WallCamSurvey: Sound made by the wall-mounted cameras as they move side-to-side.  Whirring.
+-WallCamDetection: Sound made when the cameras have noticed the player.  No whirring, a local soundng alarm.
+
+-AlienStartWalk: Sound made by the aliens when they start walking from a standstill, or when making sharp turns.
+	Something of an alien grunt.  (Unsure of implementation, depends on AI development).
+-AlienAlert: Sound made by the aliens when they hear a sound.  Some alien exclamation of sound.
+-AlienInvestigate: Sound made by the aliens when they reach the spot that they heard a sound from.  Alien grumbling.
+-AlienGiveUp: Sound made by an alien that gives up investigation of a sound.
+-PlayerDiscovered: UI sound made when player is caught by the aliens.  Likely to be Metal-Gear style musical stinger.
+
+-LevelVictory: Sound played when the player successfully completes a level.  Likely to be musical stinger.  UI sound.
+
+-UIOptionHover: Sound when the player changes the highlighted option on the main and pause menus.
+-UIOptionAccept: Sound when the player clicks on or selects a menu option.
+-UIBackOut: Sound that plays when the player backs out of a menu.
+-UIPopUp: Sound that plays when a pop-up occurs.
