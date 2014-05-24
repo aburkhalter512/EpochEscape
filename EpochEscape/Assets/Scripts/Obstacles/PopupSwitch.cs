@@ -8,6 +8,8 @@ public class PopupSwitch : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other){
 		if(active){
 			if (other.gameObject.tag == "Player") {
+				Player p = other.gameObject.GetComponent<Player>();
+				p.audio.Stop ();
 				GameManager.getInstance ().message = instructions;
 				GameManager.getInstance ().ShowPopupMessage();
 				GameManager.getInstance ().popup = true;
