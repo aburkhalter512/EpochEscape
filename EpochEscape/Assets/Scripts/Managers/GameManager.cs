@@ -104,7 +104,7 @@ public class GameManager : UnitySingleton<GameManager>
 	}
 	
 	void showPauseMenu(){
-		GUILayout.BeginArea (new Rect(Screen.width/3f, Screen.height * .35f, 400, 500));
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 200, Screen.height/2f - 200, 400, 400));
 		GUILayout.BeginVertical ();
 		if(GUILayout.Button ("Continue", EpochSkin.button))
 			UnpauseGame ();
@@ -159,16 +159,16 @@ public class GameManager : UnitySingleton<GameManager>
 	
 	#region Options
 	void ShowOptions(){
-		GUILayout.BeginArea (new Rect(Screen.width/6f, Screen.height * .35f, 700, 400));
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height/2 - 200, 700, 400));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter);
+		GUILayout.Space (300);
 		GUILayout.Label ("Volume", EpochSkin.label);
 		GUILayout.EndHorizontal ();
 		VolumeControl ();
 		GUILayout.Space (25);
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter - 75);
+		GUILayout.Space (210);
 		GUILayout.Label ("Graphics Quality", EpochSkin.label);
 		GUILayout.EndHorizontal ();
 		GraphicControl ();

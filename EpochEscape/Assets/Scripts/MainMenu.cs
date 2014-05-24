@@ -77,7 +77,7 @@ public class MainMenu : MonoBehaviour {
 
 	#region Main Menu
 	void ShowMain () {
-		GUILayout.BeginArea (new Rect (Screen.width / 2.5f, Screen.height * .35f, 400f, 500));
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height * .35f, 400f, 500));
 		if (GUILayout.Button ("Load Game", EpochSkin.button))
 			currentPage = Page.LoadSelect;
 		GUILayout.Space (10);
@@ -102,16 +102,16 @@ public class MainMenu : MonoBehaviour {
 
 	#region Options
 	void ShowOptions(){
-		GUILayout.BeginArea (new Rect(Screen.width/3.5f, Screen.height * .25f, 680, 400));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 350, Screen.height * .25f, 650, 400));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter);
+		GUILayout.Space (250);
 		GUILayout.Label ("Volume", EpochSkin.label);
 		GUILayout.EndHorizontal ();
 		VolumeControl ();
 		GUILayout.Space (25);
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter - 75);
+		GUILayout.Space (180);
 		GUILayout.Label ("Graphics Quality", EpochSkin.label);
 		GUILayout.EndHorizontal ();
 		GraphicControl ();
@@ -135,7 +135,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	private void ResetWarning(){
-		GUILayout.BeginArea (new Rect(Screen.width / 2.5f, Screen.height * .35f, 500, 500));
+		GUILayout.BeginArea (new Rect(Screen.width /1.5f - 250, Screen.height * .35f, 500, 500));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space (80);
@@ -167,7 +167,7 @@ public class MainMenu : MonoBehaviour {
 		GUILayout.EndHorizontal ();
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter);
+		GUILayout.Space (250);
 		GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
@@ -181,7 +181,7 @@ public class MainMenu : MonoBehaviour {
 		GUILayout.EndHorizontal ();
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter);
+		GUILayout.Space (250);
 		switch (G.getInstance().graphicsQuality) {
 		case 1:
 			QualitySettings.SetQualityLevel (1);
@@ -215,7 +215,7 @@ public class MainMenu : MonoBehaviour {
 
 	#region Character Selection
 	void SelectMenu(){
-		GUILayout.BeginArea (new Rect(Screen.width/2.5f, Screen.height * .22f, 500, 500));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250, Screen.height * .22f, 500, 500));
 		GUILayout.BeginVertical ();
 		GUILayout.Label ("Choose Your Character", EpochSkin.GetStyle ("Title"));
 		GUILayout.Label (CharacterName(), EpochSkin.label);
@@ -338,7 +338,7 @@ public class MainMenu : MonoBehaviour {
 
 	#region Credits Page
 	void ShowCredits(){
-		GUILayout.BeginArea (new Rect (Screen.width / 3f, Screen.height * .25f, 575, 450));
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 300, Screen.height * .25f, 575, 450));
 		GUILayout.Label ("", EpochSkin.GetStyle ("Credits"));
 		EndPage ();
 	}
@@ -346,7 +346,7 @@ public class MainMenu : MonoBehaviour {
 
 	#region Load Selection
 	void ShowLoad(){
-		GUILayout.BeginArea (new Rect (Screen.width/2.5f, Screen.height * .35f, 525, 500));
+		GUILayout.BeginArea (new Rect (Screen.width/1.5f - 275, Screen.height * .35f, 525, 500));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
@@ -427,9 +427,9 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	void DeleteWarning(){
-		GUILayout.BeginArea (new Rect(Screen.width / 2.5f, Screen.height * .35f, 500, 500));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250, Screen.height * .35f, 500, 500));
 		GUILayout.BeginVertical ();
-		GUILayout.Label ("Are You Sure You Want To Delete?", EpochSkin.label);
+		GUILayout.Label ("Really Delete?", EpochSkin.label);
 		GUILayout.BeginHorizontal ();
 		if(GUILayout.Button ("Yes", EpochSkin.button)){
 			S.DeleteSave ();
@@ -445,7 +445,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	void ShowLoadWarning(){
-		GUILayout.BeginArea (new Rect(Screen.width / 2.5f, Screen.height * .35f, 500, 500));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250, Screen.height * .35f, 500, 500));
 		GUILayout.BeginVertical ();
 		GUILayout.Label ("No Save File Found! Start Save?", EpochSkin.label);
 		GUILayout.BeginHorizontal ();
@@ -466,7 +466,7 @@ public class MainMenu : MonoBehaviour {
 	#region Save Selection
 	void ShowSaveSelect(){
 		prevPage = Page.Character;
-		GUILayout.BeginArea (new Rect (Screen.width/2.5f, Screen.height * .35f, 400, 500));
+		GUILayout.BeginArea (new Rect (Screen.width/1.5f - 200, Screen.height * .35f, 400, 500));
 		GUILayout.BeginVertical ();
 		GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
 		if (GUILayout.Button (S.save1, EpochSkin.button)) {
@@ -519,7 +519,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	void ShowSaveWarning (){
-		GUILayout.BeginArea (new Rect(Screen.width / 2.5f, Screen.height * .35f, 500, 500));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250f, Screen.height * .35f, 500, 500));
 		GUILayout.BeginVertical ();
 		GUILayout.Label ("Save File Exists! Overwrite?", EpochSkin.label);
 		GUILayout.BeginHorizontal ();
@@ -550,7 +550,7 @@ public class MainMenu : MonoBehaviour {
 		} 
 		else if (Event.current.isKey && Event.current.keyCode == KeyCode.Escape)
 			currentPage = Page.Main;
-		GUILayout.BeginArea (new Rect(Screen.width/2.5f, Screen.height * .45f, 485, 150));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 240, Screen.height * .45f, 485, 150));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
 		GUILayout.Label ("Enter A Name For Your Save", EpochSkin.label);
