@@ -9,3 +9,5 @@ Temp/
 *.suo
 *.unityproj
 *.db
+*.sublime-project
+*.sublime-workspace
