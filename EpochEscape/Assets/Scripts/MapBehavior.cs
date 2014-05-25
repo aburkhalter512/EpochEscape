@@ -9,8 +9,8 @@ public class MapBehavior : MonoBehaviour
 	private float m_initialCameraSize;
 
 	private GameObject m_player;
-	private GameObject m_star;
 	private float m_mapHeight;
+	private GameObject m_star;
 
 	public void Start()
 	{
@@ -73,9 +73,9 @@ public class MapBehavior : MonoBehaviour
 		if(m_isMapDisplayed)
 		{
 			newCameraXPosition = transform.position.x;
-			newCameraYPosition = transform.position.y;
+			newCameraYPosition = -m_mapHeight;
 
-			transform.position = new Vector3(transform.position.x, -m_mapHeight, transform.position.z);
+			transform.position = new Vector3(newCameraXPosition, newCameraYPosition, transform.position.z);
 
 			m_star.transform.position = new Vector3(m_player.transform.position.x, m_player.transform.position.y - m_mapHeight, m_star.transform.position.z);
 			m_star.SetActive(true);
