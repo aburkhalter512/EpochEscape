@@ -5,35 +5,54 @@ public class DetectionArea : MonoBehaviour
 {
     public Player detectedPlayer = null;
 
+	private GameObject m_parent;
+	private Player m_player;
+
     public void Start()
     {
         detectedPlayer = null;
+
+		if(transform.parent != null)
+			m_parent = transform.parent.gameObject;
     }
+
+	public void Update()
+	{
+		if(m_player == null)
+			CheckForPlayer();
+	}
+
+	private void CheckForPlayer()
+	{
+		if(m_player != null) return;
+
+		GameObject player = GameObject.FindWithTag("Player");
+
+		if(player != null)
+			m_player = player.GetComponent<Player>();
+	}
 
 	public void OnTriggerStay2D(Collider2D other)
 	{
 		if(other.gameObject.tag == "Player")
-		{
-			GameObject parent = transform.parent.gameObject;
-			Player player = other.GetComponent<Player>();
-			
-			if(parent != null && player != null)
+		{	
+			if(!(m_parent == null || m_player == null))
 			{
-                detectedPlayer = player;
+				detectedPlayer = m_player;
 
-                if (isPlayerInBounds(other))
+                if(isPlayerInBounds(other))
                 {
-                    player.m_isDetected = true;
+					m_player.m_isDetected = true;
 
-                    if (parent != null)
+					if(m_parent != null)
                     {
-                        if (parent.tag == "Guard")
+						if(m_parent.tag == "Guard")
                         {
                             // Do something with the guard.
                         }
-                        else if (parent.tag == "SecurityCamera")
+						else if(m_parent.tag == "SecurityCamera")
                         {
-                            SecurityCamera securityCamera = parent.GetComponent<SecurityCamera>();
+							SecurityCamera securityCamera = m_parent.GetComponent<SecurityCamera>();
 
                             if (securityCamera != null)
                             {
@@ -46,7 +65,7 @@ public class DetectionArea : MonoBehaviour
                     }
                 }
                 else
-                    player.m_isDetected = false;
+					m_player.m_isDetected = false;
 			}
 		}
 	}
@@ -55,22 +74,19 @@ public class DetectionArea : MonoBehaviour
 	{
 		if(other.gameObject.tag == "Player")
 		{
-			GameObject parent = transform.parent.gameObject;
-			Player player = other.GetComponent<Player>();
-			
-			if(player != null)
+			if(m_player != null)
 			{
-				player.m_isDetected = false;
+				m_player.m_isDetected = false;
 
-				if(parent != null)
+				if(m_parent != null)
 				{
-					if(parent.tag == "Guard")
+					if(m_parent.tag == "Guard")
 					{
 						// Do something with the guard.
 					}
-					else if(parent.tag == "SecurityCamera")
+					else if(m_parent.tag == "SecurityCamera")
 					{
-						SecurityCamera securityCamera = parent.GetComponent<SecurityCamera>();
+						SecurityCamera securityCamera = m_parent.GetComponent<SecurityCamera>();
 
 						if(securityCamera != null)
 						{
@@ -89,17 +105,15 @@ public class DetectionArea : MonoBehaviour
 	{
 		if(other.tag == "Player")
 		{
-			Transform parentTransform = transform.parent;
-
-			if(parentTransform != null)
+			if(m_parent != null)
 			{
-				float angleBound = Mathf.Atan(((parentTransform.localScale.x * transform.localScale.x) / 2f) / 
-					(parentTransform.localScale.y * transform.localScale.y)) * Mathf.Rad2Deg;
+				float angleBound = Mathf.Atan(((m_parent.transform.localScale.x * transform.localScale.x) / 2f) / 
+					(m_parent.transform.localScale.y * transform.localScale.y)) * Mathf.Rad2Deg;
 				
-				Vector3 toPlayer = other.transform.position - parentTransform.position;
+				Vector3 toPlayer = other.transform.position - m_parent.transform.position;
 				toPlayer.Normalize();
 				
-				float toPlayerAngle = Mathf.Acos(Vector3.Dot(toPlayer, parentTransform.up)) * Mathf.Rad2Deg;
+				float toPlayerAngle = Mathf.Acos(Vector3.Dot(toPlayer, m_parent.transform.up)) * Mathf.Rad2Deg;
 				
 				if(toPlayerAngle < angleBound)
 					return true;
