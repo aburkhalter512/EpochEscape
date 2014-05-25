@@ -73,7 +73,7 @@ public class MapBehavior : MonoBehaviour
 		if(m_isMapDisplayed)
 		{
 			newCameraXPosition = transform.position.x;
-			newCameraYPosition = -m_mapHeight;
+			newCameraYPosition = m_initialMapYPosition - m_mapHeight;
 
 			transform.position = new Vector3(newCameraXPosition, newCameraYPosition, transform.position.z);
 

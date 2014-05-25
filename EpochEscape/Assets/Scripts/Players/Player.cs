@@ -219,7 +219,7 @@ public class Player : MonoBehaviour
 	#region UpdateUserControl
 	private void UpdateUserControl()
 	{
-		//UpdateMouse();
+		UpdateMouse();
 		UpdateKeyboard();
 	}
 	
