@@ -3,29 +3,29 @@ using System.Collections;
 
 public class SceneManager : MonoBehaviour
 {
-    #region Inspector Variables
-    public Vector2 tileSize = new Vector2(1.0f, 1.0f);
-    public LevelManager[] levels = null;
-    public GameObject transitionScreen = null;
+	#region Inspector Variables
+	public Vector2 tileSize = new Vector2(1.0f, 1.0f);
+	public LevelManager[] levels = null;
+	public GameObject transitionScreen = null;
 	#endregion
 
 	#region Instance Variables
-    //bool isLoadingLevel = false;
+	//bool isLoadingLevel = false;
 
-    LevelManager currentLevel = null;
-    LevelManager nextLevel = null;
+	LevelManager currentLevel = null;
+	LevelManager nextLevel = null;
 	#endregion
 
 	#region Class Constants
-    public const int DEFAULT_LEVEL_WIDTH = 100;
-    public const int DEFAULT_LEVEL_HEIGHT = 100;
+	public const int DEFAULT_LEVEL_WIDTH = 100;
+	public const int DEFAULT_LEVEL_HEIGHT = 100;
 	#endregion
 
 	//Put all initialization code here
 	//Remember to comment!
 	protected void Start()
 	{
-        DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(this.gameObject);
 	}
 
 	#region Initialization Methods
@@ -35,17 +35,17 @@ public class SceneManager : MonoBehaviour
 	//Remember to comment!
 	protected void Update()
 	{
-        if (nextLevel != null)
-        {
-            if (!Application.isLoadingLevel) //Means finished loading level
-            {
-                if (currentLevel != null)
-                    hideTransitionScreen();
+		if (nextLevel != null)
+		{
+			if (!Application.isLoadingLevel) //Means finished loading level
+			{
+				if (currentLevel != null)
+					hideTransitionScreen();
 
-                currentLevel = nextLevel;
-                nextLevel = null;
-            }
-        }//*/
+				currentLevel = nextLevel;
+				nextLevel = null;
+			}
+		}//*/
 	}
 
 	public static void Load(string name)
@@ -69,56 +69,56 @@ public class SceneManager : MonoBehaviour
 	}
 
 	#region Update Methods
-    public void transitionToLevel(string toLevel)
-    {
-        if (Application.isLoadingLevel)
-            return;
+	public void transitionToLevel(string toLevel)
+	{
+		if (Application.isLoadingLevel)
+			return;
 
-        nextLevel = findLevel(toLevel);
-        if (nextLevel == null)
-            return;
+		nextLevel = findLevel(toLevel);
+		if (nextLevel == null)
+			return;
 
-        if (currentLevel != null)
-            showTransitionScreen();
+		if (currentLevel != null)
+			showTransitionScreen();
 	
-        nextLevel.loadLevel();
-    }
+		nextLevel.loadLevel();
+	}
 
-    public void showTransitionScreen()
-    {
-        if (transitionScreen == null)
-            return;
+	public void showTransitionScreen()
+	{
+		if (transitionScreen == null)
+			return;
 
-        Vector3 showPosition = Camera.main.transform.position;
-        showPosition.z = 0.0f;
-        transitionScreen.transform.position = showPosition;
-    }
+		Vector3 showPosition = Camera.main.transform.position;
+		showPosition.z = 0.0f;
+		transitionScreen.transform.position = showPosition;
+	}
 
-    public void hideTransitionScreen()
-    {
-        if (transitionScreen == null)
-            return;
+	public void hideTransitionScreen()
+	{
+		if (transitionScreen == null)
+			return;
 
-        Vector3 hidePosition = Camera.main.transform.position;
-        hidePosition.z *= 2;
-        transitionScreen.transform.position = hidePosition;
-    }
+		Vector3 hidePosition = Camera.main.transform.position;
+		hidePosition.z *= 2;
+		transitionScreen.transform.position = hidePosition;
+	}
 
-    private LevelManager findLevel(string target)
-    {
-        LevelManager retVal = null;
+	private LevelManager findLevel(string target)
+	{
+		LevelManager retVal = null;
 
-        foreach (System.Object level in levels)
-        {
-            if (((LevelManager)level).levelName == target)
-            {
-                retVal = (LevelManager)level;
-                break;
-            }
-        }
+		foreach (System.Object level in levels)
+		{
+			if (((LevelManager)level).levelName == target)
+			{
+				retVal = (LevelManager)level;
+				break;
+			}
+		}
 
-        return retVal;
-    }
+		return retVal;
+	}
 	#endregion
 	//*/
 

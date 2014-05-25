@@ -4,10 +4,10 @@ using G = GameManager;
 
 public class Player : MonoBehaviour
 {
-    #region Inspector Variables
-    public float mForce = FORCE;
-    public float mDynamicFriction = DYNAMIC_FRICTION;
-    public float mAirResistance = AIR_RESTIANCE_MODIFIER;
+	#region Inspector Variables
+	public float mForce = FORCE;
+	public float mDynamicFriction = DYNAMIC_FRICTION;
+	public float mAirResistance = AIR_RESTIANCE_MODIFIER;
 
 	private bool m_isMoving;
 	private bool m_isMovingForward;
@@ -19,10 +19,10 @@ public class Player : MonoBehaviour
 	private float m_directionAngle;
 
 	public bool m_isDetected;
-    public bool m_isWithinEarshot;
+	public bool m_isWithinEarshot;
 
 	public float m_rotationSpeed = 15f;
-    public float m_detectionLevel = 0f;
+	public float m_detectionLevel = 0f;
 	public float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
 
 	public PlayerState m_currentState;
@@ -32,16 +32,16 @@ public class Player : MonoBehaviour
 	private int m_selectedSlot; // only private because not yet necessary
 	public int m_specItems;
 
-    public int MAX_CORES = 3;
+	public int MAX_CORES = 3;
 	#endregion
 
-    #region Instance Variables
-    private Animator m_animator;
+	#region Instance Variables
+	private Animator m_animator;
 
-    private Vector3 transForces = Vector3.zero; //Translation forces
-    private Vector3 velocity = Vector3.zero;
+	private Vector3 transForces = Vector3.zero; //Translation forces
+	private Vector3 velocity = Vector3.zero;
 
-    public int currentCores = 0;
+	public int currentCores = 0;
 	#endregion
 
 	#region Class Constants
@@ -57,11 +57,11 @@ public class Player : MonoBehaviour
 	}
 	#endregion
 
-    #region Class Variables
+	#region Class Variables
 	public bool Special = false;
-    #endregion
+	#endregion
 
-    //Put all initialization code here
+	//Put all initialization code here
 	//Remember to comment!
 	protected void Start()
 	{
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
 
 		inventory = new Inventory();
 		m_selectedSlot = 0;
-        transform.position = m_spawnLocation;
+		transform.position = m_spawnLocation;
 	}
 
 	#region Initialization Methods
@@ -144,10 +144,10 @@ public class Player : MonoBehaviour
 		ApplyForces();
 		
 		// Putting the camera update here for now... Most likely will be put in a CameraManager class.
-		Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
+		//Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
 
 		/* Alternate Camera Movement
- 		Vector3 currentCameraPosition = Camera.main.transform.position;
+		Vector3 currentCameraPosition = Camera.main.transform.position;
 		Vector3 targetCameraPosition = new Vector3(transform.position.x, transform.position.y, currentCameraPosition.z);
 
 		Camera.main.transform.position = Vector3.Lerp(currentCameraPosition, targetCameraPosition, Time.deltaTime);
@@ -216,10 +216,10 @@ public class Player : MonoBehaviour
 	}
 
 	#region Update Methods
-    #region UpdateUserControl
-    private void UpdateUserControl()
-	{	
-		UpdateMouse();
+	#region UpdateUserControl
+	private void UpdateUserControl()
+	{
+		//UpdateMouse();
 		UpdateKeyboard();
 	}
 	
@@ -310,41 +310,41 @@ public class Player : MonoBehaviour
 		else if (!Input.GetButton ("Horizontal") && !Input.GetButton ("Vertical") && audio.isPlaying)
 			audio.loop = false;
 	}
-    #endregion
+	#endregion
 
 	#region UpdateDetection
 	private void UpdateDetection() 
 	{
 		if (m_isDetected) {
 			m_detectionLevel += m_detectionRate * Time.deltaTime;
-            if (m_detectionLevel >= MAX_DETECTION_LEVEL)
-            {
-                m_currentState = PlayerState.DEAD;
-                m_detectionLevel = 0;
+			if (m_detectionLevel >= MAX_DETECTION_LEVEL)
+			{
+				m_currentState = PlayerState.DEAD;
+				m_detectionLevel = 0;
 			}
 		}
 	}
 	#endregion
 
-    #region ApplyEnvironmentalForces methods
-    void ApplyEnvironmentalForces()
-    {
-        ApplyAirResistance();
-    }
+	#region ApplyEnvironmentalForces methods
+	void ApplyEnvironmentalForces()
+	{
+		ApplyAirResistance();
+	}
 
-    void ApplyAirResistance()
-    {
-        transForces -= Utilities.toVector3(rigidbody2D.velocity * mAirResistance);
-    }
-    #endregion
+	void ApplyAirResistance()
+	{
+		transForces -= Utilities.toVector3(rigidbody2D.velocity * mAirResistance);
+	}
+	#endregion
 
-    protected void ApplyForces()
-    {
-        velocity += transForces;
-        transForces = Vector3.zero;
+	protected void ApplyForces()
+	{
+		velocity += transForces;
+		transForces = Vector3.zero;
 
-        rigidbody2D.AddForce(velocity * rigidbody2D.mass);
-    }
+		rigidbody2D.AddForce(velocity * rigidbody2D.mass);
+	}
 
 	private void UpdateAnimator()
 	{
@@ -369,16 +369,16 @@ public class Player : MonoBehaviour
 //			m_selectedSlot = 1;
 	}
 
-    public void addPowerCore()
-    {
-        if (currentCores < MAX_CORES)
-            currentCores++;
-    }
+	public void addPowerCore()
+	{
+		if (currentCores < MAX_CORES)
+			currentCores++;
+	}
 
-    public bool isPowerCoreComplete()
-    {
-        return currentCores == MAX_CORES;
-    }
+	public bool isPowerCoreComplete()
+	{
+		return currentCores == MAX_CORES;
+	}
 	#endregion
 
 	public void SpecialAbility(){
