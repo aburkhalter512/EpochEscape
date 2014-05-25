@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
 	public float m_rotationSpeed = 15f;
 	public float m_detectionLevel = 0f;
 	public float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
+	public float m_detectionFade = 1.5f;
+	public float m_detectionMax = 0f;
+	public float m_detectionThres = 15f;
 
 	public PlayerState m_currentState;
 	public Vector3 m_spawnLocation;
@@ -322,6 +325,12 @@ public class Player : MonoBehaviour
 				m_currentState = PlayerState.DEAD;
 				m_detectionLevel = 0;
 			}
+			if (m_detectionLevel > m_detectionMax) {
+				m_detectionMax = m_detectionLevel;
+			}
+		} else {
+			if (m_detectionLevel > (m_detectionMax - m_detectionThres) && m_detectionLevel > 0)
+				m_detectionLevel -= m_detectionFade * Time.deltaTime;
 		}
 	}
 	#endregion
