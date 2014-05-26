@@ -12,7 +12,7 @@ public class EmptyFlask : Item {
 	
 	public void Start()
 	{
-		gameObject.tag = "Item";
+		gameObject.tag = "EmptyFlask";
 
 		m_animator = GetComponent<Animator>();
 		m_isBroken = false;
@@ -66,7 +66,6 @@ public class EmptyFlask : Item {
 	}
 
 	public override void OnTriggerEnter2D(Collider2D other){
-		gameObject.tag = "Potion";
 		base.OnTriggerEnter2D (other);
 		
         if (other.gameObject.tag == "Guard")

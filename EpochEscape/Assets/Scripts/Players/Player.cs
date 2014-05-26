@@ -373,11 +373,11 @@ public class Player : MonoBehaviour
 
 	private void SelectSlot()
 	{
-		m_selectedSlot = 0; //currently only one item can be used (potion)
-//		if(Input.GetKeyDown(KeyCode.Alpha1))
-//			m_selectedSlot = 0;
-//		else if(Input.GetKeyDown(KeyCode.Alpha2))
-//			m_selectedSlot = 1;
+		//m_selectedSlot = 0; //currently only one item can be used (potion)
+		if(Input.GetKeyDown(KeyCode.Alpha1))
+			m_selectedSlot = 0;
+		else if(Input.GetKeyDown(KeyCode.Alpha2))
+			m_selectedSlot = 1;
 	}
 
 	public void addPowerCore()

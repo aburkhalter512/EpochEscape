@@ -10,7 +10,7 @@ public abstract class Item : MonoBehaviour {
 	abstract public void Add();
 	public virtual void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.gameObject.tag == "Player" && !inInventory)
+		if(other.gameObject.tag == "Player" && other.GetComponent<Player>().inventory.canAdd(this) && !inInventory)
 		{
 			Player player = other.GetComponent<Player>();
 			PickUp(player);
