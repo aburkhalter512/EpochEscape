@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 	private float m_directionAngle;
 
 	public bool m_isDetected;
+	public bool m_isHiding;
 	public bool m_isWithinEarshot;
 
 	public float m_rotationSpeed = 15f;
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour
 		m_hasSpecialItem = false;
 
 		m_isDetected = false;
+		m_isHiding = false;
 		m_isWithinEarshot = false;
 		m_currentState = PlayerState.ALIVE;
 

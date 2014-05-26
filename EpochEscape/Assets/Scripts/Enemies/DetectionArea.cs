@@ -4,13 +4,16 @@ using System.Collections;
 public class DetectionArea : MonoBehaviour
 {
     public Player detectedPlayer = null;
-
-	private GameObject m_parent;
+	
 	private Player m_player;
+	private GameObject m_parent;
 
     public void Start()
     {
         detectedPlayer = null;
+
+		m_player = null;
+		m_parent = null;
 
 		if(transform.parent != null)
 			m_parent = transform.parent.gameObject;
@@ -40,7 +43,7 @@ public class DetectionArea : MonoBehaviour
 			{
 				detectedPlayer = m_player;
 
-                if(isPlayerInBounds(other))
+                if(isPlayerInBounds(other) && !m_player.m_isHiding)
                 {
 					m_player.m_isDetected = true;
 
