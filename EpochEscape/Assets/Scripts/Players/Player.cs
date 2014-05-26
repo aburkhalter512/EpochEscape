@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
 	private void Alive()
 	{
 		UpdateUserControl();
-		//UpdateDetection();
+		UpdateDetection();
 		UpdateMovement();
 		UpdateDirection();
 
