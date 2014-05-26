@@ -1,20 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InputManager : MonoBehaviour
+public class InputManager : UnitySingleton<InputManager>
 {
     #region Inspector Variables
-    static KeyCode[] exitCodes = { KeyCode.Escape };
+    public KeyCode[] exitCodes = { KeyCode.Escape };
+    public Vector2 primaryJoystick
+    {
+        get
+        {
+            return mPrimaryJoystick;
+        }
+    }
+
+    public Vector3 mouseInScreen
+    {
+        get
+        {
+            return mMouseInScreen;
+        }
+    }
+
+    public Vector3 mouseInWorld
+    {
+        get
+        {
+            return mMouseInWorld;
+        }
+    }
 	#endregion
 
-	#region Instance Variables
+    #region Instance Variables
+    Vector2 mPrimaryJoystick = Vector2.zero;
+    public Vector3 mMouseInScreen = Vector3.zero;
+    public Vector3 mMouseInWorld = Vector3.zero;
 	#endregion
 
 	#region Class Constants
 	#endregion
 
     #region Class Variables
-    static Vector2 primaryJoystick = Vector2.zero;
     #endregion
 
     //Put all initialization code here
@@ -31,21 +56,23 @@ public class InputManager : MonoBehaviour
 	protected void Update()
 	{
         UpdateKeyboard();
+        UpdateMouse();
 	}
 
 	#region Update Methods
-    static void UpdateKeyboard()
+    void UpdateKeyboard()
     {
-        primaryJoystick.x = Input.GetAxis("Horizontal");
-        primaryJoystick.y = Input.GetAxis("Vertical");
+        mPrimaryJoystick.x = Input.GetAxis("Horizontal");
+        mPrimaryJoystick.y = Input.GetAxis("Vertical");
     }
 
-    public static Vector2 getPrimaryJoystick()
+    void UpdateMouse()
     {
-        return Utilities.copy(primaryJoystick);
+        mMouseInScreen.Set(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z);
+        mMouseInWorld = Camera.main.ScreenToWorldPoint(mMouseInScreen);
     }
 
-    public static bool wantsExit()
+    public bool wantsExit()
     {
         foreach (KeyCode exitCode in exitCodes)
             if (Input.GetKey(exitCode))

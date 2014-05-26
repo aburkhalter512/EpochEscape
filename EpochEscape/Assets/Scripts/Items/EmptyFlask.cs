@@ -2,15 +2,30 @@
 using System.Collections;
 using G = GameManager;
 
-public class EmptyFlask : Item {
-	public const int MAX_COUNT = 2;
-	public const float Speed = 2f;
-	private bool thrown = false;
-	private Animator m_animator;
+public class EmptyFlask : Item
+{
+    #region Inspector Variables
+	public float throwTime = 0.75f;
+    public float initialSpeed = 2f;
+    #endregion
 
+    #region Private Variables
+    private Animator m_animator;
+    private bool thrown = false;
 	private bool m_isBroken;
-	
-	public void Start()
+
+    Vector3 mOrigin;
+    Vector3 mDestination;
+    float mCurrentSpeed;
+    float mDeceleration;
+    float startTime;
+    #endregion
+
+    #region Class Variables
+    public const int MAX_COUNT = 2;
+    #endregion
+
+    public void Start()
 	{
 		gameObject.tag = "EmptyFlask";
 
@@ -22,8 +37,16 @@ public class EmptyFlask : Item {
 	{
 		if(!G.getInstance ().paused)
 		{
-			if(thrown)
-				transform.position += (Speed * Time.smoothDeltaTime) * transform.up;
+            if (thrown)
+            {
+                if (Time.realtimeSinceStartup - startTime > throwTime)
+                {
+                    m_isBroken = true;
+                    thrown = false;
+                }
+                else
+                    transform.position += mCurrentSpeed * Time.smoothDeltaTime * transform.up;
+            }
 
 			UpdateAnimator();
 		}
@@ -57,6 +80,9 @@ public class EmptyFlask : Item {
 
 			transform.up = player.transform.up;
 			thrown = true;
+
+            startTime = Time.realtimeSinceStartup;
+            mCurrentSpeed = initialSpeed;
 		}
 	}
 	

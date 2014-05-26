@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
 	private float m_directionAngle;
 
 	public bool m_isDetected;
+	public bool m_isHiding;
 	public bool m_isWithinEarshot;
 
 	public float m_rotationSpeed = 15f;
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour
 		m_hasSpecialItem = false;
 
 		m_isDetected = false;
+		m_isHiding = false;
 		m_isWithinEarshot = false;
 		m_currentState = PlayerState.ALIVE;
 
@@ -99,7 +101,7 @@ public class Player : MonoBehaviour
 		if(!G.getInstance ().paused)
 		{
 			UpdateCurrentState();
-			UpdateDebug();
+			//UpdateDebug();
 		}
 		else
 		{
@@ -129,10 +131,8 @@ public class Player : MonoBehaviour
 
 	private void UpdateDebug()
 	{
-		/*
 		if(Input.GetKeyUp(KeyCode.C))
 			m_hasSpecialItem = !m_hasSpecialItem;
-			*/
 	}
 
 	private void Alive()
@@ -140,21 +140,10 @@ public class Player : MonoBehaviour
 		UpdateUserControl();
 		UpdateDetection();
 		UpdateMovement();
-		//UpdateAnimator();
 		UpdateDirection();
 
 		ApplyEnvironmentalForces();
 		ApplyForces();
-		
-		// Putting the camera update here for now... Most likely will be put in a CameraManager class.
-		//Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
-
-		/* Alternate Camera Movement
-		Vector3 currentCameraPosition = Camera.main.transform.position;
-		Vector3 targetCameraPosition = new Vector3(transform.position.x, transform.position.y, currentCameraPosition.z);
-
-		Camera.main.transform.position = Vector3.Lerp(currentCameraPosition, targetCameraPosition, Time.deltaTime);
-		//*/
 	}
 
 	private void UpdateDirection()
@@ -204,11 +193,7 @@ public class Player : MonoBehaviour
 	private void Dead()
 	{
 		m_currentState = PlayerState.ALIVE;
-		//SceneManager.Load(Application.loadedLevelName);
 
-		/* Bug: when the player dies, the scene fades out, but you can still
-		 * move around and the player's detection level is zero. The following
-		 * line fixes the issue, but it's definitely not ideal. */
 		Application.LoadLevel(Application.loadedLevelName);
 	}
 

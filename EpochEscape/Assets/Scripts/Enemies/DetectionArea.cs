@@ -4,16 +4,29 @@ using System.Collections;
 public class DetectionArea : MonoBehaviour
 {
     public Player detectedPlayer = null;
-
-	private GameObject m_parent;
+	
 	private Player m_player;
+	private GameObject m_parent;
+	private SpriteRenderer m_parentRenderer;
+
+	public enum ColorStatus
+	{
+		NORMAL,
+		CAUTION
+	};
 
     public void Start()
     {
         detectedPlayer = null;
 
+		m_player = null;
+		m_parent = null;
+
 		if(transform.parent != null)
+		{
 			m_parent = transform.parent.gameObject;
+			m_parentRenderer = GetComponent<SpriteRenderer>();
+		}
     }
 
 	public void Update()
@@ -32,6 +45,30 @@ public class DetectionArea : MonoBehaviour
 			m_player = player.GetComponent<Player>();
 	}
 
+	private void ChangeColor(ColorStatus colorStatus)
+	{
+		int parentNumChildren = m_parent.transform.childCount;
+
+		if(parentNumChildren == 0) return;
+
+		Transform currentChild = null;
+		SpriteRenderer currentRenderer = null;
+
+		for(int i = 0; i < parentNumChildren; i++)
+		{
+			currentChild = m_parent.transform.GetChild(i);
+			currentRenderer = currentChild.GetComponent<SpriteRenderer>();
+
+			if(currentRenderer != null)
+			{
+				if(colorStatus == ColorStatus.NORMAL)
+					currentRenderer.color = Color.white;
+				else
+					currentRenderer.color = Color.red;
+			}
+		}
+	}
+
 	public void OnTriggerStay2D(Collider2D other)
 	{
 		if(other.gameObject.tag == "Player")
@@ -40,8 +77,11 @@ public class DetectionArea : MonoBehaviour
 			{
 				detectedPlayer = m_player;
 
-                if(isPlayerInBounds(other))
+                if(isPlayerInBounds(other) && !m_player.m_isHiding)
                 {
+					if(!(m_parentRenderer == null || m_player.m_isDetected))
+						ChangeColor(ColorStatus.CAUTION);
+
 					m_player.m_isDetected = true;
 
 					if(m_parent != null)
@@ -76,6 +116,8 @@ public class DetectionArea : MonoBehaviour
 		{
 			if(m_player != null)
 			{
+				ChangeColor(ColorStatus.NORMAL);
+
 				m_player.m_isDetected = false;
 
 				if(m_parent != null)
