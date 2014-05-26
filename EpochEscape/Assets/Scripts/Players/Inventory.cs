@@ -6,9 +6,15 @@ public class Inventory{
 	public const int MAX_ITEMS = 2; //only item currently is potion
 	public Item[] inventory = new Item[MAX_ITEMS];
 	public int[] inventoryCount = new int[MAX_ITEMS];
+	GameObject emptyFlask = null;
 	#endregion
 
     public const int MAX_SLOTSIZE = 2;
+
+	public Inventory(){
+		if(emptyFlask == null)
+			emptyFlask = Resources.Load ("Prefabs/Items/EmptyFlask") as GameObject;
+	}
 
 	public void addItem(Item i){
 		for (int j = 0; j < inventory.Length; j++) {
@@ -27,10 +33,18 @@ public class Inventory{
 	}
 	public void activateItem(int slot){
 		if(inventory[slot] != null){
+			if(inventory[slot].gameObject.tag == "Red Potion"){
+				Player player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
+				emptyFlask = GameObject.Instantiate (emptyFlask, player.transform.position, Quaternion.identity) as GameObject;
+			}
 			inventory[slot].Activate();
 			inventory[slot] = inventory[slot].next;
             inventoryCount[slot]--;
 		}
+		if(inventory[0] != null)
+			Debug.Log (inventory[0].gameObject.tag);
+		if(inventory[1] != null)
+			Debug.Log (inventory[1].gameObject.tag);
 	}
 
 	public bool canAdd(Item i){

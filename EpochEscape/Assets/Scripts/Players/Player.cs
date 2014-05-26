@@ -280,7 +280,7 @@ public class Player : MonoBehaviour
 		SelectSlot();
 
 		// 0th subscript indicates empty flask.
-		if(Input.GetButtonDown("Fire1") && inventory.inventoryCount[0] > 0)
+		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null)
 			m_isAttacking = true;
 
 		if (Input.GetButtonDown ("Fire2"))
@@ -372,10 +372,14 @@ public class Player : MonoBehaviour
 	private void SelectSlot()
 	{
 		//m_selectedSlot = 0; //currently only one item can be used (potion)
-		if(Input.GetKeyDown(KeyCode.Alpha1))
+		if(Input.GetKeyDown(KeyCode.Alpha1)){
 			m_selectedSlot = 0;
-		else if(Input.GetKeyDown(KeyCode.Alpha2))
+			Debug.Log("Slot 1");
+		}
+		else if(Input.GetKeyDown(KeyCode.Alpha2)){
 			m_selectedSlot = 1;
+			Debug.Log ("Slot 2");
+		}
 	}
 
 	public void addPowerCore()
