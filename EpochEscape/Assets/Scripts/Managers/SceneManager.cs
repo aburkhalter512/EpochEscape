@@ -54,7 +54,7 @@ public class SceneManager : MonoBehaviour
 		SceneManager instance = go.AddComponent<SceneManager>();
 		instance.StartCoroutine(instance.InnerLoad(name));
 
-		Debug.Log (GameManager.getInstance ().m_currentCharacter);
+		//Debug.Log (GameManager.getInstance ().m_currentCharacter);
 	}
 	
 	IEnumerator InnerLoad(string name)
