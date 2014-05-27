@@ -8,6 +8,7 @@ public class RedPotion : Item {
 	private bool thrown = false;
 	private bool m_isBroken = false;
 
+
 	//private Animator m_animator;
 
 	public void Start()

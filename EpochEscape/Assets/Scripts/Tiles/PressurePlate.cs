@@ -36,8 +36,13 @@ public class PressurePlate : Tile
             foreach (GameObject actuator in actuators)
             {
                 if (actuator != null)
-                    actuator.GetComponent<DynamicWall>()
-                        .currentState = DynamicWall.STATES.TO_CHANGE;
+				{
+					MapBehavior mapBehavior = GameObject.FindWithTag("Map").GetComponent<MapBehavior>();
+
+					mapBehavior.m_lerpTargets.Push(actuator);
+
+					//actuator.GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
+				}
             }
         }
     }
