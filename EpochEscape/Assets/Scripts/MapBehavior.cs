@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using G = GameManager;
 
 public class MapBehavior : MonoBehaviour
 {
@@ -93,6 +94,9 @@ public class MapBehavior : MonoBehaviour
 	{
 		if(m_player != null)
 		{
+			if(G.getInstance().paused)
+				G.getInstance().paused = false;
+
 			m_currentTarget.x = m_player.transform.position.x;
 			m_currentTarget.y = m_player.transform.position.y;
 
@@ -127,6 +131,9 @@ public class MapBehavior : MonoBehaviour
 			return;
 		}
 
+		if(!G.getInstance().paused)
+			G.getInstance().paused = true;
+
 		m_currentTarget = m_lerpTargets.Peek().transform.position;
 
 		Vector3 currentCameraPosition = Camera.main.transform.position;
@@ -136,7 +143,18 @@ public class MapBehavior : MonoBehaviour
 
 		if(Utilities.IsApproximately(currentCameraPosition.x, targetCameraPosition.x) && Utilities.IsApproximately(currentCameraPosition.y, targetCameraPosition.y))
 		{
-			m_lerpTargets.Pop().GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
+			if(m_lerpTargets.Peek().tag == "WallPivot")
+			{
+				int numChildren = m_lerpTargets.Peek().transform.childCount;
+
+				for(int i = 0; i < numChildren; i++)
+					m_lerpTargets.Peek().transform.GetChild(i).GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
+
+				m_lerpTargets.Pop();
+			}
+			else
+				m_lerpTargets.Pop().GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
+
 			//m_toActuate.Push(m_lerpTargets.Pop());
 
 			currentCameraPosition = targetCameraPosition;
@@ -187,13 +205,10 @@ public class MapBehavior : MonoBehaviour
 		if(Input.GetKeyUp(KeyCode.M))
 		{
 			if(m_currentState == State.FOLLOW_PLAYER)
-			{
 				m_currentState = State.DISPLAY_MAP;
-			}
 			else if(m_currentState == State.DISPLAY_MAP)
 			{
 				m_currentState = State.FOLLOW_PLAYER;
-
 				m_star.SetActive(false);
 			}
 

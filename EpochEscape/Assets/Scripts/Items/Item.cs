@@ -2,12 +2,19 @@
 using System.Collections;
 
 public abstract class Item : MonoBehaviour {
+	public AudioSource PickUpSound = null;
+	public AudioSource ActivateSound = null;
+	public Item traversal;
 	public Item next = null;
-	public int count;
 	public bool inInventory = false;
 	abstract public void PickUp(Player player);	
 	abstract public void Activate();
-	abstract public void Add();
+	public virtual void Add(Item i){
+		traversal = this;
+		while(traversal.next != null)
+			traversal = traversal.next;
+		traversal.next = i;
+	}
 	public virtual void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.gameObject.tag == "Player" && other.GetComponent<Player>().inventory.canAdd(this) && !inInventory)

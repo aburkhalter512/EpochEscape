@@ -35,6 +35,7 @@ public class GameManager : UnitySingleton<GameManager>
 	public bool paused = false;
 	public bool popup = false;
 	public string message = "";
+	public bool ShowPauseMenu = false;
 	
 	#region FPS
 	public bool showFPS = false;
@@ -96,7 +97,7 @@ public class GameManager : UnitySingleton<GameManager>
 	
 	#region Pause Menu Methods
 	void Pause(){
-		if(paused && popup != true)
+		if(paused && ShowPauseMenu)
 		switch (currentPage) {
 			case Page.Main: showPauseMenu(); break;
 			case Page.Options: ShowOptions(); break;
@@ -104,7 +105,7 @@ public class GameManager : UnitySingleton<GameManager>
 	}
 	
 	void showPauseMenu(){
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 200, Screen.height/2f - 200, 400, 400));
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 175, Screen.height/2f - 200, 400, 400));
 		GUILayout.BeginVertical ();
 		if(GUILayout.Button ("Continue", EpochSkin.button))
 			UnpauseGame ();
@@ -155,8 +156,29 @@ public class GameManager : UnitySingleton<GameManager>
 	public void PauseGame(){
 		paused = true;
 		Time.timeScale = 0f;
+		ShowPauseMenu = true;
 	}
-	
+
+	public void PauseMovement(){
+		paused = true;
+		ShowPauseMenu = false;
+	}
+
+	public void UnpauseMovement(){
+		paused = false;
+	}
+
+	public void PauseMovementTS(){
+		paused = true;
+		ShowPauseMenu = false;
+		Time.timeScale = 0f;
+	}
+
+	public void UnpauseMovementTS(){
+		paused = false;
+		Time.timeScale = 1f;
+	}
+
 	#region Options
 	void ShowOptions(){
 		GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height/2 - 200, 700, 400));
@@ -305,19 +327,19 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Popups
 	public void ShowPopupMessage(){
 		if(popup){
-			paused = true;
+			PauseMovement ();
 			if (Event.current.isKey && Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space) {
 				popup = false;
-				paused = false;
+				UnpauseMovement();
 			}
-			GUILayout.BeginArea (new Rect(Screen.width/6.5f, Screen.height * .6f, 700, 150));
+			GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height * .6f, 700, 150));
 			GUILayout.Box (message, EpochSkin.GetStyle ("Message"));
 			GUILayout.BeginArea (new Rect(640, 100, 100, 100));
 			GUILayout.BeginHorizontal ();
 			GUILayout.BeginVertical ();
 			if(GUILayout.Button ("OK", EpochSkin.GetStyle ("Popup Button"))){
 				popup = false;
-				paused = false;
+				UnpauseMovement ();
 			}
 			GUILayout.EndHorizontal ();
 			GUILayout.EndVertical ();

@@ -57,6 +57,15 @@ public class SlidingWall : DynamicWall
         if (Utilities.areClose(positionDelta, Vector3.zero))
         {
             currentState = STATES.STATIONARY;
+
+			// ---
+			// This block was originally inside the stationary() method, but for some reason it wouldn't work.
+			MapBehavior mapBehavior = GameObject.FindWithTag("Map").GetComponent<MapBehavior>();
+			
+			if(mapBehavior.m_currentState == MapBehavior.State.LERP_REST)
+				mapBehavior.m_currentState = MapBehavior.State.LERP_TO_TARGET;
+			// --- //*/
+
             return;
         }
 

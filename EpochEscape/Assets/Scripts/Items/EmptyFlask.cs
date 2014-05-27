@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using G = GameManager;
 
@@ -6,8 +6,8 @@ public class EmptyFlask : Item
 {
     #region Inspector Variables
 	public float throwTime = 0.75f;
-    public float deceleration = 2f;
-    public Vector3 endScale = new Vector3(0.75f, 0.75f, 0.75f);
+    public float initialSpeed = 2f;
+	public Vector3 endScale = new Vector3(0.75f, 0.75f, 0.75f);
     #endregion
 
     #region Private Variables
@@ -18,12 +18,12 @@ public class EmptyFlask : Item
     Vector3 mOrigin;
     Vector3 mDestination;
     float mCurrentSpeed;
+    float deceleration;
     float startTime;
-    Vector3 mScaleDelta;
+	Vector3 mScaleDelta;
     #endregion
 
     #region Class Variables
-    public const int MAX_COUNT = 2;
     #endregion
 
     public void Start()
@@ -59,7 +59,7 @@ public class EmptyFlask : Item
 	
 	public override void PickUp(Player player)
 	{
-		audio.Play ();
+		PickUpSound.Play ();
 	}
 	
 	public override void Activate ()
@@ -87,8 +87,8 @@ public class EmptyFlask : Item
 			thrown = true;
 
             startTime = Time.realtimeSinceStartup;
-
-            mOrigin = transform.position;
+            mCurrentSpeed = initialSpeed;
+			mOrigin = transform.position;
             mDestination = InputManager.getInstance().mouseInWorld;
             mDestination.z = mOrigin.z; //Avoid incorrect displacement
             mCurrentSpeed = (mDestination - mOrigin).magnitude;
@@ -101,11 +101,6 @@ public class EmptyFlask : Item
             //Debug.Log(mDestination);
             Debug.Log((mDestination - mOrigin).magnitude);
 		}
-	}
-	
-	public override void Add(){
-		if (count < MAX_COUNT)
-			count++;
 	}
 
 	public override void OnTriggerEnter2D(Collider2D other){
