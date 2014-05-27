@@ -31,6 +31,8 @@ public class LevelManager : MonoBehaviour
 	//Remember to comment!
 	protected void Start()
 	{
+        Debug.Log(G.getInstance().m_currentCharacter);
+
 		coresFound = 0;
 
 		// Create the character.

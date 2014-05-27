@@ -5,7 +5,7 @@ using S = SaveManager;
 
 public class MainMenu : MonoBehaviour {
 	#region Levels
-	public const int MAX_LEVELS = 4;
+	public int MAX_LEVELS = 4;
 	#endregion
 	#region Styles
 	public GUISkin EpochSkin = null;

@@ -43,7 +43,8 @@ public class HUDManager : MonoBehaviour {
 	
 	void Start() {
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
-		playerManager = player.GetComponent<Player>();
+		if (player != null)
+            playerManager = player.GetComponent<Player>();
 		
 		happy = Resources.Load("Textures/GUI/HUD/CaveGirlHappy",typeof(Texture2D)) as Texture2D;
 		worried = Resources.Load("Textures/GUI/HUD/CaveGirlWorried",typeof(Texture2D)) as Texture2D;
@@ -113,8 +114,14 @@ public class HUDManager : MonoBehaviour {
 	}
 	
 	void Update() {
-		if(playerManager == null)
-			return;
+        if (playerManager == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                playerManager = player.GetComponent<Player>();
+            else
+                return;
+        }
 
 		#region hero icon
 		if (playerManager.m_detectionLevel < Player.MAX_DETECTION_LEVEL * .33f) {

@@ -9,7 +9,7 @@ public class SaveManager : UnitySingleton<SaveManager>
 
 	#region Instance Variables
 	public static int saveNum = 0;
-	private static bool savedGame = false;
+	private bool savedGame = false;
 	public static string save1 = "";
 	public static string save2 = "";
 	public static string save3 = "";

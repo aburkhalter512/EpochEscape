@@ -38,6 +38,12 @@ public class UnitySingleton<T> : MonoBehaviour
         }
         return mInstance;
     }
+
+    public static void destroy()
+    {
+        Destroy(mInstance);
+        mInstance = null;
+    }
 	#endregion
 
 	#region Utilities
