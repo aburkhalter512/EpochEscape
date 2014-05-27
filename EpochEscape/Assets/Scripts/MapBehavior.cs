@@ -4,7 +4,7 @@ using G = GameManager;
 
 public class MapBehavior : MonoBehaviour
 {
-	public const float LERP_SPEED = 2.5f;
+	public const float LERP_SPEED = 10f;
 
 	public Vector3 m_currentTarget;
 
@@ -94,9 +94,6 @@ public class MapBehavior : MonoBehaviour
 	{
 		if(m_player != null)
 		{
-			if(G.getInstance().paused)
-				G.getInstance().paused = false;
-
 			m_currentTarget.x = m_player.transform.position.x;
 			m_currentTarget.y = m_player.transform.position.y;
 
@@ -118,6 +115,9 @@ public class MapBehavior : MonoBehaviour
 			currentCameraPosition = targetCameraPosition;
 
 			m_currentState = State.FOLLOW_PLAYER;
+
+			if(G.getInstance().paused)
+				G.getInstance().UnpauseMovement();
 		}
 	}
 
@@ -132,7 +132,7 @@ public class MapBehavior : MonoBehaviour
 		}
 
 		if(!G.getInstance().paused)
-			G.getInstance().paused = true;
+			G.getInstance().PauseMovement();
 
 		m_currentTarget = m_lerpTargets.Peek().transform.position;
 
