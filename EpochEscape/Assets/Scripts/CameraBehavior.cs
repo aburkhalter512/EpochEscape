@@ -161,18 +161,7 @@ public class CameraBehavior : MonoBehaviour
 			else
 				m_lerpTargets.Pop().GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
 
-			//m_toActuate.Push(m_lerpTargets.Pop());
-
 			transform.position = targetCameraPosition;
-
-			/*
-			if(m_lerpTargets.Count == 0)
-			{
-				m_currentState = State.LERP_REST;
-
-				while(m_toActuate.Count != 0)
-					m_toActuate.Pop().GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
-			}*/
 
 			m_currentState = State.LERP_REST;
 		}

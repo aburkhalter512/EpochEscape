@@ -69,6 +69,14 @@ public class SlidingWall : DynamicWall
             return;
         }
 
+		// ---
+		// Cheap fix. Should be a state from within CameraBehavior.cs.
+		Transform parent = transform.parent;
+		
+		if(parent != null && parent.tag != "WallPivot")
+			Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
+		// --- //*/
+
         if (Utilities.isBounded(0.0f, positionDelta.sqrMagnitude * Time.smoothDeltaTime * Time.smoothDeltaTime,
                       (transform.position - (positionPts[currentIndex]) + basePosition).sqrMagnitude))
         {

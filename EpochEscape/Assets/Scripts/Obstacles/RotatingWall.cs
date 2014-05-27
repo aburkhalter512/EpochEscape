@@ -129,6 +129,14 @@ public class RotatingWall : DynamicWall
             return;
         }
 
+		// ---
+		// Cheap fix. Should be a state from within CameraBehavior.cs.
+		Transform parent = transform.parent;
+
+		if(parent != null && parent.tag != "WallPivot")
+			Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
+		// --- //*/
+
         float realAngle = rotationAngles[currentIndex];
 
         if (realAngle < 0)
