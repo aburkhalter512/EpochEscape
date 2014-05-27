@@ -35,6 +35,7 @@ public class GameManager : UnitySingleton<GameManager>
 	public bool paused = false;
 	public bool popup = false;
 	public string message = "";
+	public bool ShowPauseMenu = false;
 	
 	#region FPS
 	public bool showFPS = false;
@@ -96,7 +97,7 @@ public class GameManager : UnitySingleton<GameManager>
 	
 	#region Pause Menu Methods
 	void Pause(){
-		if(paused && popup != true)
+		if(paused && ShowPauseMenu)
 		switch (currentPage) {
 			case Page.Main: showPauseMenu(); break;
 			case Page.Options: ShowOptions(); break;
@@ -310,7 +311,7 @@ public class GameManager : UnitySingleton<GameManager>
 				popup = false;
 				paused = false;
 			}
-			GUILayout.BeginArea (new Rect(Screen.width/6.5f, Screen.height * .6f, 700, 150));
+			GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height * .6f, 700, 150));
 			GUILayout.Box (message, EpochSkin.GetStyle ("Message"));
 			GUILayout.BeginArea (new Rect(640, 100, 100, 100));
 			GUILayout.BeginHorizontal ();
