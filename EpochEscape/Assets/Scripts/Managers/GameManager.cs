@@ -327,10 +327,10 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Popups
 	public void ShowPopupMessage(){
 		if(popup){
-			PauseMovement ();
+			PauseMovementTS();
 			if (Event.current.isKey && Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space) {
 				popup = false;
-				UnpauseMovement();
+				UnpauseMovementTS();
 			}
 			GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height * .6f, 700, 150));
 			GUILayout.Box (message, EpochSkin.GetStyle ("Message"));
@@ -339,7 +339,7 @@ public class GameManager : UnitySingleton<GameManager>
 			GUILayout.BeginVertical ();
 			if(GUILayout.Button ("OK", EpochSkin.GetStyle ("Popup Button"))){
 				popup = false;
-				UnpauseMovement ();
+				UnpauseMovementTS();
 			}
 			GUILayout.EndHorizontal ();
 			GUILayout.EndVertical ();

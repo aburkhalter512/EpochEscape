@@ -17,12 +17,15 @@ public class Inventory{
 	}
 
 	public void addItem(Item i){
+		//traverse through inventory
 		for (int j = 0; j < inventory.Length; j++) {
+			//if slot is null, add it there
 			if(inventory[j] == null){
 				inventory[j] = i;
 				inventoryCount[j] = 1;
 				break;
 			}
+			//otherwise, if a slot has the item, add it to the slot
 			else if(inventory[j].gameObject.tag == i.gameObject.tag && inventoryCount[j] < MAX_SLOTSIZE){
 				inventory[j].Add (i);
 				inventoryCount[j]++;
@@ -30,46 +33,55 @@ public class Inventory{
 			}
 		}
 	}
+
 	public void activateItem(int slot){
+		//if inventory slot is not empty
 		if(inventory[slot] != null){
+			//if using a red potion, drop an empty flask
 			if(inventory[slot].gameObject.tag == "Red Potion"){
 				Player player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 				emptyFlask = GameObject.Instantiate (emptyFlask, player.transform.position, Quaternion.identity) as GameObject;
 			}
+			//activate and adjust inventory count and slot
 			inventory[slot].Activate();
 			inventory[slot] = inventory[slot].next;
             inventoryCount[slot]--;
 		}
-		if(inventory[0] != null)
-			Debug.Log (inventory[0].gameObject.tag);
-		if(inventory[1] != null)
-			Debug.Log (inventory[1].gameObject.tag);
 	}
-
+	
 	public bool canAdd(Item i){
-		if(InventoryFull())
-			return false;
+		//if the inventory is full 
+//		if(InventoryFull())
+//			return false;
+		//if the current item is in the inventory
 		if(inInventory (i))
+			//return whether or not there is space for it
 			return hasSpace (i);
+		//if it's not in the inventory check if there is an empty slot for it
 		else
 			return hasEmptySlot ();
 	}
 	
 	public bool hasEmptySlot(){
+		//if inventory has empty slot return true
 		for(int i = 0; i < inventory.Length; i++)
 			if(inventory[i] == null)
 				return true;
+		//otherwise return false
 		return false;
 	}
 
 	public bool inInventory(Item i){
 		for(int j = 0; j < inventory.Length; j++){
 			//if there is a slot for this item
+			//if inventory slot is null continue to next slot
 			if(inventory[j] == null)
 				continue;
+			//return true
 			if(inventory[j].gameObject.tag == i.gameObject.tag)
 				return true;
 		}
+		//otherwise return null
 		return false;
 	}
 	

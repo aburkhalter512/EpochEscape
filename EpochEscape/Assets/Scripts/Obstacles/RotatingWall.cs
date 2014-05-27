@@ -120,14 +120,22 @@ public class RotatingWall : DynamicWall
 
 			// ---
 			// This block was originally inside the stationary() method, but for some reason it wouldn't work.
-			MapBehavior mapBehavior = GameObject.FindWithTag("Map").GetComponent<MapBehavior>();
+			CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
 			
-			if(mapBehavior.m_currentState == MapBehavior.State.LERP_REST)
-				mapBehavior.m_currentState = MapBehavior.State.LERP_TO_TARGET;
+			if(cameraBehavior.m_currentState == CameraBehavior.State.LERP_REST)
+				cameraBehavior.m_currentState = CameraBehavior.State.LERP_TO_TARGET;
 			// --- //*/
 
             return;
         }
+
+		// ---
+		// Cheap fix. Should be a state from within CameraBehavior.cs.
+		Transform parent = transform.parent;
+
+		if(parent != null && parent.tag != "WallPivot")
+			Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
+		// --- //*/
 
         float realAngle = rotationAngles[currentIndex];
 

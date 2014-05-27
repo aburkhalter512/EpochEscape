@@ -39,9 +39,4 @@ public class RedPotion : Item {
 	public override void OnTriggerEnter2D(Collider2D other){
 		base.OnTriggerEnter2D (other);
 	}
-
-	public void Destroy()
-	{
-		Destroy(gameObject);
-	}
 }

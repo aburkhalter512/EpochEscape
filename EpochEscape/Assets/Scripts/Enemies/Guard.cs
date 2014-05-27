@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using G = GameManager;
 
 public class Guard : Enemy
 {
@@ -35,6 +36,8 @@ public class Guard : Enemy
     protected Vector3 m_searchTarget;
 
     protected float m_startStunTime = -1;
+
+	private bool m_travellingForward;
 	
 	public virtual void Start()
 	{
@@ -44,6 +47,8 @@ public class Guard : Enemy
 		m_isAlerted = false;
 		m_timeLastAlerted = 0f;
 		m_searchTarget = Vector3.zero;
+
+		m_travellingForward = true;
 		
 		IncreasePatrolPoint();
 		SetInitialPosition();
@@ -52,8 +57,11 @@ public class Guard : Enemy
 
     public virtual void Update()
 	{
-		UpdateCurrentState();
-		UpdateAnimator();
+		if(!G.getInstance().paused)
+		{
+			UpdateCurrentState();
+			UpdateAnimator();
+		}
 	}
 
     protected virtual void SetInitialPosition()
@@ -64,8 +72,7 @@ public class Guard : Enemy
 
     protected virtual void SetInitialDirection()
 	{
-		if(!IsValidPatrolPoint(m_currentPatrolPoint))
-			return;
+		if(!IsValidPatrolPoint(m_currentPatrolPoint)) return;
 		
 		Vector3 target = m_patrolPoints[m_currentPatrolPoint] - transform.position;
 		target.Normalize();
@@ -102,8 +109,7 @@ public class Guard : Enemy
 
     protected virtual void Patrol()
 	{
-		if(!IsValidPatrolPoint(m_currentPatrolPoint))
-			return;
+		if(!IsValidPatrolPoint(m_currentPatrolPoint)) return;
 		
 		transform.position += transform.up * m_speed * Time.smoothDeltaTime;
 		
@@ -131,8 +137,7 @@ public class Guard : Enemy
 
     protected virtual void Rotate()
 	{
-		if(!IsValidPatrolPoint(m_currentPatrolPoint))
-			return;
+		if(!IsValidPatrolPoint(m_currentPatrolPoint)) return;
 		
 		// Calculate the target vector and normalize it.
 		Vector3 target = m_patrolPoints[m_currentPatrolPoint] - transform.position;
@@ -182,14 +187,39 @@ public class Guard : Enemy
 
     protected virtual void IncreasePatrolPoint()
 	{
-		m_currentPatrolPoint++;
-		
-		if(m_currentPatrolPoint >= m_patrolPoints.Length)
-			m_currentPatrolPoint = FIRST_PATROL_POINT;
+		if(m_patrolPoints.Length <= 1) return;
+
+		if(m_travellingForward)
+		{
+			m_currentPatrolPoint++;
+
+			if(m_currentPatrolPoint >= m_patrolPoints.Length)
+			{
+				// m_currentPatrolPoint is n at this point.
+				// We were at n - 1 before the increment, so we need to progress to n - 2.
+				m_currentPatrolPoint = m_patrolPoints.Length - 2;
+				m_travellingForward = false;
+			}
+		}
+		else
+		{
+			m_currentPatrolPoint--;
+
+			if(m_currentPatrolPoint < 0)
+			{
+				// m_currentPatrolPoint is -1 at this point.
+				// We were at zero before the decrement, so we need to progress to 1.
+				m_currentPatrolPoint = 1;
+				m_travellingForward = true;
+			}
+		}
 	}
 
     protected virtual bool IsValidPatrolPoint(int patrolPoint)
 	{
+		if(m_patrolPoints.Length == 0)
+			return false;
+
 		return patrolPoint >= FIRST_PATROL_POINT && patrolPoint < m_patrolPoints.Length;
 	}
 
