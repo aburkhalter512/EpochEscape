@@ -79,6 +79,9 @@ public class MapBehavior : MonoBehaviour
 
 	private void DisplayMap()
 	{
+		if(!G.getInstance().paused)
+			G.getInstance().PauseMovement();
+
 		m_currentTarget.x = transform.position.x;
 		m_currentTarget.y = m_initialMapYPosition - m_mapHeight;
 
@@ -205,11 +208,19 @@ public class MapBehavior : MonoBehaviour
 		if(Input.GetKeyUp(KeyCode.M))
 		{
 			if(m_currentState == State.FOLLOW_PLAYER)
+			{
 				m_currentState = State.DISPLAY_MAP;
+
+				if(!G.getInstance().paused)
+					G.getInstance().PauseMovement();
+			}
 			else if(m_currentState == State.DISPLAY_MAP)
 			{
 				m_currentState = State.FOLLOW_PLAYER;
 				m_star.SetActive(false);
+
+				if(G.getInstance().paused)
+					G.getInstance().UnpauseMovement();
 			}
 
 			Camera.main.orthographicSize = m_currentState == State.DISPLAY_MAP ? m_mapHeight / 2 : m_initialCameraSize;
