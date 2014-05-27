@@ -8,13 +8,14 @@ public class Door : Obstacle
 
     public Sprite closedDoor;
     public Sprite openedDoor;
+
+    public Vector2 mSize;
 	#endregion
 
     #region Instance Variables
     private STATE mPreviousState = STATE.CLOSED;
 
     private BoxCollider2D mMainCollider = null;
-    private Vector2 mSize;
 
     private SpriteRenderer mSR;
 	#endregion
@@ -24,13 +25,14 @@ public class Door : Obstacle
     {
         OPENED,
         CLOSED,
-        UN_INIT
+        UN_INIT,
+        DESTROY
     }
 	#endregion
 
 	//Put all initialization code here
 	//Remember to comment!
-	protected new void Start()
+	protected virtual void Start()
 	{
         mPreviousState = STATE.UN_INIT;
 
@@ -42,20 +44,23 @@ public class Door : Obstacle
 
 	//Put all update code here
 	//Remember to comment!
-	protected new void Update()
+	protected virtual void Update()
 	{
-        Debug.Log(mPreviousState);
         if (mPreviousState != currentState)
         {
-            mSize = new Vector2(mSR.bounds.extents.x * 2, mSR.bounds.extents.y * 2);
-
             switch (currentState)
             {
+                case STATE.UN_INIT:
+                    UnInit();
+                    break;
                 case STATE.CLOSED:
                     Close();
                     break;
                 case STATE.OPENED:
                     Open();
+                    break;
+                case STATE.DESTROY:
+                    Destroy();
                     break;
             }
 
@@ -64,7 +69,11 @@ public class Door : Obstacle
 	}
 
 	#region Update Methods
-    protected void Close()
+    protected virtual void UnInit()
+    {
+    }
+
+    protected virtual void Close()
     {
         if (mMainCollider == null)
         {
@@ -78,7 +87,7 @@ public class Door : Obstacle
         mSR.sprite = closedDoor;
     }
 
-    protected void Open()
+    protected virtual void Open()
     {
         if (mMainCollider != null)
         {
@@ -87,6 +96,11 @@ public class Door : Obstacle
         }
 
         mSR.sprite = openedDoor;
+    }
+
+    protected virtual void Destroy()
+    {
+        Destroy(gameObject);
     }
 	#endregion
 
