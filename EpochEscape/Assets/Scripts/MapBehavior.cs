@@ -53,6 +53,7 @@ public class MapBehavior : MonoBehaviour
 
 		UpdateInput();
 		UpdateCurrentState();
+		LerpCameraSize();
 	}
 
 	private void UpdateCurrentState()
@@ -222,8 +223,13 @@ public class MapBehavior : MonoBehaviour
 				if(G.getInstance().paused)
 					G.getInstance().UnpauseMovement();
 			}
-
-			Camera.main.orthographicSize = m_currentState == State.DISPLAY_MAP ? m_mapHeight / 2 : m_initialCameraSize;
 		}
+	}
+
+	private void LerpCameraSize()
+	{
+		float targetCameraSize = m_currentState == State.DISPLAY_MAP ? m_mapHeight / 2 : m_initialCameraSize;
+
+		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, targetCameraSize, 10f * Time.deltaTime);
 	}
 }
