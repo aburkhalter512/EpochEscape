@@ -39,7 +39,17 @@ public class PressurePlate : Tile
 				{
 					MapBehavior mapBehavior = GameObject.FindWithTag("Map").GetComponent<MapBehavior>();
 
-					mapBehavior.m_lerpTargets.Push(actuator);
+					Transform parent = actuator.transform.parent;
+
+					if(parent != null && parent.tag == "WallPivot")
+					{
+						if(mapBehavior.m_lerpTargets.Count == 0 || mapBehavior.m_lerpTargets.Peek() != parent.gameObject)
+							mapBehavior.m_lerpTargets.Push(parent.gameObject);
+					}
+					else
+					{
+						mapBehavior.m_lerpTargets.Push(actuator);
+					}
 
 					//actuator.GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
 				}
