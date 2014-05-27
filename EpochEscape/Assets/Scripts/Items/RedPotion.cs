@@ -33,7 +33,7 @@ public class RedPotion : Item {
 			player.m_detectionLevel = 0;
 		player.m_detectionMax -= HEAL_AMOUNT;
 		if (player.m_detectionMax < 0)
-			player.m_detecionMax = 0;
+			player.m_detectionMax = 0;
 	}
 
 	public override void OnTriggerEnter2D(Collider2D other){
