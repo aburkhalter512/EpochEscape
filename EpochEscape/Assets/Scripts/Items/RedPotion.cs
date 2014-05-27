@@ -30,6 +30,7 @@ public class RedPotion : Item {
 		player.m_detectionLevel -= 25f;
 		if (player.m_detectionLevel < 0)
 			player.m_detectionLevel = 0;
+		player.m_detectionMax = player.m_detectionLevel;
 	}
 
 	public override void OnTriggerEnter2D(Collider2D other){
