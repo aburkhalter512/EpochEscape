@@ -1,4 +1,4 @@
-weiusing UnityEngine;
+using UnityEngine;
 using System.Collections;
 using G = GameManager;
 
