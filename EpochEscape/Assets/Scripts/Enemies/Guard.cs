@@ -26,17 +26,17 @@ public class Guard : Enemy
     public float m_stunTime;
 	public bool m_isDead;
 	
-	private Animator m_animator;
-	private bool m_isMoving;
-	private float m_timeLastRested;
+	protected Animator m_animator;
+    protected bool m_isMoving;
+    protected float m_timeLastRested;
 
-	private bool m_isAlerted;
-	private float m_timeLastAlerted;
-	private Vector3 m_searchTarget;
+    protected bool m_isAlerted;
+    protected float m_timeLastAlerted;
+    protected Vector3 m_searchTarget;
 
-    private float m_startStunTime = -1;
+    protected float m_startStunTime = -1;
 	
-	public void Start()
+	public virtual void Start()
 	{
 		m_animator = GetComponent<Animator>();
 		m_timeLastRested = 0f;
@@ -49,20 +49,20 @@ public class Guard : Enemy
 		SetInitialPosition();
 		SetInitialDirection();
 	}
-	
-	public void Update()
+
+    public virtual void Update()
 	{
 		UpdateCurrentState();
 		UpdateAnimator();
 	}
-	
-	private void SetInitialPosition()
+
+    protected virtual void SetInitialPosition()
 	{
 		if(m_patrolPoints.Length > 0)
 			transform.position = m_patrolPoints[FIRST_PATROL_POINT];
 	}
-	
-	private void SetInitialDirection()
+
+    protected virtual void SetInitialDirection()
 	{
 		if(!IsValidPatrolPoint(m_currentPatrolPoint))
 			return;
@@ -73,8 +73,8 @@ public class Guard : Enemy
 		transform.up = target;
 		transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
 	}
-	
-	private void UpdateCurrentState()
+
+    protected virtual void UpdateCurrentState()
 	{
 		switch(m_currentState)
 		{
@@ -99,8 +99,8 @@ public class Guard : Enemy
             break;
 		}
 	}
-	
-	private void Patrol()
+
+    protected virtual void Patrol()
 	{
 		if(!IsValidPatrolPoint(m_currentPatrolPoint))
 			return;
@@ -119,8 +119,8 @@ public class Guard : Enemy
 			IncreasePatrolPoint();
 		}
 	}
-	
-	private void Rest()
+
+    protected virtual void Rest()
 	{
 		if(Time.time - m_timeLastRested > m_restInterval)
 		{
@@ -128,8 +128,8 @@ public class Guard : Enemy
 			m_timeLastRested = 0f;
 		}
 	}
-	
-	private void Rotate()
+
+    protected virtual void Rotate()
 	{
 		if(!IsValidPatrolPoint(m_currentPatrolPoint))
 			return;
@@ -152,7 +152,7 @@ public class Guard : Enemy
 		}
 	}
 
-    public void Stun()
+    public virtual void Stun()
     {
 		int numChildren = gameObject.transform.childCount;
 
@@ -169,8 +169,8 @@ public class Guard : Enemy
 		m_currentState = State.DEAD;
 		m_isDead = true;
     }
-	
-	private void UpdateAnimator()
+
+    protected virtual void UpdateAnimator()
 	{
 		if(m_animator != null)
 		{
@@ -179,21 +179,21 @@ public class Guard : Enemy
 			m_animator.SetBool("isDead", m_isDead);
 		}
 	}
-	
-	private void IncreasePatrolPoint()
+
+    protected virtual void IncreasePatrolPoint()
 	{
 		m_currentPatrolPoint++;
 		
 		if(m_currentPatrolPoint >= m_patrolPoints.Length)
 			m_currentPatrolPoint = FIRST_PATROL_POINT;
 	}
-	
-	private bool IsValidPatrolPoint(int patrolPoint)
+
+    protected virtual bool IsValidPatrolPoint(int patrolPoint)
 	{
 		return patrolPoint >= FIRST_PATROL_POINT && patrolPoint < m_patrolPoints.Length;
 	}
 
-	private void Alert()
+    protected virtual void Alert()
 	{
 		if(!m_isAlerted)
 		{
@@ -224,7 +224,8 @@ public class Guard : Enemy
 		}
 	}
 
-	public void Hit(){
+    public virtual void Hit()
+    {
 		Player player = (Player)GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
 		float angle = Vector3.Angle (player.transform.up, transform.position - player.transform.position);
 		float dist = Vector3.Distance (player.transform.position, transform.position);

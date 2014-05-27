@@ -6,7 +6,8 @@ public class EmptyFlask : Item
 {
     #region Inspector Variables
 	public float throwTime = 0.75f;
-    public float initialSpeed = 2f;
+    public float deceleration = 2f;
+    public Vector3 endScale = new Vector3(0.75f, 0.75f, 0.75f);
     #endregion
 
     #region Private Variables
@@ -17,8 +18,8 @@ public class EmptyFlask : Item
     Vector3 mOrigin;
     Vector3 mDestination;
     float mCurrentSpeed;
-    float mDeceleration;
     float startTime;
+    Vector3 mScaleDelta;
     #endregion
 
     #region Class Variables
@@ -45,7 +46,11 @@ public class EmptyFlask : Item
                     thrown = false;
                 }
                 else
+                {
                     transform.position += mCurrentSpeed * Time.smoothDeltaTime * transform.up;
+                    mCurrentSpeed -= deceleration * Time.smoothDeltaTime;
+                    transform.localScale += mScaleDelta * Time.smoothDeltaTime;
+                }
             }
 
 			UpdateAnimator();
@@ -82,7 +87,19 @@ public class EmptyFlask : Item
 			thrown = true;
 
             startTime = Time.realtimeSinceStartup;
-            mCurrentSpeed = initialSpeed;
+
+            mOrigin = transform.position;
+            mDestination = InputManager.getInstance().mouseInWorld;
+            mDestination.z = mOrigin.z; //Avoid incorrect displacement
+            mCurrentSpeed = (mDestination - mOrigin).magnitude;
+            mCurrentSpeed += (deceleration * throwTime * throwTime) / 2;
+            mCurrentSpeed /= throwTime;
+            mScaleDelta = endScale - transform.localScale;
+            mScaleDelta /= throwTime;
+
+            //Debug.Log(mOrigin);
+            //Debug.Log(mDestination);
+            Debug.Log((mDestination - mOrigin).magnitude);
 		}
 	}
 	
