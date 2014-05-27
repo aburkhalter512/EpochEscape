@@ -1,4 +1,4 @@
-using UnityEngine;
+weiusing UnityEngine;
 using System.Collections;
 using G = GameManager;
 
@@ -18,7 +18,7 @@ public class EmptyFlask : Item
     Vector3 mOrigin;
     Vector3 mDestination;
     float mCurrentSpeed;
-    float mDeceleration;
+    float deceleration;
     float startTime;
 	Vector3 mScaleDelta;
     #endregion
