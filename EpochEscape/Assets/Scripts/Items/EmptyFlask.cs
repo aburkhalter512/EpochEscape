@@ -106,7 +106,7 @@ public class EmptyFlask : Item
 	public override void OnTriggerEnter2D(Collider2D other){
 		base.OnTriggerEnter2D (other);
 		
-        if (other.gameObject.tag == "Guard")
+        if (other.gameObject.tag == "Guard" && gameObject.tag == "ItemThrown")
         {
 			m_isBroken = true;
 			thrown = false;
@@ -117,7 +117,7 @@ public class EmptyFlask : Item
 				guardManager.m_currentState = Guard.State.STUN;
         }
 
-		if(other.gameObject.tag == "Wall")
+		if(other.gameObject.tag == "Wall" && gameObject.tag == "ItemThrown")
 		{
 			m_isBroken = true;
 			thrown = false;
