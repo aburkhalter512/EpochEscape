@@ -9,7 +9,7 @@ public class Inventory{
 	GameObject emptyFlask = null;
 	#endregion
 
-    public const int MAX_SLOTSIZE = 2;
+    public const int MAX_SLOTSIZE = 10;
 
 	public Inventory(){
 		if(emptyFlask == null)
@@ -24,8 +24,7 @@ public class Inventory{
 				break;
 			}
 			else if(inventory[j].gameObject.tag == i.gameObject.tag && inventoryCount[j] < MAX_SLOTSIZE){
-				inventory[j].Add ();
-				inventory[j].next = i;
+				inventory[j].Add (i);
 				inventoryCount[j]++;
 				break;
 			}
