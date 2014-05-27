@@ -156,6 +156,7 @@ public class GameManager : UnitySingleton<GameManager>
 	public void PauseGame(){
 		paused = true;
 		Time.timeScale = 0f;
+		ShowPauseMenu = true;
 	}
 	
 	#region Options
@@ -307,6 +308,7 @@ public class GameManager : UnitySingleton<GameManager>
 	public void ShowPopupMessage(){
 		if(popup){
 			paused = true;
+			ShowPauseMenu = false;
 			if (Event.current.isKey && Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space) {
 				popup = false;
 				paused = false;
