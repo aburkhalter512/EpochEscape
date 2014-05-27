@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using G = GameManager;
 
 public class SecurityCamera : MonoBehaviour
 {
@@ -38,7 +39,8 @@ public class SecurityCamera : MonoBehaviour
 	
 	public void Update()
 	{
-		UpdateCurrentState();
+		if(!G.getInstance().paused)
+			UpdateCurrentState();
 	}
 	
 	private void UpdateCurrentState()

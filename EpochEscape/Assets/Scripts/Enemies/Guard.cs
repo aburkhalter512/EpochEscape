@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using G = GameManager;
 
 public class Guard : Enemy
 {
@@ -56,8 +57,11 @@ public class Guard : Enemy
 
     public virtual void Update()
 	{
-		UpdateCurrentState();
-		UpdateAnimator();
+		if(!G.getInstance().paused)
+		{
+			UpdateCurrentState();
+			UpdateAnimator();
+		}
 	}
 
     protected virtual void SetInitialPosition()

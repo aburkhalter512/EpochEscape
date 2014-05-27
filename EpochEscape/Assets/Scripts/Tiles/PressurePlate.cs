@@ -37,18 +37,18 @@ public class PressurePlate : Tile
             {
                 if (actuator != null)
 				{
-					MapBehavior mapBehavior = GameObject.FindWithTag("Map").GetComponent<MapBehavior>();
+					CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
 
 					Transform parent = actuator.transform.parent;
 
 					if(parent != null && parent.tag == "WallPivot")
 					{
-						if(mapBehavior.m_lerpTargets.Count == 0 || mapBehavior.m_lerpTargets.Peek() != parent.gameObject)
-							mapBehavior.m_lerpTargets.Push(parent.gameObject);
+						if(cameraBehavior.m_lerpTargets.Count == 0 || cameraBehavior.m_lerpTargets.Peek() != parent.gameObject)
+							cameraBehavior.m_lerpTargets.Push(parent.gameObject);
 					}
 					else
 					{
-						mapBehavior.m_lerpTargets.Push(actuator);
+						cameraBehavior.m_lerpTargets.Push(actuator);
 					}
 
 					//actuator.GetComponent<DynamicWall>().currentState = DynamicWall.STATES.TO_CHANGE;
