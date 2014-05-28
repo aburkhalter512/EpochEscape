@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using S = SaveManager;
 
 public class GameManager : UnitySingleton<GameManager>
@@ -34,7 +35,8 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Pause Menu
 	public bool paused = false;
 	public bool popup = false;
-	public string message = "";
+	public List<string> messages = new List<string>();
+	private int pageNum = 0;
 	public bool ShowPauseMenu = false;
 
 	#region Tutorial
@@ -336,19 +338,38 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Popups
 	public void ShowPopupMessage(){
 		if(popup && !NoTut){
+			string buttonMessage;
+			if(pageNum + 1 < messages.Count)
+				buttonMessage = "Next";
+			else
+				buttonMessage = "OK";
 			PauseMovementTS();
 			if (Event.current.isKey && Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space) {
-				popup = false;
-				UnpauseMovementTS();
+				if(pageNum + 1 == messages.Count){
+					popup = false;
+					//messages.Clear();
+					pageNum = 0;
+					UnpauseMovementTS();
+				}
+				else{
+					pageNum++;
+				}
 			}
 			GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height * .6f, 700, 150));
-			GUILayout.Box (message, EpochSkin.GetStyle ("Message"));
-			GUILayout.BeginArea (new Rect(640, 100, 100, 100));
+			GUILayout.Box (messages[pageNum], EpochSkin.GetStyle ("Message"));
+			GUILayout.BeginArea (new Rect(600, 100, 300, 100));
 			GUILayout.BeginHorizontal ();
 			GUILayout.BeginVertical ();
-			if(GUILayout.Button ("OK", EpochSkin.GetStyle ("Popup Button"))){
-				popup = false;
-				UnpauseMovementTS();
+			if(GUILayout.Button (buttonMessage, EpochSkin.GetStyle ("Popup Button"))){
+				if(pageNum + 1 == messages.Count){
+					popup = false;
+					//messages.Clear();
+					pageNum = 0;
+					UnpauseMovementTS();
+				}
+				else{
+					pageNum++;
+				}
 			}
 			GUILayout.EndHorizontal ();
 			GUILayout.EndVertical ();

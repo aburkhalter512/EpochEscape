@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PopupSwitch : MonoBehaviour {
-	public string instructions;
+	public List<string> instructions;
 	public bool active = true;
 	public bool delay = false;
 
 	private void message () {
-		GameManager.getInstance ().message = instructions;
+		GameManager.getInstance ().messages = instructions;
 		GameManager.getInstance ().ShowPopupMessage();
 		GameManager.getInstance ().popup = true;
 		active = false;
