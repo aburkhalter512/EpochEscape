@@ -16,7 +16,6 @@ public class CameraBehavior : MonoBehaviour
 	private GameObject m_star;
 
 	public Stack<GameObject> m_lerpTargets = null;
-	public Stack<GameObject> m_toActuate = null;
 
 	public GameObject m_floor = null;
 
@@ -40,7 +39,6 @@ public class CameraBehavior : MonoBehaviour
 		m_player = null;
 
 		m_lerpTargets = new Stack<GameObject>();
-		m_toActuate = new Stack<GameObject>();
 
 		CalculateMapHeight();
 		CreateStar();
@@ -203,9 +201,18 @@ public class CameraBehavior : MonoBehaviour
 
 		if(Input.GetKeyUp(KeyCode.M))
 		{
+			GameObject walls = GameObject.Find("DynamicWalls");
+			GameObject doors = GameObject.Find("Doors");
+
 			if(m_currentState == State.FOLLOW_PLAYER)
 			{
 				m_currentState = State.DISPLAY_MAP;
+				
+				if(walls != null)
+					walls.transform.position = new Vector3(walls.transform.position.x, walls.transform.position.y - m_mapHeight, walls.transform.position.z);
+				
+				if(doors != null)
+					doors.transform.position = new Vector3(doors.transform.position.x, doors.transform.position.y - m_mapHeight, doors.transform.position.z);
 
 				if(!G.getInstance().paused)
 					G.getInstance().PauseMovement();
@@ -215,6 +222,12 @@ public class CameraBehavior : MonoBehaviour
 				m_floor.transform.position = new Vector3(m_floor.transform.position.x, m_initialMapYPosition, m_floor.transform.position.z);
 				m_currentState = State.FOLLOW_PLAYER;
 				m_star.SetActive(false);
+
+				if(walls != null)
+					walls.transform.position = new Vector3(walls.transform.position.x, walls.transform.position.y + m_mapHeight, walls.transform.position.z);
+				
+				if(doors != null)
+					doors.transform.position = new Vector3(doors.transform.position.x, doors.transform.position.y + m_mapHeight, doors.transform.position.z);
 
 				if(G.getInstance().paused)
 					G.getInstance().UnpauseMovement();
