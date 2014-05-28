@@ -129,7 +129,7 @@ public class MainMenu : MonoBehaviour {
 
 			GUILayout.BeginHorizontal ();
 				GUILayout.Space (25);
-				GUILayout.Label ("No Tutorial", EpochSkin.label);
+				GUILayout.Label ("Tutorial On", EpochSkin.label);
 				G.getInstance().Tutorial = GUILayout.Toggle (G.getInstance ().Tutorial, "", EpochSkin.toggle);
 			GUILayout.EndHorizontal ();
 
