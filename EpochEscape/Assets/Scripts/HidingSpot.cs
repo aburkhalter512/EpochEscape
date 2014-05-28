@@ -31,7 +31,7 @@ public class HidingSpot : MonoBehaviour
         if (collidee.tag == "Player")
         {
             if (m_player != null)
-                m_player.m_isHiding = m_player.m_isMoving ? false : true;
+                m_player.m_isHiding = m_player.IsActive() ? false : true;
         }
     }
 

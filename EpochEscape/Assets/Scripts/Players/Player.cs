@@ -399,7 +399,13 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("isAttacking", m_isAttacking);
 			m_animator.SetBool("hasSpecialItem", m_hasSpecialItem);
 			m_animator.SetBool("isDrinking", m_isDrinking);
+			m_animator.SetBool("isHiding", m_isHiding);
 		}
+
+		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+		if(renderer != null)
+			renderer.color = new Color(1f, 1f, 1f, (m_isHiding ? 0.4f : 1f));
 	}
 
 	private void SelectSlot()
@@ -435,6 +441,11 @@ public class Player : MonoBehaviour
 		else{
 			Special = false;
 		}
+	}
+
+	public bool IsActive()
+	{
+		return m_isAttacking || m_isDrinking || m_isMoving;
 	}
 
 	#region Static Methods
