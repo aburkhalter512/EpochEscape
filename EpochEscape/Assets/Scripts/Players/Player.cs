@@ -289,7 +289,6 @@ public class Player : MonoBehaviour
 			ScrollSlotIncrement ();
 		if(Input.GetAxisRaw ("Mouse ScrollWheel") < 0)
 			ScrollSlotDecrement();
-		Debug.Log (m_selectedSlot);
 	}
 
 	public void ScrollSlotIncrement(){
