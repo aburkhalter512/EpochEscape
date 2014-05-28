@@ -52,7 +52,7 @@ public class CameraBehavior : MonoBehaviour
 
 		if(m_player == null) return;
 		
-		if(m_lerpTargets.Count != 0 && m_currentState != State.LERP_REST)
+		if(m_lerpTargets != null && m_lerpTargets.Count != 0 && m_currentState != State.LERP_REST)
 			m_currentState = State.LERP_TO_TARGET;
 
 		UpdateInput();
@@ -102,13 +102,15 @@ public class CameraBehavior : MonoBehaviour
 
 	private void FollowPlayer()
 	{
-		if(m_player != null)
-		{
-			m_currentTarget.x = m_player.transform.position.x;
-			m_currentTarget.y = m_player.transform.position.y;
+        if (m_player != null)
+        {
+            m_currentTarget.x = m_player.transform.position.x;
+            m_currentTarget.y = m_player.transform.position.y;
 
-			transform.position = new Vector3(m_currentTarget.x, m_currentTarget.y, transform.position.z);
-		}
+            transform.position = new Vector3(m_currentTarget.x, m_currentTarget.y, transform.position.z);
+        }
+        else
+            Debug.Log("Player is null");
 	}
 
 	private void LerpToPlayer()

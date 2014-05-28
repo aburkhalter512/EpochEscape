@@ -112,9 +112,14 @@ public class EmptyFlask : Item
 			thrown = false;
 
 			Guard guardManager = other.gameObject.GetComponent<Guard>();
+            if (guardManager == null)
+                other.gameObject.GetComponent<StationaryGuard>();
 
-			if(guardManager != null)
-				guardManager.m_currentState = Guard.State.STUN;
+            if (guardManager != null)
+            {
+                guardManager.m_currentState = Guard.State.STUN;
+                Debug.Log("Stunned guard");
+            }
         }
 
 		if(other.gameObject.tag == "Wall" && gameObject.tag == "ItemThrown")

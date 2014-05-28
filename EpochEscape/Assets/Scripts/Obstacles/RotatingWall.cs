@@ -13,6 +13,8 @@ public class RotatingWall : DynamicWall
     #region Instance Variables
     private Vector3 realRotationPt = Vector3.zero;
     private float baseAngle = 0.0f;
+    private float originalAngle = 0.0f;
+    private float destinationAngle = 0.0f;
 
     private float currentRotationChange = 0.0f;
 	#endregion
@@ -88,26 +90,33 @@ public class RotatingWall : DynamicWall
     {
         currentIndex = (currentIndex + 1) % rotationAngles.Length;
 
-        float rotationSpeed = 0.0f;
-        float realAngle = rotationAngles[currentIndex];
+        destinationAngle = rotationAngles[currentIndex] + baseAngle - transform.eulerAngles.z;
 
-        if (realAngle < 0)
-            realAngle = 360 + realAngle;
+        if (destinationAngle < -180)
+            destinationAngle += 360;
 
-        realAngle -= transform.rotation.eulerAngles.z - baseAngle;
+        originalAngle = transform.eulerAngles.z;
 
-        if (realAngle > 180)
-            realAngle = -(360 - realAngle);
-        else if (realAngle < -180 && realAngle > -360)
+        /*relativeAngle = rotationAngles[currentIndex];
+        originalAngle = transform.eulerAngles.z;
+
+        if (relativeAngle < 0)
+            relativeAngle = 360 + relativeAngle;
+
+        relativeAngle -= transform.rotation.eulerAngles.z - baseAngle;
+
+        if (relativeAngle > 180)
+            relativeAngle = -(360 - relativeAngle);
+        else if (relativeAngle < -180 && relativeAngle > -360)
         {
-            realAngle = 360 + realAngle;
-        }
+            relativeAngle = 360 + relativeAngle;
+        }*/
 
-        rotationSpeed = realAngle / changeTime;
-
-        currentRotationChange = rotationSpeed;
+        currentRotationChange = destinationAngle / changeTime;
 
         UpdateSize();
+
+        Debug.Log(destinationAngle);
 
         currentState = STATES.CHANGE;
     }
@@ -137,24 +146,71 @@ public class RotatingWall : DynamicWall
 			Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
 		// --- //*/
 
-        float realAngle = rotationAngles[currentIndex];
+        Debug.Log(transform.eulerAngles.z);
+
+        float realRotationChanged = currentRotationChange * Time.smoothDeltaTime;
+        float realDestination = destinationAngle > 0 ? destinationAngle : 360 + destinationAngle;
+        realDestination += originalAngle;
+
+        Debug.Log(realDestination);
+
+        if (Utilities.isBounded(
+            realDestination - realRotationChanged,
+            realDestination + realRotationChanged,
+            transform.eulerAngles.z))
+        {
+           transform.RotateAround(realRotationPt, Vector3.forward, realDestination - transform.eulerAngles.z);
+            currentRotationChange = 0.0f;
+        }
+        else
+            transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
+
+
+        /*float realAngle = rotationAngles[currentIndex];
 
         if (realAngle < 0)
             realAngle = 360 + realAngle;
 
-        if (Utilities.isBounded(realAngle - currentRotationChange * Time.smoothDeltaTime,
+        realAngle -= transform.rotation.eulerAngles.z - baseAngle;
+
+        if (realAngle > 180)
+            realAngle = -(360 - realAngle);
+        else if (realAngle < -180 && realAngle > -360)
+        {
+            realAngle = 360 + realAngle;
+        }*/
+
+
+        /*if (Utilities.isBounded(0.0f, relativeAngle, transform.eulerAngles.z - originalAngle))
+        {
+            Debug.Log(relativeAngle);
+            transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
+        }
+        else
+        {
+            float realAngle = (relativeAngle < 0 ? 360 + relativeAngle : relativeAngle) + baseAngle;
+            float toAngle = realAngle - transform.eulerAngles.z;
+
+            Debug.Log(toAngle);
+
+            transform.RotateAround(realRotationPt, Vector3.forward, toAngle);
+            currentRotationChange = 0.0f;
+        }*/
+
+        /*if (Utilities.isBounded(realAngle - currentRotationChange * Time.smoothDeltaTime,
                       realAngle + currentRotationChange * Time.smoothDeltaTime,
                       transform.rotation.eulerAngles.z - baseAngle))
         {
-            transform.eulerAngles = new Vector3(0.0f, 0.0f, baseAngle + rotationAngles[currentIndex]);
+            transform.RotateAround(realRotationPt, Vector3.forward, transform.eulerAngles.z - realAngle);
+            //transform.eulerAngles = new Vector3(0.0f, 0.0f, baseAngle + rotationAngles[currentIndex]);
             /*transform.RotateAround(realRotationPt, Vector3.forward,
                 (rotationAngles[currentIndex] - transform.rotation.eulerAngles.z - baseAngle) % 360);*/
-            currentRotationChange = 0.0f;
+            /*currentRotationChange = 0.0f;
         }
         else if (!Mathf.Approximately(currentRotationChange, 0.0f))
         {
             transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
-        }
+        }*/
 
     }
 	#endregion

@@ -105,6 +105,7 @@ public class Player : MonoBehaviour
 		}
 		else
 		{
+            Debug.Log("Game is paused");
 			m_isMoving = false;
 			m_isMovingForward = false;
 			m_isMovingDown = false;
@@ -288,7 +289,7 @@ public class Player : MonoBehaviour
 		if(m_isMovingLeft) movement.x = -mForce * mDynamicFriction;
 		if(m_isMovingRight) movement.x = mForce * mDynamicFriction;
 
-		transForces += movement;
+		transForces += movement * Time.smoothDeltaTime;
 		transForces -= Utilities.toVector3(velocity * mDynamicFriction);
 
 		if ((Input.GetButtonDown ("Horizontal") || Input.GetButtonDown ("Vertical")) && !audio.isPlaying) {

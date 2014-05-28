@@ -21,7 +21,7 @@ public class SlidingWall : DynamicWall
 	{
         base.Start();
 
-        basePosition = Vector3.zero;
+        basePosition = transform.position;
 	}
 
 	#region Initialization Methods
@@ -78,7 +78,7 @@ public class SlidingWall : DynamicWall
 		// --- //*/
 
         if (Utilities.isBounded(0.0f, positionDelta.sqrMagnitude * Time.smoothDeltaTime * Time.smoothDeltaTime,
-                      (transform.position - (positionPts[currentIndex]) + basePosition).sqrMagnitude))
+                      (transform.position - (positionPts[currentIndex] + basePosition)).sqrMagnitude))
         {
             transform.position = positionPts[currentIndex] + basePosition;
             positionDelta = Vector3.zero;
