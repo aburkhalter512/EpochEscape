@@ -49,6 +49,7 @@ public class Inventory{
 			if(inventory[slot].gameObject.tag == "Red Potion"){
 				Player player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 				emptyFlask = GameObject.Instantiate (emptyFlask, player.transform.position, Quaternion.identity) as GameObject;
+				emptyFlask.GetComponent<Item>().inInventory = false;
 			}
 			//activate and adjust inventory count and slot
 			inventory[slot].Activate();
