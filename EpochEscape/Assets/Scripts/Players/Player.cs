@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 	public float mDynamicFriction = DYNAMIC_FRICTION;
 	public float mAirResistance = AIR_RESTIANCE_MODIFIER;
 
-	private bool m_isMoving;
+	public bool m_isMoving;
 	private bool m_isMovingForward;
 	private bool m_isMovingDown;
 	private bool m_isMovingLeft;
