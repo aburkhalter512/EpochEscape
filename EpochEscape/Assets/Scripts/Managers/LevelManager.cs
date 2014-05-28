@@ -38,9 +38,9 @@ public class LevelManager : MonoBehaviour
 		// Create the character.
 		switch(G.getInstance().m_currentCharacter)
 		{
-		case 1:
+		/*case 1:
 			m_player = Resources.Load("Prefabs/Players/Knight") as GameObject;
-			break;
+			break;*/
 
 		case 0:
 		default:
