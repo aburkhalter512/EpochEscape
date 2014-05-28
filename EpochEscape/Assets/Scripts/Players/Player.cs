@@ -261,7 +261,7 @@ public class Player : MonoBehaviour
 		m_isMovingLeft = false;
 		m_isMovingRight = false;
 
-		if(m_isAttacking) return;
+		if(m_isAttacking || m_isDrinking) return;
 
 		if(Input.GetKey(KeyCode.W)) m_isMovingForward = true;
 		if(Input.GetKey(KeyCode.S)) m_isMovingDown = true;
