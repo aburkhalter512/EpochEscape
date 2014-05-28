@@ -41,9 +41,9 @@ public class LevelTransitioner : MonoBehaviour
 			else
 				GameManager.getInstance().currentLevel++;
             if (isWinning)
-                SceneManager.Load(Level);
-            else
                 SceneManager.Win(Level);
+            else
+                SceneManager.Load(Level);
 			SaveManager.Save ();
 
 		}
