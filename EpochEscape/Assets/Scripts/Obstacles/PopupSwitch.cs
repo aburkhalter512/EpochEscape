@@ -2,18 +2,27 @@
 using System.Collections;
 
 public class PopupSwitch : MonoBehaviour {
-	public string instructions = "";
+	public string instructions;
 	public bool active = true;
+	public bool delay = false;
+
+	private void message () {
+		GameManager.getInstance ().message = instructions;
+		GameManager.getInstance ().ShowPopupMessage();
+		GameManager.getInstance ().popup = true;
+		active = false;
+	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if(active){
-			if (other.gameObject.tag == "Player") {
+		if(active && other.gameObject.tag == "Player"){
+			if (!delay) {
 				Player p = other.gameObject.GetComponent<Player>();
 				p.audio.Stop ();
-				GameManager.getInstance ().message = instructions;
-				GameManager.getInstance ().ShowPopupMessage();
-				GameManager.getInstance ().popup = true;
-				active = false;
+				message ();
+			} else {
+				Player p = other.gameObject.GetComponent<Player>();
+				p.audio.Stop ();
+				Invoke ("message",1);
 			}
 		}
 	}
