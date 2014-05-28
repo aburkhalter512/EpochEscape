@@ -19,6 +19,9 @@ public class CameraBehavior : MonoBehaviour
 
 	public GameObject m_floor = null;
 
+	public bool m_displayCowbell = false;
+	private GameObject m_cowbell = null;
+
 	public enum State
 	{
 		DISPLAY_MAP,
@@ -42,6 +45,7 @@ public class CameraBehavior : MonoBehaviour
 
 		CalculateMapHeight();
 		CreateStar();
+		CreateCowbell();
 	}
 	
 	public void Update()
@@ -184,6 +188,18 @@ public class CameraBehavior : MonoBehaviour
 		m_star.SetActive(false);
 	}
 
+	private void CreateCowbell()
+	{
+		m_cowbell = Resources.Load("Prefabs/Cowbell/MoreCowbell") as GameObject;
+		m_cowbell = Instantiate(m_cowbell) as GameObject;
+
+		if(m_cowbell != null)
+		{
+			m_cowbell.transform.position = new Vector3(m_cowbell.transform.position.x, m_cowbell.transform.position.y - m_mapHeight, m_cowbell.transform.position.z);
+			m_cowbell.SetActive(false);
+		}
+	}
+
 	private void CheckForPlayer()
 	{
 		if(m_player == null)
@@ -214,6 +230,9 @@ public class CameraBehavior : MonoBehaviour
 				if(doors != null)
 					doors.transform.position = new Vector3(doors.transform.position.x, doors.transform.position.y - m_mapHeight, doors.transform.position.z);
 
+				if(m_cowbell != null && m_displayCowbell)
+					m_cowbell.SetActive(true);
+
 				if(!G.getInstance().paused)
 					G.getInstance().PauseMovement();
 			}
@@ -228,6 +247,9 @@ public class CameraBehavior : MonoBehaviour
 				
 				if(doors != null)
 					doors.transform.position = new Vector3(doors.transform.position.x, doors.transform.position.y + m_mapHeight, doors.transform.position.z);
+
+				if(m_cowbell != null)
+					m_cowbell.SetActive(false);
 
 				if(G.getInstance().paused)
 					G.getInstance().UnpauseMovement();
