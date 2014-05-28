@@ -26,14 +26,14 @@ public class HidingSpot : MonoBehaviour
 			m_player = player.GetComponent<Player>();
 	}
 
-	public void OnTriggerEnter2D(Collider2D other)
-	{
-		if(other.tag == "Player")
-		{
-			if(m_player != null)
-				m_player.m_isHiding = true;
-		}
-	}
+    public void OnTriggerStay2D(Collider2D collidee)
+    {
+        if (collidee.tag == "Player")
+        {
+            if (m_player != null)
+                m_player.m_isHiding = m_player.m_isMoving ? false : true;
+        }
+    }
 
 	public void OnTriggerExit2D(Collider2D other)
 	{
