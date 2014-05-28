@@ -19,8 +19,10 @@ public class HUDManager : MonoBehaviour {
 	#region inventory
 	public Texture2D potion;
 	public Texture2D potionSelected;
+	public Texture2D currPotion;
 	public Texture2D flask;
 	public Texture2D flaskSelected;
+	public Texture2D currFlask;
 	public Texture2D specItem;
 	private int m_flaskCount = 0;
 	private int m_potionCount = 0;
@@ -78,6 +80,8 @@ public class HUDManager : MonoBehaviour {
 
 		currMeter = detectionBar[0];
 		currMood = happy;
+		currPotion = potion;
+		currFlask = flask;
 	}
 	
 	void OnGUI() {
@@ -90,11 +94,11 @@ public class HUDManager : MonoBehaviour {
 		
 		#region inventory
 		GUI.BeginGroup(new Rect(potionPos.x,potionPos.y,potionSize.x,potionSize.y));
-		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),potion);
+		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currPotion);
 		GUI.Label(new Rect(36f,27f,20f,20f), m_potionCount.ToString(),EpochSkin.GetStyle("HudText"));
 		GUI.EndGroup();
 		GUI.BeginGroup(new Rect(flaskPos.x,flaskPos.y,flaskSize.x,flaskSize.y));
-		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),flask);
+		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currFlask);
 		GUI.Label(new Rect(36f,27f,20f,20f), m_flaskCount.ToString(),EpochSkin.GetStyle("HudText"));
 		GUI.EndGroup();
 		#endregion
@@ -173,6 +177,17 @@ public class HUDManager : MonoBehaviour {
 			m_potionCount = 0;
 		
 		m_specCount = playerManager.m_specItems;
+
+		switch (playerManager.m_selectedSlot) {
+		case 0:
+			currPotion = potionSelected;
+			currFlask = flask;
+			break;
+		case 1:
+			currPotion = potion;
+			currFlask = flaskSelected;
+			break;
+		}
 		#endregion
 	
 		#region powercores
