@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
 	public const float DYNAMIC_FRICTION = 1.0f;
 	public const float AIR_RESTIANCE_MODIFIER = 0.5f;
 	public const float MAX_DETECTION_LEVEL = 100.0f;
+	public const int UNIQUE_ITEM_SLOTS = 1;
 
 	public enum PlayerState
 	{
@@ -283,6 +284,24 @@ public class Player : MonoBehaviour
 
 		if (Input.GetButtonDown ("Fire2"))
 			SpecialAbility ();
+
+		if(Input.GetAxisRaw ("Mouse ScrollWheel") > 0)
+			ScrollSlotIncrement ();
+		if(Input.GetAxisRaw ("Mouse ScrollWheel") < 0)
+			ScrollSlotDecrement();
+		Debug.Log (m_selectedSlot);
+	}
+
+	public void ScrollSlotIncrement(){
+		m_selectedSlot++;
+		if(m_selectedSlot > UNIQUE_ITEM_SLOTS)
+			m_selectedSlot = 0;
+	}
+
+	public void ScrollSlotDecrement(){
+		m_selectedSlot--;
+		if(m_selectedSlot < 0)
+			m_selectedSlot = UNIQUE_ITEM_SLOTS;
 	}
 
 	public void FinishedAttacking()

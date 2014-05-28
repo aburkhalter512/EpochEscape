@@ -102,7 +102,7 @@ public class MainMenu : MonoBehaviour {
 
 	#region Options
 	void ShowOptions(){
-		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 350, Screen.height * .25f, 650, 400));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 350, Screen.height * .25f, 650, 410));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space (250);
@@ -125,7 +125,6 @@ public class MainMenu : MonoBehaviour {
 		GUILayout.Label ("No Tutorial", EpochSkin.label);
 		G.getInstance().NoTut = GUILayout.Toggle (G.getInstance ().NoTut, "", EpochSkin.toggle);
 		GUILayout.EndHorizontal ();
-		GUILayout.Space (20);
 		if (GUILayout.Button ("Reset Game", EpochSkin.button)) {
 			currentPage = Page.ResetWarning;
 		}
