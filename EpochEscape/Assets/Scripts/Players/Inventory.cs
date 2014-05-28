@@ -3,13 +3,16 @@ using System.Collections;
 
 public class Inventory{
 	#region member variables
-	public const int MAX_ITEMS = 2; //only item currently is potion
-	public Item[] inventory = new Item[MAX_ITEMS];
-	public int[] inventoryCount = new int[MAX_ITEMS];
+	public const int UNIQUE_ITEMS = 2; //only item currently is potion
+	public const int MAX_STACK = 10;
+	public const int POTION_SLOT = 0;
+	public const int FLASK_SLOT = 1;
+
+	public Item[] inventory = new Item[UNIQUE_ITEMS];
+	public int[] inventoryCount = new int[UNIQUE_ITEMS];
 	GameObject emptyFlask = null;
 	#endregion
 
-    public const int MAX_SLOTSIZE = 10;
 
 	public Inventory(){
 		if(emptyFlask == null)
@@ -17,20 +20,25 @@ public class Inventory{
 	}
 
 	public void addItem(Item i){
-		//traverse through inventory
-		for (int j = 0; j < inventory.Length; j++) {
-			//if slot is null, add it there
-			if(inventory[j] == null){
-				inventory[j] = i;
-				inventoryCount[j] = 1;
+		switch (i.tag) {
+			case "Red Potion":
+				if (inventory[POTION_SLOT] == null) {
+					inventory[POTION_SLOT] = i;
+					inventoryCount[POTION_SLOT] = 1;
+				} else {
+					inventory[POTION_SLOT].Add(i);
+					inventoryCount[POTION_SLOT]++;
+				}
 				break;
-			}
-			//otherwise, if a slot has the item, add it to the slot
-			else if(inventory[j].gameObject.tag == i.gameObject.tag && inventoryCount[j] < MAX_SLOTSIZE){
-				inventory[j].Add (i);
-				inventoryCount[j]++;
+			case "EmptyFlask":
+				if (inventory[FLASK_SLOT] == null) {
+					inventory[FLASK_SLOT] = i;
+					inventoryCount[FLASK_SLOT] = 1;
+				} else {
+					inventory[FLASK_SLOT].Add(i);
+					inventoryCount[FLASK_SLOT]++;
+				}
 				break;
-			}
 		}
 	}
 
@@ -93,7 +101,7 @@ public class Inventory{
 				continue;
 			if(inventory[j].gameObject.tag == i.gameObject.tag)
 				//if there is space
-				if(inventoryCount[j] < MAX_SLOTSIZE)
+				if(inventoryCount[j] < MAX_STACK)
 					return true;
 		}
 		//no slot for item

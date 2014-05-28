@@ -138,7 +138,7 @@ public class HUDManager : MonoBehaviour {
 		#region inventory
 		bool flaskFound = false;
 		bool potionFound = false;
-		for (int i = 0; i < Inventory.MAX_ITEMS; i++) {
+		for (int i = 0; i < Inventory.UNIQUE_ITEMS; i++) {
 			Item currItem = playerManager.inventory.inventory[i];
 			if (currItem != null) {
 				if (currItem.gameObject.tag == "EmptyFlask") {
