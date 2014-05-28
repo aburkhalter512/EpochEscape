@@ -69,8 +69,10 @@ public class PressureSwitch : PressurePlate
         mSR.sprite = switchOn;
     }
 
-    void OnTriggerEnter2D(Collider2D collidee)
+    protected void OnTriggerEnter2D(Collider2D collidee)
     {
+        base.OnTriggerEnter2D(collidee);
+
 		if(collidee.tag == "Player")
 		{
             currentState = STATE.OFF;
