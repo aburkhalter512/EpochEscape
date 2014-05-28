@@ -4,18 +4,35 @@ using System.Collections;
 public class PressureSwitch : PressurePlate
 {
 	#region Inspector Variables
+    public Sprite switchOn;
+    public Sprite switchOff;
+
+    public STATE currentState;
 	#endregion
 
 	#region Instance Variables
+    private SpriteRenderer mSR;
+
+    private STATE previousState;
 	#endregion
 
 	#region Class Constants
+    public enum STATE
+    {
+        ON,
+        OFF,
+        UN_INIT
+    }
 	#endregion
 
 	//Put all initialization code here
 	//Remember to comment!
 	protected void Start()
 	{
+        mSR = gameObject.GetComponent<SpriteRenderer>();
+
+        previousState = STATE.UN_INIT;
+        currentState = STATE.ON;
 	}
 
 	#region Initialization Methods
@@ -25,16 +42,38 @@ public class PressureSwitch : PressurePlate
 	//Remember to comment!
 	protected void Update()
 	{
+        if (previousState != currentState)
+        {
+            switch (currentState)
+            {
+                case STATE.OFF:
+                    Off();
+                    break;
+                case STATE.ON:
+                    On();
+                    break;
+            }
+
+            previousState = currentState;
+        }
 	}
 
     #region Update Methods
+    protected virtual void Off()
+    {
+        mSR.sprite = switchOff;
+    }
+
+    protected virtual void On()
+    {
+        mSR.sprite = switchOn;
+    }
+
     void OnTriggerEnter2D(Collider2D collidee)
     {
 		if(collidee.tag == "Player")
 		{
-	        base.OnTriggerEnter2D(collidee);
-
-	        Destroy(gameObject);
+            currentState = STATE.OFF;
 		}
     }
 	#endregion
