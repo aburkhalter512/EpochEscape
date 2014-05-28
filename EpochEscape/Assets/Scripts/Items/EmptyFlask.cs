@@ -99,7 +99,7 @@ public class EmptyFlask : Item
 
             //Debug.Log(mOrigin);
             //Debug.Log(mDestination);
-            Debug.Log((mDestination - mOrigin).magnitude);
+            //Debug.Log((mDestination - mOrigin).magnitude);
 		}
 	}
 

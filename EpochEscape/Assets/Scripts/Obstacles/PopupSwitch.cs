@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PopupSwitch : MonoBehaviour {
-	public List<string> instructions;
+	public List<string> instructions = new List<string>();
 	public bool active = true;
 	public bool delay = false;
 
