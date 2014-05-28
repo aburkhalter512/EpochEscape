@@ -68,7 +68,7 @@ public class InputManager : UnitySingleton<InputManager>
 
     void UpdateMouse()
     {
-        mMouseInScreen.Set(Input.mousePosition.x, Input.mousePosition.y, 0);
+        mMouseInScreen.Set(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z);
         mMouseInWorld = Camera.main.ScreenToWorldPoint(mMouseInScreen);
     }
 
