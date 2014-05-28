@@ -148,54 +148,6 @@ public class RotatingWall : DynamicWall
         }
         else
             transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
-
-
-        /*float realAngle = rotationAngles[currentIndex];
-
-        if (realAngle < 0)
-            realAngle = 360 + realAngle;
-
-        realAngle -= transform.rotation.eulerAngles.z - baseAngle;
-
-        if (realAngle > 180)
-            realAngle = -(360 - realAngle);
-        else if (realAngle < -180 && realAngle > -360)
-        {
-            realAngle = 360 + realAngle;
-        }*/
-
-
-        /*if (Utilities.isBounded(0.0f, relativeAngle, transform.eulerAngles.z - originalAngle))
-        {
-            Debug.Log(relativeAngle);
-            transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
-        }
-        else
-        {
-            float realAngle = (relativeAngle < 0 ? 360 + relativeAngle : relativeAngle) + baseAngle;
-            float toAngle = realAngle - transform.eulerAngles.z;
-
-            Debug.Log(toAngle);
-
-            transform.RotateAround(realRotationPt, Vector3.forward, toAngle);
-            currentRotationChange = 0.0f;
-        }*/
-
-        /*if (Utilities.isBounded(realAngle - currentRotationChange * Time.smoothDeltaTime,
-                      realAngle + currentRotationChange * Time.smoothDeltaTime,
-                      transform.rotation.eulerAngles.z - baseAngle))
-        {
-            transform.RotateAround(realRotationPt, Vector3.forward, transform.eulerAngles.z - realAngle);
-            //transform.eulerAngles = new Vector3(0.0f, 0.0f, baseAngle + rotationAngles[currentIndex]);
-            /*transform.RotateAround(realRotationPt, Vector3.forward,
-                (rotationAngles[currentIndex] - transform.rotation.eulerAngles.z - baseAngle) % 360);*/
-            /*currentRotationChange = 0.0f;
-        }
-        else if (!Mathf.Approximately(currentRotationChange, 0.0f))
-        {
-            transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
-        }*/
-
     }
 	#endregion
 
