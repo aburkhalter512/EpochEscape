@@ -229,7 +229,7 @@ public class GameManager : UnitySingleton<GameManager>
 
 				GUILayout.BeginHorizontal ();
 					GUILayout.Space (25);
-					GUILayout.Label ("No Tutorial", EpochSkin.label);
+					GUILayout.Label ("Tutorial On", EpochSkin.label);
 					Tutorial = GUILayout.Toggle (Tutorial, "", EpochSkin.toggle);
 				GUILayout.EndHorizontal ();
 			GUILayout.EndVertical ();
