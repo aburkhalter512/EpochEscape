@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
 	public int m_specItems;
 
 	public int MAX_CORES = 3;
+
+	private Vector3 m_previousMouseScreenPos;
 	#endregion
 
 	#region Instance Variables
@@ -89,6 +91,8 @@ public class Player : MonoBehaviour
 		inventory = new Inventory();
 		m_selectedSlot = 0;
 		transform.position = m_spawnLocation;
+
+		m_previousMouseScreenPos = Vector3.zero;
 	}
 
 	#region Initialization Methods
@@ -220,6 +224,14 @@ public class Player : MonoBehaviour
 			Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
 			Vector3 toMousePosition = mouseWorldPosition - transform.renderer.bounds.center;
 			toMousePosition.z = 0f;
+
+			if(Utilities.IsApproximately(mouseScreenPosition.x, m_previousMouseScreenPos.x) && 
+			   Utilities.IsApproximately(mouseScreenPosition.y, m_previousMouseScreenPos.y))
+			{
+				return;
+			}
+
+			m_previousMouseScreenPos = mouseScreenPosition;
 
 			CircleCollider2D playerCollider = GetComponent<CircleCollider2D>();
 
