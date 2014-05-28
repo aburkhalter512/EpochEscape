@@ -90,27 +90,17 @@ public class RotatingWall : DynamicWall
     {
         currentIndex = (currentIndex + 1) % rotationAngles.Length;
 
-        destinationAngle = rotationAngles[currentIndex] + baseAngle - transform.eulerAngles.z;
+        destinationAngle = rotationAngles[currentIndex] - transform.eulerAngles.z;
 
-        if (destinationAngle < -180)
-            destinationAngle += 360;
+        if (destinationAngle > 180)
+            destinationAngle = destinationAngle - 360;
+        else if (destinationAngle < -180)
+            destinationAngle = destinationAngle + 360;
+
+        /*if (destinationAngle < -180)
+            destinationAngle += 360;*/
 
         originalAngle = transform.eulerAngles.z;
-
-        /*relativeAngle = rotationAngles[currentIndex];
-        originalAngle = transform.eulerAngles.z;
-
-        if (relativeAngle < 0)
-            relativeAngle = 360 + relativeAngle;
-
-        relativeAngle -= transform.rotation.eulerAngles.z - baseAngle;
-
-        if (relativeAngle > 180)
-            relativeAngle = -(360 - relativeAngle);
-        else if (relativeAngle < -180 && relativeAngle > -360)
-        {
-            relativeAngle = 360 + relativeAngle;
-        }*/
 
         currentRotationChange = destinationAngle / changeTime;
 
@@ -146,20 +136,14 @@ public class RotatingWall : DynamicWall
 			Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
 		// --- //*/
 
-        Debug.Log(transform.eulerAngles.z);
-
         float realRotationChanged = currentRotationChange * Time.smoothDeltaTime;
-        float realDestination = destinationAngle > 0 ? destinationAngle : 360 + destinationAngle;
-        realDestination += originalAngle;
-
-        Debug.Log(realDestination);
 
         if (Utilities.isBounded(
-            realDestination - realRotationChanged,
-            realDestination + realRotationChanged,
+            rotationAngles[currentIndex] - realRotationChanged,
+            rotationAngles[currentIndex] + realRotationChanged,
             transform.eulerAngles.z))
         {
-           transform.RotateAround(realRotationPt, Vector3.forward, realDestination - transform.eulerAngles.z);
+           transform.RotateAround(realRotationPt, Vector3.forward, rotationAngles[currentIndex] - transform.eulerAngles.z);
             currentRotationChange = 0.0f;
         }
         else
