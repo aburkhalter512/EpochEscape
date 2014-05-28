@@ -109,8 +109,6 @@ public class CameraBehavior : MonoBehaviour
 
             transform.position = new Vector3(m_currentTarget.x, m_currentTarget.y, transform.position.z);
         }
-        else
-            Debug.Log("Player is null");
 	}
 
 	private void LerpToPlayer()
