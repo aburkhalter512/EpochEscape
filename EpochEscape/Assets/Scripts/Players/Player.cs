@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 	private bool m_isMovingRight;
 	private bool m_isAttacking;
 	private bool m_hasSpecialItem;
+	private bool m_isDrinking;
 	private float m_directionAngle;
 
 	public bool m_isDetected;
@@ -83,6 +84,7 @@ public class Player : MonoBehaviour
 		m_isMovingRight = false;
 		m_isAttacking = false;
 		m_hasSpecialItem = false;
+		m_isDrinking = false;
 
 		m_isDetected = false;
 		m_isHiding = false;
@@ -224,11 +226,13 @@ public class Player : MonoBehaviour
 			Vector3 toMousePosition = mouseWorldPosition - transform.renderer.bounds.center;
 			toMousePosition.z = 0f;
 
+			/*
 			if(Utilities.IsApproximately(mouseScreenPosition.x, m_previousMouseScreenPos.x) && 
 			   Utilities.IsApproximately(mouseScreenPosition.y, m_previousMouseScreenPos.y))
 			{
 				return;
 			}
+			*/
 
 			m_previousMouseScreenPos = mouseScreenPosition;
 
@@ -276,8 +280,13 @@ public class Player : MonoBehaviour
 		SelectSlot();
 
 		// 0th subscript indicates empty flask.
-		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null && m_selectedSlot == 1)
-			m_isAttacking = true;
+		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null)
+		{
+			if(m_selectedSlot == 0)
+				m_isDrinking = true;
+			else if(m_selectedSlot == 1)
+				m_isAttacking = true;
+		}
 
 		if (Input.GetButtonDown ("Fire2"))
 			SpecialAbility ();
@@ -303,6 +312,13 @@ public class Player : MonoBehaviour
 	public void FinishedAttacking()
 	{
 		m_isAttacking = false;
+
+		inventory.activateItem(m_selectedSlot);
+	}
+
+	public void FinishedDrinking()
+	{
+		m_isDrinking = false;
 
 		inventory.activateItem(m_selectedSlot);
 	}
@@ -379,6 +395,7 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("isMovingRight", m_isMovingRight);
 			m_animator.SetBool("isAttacking", m_isAttacking);
 			m_animator.SetBool("hasSpecialItem", m_hasSpecialItem);
+			m_animator.SetBool("isDrinking", m_isDrinking);
 		}
 	}
 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: df62c3113dc3a1e41aeb0056155b51f8
+guid: 54cbd87a2ff37aa4fa144a0af1ee16ef
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -45,7 +45,7 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: CaveGirlForwardWalk_0
+    - name: CaveGirlDrink_0
       rect:
         serializedVersion: 2
         x: 0
@@ -54,7 +54,7 @@ TextureImporter:
         height: 225
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlForwardWalk_1
+    - name: CaveGirlDrink_1
       rect:
         serializedVersion: 2
         x: 187
@@ -63,7 +63,7 @@ TextureImporter:
         height: 225
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlForwardWalk_2
+    - name: CaveGirlDrink_2
       rect:
         serializedVersion: 2
         x: 374
@@ -72,7 +72,7 @@ TextureImporter:
         height: 225
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlForwardWalk_3
+    - name: CaveGirlDrink_3
       rect:
         serializedVersion: 2
         x: 561
@@ -81,37 +81,10 @@ TextureImporter:
         height: 225
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlForwardWalk_4
+    - name: CaveGirlDrink_4
       rect:
         serializedVersion: 2
         x: 748
-        y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlForwardWalk_5
-      rect:
-        serializedVersion: 2
-        x: 935
-        y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlForwardWalk_6
-      rect:
-        serializedVersion: 2
-        x: 1122
-        y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlForwardWalk_7
-      rect:
-        serializedVersion: 2
-        x: 1309
         y: 0
         width: 187
         height: 225

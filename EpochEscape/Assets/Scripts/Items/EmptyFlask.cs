@@ -118,7 +118,8 @@ public class EmptyFlask : Item
             if (guardManager != null)
             {
                 guardManager.m_currentState = Guard.State.STUN;
-                Debug.Log("Stunned guard");
+                
+				//Debug.Log("Stunned guard");
             }
         }
 
