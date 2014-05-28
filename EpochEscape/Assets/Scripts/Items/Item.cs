@@ -21,13 +21,16 @@ public abstract class Item : MonoBehaviour {
 
 	public virtual void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.gameObject.tag == "Player" && other.GetComponent<Player>().inventory.canAdd(this) && !inInventory)
+		if(other.gameObject.tag == "Player")
 		{
-			Player player = other.GetComponent<Player>();
-			PickUp(player);
-			player.inventory.addItem(this);
-			inInventory = true;
-			gameObject.renderer.enabled = false;
+			if(other.GetComponent<Player>().inventory.canAdd(this) && !inInventory)
+			{
+				Player player = other.GetComponent<Player>();
+				PickUp(player);
+				player.inventory.addItem(this);
+				inInventory = true;
+				gameObject.renderer.enabled = false;
+			}
 		}
 	}
 }
