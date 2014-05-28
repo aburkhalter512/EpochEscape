@@ -36,7 +36,11 @@ public class GameManager : UnitySingleton<GameManager>
 	public bool popup = false;
 	public string message = "";
 	public bool ShowPauseMenu = false;
-	
+
+	#region Tutorial
+	public bool NoTut = false;
+	#endregion
+
 	#region FPS
 	public bool showFPS = false;
 	private float accum = 0f;
@@ -199,6 +203,11 @@ public class GameManager : UnitySingleton<GameManager>
 		GUILayout.Label ("Show FPS", EpochSkin.label);
 		showFPS = GUILayout.Toggle (showFPS, "", EpochSkin.toggle);
 		GUILayout.EndHorizontal ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.Space (25);
+		GUILayout.Label ("No Tutorial", EpochSkin.label);
+		NoTut = GUILayout.Toggle (NoTut, "", EpochSkin.toggle);
+		GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
 		GUILayout.EndArea ();
 		GUILayout.BeginArea (new Rect(Screen.width - 150f, Screen.height - 75f, 110, 50));
@@ -326,7 +335,7 @@ public class GameManager : UnitySingleton<GameManager>
 
 	#region Popups
 	public void ShowPopupMessage(){
-		if(popup){
+		if(popup && !NoTut){
 			PauseMovementTS();
 			if (Event.current.isKey && Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space) {
 				popup = false;

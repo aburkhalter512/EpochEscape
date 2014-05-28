@@ -120,6 +120,11 @@ public class MainMenu : MonoBehaviour {
 		GUILayout.Label ("Show FPS", EpochSkin.label);
 		G.getInstance().showFPS = GUILayout.Toggle (G.getInstance().showFPS, "", EpochSkin.toggle);
 		GUILayout.EndHorizontal ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.Space (25);
+		GUILayout.Label ("No Tutorial", EpochSkin.label);
+		G.getInstance().NoTut = GUILayout.Toggle (G.getInstance ().NoTut, "", EpochSkin.toggle);
+		GUILayout.EndHorizontal ();
 		GUILayout.Space (20);
 		if (GUILayout.Button ("Reset Game", EpochSkin.button)) {
 			currentPage = Page.ResetWarning;
