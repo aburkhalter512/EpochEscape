@@ -327,11 +327,14 @@ public class Player : MonoBehaviour
 	{
 		Vector3 movement = Vector3.zero;
 
-		if(m_isMovingForward) movement.y = mForce * mDynamicFriction;
-		if(m_isMovingDown) movement.y = -mForce * mDynamicFriction;
-		if(m_isMovingLeft) movement.x = -mForce * mDynamicFriction;
-		if(m_isMovingRight) movement.x = mForce * mDynamicFriction;
+		if(m_isMovingForward) movement.y = mDynamicFriction;
+		else if(m_isMovingDown) movement.y = -mDynamicFriction;
 
+		if(m_isMovingLeft) movement.x = -mDynamicFriction;
+		else if(m_isMovingRight) movement.x = mDynamicFriction;
+
+        movement.Normalize();
+        movement *= mForce;
 		transForces += movement * Time.smoothDeltaTime;
 		transForces -= Utilities.toVector3(velocity * mDynamicFriction);
 
