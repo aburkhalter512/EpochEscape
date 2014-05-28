@@ -39,17 +39,37 @@ public class SceneManager : UnitySingleton<SceneManager>
 
 		//Debug.Log (GameManager.getInstance ().m_currentCharacter);
 	}
+
+    public static void Win(string name)
+    {
+        GameObject go = new GameObject("SceneManager");
+        SceneManager instance = go.AddComponent<SceneManager>();
+        instance.StartCoroutine(instance.InnerWin(name));
+
+        //Debug.Log (GameManager.getInstance ().m_currentCharacter);
+    }
 	
-	IEnumerator InnerLoad(string name)
+	IEnumerator InnerWin(string name)
 	{
 		Object.DontDestroyOnLoad(this.gameObject);
-		FadeManager.StartAlphaFade (Color.black, false, 2f, 0f, ()=> {Application.LoadLevel("Loading");});
+		FadeManager.StartAlphaFade (Color.black, false, 2f, 0f, ()=> {Application.LoadLevel("Winning");});
 		
-		yield return new WaitForSeconds(2.5f);
+		yield return new WaitForSeconds(15.0f);
 		
 		FadeManager.StartAlphaFade (Color.black, false, 2f, 0f, ()=> {Application.LoadLevel (name);});
 		Destroy(this.gameObject);
 	}
+
+    IEnumerator InnerLoad(string name)
+    {
+        Object.DontDestroyOnLoad(this.gameObject);
+        FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { Application.LoadLevel("Loading"); });
+
+        yield return new WaitForSeconds(2.5f);
+
+        FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { Application.LoadLevel(name); });
+        Destroy(this.gameObject);
+    }
 
 	#region Update Methods
 	#endregion

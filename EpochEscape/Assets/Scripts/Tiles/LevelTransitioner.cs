@@ -5,6 +5,8 @@ public class LevelTransitioner : MonoBehaviour
 {
 	#region Inspector Variables
     public string Level = "";
+
+    public bool isWinning = false;
 	#endregion
 
 	#region Instance Variables
@@ -38,7 +40,10 @@ public class LevelTransitioner : MonoBehaviour
 			}
 			else
 				GameManager.getInstance().currentLevel++;
-	        SceneManager.Load(Level);
+            if (isWinning)
+                SceneManager.Load(Level);
+            else
+                SceneManager.Win(Level);
 			SaveManager.Save ();
 
 		}
