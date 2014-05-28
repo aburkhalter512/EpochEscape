@@ -46,7 +46,7 @@ public class Inventory{
 		//if inventory slot is not empty
 		if(inventory[slot] != null){
 			//if using a red potion, drop an empty flask
-			if(slot == 1){
+			if(inventory[slot].gameObject.tag == "Red Potion"){
 				Player player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
 				emptyFlask = GameObject.Instantiate (emptyFlask, player.transform.position, Quaternion.identity) as GameObject;
 			}
