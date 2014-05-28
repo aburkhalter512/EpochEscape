@@ -276,7 +276,7 @@ public class Player : MonoBehaviour
 		SelectSlot();
 
 		// 0th subscript indicates empty flask.
-		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null)
+		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null && m_selectedSlot == 1)
 			m_isAttacking = true;
 
 		if (Input.GetButtonDown ("Fire2"))

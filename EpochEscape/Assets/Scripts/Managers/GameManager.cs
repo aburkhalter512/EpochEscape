@@ -374,7 +374,7 @@ public class GameManager : UnitySingleton<GameManager>
 				PopupButtonText = "OK";
 			PauseMovementTS();
 			#region Key Presses
-			if (Event.current.isKey && Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space) {
+			if (Event.current.type == EventType.KeyUp && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space)) {
 				if(PopupPage + 1 == messages.Count){
 					popup = false;
 					//messages.Clear();
