@@ -9,6 +9,9 @@ public class DetectionArea : MonoBehaviour
 	private GameObject m_parent;
 	private SpriteRenderer m_parentRenderer;
 
+	public static Color BLUE = new Color(0.33f, 0.5f, 0.78f, 0.33f);
+	public static Color RED = new Color(1f, 0f, 0.12f, 0.45f);
+
 	public enum ColorStatus
 	{
 		NORMAL,
@@ -26,6 +29,9 @@ public class DetectionArea : MonoBehaviour
 		{
 			m_parent = transform.parent.gameObject;
 			m_parentRenderer = GetComponent<SpriteRenderer>();
+
+			if(m_parentRenderer != null)
+				m_parentRenderer.color = BLUE;
 		}
     }
 
@@ -62,9 +68,9 @@ public class DetectionArea : MonoBehaviour
 			if(currentRenderer != null)
 			{
 				if(colorStatus == ColorStatus.NORMAL)
-					currentRenderer.color = Color.white;
+					currentRenderer.color = BLUE;
 				else
-					currentRenderer.color = Color.red;
+					currentRenderer.color = RED;
 			}
 		}
 	}
@@ -112,7 +118,7 @@ public class DetectionArea : MonoBehaviour
 
 	public void OnTriggerExit2D(Collider2D other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.tag == "Player")
 		{
 			if(m_player != null)
 			{

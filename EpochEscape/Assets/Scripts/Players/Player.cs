@@ -110,7 +110,6 @@ public class Player : MonoBehaviour
 		}
 		else
 		{
-            Debug.Log("Game is paused");
 			m_isMoving = false;
 			m_isMovingForward = false;
 			m_isMovingDown = false;
