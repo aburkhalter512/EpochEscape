@@ -71,10 +71,10 @@ public class PressureSwitch : PressurePlate
 
     protected void OnTriggerEnter2D(Collider2D collidee)
     {
-        base.OnTriggerEnter2D(collidee);
-
-		if(collidee.tag == "Player")
+		if(collidee.tag == "Player" && currentState != STATE.OFF)
 		{
+			base.OnTriggerEnter2D(collidee);
+
             currentState = STATE.OFF;
 		}
     }
