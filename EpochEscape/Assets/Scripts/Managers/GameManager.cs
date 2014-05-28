@@ -12,8 +12,8 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Game variables
 	#region Levels
 	public int currentLevel = 0;
-	//public bool tutorial = false;
 	#endregion
+
 	#region Characters
 	public int m_currentCharacter = 0;
 	public bool caveUnlocked = true;
@@ -23,6 +23,7 @@ public class GameManager : UnitySingleton<GameManager>
 	public bool mumUnlocked = false;
 	public bool robUnlocked = false;
 	#endregion
+
 	#region Game Items
 	public const int MAX_MEMO = 5;
 	public int ninjaMemo = 0;
@@ -31,16 +32,21 @@ public class GameManager : UnitySingleton<GameManager>
 	public int robMemo = 0;
 	#endregion
 	#endregion
+
+	#region Popup Menus
+	public bool popup = false;
+	public List<string> messages = new List<string>();
+	private int PopupPage = 0;
+	private string PopupButtonText;
+	#endregion
 	
 	#region Pause Menu
 	public bool paused = false;
-	public bool popup = false;
-	public List<string> messages = new List<string>();
-	private int pageNum = 0;
+
 	public bool ShowPauseMenu = false;
 
 	#region Tutorial
-	public bool NoTut = false;
+	public bool Tutorial = true;
 	#endregion
 
 	#region FPS
@@ -112,32 +118,34 @@ public class GameManager : UnitySingleton<GameManager>
 	
 	void showPauseMenu(){
 		GUILayout.BeginArea (new Rect(Screen.width/2f - 175, Screen.height/2f - 200, 400, 400));
-		GUILayout.BeginVertical ();
-		if(GUILayout.Button ("Continue", EpochSkin.button))
-			UnpauseGame ();
-		GUILayout.Space (10);
-		if (GUILayout.Button ("Main Menu", EpochSkin.button)) {
-			S.Save();
-			Application.LoadLevel ("MainMenu");
-			UnpauseGame();
-		}
-		GUILayout.Space (10);
-		if(GUILayout.Button ("Save Game", EpochSkin.button))
-			S.Save ();
-		GUILayout.Space (10);
-		if(GUILayout.Button ("Options", EpochSkin.button))
-			currentPage = Page.Options;
-		GUILayout.Space (10);
-		if(GUILayout.Button ("Restart Level", EpochSkin.button)){
-			UnpauseGame();
-			SceneManager.Load(Application.loadedLevelName);
-		}
-		GUILayout.Space (10);
-		if(GUILayout.Button ("Quit Game", EpochSkin.button)){
-			S.Save();
-			Application.Quit ();
-		}
-		GUILayout.EndVertical ();
+			#region Pause Menu Options
+			GUILayout.BeginVertical ();
+				if (GUILayout.Button ("Continue", EpochSkin.button))
+						UnpauseGame ();
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Main Menu", EpochSkin.button)) {
+						S.Save ();
+						Application.LoadLevel ("MainMenu");
+						UnpauseGame ();
+				}
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Save Game", EpochSkin.button))
+						S.Save ();
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Options", EpochSkin.button))
+						currentPage = Page.Options;
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Restart Level", EpochSkin.button)) {
+						UnpauseGame ();
+						SceneManager.Load (Application.loadedLevelName);
+				}
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Quit Game", EpochSkin.button)) {
+						S.Save ();
+						Application.Quit ();
+				}
+			GUILayout.EndVertical ();
+			#endregion
 		GUILayout.EndArea ();
 	}
 	
@@ -154,64 +162,80 @@ public class GameManager : UnitySingleton<GameManager>
 			ShowBackButton();
 		}
 	}
-	public void UnpauseGame(){
-		paused = false;
-		Time.timeScale = 1f;
+	#region Pause Methods
+	public void UnpauseGame ()
+	{
+			paused = false;
+			Time.timeScale = 1f;
 	}
 
-	public void PauseGame(){
-		paused = true;
-		Time.timeScale = 0f;
-		ShowPauseMenu = true;
+	public void PauseGame ()
+	{
+			paused = true;
+			Time.timeScale = 0f;
+			ShowPauseMenu = true;
 	}
 
-	public void PauseMovement(){
-		paused = true;
-		ShowPauseMenu = false;
+	public void PauseMovement ()
+	{
+			paused = true;
+			ShowPauseMenu = false;
 	}
 
-	public void UnpauseMovement(){
-		paused = false;
+	public void UnpauseMovement ()
+	{
+			paused = false;
 	}
 
-	public void PauseMovementTS(){
-		paused = true;
-		ShowPauseMenu = false;
-		Time.timeScale = 0f;
+	public void PauseMovementTS ()
+	{
+			paused = true;
+			ShowPauseMenu = false;
+			Time.timeScale = 0f;
 	}
 
-	public void UnpauseMovementTS(){
-		paused = false;
-		Time.timeScale = 1f;
+	public void UnpauseMovementTS ()
+	{
+			paused = false;
+			Time.timeScale = 1f;
 	}
+	#endregion
 
 	#region Options
 	void ShowOptions(){
 		GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height/2 - 200, 700, 400));
-		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (300);
-		GUILayout.Label ("Volume", EpochSkin.label);
-		GUILayout.EndHorizontal ();
-		VolumeControl ();
-		GUILayout.Space (25);
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (210);
-		GUILayout.Label ("Graphics Quality", EpochSkin.label);
-		GUILayout.EndHorizontal ();
-		GraphicControl ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (25);
-		GUILayout.Label ("Show FPS", EpochSkin.label);
-		showFPS = GUILayout.Toggle (showFPS, "", EpochSkin.toggle);
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (25);
-		GUILayout.Label ("No Tutorial", EpochSkin.label);
-		NoTut = GUILayout.Toggle (NoTut, "", EpochSkin.toggle);
-		GUILayout.EndHorizontal ();
-		GUILayout.EndVertical ();
+			#region Options Menu
+			GUILayout.BeginVertical ();
+				GUILayout.BeginHorizontal ();
+					GUILayout.Space (290);
+					GUILayout.Label ("Volume", EpochSkin.label);
+				GUILayout.EndHorizontal ();
+
+				VolumeControl ();
+				GUILayout.Space (25);
+
+				GUILayout.BeginHorizontal ();
+					GUILayout.Space (210);
+					GUILayout.Label ("Graphics Quality", EpochSkin.label);
+				GUILayout.EndHorizontal ();
+
+				GraphicControl ();
+
+				GUILayout.BeginHorizontal ();
+					GUILayout.Space (25);
+					GUILayout.Label ("Show FPS", EpochSkin.label);
+					showFPS = GUILayout.Toggle (showFPS, "", EpochSkin.toggle);
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+					GUILayout.Space (25);
+					GUILayout.Label ("No Tutorial", EpochSkin.label);
+					Tutorial = GUILayout.Toggle (Tutorial, "", EpochSkin.toggle);
+				GUILayout.EndHorizontal ();
+			GUILayout.EndVertical ();
+			#endregion 
 		GUILayout.EndArea ();
+
 		GUILayout.BeginArea (new Rect(Screen.width - 150f, Screen.height - 75f, 110, 50));
 		if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
 			SaveOptions ();
@@ -222,54 +246,58 @@ public class GameManager : UnitySingleton<GameManager>
 	
 	private void VolumeControl(){
 		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("Off", EpochSkin.textArea);
-		AudioListener.volume = GUILayout.HorizontalSlider (AudioListener.volume, 0f, 1f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-		GUILayout.Label ("Max", EpochSkin.textArea);
+			GUILayout.Label ("Off", EpochSkin.textArea);
+			AudioListener.volume = GUILayout.HorizontalSlider (AudioListener.volume, 0f, 1f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
+			GUILayout.Label ("Max", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
+
 		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter);
-		GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
-		GUILayout.EndHorizontal ();
+			GUILayout.BeginHorizontal ();
+				GUILayout.Space (270);
+				GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
+			GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
 	}
 	
 	private void GraphicControl(){	
 		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("Fastest", EpochSkin.textArea);
-		graphicsQuality = (int)GUILayout.HorizontalSlider ((float)graphicsQuality, 1.0f, 6.0f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-		GUILayout.Label ("Fantastic", EpochSkin.textArea);
+			GUILayout.Label ("Fastest", EpochSkin.textArea);
+			graphicsQuality = (int)GUILayout.HorizontalSlider ((float)graphicsQuality, 1.0f, 6.0f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
+			GUILayout.Label ("Fantastic", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
+
 		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (optionsCenter);
-		switch (graphicsQuality) {
-		case 1:
-			QualitySettings.SetQualityLevel (1);
-			GUILayout.Label("Fastest", EpochSkin.textArea);
-			break;
-		case 2:
-			QualitySettings.SetQualityLevel (2);
-			GUILayout.Label("Fast", EpochSkin.textArea);
-			break;
-		case 3:
-			QualitySettings.SetQualityLevel (3);
-			GUILayout.Label("Simple", EpochSkin.textArea);
-			break;
-		case 4:
-			QualitySettings.SetQualityLevel (4);
-			GUILayout.Label("Good", EpochSkin.textArea);
-			break;
-		case 5:
-			QualitySettings.SetQualityLevel (5);
-			GUILayout.Label("Beautiful", EpochSkin.textArea);
-			break;
-		case 6:
-			QualitySettings.SetQualityLevel (6);
-			GUILayout.Label("Fantastic", EpochSkin.textArea);
-			break;
-		}
-		GUILayout.EndHorizontal ();
+			#region Quality Labels
+			GUILayout.BeginHorizontal ();
+				GUILayout.Space (270);
+				switch (graphicsQuality) {
+				case 1:
+						QualitySettings.SetQualityLevel (1);
+						GUILayout.Label ("Fastest", EpochSkin.textArea);
+						break;
+				case 2:
+						QualitySettings.SetQualityLevel (2);
+						GUILayout.Label ("Fast", EpochSkin.textArea);
+						break;
+				case 3:
+						QualitySettings.SetQualityLevel (3);
+						GUILayout.Label ("Simple", EpochSkin.textArea);
+						break;
+				case 4:
+						QualitySettings.SetQualityLevel (4);
+						GUILayout.Label ("Good", EpochSkin.textArea);
+						break;
+				case 5:
+						QualitySettings.SetQualityLevel (5);
+						GUILayout.Label ("Beautiful", EpochSkin.textArea);
+						break;
+				case 6:
+						QualitySettings.SetQualityLevel (6);
+						GUILayout.Label ("Fantastic", EpochSkin.textArea);
+						break;
+				}
+			GUILayout.EndHorizontal ();
+			#endregion
 		GUILayout.EndVertical ();
 	}
 	#region FPS
@@ -317,11 +345,13 @@ public class GameManager : UnitySingleton<GameManager>
 			}
 		}
 	}
+
 	public void SaveOptions(){
 		PlayerPrefs.SetFloat ("Volume", AudioListener.volume);
 		PlayerPrefs.SetInt ("Graphics", graphicsQuality);
 		PlayerPrefs.SetInt ("FPS", showFPS == true ? 1 : 0);
 	}
+
 	private void LoadOptions(){
 		graphicsQuality = PlayerPrefs.GetInt ("Graphics");
 		if(!PlayerPrefs.HasKey ("Graphics"))
@@ -337,43 +367,45 @@ public class GameManager : UnitySingleton<GameManager>
 
 	#region Popups
 	public void ShowPopupMessage(){
-		if(popup && !NoTut){
-			string buttonMessage;
-			if(pageNum + 1 < messages.Count)
-				buttonMessage = "Next";
+		if(popup && Tutorial){
+			if(PopupPage + 1 < messages.Count)
+				PopupButtonText = "Next";
 			else
-				buttonMessage = "OK";
+				PopupButtonText = "OK";
 			PauseMovementTS();
+			#region Key Presses
 			if (Event.current.isKey && Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space) {
-				if(pageNum + 1 == messages.Count){
+				if(PopupPage + 1 == messages.Count){
 					popup = false;
 					//messages.Clear();
-					pageNum = 0;
+					PopupPage = 0;
 					UnpauseMovementTS();
 				}
 				else{
-					pageNum++;
+					PopupPage++;
 				}
 			}
+			#endregion
 			GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height * .6f, 700, 150));
-			GUILayout.Box (messages[pageNum], EpochSkin.GetStyle ("Message"));
-			GUILayout.BeginArea (new Rect(600, 100, 300, 100));
-			GUILayout.BeginHorizontal ();
-			GUILayout.BeginVertical ();
-			if(GUILayout.Button (buttonMessage, EpochSkin.GetStyle ("Popup Button"))){
-				if(pageNum + 1 == messages.Count){
-					popup = false;
-					//messages.Clear();
-					pageNum = 0;
-					UnpauseMovementTS();
-				}
-				else{
-					pageNum++;
-				}
-			}
-			GUILayout.EndHorizontal ();
-			GUILayout.EndVertical ();
-			GUILayout.EndArea ();
+				GUILayout.Box (messages[PopupPage], EpochSkin.GetStyle ("Message"));
+			#region Button 
+				GUILayout.BeginArea (new Rect(600, 100, 300, 100));
+					GUILayout.BeginHorizontal ();
+						GUILayout.BeginVertical ();
+						if(GUILayout.Button (PopupButtonText, EpochSkin.GetStyle ("Popup Button"))){
+							if(PopupPage + 1 == messages.Count){
+								popup = false;
+								PopupPage = 0;
+								UnpauseMovementTS();
+							}
+							else{
+								PopupPage++;
+							}
+						}
+						GUILayout.EndHorizontal ();
+					GUILayout.EndVertical ();
+				GUILayout.EndArea ();
+			#endregion
 			GUILayout.EndArea ();
 		}
 	}

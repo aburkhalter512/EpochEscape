@@ -11,7 +11,6 @@ public class MainMenu : MonoBehaviour {
 	public GUISkin EpochSkin = null;
 	#endregion
 	#region Options
-	private float optionsCenter = 275;
 	private string name = "";
 	#endregion
 	#region Character Select
@@ -78,24 +77,26 @@ public class MainMenu : MonoBehaviour {
 	#region Main Menu
 	void ShowMain () {
 		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height * .35f, 400f, 500));
-		if (GUILayout.Button ("Load Game", EpochSkin.button))
-			currentPage = Page.LoadSelect;
-		GUILayout.Space (10);
-		if(GUILayout.Button ("New Game", EpochSkin.button)){
-			characterNum = 0;
-			currentPage = Page.Character;
-		}
-		GUILayout.Space (10);
-		if(GUILayout.Button ("Options", EpochSkin.button))
-			currentPage = Page.Options;
-		GUILayout.Space (10);
-		if(GUILayout.Button ("Credits", EpochSkin.button))
-			currentPage = Page.Credits;
-		GUILayout.Space (10);
-		if(GUILayout.Button ("Quit Game", EpochSkin.button)){
-			S.Save();
-			Application.Quit ();
-		}
+			#region Main Menu Buttons
+			if (GUILayout.Button ("Load Game", EpochSkin.button))
+					currentPage = Page.LoadSelect;
+			GUILayout.Space (10);
+			if (GUILayout.Button ("New Game", EpochSkin.button)) {
+					characterNum = 0;
+					currentPage = Page.Character;
+			}
+			GUILayout.Space (10);
+			if (GUILayout.Button ("Options", EpochSkin.button))
+					currentPage = Page.Options;
+			GUILayout.Space (10);
+			if (GUILayout.Button ("Credits", EpochSkin.button))
+					currentPage = Page.Credits;
+			GUILayout.Space (10);
+			if (GUILayout.Button ("Quit Game", EpochSkin.button)) {
+					S.Save ();
+					Application.Quit ();
+			}
+			#endregion
 		GUILayout.EndArea ();
 	}
 	#endregion
@@ -103,116 +104,132 @@ public class MainMenu : MonoBehaviour {
 	#region Options
 	void ShowOptions(){
 		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 350, Screen.height * .25f, 650, 410));
-		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (250);
-		GUILayout.Label ("Volume", EpochSkin.label);
-		GUILayout.EndHorizontal ();
-		VolumeControl ();
-		GUILayout.Space (25);
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (180);
-		GUILayout.Label ("Graphics Quality", EpochSkin.label);
-		GUILayout.EndHorizontal ();
-		GraphicControl ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (25);
-		GUILayout.Label ("Show FPS", EpochSkin.label);
-		G.getInstance().showFPS = GUILayout.Toggle (G.getInstance().showFPS, "", EpochSkin.toggle);
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (25);
-		GUILayout.Label ("No Tutorial", EpochSkin.label);
-		G.getInstance().NoTut = GUILayout.Toggle (G.getInstance ().NoTut, "", EpochSkin.toggle);
-		GUILayout.EndHorizontal ();
-		if (GUILayout.Button ("Reset Game", EpochSkin.button)) {
-			currentPage = Page.ResetWarning;
-		}
-		GUILayout.EndVertical ();
+			#region Options List
+			GUILayout.BeginVertical ();
+				GUILayout.BeginHorizontal ();
+					GUILayout.Space (270);
+					GUILayout.Label ("Volume", EpochSkin.label);
+				GUILayout.EndHorizontal ();
+
+			VolumeControl ();
+			GUILayout.Space (25);
+
+			GUILayout.BeginHorizontal ();
+				GUILayout.Space (180);
+				GUILayout.Label ("Graphics Quality", EpochSkin.label);
+			GUILayout.EndHorizontal ();
+
+			GraphicControl ();
+
+			GUILayout.BeginHorizontal ();
+				GUILayout.Space (25);
+				GUILayout.Label ("Show FPS", EpochSkin.label);
+				G.getInstance().showFPS = GUILayout.Toggle (G.getInstance().showFPS, "", EpochSkin.toggle);
+			GUILayout.EndHorizontal ();
+
+			GUILayout.BeginHorizontal ();
+				GUILayout.Space (25);
+				GUILayout.Label ("No Tutorial", EpochSkin.label);
+				G.getInstance().Tutorial = GUILayout.Toggle (G.getInstance ().Tutorial, "", EpochSkin.toggle);
+			GUILayout.EndHorizontal ();
+
+			if (GUILayout.Button ("Reset Game", EpochSkin.button)) {
+				currentPage = Page.ResetWarning;
+			}
+			GUILayout.EndVertical ();
+			#endregion
+
 		GUILayout.EndArea ();
+
 		GUILayout.BeginArea (new Rect(Screen.width - 150f, Screen.height - 75, 110, 50));
-		if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
-			G.getInstance().SaveOptions ();
-			currentPage = Page.Main;
-		}
+			if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
+				G.getInstance().SaveOptions ();
+				currentPage = Page.Main;
+			}
 		GUILayout.EndArea ();
 	}
 
 	private void ResetWarning(){
 		GUILayout.BeginArea (new Rect(Screen.width /1.5f - 250, Screen.height * .35f, 500, 500));
-		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (80);
-		GUILayout.Label ("Reset All Of Your Progress?", EpochSkin.textArea);
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (130);
-		GUILayout.Label ("This Will Delete All Saves, And Unlocks", EpochSkin.textArea);
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		if(GUILayout.Button ("Yes", EpochSkin.button)){
-			S.ResetGame ();
-			currentPage = Page.Options;
-		}
-		GUILayout.Space (10);
-		if(GUILayout.Button ("No", EpochSkin.button)){
-			currentPage = Page.Options;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.EndVertical ();
+			GUILayout.BeginVertical ();
+				GUILayout.BeginHorizontal ();
+					GUILayout.Space (80);
+					GUILayout.Label ("Reset All Of Your Progress?", EpochSkin.textArea);
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+					GUILayout.Space (130);
+					GUILayout.Label ("This Will Delete All Saves, And Unlocks", EpochSkin.textArea);
+				GUILayout.EndHorizontal ();
+
+				GUILayout.BeginHorizontal ();
+					if(GUILayout.Button ("Yes", EpochSkin.button)){
+						S.ResetGame ();
+						currentPage = Page.Options;
+					}
+					GUILayout.Space (10);
+					if(GUILayout.Button ("No", EpochSkin.button)){
+						currentPage = Page.Options;
+					}
+				GUILayout.EndHorizontal ();
+
+			GUILayout.EndVertical ();
 		GUILayout.EndArea ();
 	}
 
 	private void VolumeControl(){
 		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("Off", EpochSkin.textArea);
-		AudioListener.volume = GUILayout.HorizontalSlider (AudioListener.volume, 0f, 1f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-		GUILayout.Label ("Max", EpochSkin.textArea);
+			GUILayout.Label ("Off", EpochSkin.textArea);
+			AudioListener.volume = GUILayout.HorizontalSlider (AudioListener.volume, 0f, 1f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
+			GUILayout.Label ("Max", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
+
 		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (250);
-		GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
-		GUILayout.EndHorizontal ();
+			GUILayout.BeginHorizontal ();
+				GUILayout.Space (250);
+				GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
+			GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
 	}
 
 	private void GraphicControl(){
 		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("Fastest", EpochSkin.textArea);
-		G.getInstance().graphicsQuality = (int)GUILayout.HorizontalSlider ((float)G.getInstance().graphicsQuality, 1.0f, 6.0f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-		GUILayout.Label ("Fantastic", EpochSkin.textArea);
+			GUILayout.Label ("Fastest", EpochSkin.textArea);
+			G.getInstance().graphicsQuality = (int)GUILayout.HorizontalSlider ((float)G.getInstance().graphicsQuality, 1.0f, 6.0f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
+			GUILayout.Label ("Fantastic", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
 		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Space (250);
-		switch (G.getInstance().graphicsQuality) {
-		case 1:
-			QualitySettings.SetQualityLevel (1);
-			GUILayout.Label("Fastest", EpochSkin.textArea);
-			break;
-		case 2:
-			QualitySettings.SetQualityLevel (2);
-			GUILayout.Label("Fast", EpochSkin.textArea);
-			break;
-		case 3:
-			QualitySettings.SetQualityLevel (3);
-			GUILayout.Label("Simple", EpochSkin.textArea);
-			break;
-		case 4:
-			QualitySettings.SetQualityLevel (4);
-			GUILayout.Label("Good", EpochSkin.textArea);
-			break;
-		case 5:
-			QualitySettings.SetQualityLevel (5);
-			GUILayout.Label("Beautiful", EpochSkin.textArea);
-			break;
-		case 6:
-			QualitySettings.SetQualityLevel (6);
-			GUILayout.Label("Fantastic", EpochSkin.textArea);
-			break;
-		}
-		GUILayout.EndHorizontal ();
+					#region Quality Labels
+					GUILayout.BeginHorizontal ();
+					GUILayout.Space (250);
+					switch (G.getInstance ().graphicsQuality) {
+					case 1:
+							QualitySettings.SetQualityLevel (1);
+							GUILayout.Label ("Fastest", EpochSkin.textArea);
+							break;
+					case 2:
+							QualitySettings.SetQualityLevel (2);
+							GUILayout.Label ("Fast", EpochSkin.textArea);
+							break;
+					case 3:
+							QualitySettings.SetQualityLevel (3);
+							GUILayout.Label ("Simple", EpochSkin.textArea);
+							break;
+					case 4:
+							QualitySettings.SetQualityLevel (4);
+							GUILayout.Label ("Good", EpochSkin.textArea);
+							break;
+					case 5:
+							QualitySettings.SetQualityLevel (5);
+							GUILayout.Label ("Beautiful", EpochSkin.textArea);
+							break;
+					case 6:
+							QualitySettings.SetQualityLevel (6);
+							GUILayout.Label ("Fantastic", EpochSkin.textArea);
+							break;
+					}
+					GUILayout.EndHorizontal ();
+					#endregion
 		GUILayout.EndVertical ();
 	}
 	#endregion
@@ -220,35 +237,36 @@ public class MainMenu : MonoBehaviour {
 	#region Character Selection
 	void SelectMenu(){
 		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250, Screen.height * .22f, 500, 500));
-		GUILayout.BeginVertical ();
-		GUILayout.Label ("Choose Your Character", EpochSkin.GetStyle ("Title"));
-		GUILayout.Label (CharacterName(), EpochSkin.label);
-		if (GUILayout.Button ("", EpochSkin.GetStyle ("SelectUp"))) {
-			increaseSelect();
-		}
-		GUILayout.Space (5);
-		GUILayout.Label (charTex[characterNum], EpochSkin.GetStyle ("imageSelect"));
-		GUILayout.Space (5);
-		if(GUILayout.Button("", EpochSkin.GetStyle ("SelectDown"))){
-			decreaseSelect();
-		}
-		GUILayout.EndVertical ();
-		EndPage ();
-		GUILayout.BeginArea (new Rect(Screen.width - 270, Screen.height - 75 , 110, 100));
-		if (GUILayout.Button ("Select", EpochSkin.GetStyle ("Small Button"))) {
-			if(CharIsUnlocked ()){
-				if(fromLoad){
-					prevPage = Page.Character;
-					currentPage = Page.SaveName;
+			GUILayout.BeginVertical ();
+				GUILayout.Label ("Choose Your Character", EpochSkin.GetStyle ("Title"));
+				GUILayout.Label (CharacterName(), EpochSkin.label);
+				if (GUILayout.Button ("", EpochSkin.GetStyle ("SelectUp"))) {
+					increaseSelect();
 				}
-				else{
-					prevPage = Page.Character;
-					currentPage = Page.SaveSelect;
+				GUILayout.Space (5);
+				GUILayout.Label (charTex[characterNum], EpochSkin.GetStyle ("imageSelect"));
+				GUILayout.Space (5);
+				if(GUILayout.Button("", EpochSkin.GetStyle ("SelectDown"))){
+					decreaseSelect();
 				}
+			GUILayout.EndVertical ();
 
-				G.getInstance().m_currentCharacter = characterNum;
+		EndPage ();
+
+		GUILayout.BeginArea (new Rect(Screen.width - 270, Screen.height - 75 , 110, 100));
+			if (GUILayout.Button ("Select", EpochSkin.GetStyle ("Small Button"))) {
+				if(CharIsUnlocked ()){
+					if(fromLoad){
+						prevPage = Page.Character;
+						currentPage = Page.SaveName;
+					}
+					else{
+						prevPage = Page.Character;
+						currentPage = Page.SaveSelect;
+					}
+					G.getInstance().m_currentCharacter = characterNum;
+				}
 			}
-		}
 		GUILayout.EndArea ();
 
 	}	
@@ -351,118 +369,126 @@ public class MainMenu : MonoBehaviour {
 	#region Load Selection
 	void ShowLoad(){
 		GUILayout.BeginArea (new Rect (Screen.width/1.5f - 275, Screen.height * .35f, 525, 500));
-		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
-		GUILayout.EndHorizontal ();
-		GUILayout.BeginHorizontal ();
-		if (GUILayout.Button (S.save1, EpochSkin.button)) {
-			S.ChooseSave (0);
-			if(S.SaveTaken()){
-				S.LoadGame ();
-				SceneManager.Load (GenerateLevelName());
+			GUILayout.BeginVertical ();
+				GUILayout.BeginHorizontal ();
+					GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
+				GUILayout.EndHorizontal ();
+
+				#region buttons
+				GUILayout.BeginHorizontal ();
+				if (GUILayout.Button (S.save1, EpochSkin.button)) {
+					S.ChooseSave (0);
+					if(S.SaveTaken()){
+						S.LoadGame ();
+						SceneManager.Load (GenerateLevelName());
+					}
+					else
+						currentPage = Page.LoadWarning;
+				}
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+					S.ChooseSave (0);
+					if(S.SaveTaken ())
+						currentPage = Page.DeleteWarning;
+				}
+				GUILayout.EndHorizontal ();
+				GUILayout.Space (10);
+				GUILayout.BeginHorizontal ();
+				if (GUILayout.Button (S.save2, EpochSkin.button)) {
+					S.ChooseSave (1);
+					if(S.SaveTaken()){
+						S.LoadGame ();
+						SceneManager.Load (GenerateLevelName());
+					}
+					else
+						currentPage = Page.LoadWarning;
+				}
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+					S.ChooseSave (1);
+					if(S.SaveTaken())
+						currentPage = Page.DeleteWarning;
+				}
+				GUILayout.EndHorizontal ();
+				GUILayout.Space (10);
+				GUILayout.BeginHorizontal ();
+				if (GUILayout.Button (S.save3, EpochSkin.button)) {
+					S.ChooseSave (2);
+					if(S.SaveTaken()){
+						S.LoadGame();
+						SceneManager.Load (GenerateLevelName());
+					}
+					else
+						currentPage = Page.LoadWarning;
+				}
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+					S.ChooseSave (2);
+					if(S.SaveTaken ())
+						currentPage = Page.DeleteWarning;
+				}
+			GUILayout.EndHorizontal ();
+			GUILayout.Space (10);
+			GUILayout.BeginHorizontal ();
+			if (GUILayout.Button (S.save4, EpochSkin.button)) {
+				S.ChooseSave (3);
+				if(S.SaveTaken()){
+					S.LoadGame();
+					SceneManager.Load (GenerateLevelName());
+				}
+				else
+					currentPage = Page.LoadWarning;
 			}
-			else
-				currentPage = Page.LoadWarning;
-		}
-		GUILayout.Space (10);
-		if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
-			S.ChooseSave (0);
-			if(S.SaveTaken ())
-				currentPage = Page.DeleteWarning;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.Space (10);
-		GUILayout.BeginHorizontal ();
-		if (GUILayout.Button (S.save2, EpochSkin.button)) {
-			S.ChooseSave (1);
-			if(S.SaveTaken()){
-				S.LoadGame ();
-				SceneManager.Load (GenerateLevelName());
+			GUILayout.Space (10);
+			if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+				S.ChooseSave (3);
+				if(S.SaveTaken ())
+					currentPage = Page.DeleteWarning;
 			}
-			else
-				currentPage = Page.LoadWarning;
-		}
-		GUILayout.Space (10);
-		if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
-			S.ChooseSave (1);
-			if(S.SaveTaken())
-				currentPage = Page.DeleteWarning;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.Space (10);
-		GUILayout.BeginHorizontal ();
-		if (GUILayout.Button (S.save3, EpochSkin.button)) {
-			S.ChooseSave (2);
-			if(S.SaveTaken()){
-				S.LoadGame();
-				SceneManager.Load (GenerateLevelName());
-			}
-			else
-				currentPage = Page.LoadWarning;
-		}
-		GUILayout.Space (10);
-		if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
-			S.ChooseSave (2);
-			if(S.SaveTaken ())
-				currentPage = Page.DeleteWarning;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.Space (10);
-		GUILayout.BeginHorizontal ();
-		if (GUILayout.Button (S.save4, EpochSkin.button)) {
-			S.ChooseSave (3);
-			if(S.SaveTaken()){
-				S.LoadGame();
-				SceneManager.Load (GenerateLevelName());
-			}
-			else
-				currentPage = Page.LoadWarning;
-		}
-		GUILayout.Space (10);
-		if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
-			S.ChooseSave (3);
-			if(S.SaveTaken ())
-				currentPage = Page.DeleteWarning;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.EndVertical ();
+			
+			GUILayout.EndHorizontal ();
+			#endregion
+			GUILayout.EndVertical ();
 		EndPage ();
 	}
 
 	void DeleteWarning(){
 		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250, Screen.height * .35f, 500, 500));
-		GUILayout.BeginVertical ();
-		GUILayout.Label ("Really Delete?", EpochSkin.label);
-		GUILayout.BeginHorizontal ();
-		if(GUILayout.Button ("Yes", EpochSkin.button)){
-			S.DeleteSave ();
-			currentPage = Page.LoadSelect;
-		}
-		GUILayout.Space (10);
-		if(GUILayout.Button ("No", EpochSkin.button)){
-			currentPage = Page.LoadSelect;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.EndVertical ();
+			GUILayout.BeginVertical ();
+				GUILayout.Label ("Really Delete?", EpochSkin.label);
+					#region Buttons
+					GUILayout.BeginHorizontal ();
+					if (GUILayout.Button ("Yes", EpochSkin.button)) {
+							S.DeleteSave ();
+							currentPage = Page.LoadSelect;
+					}
+					GUILayout.Space (10);
+					if (GUILayout.Button ("No", EpochSkin.button)) {
+							currentPage = Page.LoadSelect;
+					}
+					GUILayout.EndHorizontal ();
+					#endregion
+			GUILayout.EndVertical ();
 		GUILayout.EndArea ();
 	}
 
 	void ShowLoadWarning(){
 		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250, Screen.height * .35f, 500, 500));
-		GUILayout.BeginVertical ();
-		GUILayout.Label ("No Save File Found! Start Save?", EpochSkin.label);
-		GUILayout.BeginHorizontal ();
-		if(GUILayout.Button ("Yes", EpochSkin.button)){
-			fromLoad = true;
-			currentPage = Page.Character;
-		}
-		GUILayout.Space (10);
-		if(GUILayout.Button ("No", EpochSkin.button)){
-			currentPage = Page.LoadSelect;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.EndVertical ();
+			GUILayout.BeginVertical ();
+				GUILayout.Label ("No Save File Found! Start Save?", EpochSkin.label);
+					#region Buttons
+					GUILayout.BeginHorizontal ();
+					if (GUILayout.Button ("Yes", EpochSkin.button)) {
+							fromLoad = true;
+							currentPage = Page.Character;
+					}
+					GUILayout.Space (10);
+					if (GUILayout.Button ("No", EpochSkin.button)) {
+							currentPage = Page.LoadSelect;
+					}
+					GUILayout.EndHorizontal ();
+					#endregion
+			GUILayout.EndVertical ();
 		GUILayout.EndArea ();
 	}
 	#endregion
@@ -471,79 +497,82 @@ public class MainMenu : MonoBehaviour {
 	void ShowSaveSelect(){
 		prevPage = Page.Character;
 		GUILayout.BeginArea (new Rect (Screen.width/1.5f - 200, Screen.height * .35f, 400, 500));
-		GUILayout.BeginVertical ();
-		GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
-		if (GUILayout.Button (S.save1, EpochSkin.button)) {
-			S.ChooseSave (0);
-			if(S.SaveTaken ()){
-				currentPage = Page.SaveWarning;
+			#region buttons
+			GUILayout.BeginVertical ();
+			GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
+			if (GUILayout.Button (S.save1, EpochSkin.button)) {
+				S.ChooseSave (0);
+				if(S.SaveTaken ()){
+					currentPage = Page.SaveWarning;
+				}
+				else{
+					prevPage = Page.SaveSelect;
+					currentPage = Page.SaveName;
+				}
 			}
-			else{
-				prevPage = Page.SaveSelect;
-				currentPage = Page.SaveName;
+			GUILayout.Space (10);
+			if (GUILayout.Button (S.save2, EpochSkin.button)) {
+				S.ChooseSave (1);
+				if(S.SaveTaken ()){
+					currentPage = Page.SaveWarning;
+				}
+				else{
+					prevPage = Page.SaveSelect;
+					currentPage = Page.SaveName;
+				}
 			}
-		}
-		GUILayout.Space (10);
-		if (GUILayout.Button (S.save2, EpochSkin.button)) {
-			S.ChooseSave (1);
-			if(S.SaveTaken ()){
-				currentPage = Page.SaveWarning;
+			GUILayout.Space (10);
+			if (GUILayout.Button (S.save3, EpochSkin.button)) {
+				S.ChooseSave (2);
+				if(S.SaveTaken ()){
+					currentPage = Page.SaveWarning;
+				}
+				else{
+					prevPage = Page.SaveSelect;
+					currentPage = Page.SaveName;
+				}
 			}
-			else{
-				prevPage = Page.SaveSelect;
-				currentPage = Page.SaveName;
+			GUILayout.Space (10);
+			if (GUILayout.Button (S.save4, EpochSkin.button)) {
+				S.ChooseSave (3);
+				if(S.SaveTaken ()){
+					currentPage = Page.SaveWarning;
+				}
+				else{
+					prevPage = Page.Character;
+					currentPage = Page.SaveName;
+				}
 			}
-		}
-		GUILayout.Space (10);
-		if (GUILayout.Button (S.save3, EpochSkin.button)) {
-			S.ChooseSave (2);
-			if(S.SaveTaken ()){
-				currentPage = Page.SaveWarning;
-			}
-			else{
-				prevPage = Page.SaveSelect;
-				currentPage = Page.SaveName;
-			}
-		}
-		GUILayout.Space (10);
-		if (GUILayout.Button (S.save4, EpochSkin.button)) {
-			S.ChooseSave (3);
-			if(S.SaveTaken ()){
-				currentPage = Page.SaveWarning;
-			}
-			else{
-				prevPage = Page.Character;
-				currentPage = Page.SaveName;
-			}
-		}
 
-		GUILayout.EndVertical ();
+			GUILayout.EndVertical ();
+			#endregion
 		EndPage ();
 		ShowBackButton ();
 	}
 
 	void ShowSaveWarning (){
 		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250f, Screen.height * .35f, 500, 500));
-		GUILayout.BeginVertical ();
-		GUILayout.Label ("Save File Exists! Overwrite?", EpochSkin.label);
-		GUILayout.BeginHorizontal ();
-		if(GUILayout.Button ("Yes", EpochSkin.button)){
-			S.ResetOnNew ();
-			prevPage = Page.SaveSelect;
-			currentPage = Page.SaveName;
-		}
-		GUILayout.Space (10);
-		if(GUILayout.Button ("No", EpochSkin.button)){
-			currentPage = Page.SaveSelect;
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.EndVertical ();
+			GUILayout.BeginVertical ();
+				GUILayout.Label ("Save File Exists! Overwrite?", EpochSkin.label);
+				GUILayout.BeginHorizontal ();
+					if(GUILayout.Button ("Yes", EpochSkin.button)){
+						S.ResetOnNew ();
+						prevPage = Page.SaveSelect;
+						currentPage = Page.SaveName;
+					}
+					GUILayout.Space (10);
+					if(GUILayout.Button ("No", EpochSkin.button)){
+						currentPage = Page.SaveSelect;
+					}
+				GUILayout.EndHorizontal ();
+			GUILayout.EndVertical ();
 		GUILayout.EndArea ();
 	}
 	#endregion
 
 	#region Save Name Page
 	void ShowTypeName(){
+		#region Key presses
 		if (Event.current.isKey && Event.current.keyCode == KeyCode.Return) {
 			if (name != "")
 				S.SetSaveName (name);
@@ -554,52 +583,32 @@ public class MainMenu : MonoBehaviour {
 		} 
 		else if (Event.current.isKey && Event.current.keyCode == KeyCode.Escape)
 			currentPage = Page.Main;
+		#endregion
 		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 240, Screen.height * .45f, 485, 150));
-		GUILayout.BeginVertical ();
-		GUILayout.BeginHorizontal ();
-		GUILayout.Label ("Enter A Name For Your Save", EpochSkin.label);
-		GUILayout.EndHorizontal ();
-		GUI.SetNextControlName ("SaveName");
-		name = GUILayout.TextField (name.Replace ("\n", "").Replace ("\r", ""), 20, EpochSkin.textField);
-		GUI.FocusControl ("SaveName");
-		GUILayout.Space (10);
-		GUILayout.BeginHorizontal ();
-		GUILayout.FlexibleSpace ();
-		if (GUILayout.Button ("Enter", EpochSkin.GetStyle ("Small Button"))) {
-			if(name != "")
-				S.SetSaveName (name);
-			else
-				S.SetSaveName (" ");
-			S.ResetOnNew();
-			SceneManager.Load(GenerateLevelName ());
-		}
-		GUILayout.EndHorizontal ();
-		GUILayout.EndVertical ();
+			GUILayout.BeginVertical ();
+				GUILayout.BeginHorizontal ();
+				GUILayout.Label ("Enter A Name For Your Save", EpochSkin.label);
+				GUILayout.EndHorizontal ();
+				GUI.SetNextControlName ("SaveName");
+				name = GUILayout.TextField (name.Replace ("\n", "").Replace ("\r", ""), 20, EpochSkin.textField);
+				GUI.FocusControl ("SaveName");
+				GUILayout.Space (10);
+				GUILayout.BeginHorizontal ();
+					GUILayout.FlexibleSpace ();
+					if (GUILayout.Button ("Enter", EpochSkin.GetStyle ("Small Button"))) {
+						if(name != "")
+							S.SetSaveName (name);
+						else
+							S.SetSaveName (" ");
+						S.ResetOnNew();
+						SceneManager.Load(GenerateLevelName ());
+					}
+				GUILayout.EndHorizontal ();
+			GUILayout.EndVertical ();
 		EndPage ();
 		ShowBackButton ();
 	}
 	#endregion
-
-//	#region Tutorial
-//	void AskTutorial(){
-//		GUILayout.BeginArea (new Rect(Screen.width / 2.5f, Screen.height * .45f, 500, 500));
-//		GUILayout.BeginVertical ();
-//		GUILayout.Label ("Start with Tutorial?", EpochSkin.label);
-//		GUILayout.BeginHorizontal ();
-//		if(GUILayout.Button ("Yes", EpochSkin.button)){
-//			G.getInstance ().tutorial = true;
-//			SceneManager.Load(GenerateLevelName ());
-//		}
-//		GUILayout.Space (10);
-//		if(GUILayout.Button ("No", EpochSkin.button)){
-//			SceneManager.Load (GenerateLevelName ());
-//		}
-//		GUILayout.EndHorizontal ();
-//		GUILayout.EndVertical ();
-//		GUILayout.EndArea ();
-//	}
-//	#endregion
-
 
 	#region default Buttons
 	void ShowBackButton(){
@@ -610,7 +619,7 @@ public class MainMenu : MonoBehaviour {
 		}
 		GUILayout.EndArea ();
 	}
-	
+
 	void ShowHomeButton(){
 		GUILayout.BeginArea (new Rect(Screen.width - 150, Screen.height - 75 , 110, 50));
 		if(GUILayout.Button ("Home", EpochSkin.GetStyle("Small Button"))){
@@ -624,9 +633,6 @@ public class MainMenu : MonoBehaviour {
 	#region Generate Level Name
 	private string GenerateLevelName(){
 		string levelName = "Level";
-//		if (G.getInstance().tutorial)
-//			levelName = "TutorialLevel" + G.getInstance ().currentLevel.ToString ();
-//		else
 		if(G.getInstance ().currentLevel > MAX_LEVELS)
 			G.getInstance ().currentLevel = 1;
 		levelName += G.getInstance ().currentLevel.ToString ();
