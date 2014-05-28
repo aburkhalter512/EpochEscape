@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 	public Vector3 m_spawnLocation;
 
 	public Inventory inventory;
-	private int m_selectedSlot; // only private because not yet necessary
+	public int m_selectedSlot;
 	public int m_specItems;
 
 	public int MAX_CORES = 3;
