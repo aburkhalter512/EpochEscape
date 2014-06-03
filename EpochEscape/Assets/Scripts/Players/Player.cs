@@ -283,9 +283,17 @@ public class Player : MonoBehaviour
 		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null)
 		{
 			if(m_selectedSlot == 0)
+			{
 				m_isDrinking = true;
+
+				inventory.activateItem(m_selectedSlot);
+			}
 			else if(m_selectedSlot == 1)
+			{
 				m_isAttacking = true;
+
+				inventory.activateItem(m_selectedSlot);
+			}
 		}
 
 		if (Input.GetButtonDown ("Fire2"))
@@ -320,7 +328,7 @@ public class Player : MonoBehaviour
 	{
 		m_isDrinking = false;
 
-		inventory.activateItem(m_selectedSlot);
+		//inventory.activateItem(m_selectedSlot);
 	}
 
 	private void UpdateMovement()
