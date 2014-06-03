@@ -8,6 +8,9 @@ public class EmptyFlask : Item
 	public float throwTime = 0.75f;
     public float initialSpeed = 2f;
 	public Vector3 endScale = new Vector3(0.75f, 0.75f, 0.75f);
+
+	public AudioSource m_flaskSmash;
+	public AudioSource m_flaskStrike;
     #endregion
 
     #region Private Variables
@@ -42,6 +45,9 @@ public class EmptyFlask : Item
             {
                 if (Time.realtimeSinceStartup - startTime > throwTime)
                 {
+					if(!m_isBroken)
+						PlaySmashSound();
+
                     m_isBroken = true;
                     thrown = false;
                 }
@@ -109,6 +115,9 @@ public class EmptyFlask : Item
 		
         if (other.gameObject.tag == "Guard" && gameObject.tag == "ItemThrown")
         {
+			if(!m_isBroken && m_flaskStrike != null)
+				AudioSource.PlayClipAtPoint(m_flaskStrike.clip, transform.position);
+
 			m_isBroken = true;
 			thrown = false;
 
@@ -117,15 +126,14 @@ public class EmptyFlask : Item
                 other.gameObject.GetComponent<StationaryGuard>();
 
             if (guardManager != null)
-            {
                 guardManager.m_currentState = Guard.State.STUN;
-                
-				//Debug.Log("Stunned guard");
-            }
         }
 
 		if(other.gameObject.tag == "Wall" && gameObject.tag == "ItemThrown")
 		{
+			if(!m_isBroken)
+				PlaySmashSound();
+
 			m_isBroken = true;
 			thrown = false;
 		}
@@ -138,6 +146,12 @@ public class EmptyFlask : Item
 			m_animator.SetBool("isThrown", thrown);
 			m_animator.SetBool("isBroken", m_isBroken);
 		}
+	}
+
+	private void PlaySmashSound()
+	{
+		if(m_flaskSmash != null)
+			AudioSource.PlayClipAtPoint(m_flaskSmash.clip, transform.position);
 	}
 
 	public void Destroy()
