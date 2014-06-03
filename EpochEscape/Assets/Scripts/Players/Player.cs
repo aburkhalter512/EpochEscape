@@ -289,11 +289,7 @@ public class Player : MonoBehaviour
 				inventory.activateItem(m_selectedSlot);
 			}
 			else if(m_selectedSlot == 1)
-			{
 				m_isAttacking = true;
-
-				inventory.activateItem(m_selectedSlot);
-			}
 		}
 
 		if (Input.GetButtonDown ("Fire2"))
