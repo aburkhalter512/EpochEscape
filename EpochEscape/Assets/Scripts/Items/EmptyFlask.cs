@@ -75,6 +75,7 @@ public class EmptyFlask : Item
 
 		if(player != null)
 		{
+			ActivateSound.Play ();
 			GameObject flaskThrowPosition = GameObject.FindGameObjectWithTag("FlaskThrowPosition");
 
 			transform.position = player.transform.position;

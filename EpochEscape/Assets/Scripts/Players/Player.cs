@@ -431,6 +431,11 @@ public class Player : MonoBehaviour
 			currentCores++;
 	}
 
+	public int CurrentCores
+	{
+		get { return currentCores; }
+	}
+
 	public bool isPowerCoreComplete()
 	{
 		return currentCores == MAX_CORES;
