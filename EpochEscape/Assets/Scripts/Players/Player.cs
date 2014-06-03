@@ -19,6 +19,11 @@ public class Player : MonoBehaviour
 	private bool m_isDrinking;
 	private float m_directionAngle;
 
+	public AudioClip[] grateFoot;
+	public AudioClip[] solidFoot;
+	public int m_floorType; // 0 = solid, 1 = grate
+	private int m_footCounter;
+
 	public bool m_isDetected;
 	public bool m_isHiding;
 	public bool m_isWithinEarshot;
@@ -77,6 +82,7 @@ public class Player : MonoBehaviour
 
 		m_animator = GetComponent<Animator>();
 
+		m_floorType = 0;
 		m_isMoving = false;
 		m_isMovingForward = false;
 		m_isMovingDown = false;
@@ -341,13 +347,6 @@ public class Player : MonoBehaviour
         movement *= mForce;
 		transForces += movement * Time.smoothDeltaTime;
 		transForces -= Utilities.toVector3(velocity * mDynamicFriction);
-
-		if ((Input.GetButtonDown ("Horizontal") || Input.GetButtonDown ("Vertical")) && !audio.isPlaying) {
-			audio.loop = true;
-			audio.Play ();
-		}
-		else if (!Input.GetButton ("Horizontal") && !Input.GetButton ("Vertical") && audio.isPlaying)
-			audio.loop = false;
 	}
 	#endregion
 
@@ -456,6 +455,27 @@ public class Player : MonoBehaviour
 	{
 		return m_isAttacking || m_isDrinking || m_isMoving;
 	}
+
+	#region sound control	
+	public void PlayFootstep() {
+		switch (m_floorType) {
+			case 0:
+				audio.clip = solidFoot[m_footCounter];
+				break;
+			case 1:
+				audio.clip = grateFoot[m_footCounter];
+				break;
+		}
+		audio.Play ();
+		UpdateFootCounter ();
+	}
+
+	private void UpdateFootCounter(){
+		m_footCounter++;
+		if (m_footCounter >= 6)
+			m_footCounter = 0;
+	}
+	#endregion
 
 	#region Static Methods
 	#endregion
