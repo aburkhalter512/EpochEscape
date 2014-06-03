@@ -33,6 +33,7 @@ public class PressurePlate : Tile
     {
         if (collidee.tag == "Player")
         {
+			audio.Play ();
             foreach (GameObject actuator in actuators)
             {
                 if (actuator != null)

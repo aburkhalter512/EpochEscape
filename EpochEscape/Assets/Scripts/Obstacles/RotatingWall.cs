@@ -88,6 +88,7 @@ public class RotatingWall : DynamicWall
 
     protected override void toChange()
     {
+		audio.Play ();
         currentIndex = (currentIndex + 1) % rotationAngles.Length;
 
         destinationAngle = rotationAngles[currentIndex] - transform.eulerAngles.z;
@@ -108,7 +109,7 @@ public class RotatingWall : DynamicWall
 
         Debug.Log(destinationAngle);
 
-        currentState = STATES.CHANGE;
+		currentState = STATES.CHANGE;
     }
 
     protected override void change()
@@ -127,7 +128,7 @@ public class RotatingWall : DynamicWall
 
             return;
         }
-
+			
 		// ---
 		// Cheap fix. Should be a state from within CameraBehavior.cs.
 		Transform parent = transform.parent;
