@@ -11,7 +11,6 @@ public class RedPotion : Item {
 	public void Start()
 	{
 		gameObject.tag = "Red Potion";
-
 		//m_animator = GetComponent<Animator>();
 	}
 

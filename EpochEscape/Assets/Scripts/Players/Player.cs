@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
 	public float m_detectionFade = 1.5f;
 	public float m_detectionMax = 0f;
 	public float m_detectionThres = 15f;
+	public float Boost = 1f;
+	public float BoostTime = 0f;
 
 	public PlayerState m_currentState;
 	public Vector3 m_spawnLocation;
@@ -384,6 +386,8 @@ public class Player : MonoBehaviour
 
 	protected void ApplyForces()
 	{
+		if(Time.deltaTime - BoostTime > 2f)
+			Boost = 1f;
 		velocity += transForces;
 		transForces = Vector3.zero;
 

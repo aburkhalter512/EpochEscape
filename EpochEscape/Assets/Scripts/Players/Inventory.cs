@@ -3,10 +3,11 @@ using System.Collections;
 
 public class Inventory{
 	#region member variables
-	public const int UNIQUE_ITEMS = 2; //only item currently is potion
+	public const int UNIQUE_ITEMS = 3; //only item currently is potion
 	public const int MAX_STACK = 10;
 	public const int POTION_SLOT = 0;
 	public const int FLASK_SLOT = 1;
+	public const int DASH_SLOT = 2;
 
 	public Item[] inventory = new Item[UNIQUE_ITEMS];
 	public int[] inventoryCount = new int[UNIQUE_ITEMS];
@@ -34,6 +35,15 @@ public class Inventory{
 				}			
 				inventoryCount[FLASK_SLOT]++;
 				break;
+		case "DashPotion":
+			if(inventory[DASH_SLOT] == null){
+				inventory[DASH_SLOT] = i;
+			}
+			else{
+				inventory[DASH_SLOT].Add(i);
+			}
+			inventoryCount[DASH_SLOT]++;
+			break;
 		}
 	}
 
