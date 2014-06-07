@@ -8,6 +8,7 @@ public class Inventory{
 	public const int POTION_SLOT = 0;
 	public const int FLASK_SLOT = 1;
 	public const int DASH_SLOT = 2;
+	public const int SPECIAL_SLOT = 3;
 
 	public Item[] inventory = new Item[UNIQUE_ITEMS];
 	public int[] inventoryCount = new int[UNIQUE_ITEMS];
@@ -35,15 +36,24 @@ public class Inventory{
 				}			
 				inventoryCount[FLASK_SLOT]++;
 				break;
-		case "DashPotion":
-			if(inventory[DASH_SLOT] == null){
-				inventory[DASH_SLOT] = i;
-			}
-			else{
-				inventory[DASH_SLOT].Add(i);
-			}
-			inventoryCount[DASH_SLOT]++;
-			break;
+			case "Dash Potion":
+				if(inventory[DASH_SLOT] == null){
+					inventory[DASH_SLOT] = i;
+				}
+				else{
+					inventory[DASH_SLOT].Add(i);
+				}
+				inventoryCount[DASH_SLOT]++;
+				break;
+			case "Special Item":
+				if(inventory[SPECIAL_SLOT] == null){
+					inventory[SPECIAL_SLOT] = i;
+				}
+				else{
+					inventory[SPECIAL_SLOT].Add(i);
+				}
+				inventoryCount[SPECIAL_SLOT]++;
+				break;
 		}
 	}
 

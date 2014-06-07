@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 	private bool m_isMovingDown;
 	private bool m_isMovingLeft;
 	private bool m_isMovingRight;
+	private bool m_isThrowing;
 	private bool m_isAttacking;
 	private bool m_hasSpecialItem;
 	private bool m_isDrinking;
@@ -90,7 +91,7 @@ public class Player : MonoBehaviour
 		m_isMovingDown = false;
 		m_isMovingLeft = false;
 		m_isMovingRight = false;
-		m_isAttacking = false;
+		m_isThrowing = false;
 		m_hasSpecialItem = false;
 		m_isDrinking = false;
 
@@ -269,7 +270,7 @@ public class Player : MonoBehaviour
 		m_isMovingLeft = false;
 		m_isMovingRight = false;
 
-		if(m_isAttacking || m_isDrinking) return;
+		if(m_isThrowing || m_isDrinking) return;
 
 		if(Input.GetKey(KeyCode.W)) m_isMovingForward = true;
 		if(Input.GetKey(KeyCode.S)) m_isMovingDown = true;
@@ -297,11 +298,11 @@ public class Player : MonoBehaviour
 				inventory.activateItem(m_selectedSlot);
 			}
 			else if(m_selectedSlot == 1)
-				m_isAttacking = true;
+				m_isThrowing = true;
 		}
-
-		if (Input.GetButtonDown ("Fire2"))
-			SpecialAbility ();
+		if (Input.GetButtonDown ("Fire2") && inventory.inventory[Inventory.SPECIAL_SLOT] != null){
+			m_isAttacking = true;
+		}
 
 		if(Input.GetAxisRaw ("Mouse ScrollWheel") > 0)
 			ScrollSlotIncrement ();
@@ -321,9 +322,9 @@ public class Player : MonoBehaviour
 			m_selectedSlot = UNIQUE_ITEM_SLOTS;
 	}
 
-	public void FinishedAttacking()
+	public void FinishedThrowing()
 	{
-		m_isAttacking = false;
+		m_isThrowing = false;
 
 		inventory.activateItem(m_selectedSlot);
 	}
@@ -333,6 +334,13 @@ public class Player : MonoBehaviour
 		m_isDrinking = false;
 
 		//inventory.activateItem(m_selectedSlot);
+	}
+
+	public void FinishedAttacking()
+	{
+		m_isAttacking = false;
+		
+		inventory.activateItem(m_selectedSlot);
 	}
 
 	private void UpdateMovement()
@@ -403,7 +411,7 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("isMovingBackward", m_isMovingDown);
 			m_animator.SetBool("isMovingLeft", m_isMovingLeft);
 			m_animator.SetBool("isMovingRight", m_isMovingRight);
-			m_animator.SetBool("isAttacking", m_isAttacking);
+			m_animator.SetBool("isAttacking", m_isThrowing);
 			m_animator.SetBool("hasSpecialItem", m_hasSpecialItem);
 			m_animator.SetBool("isDrinking", m_isDrinking);
 			m_animator.SetBool("isHiding", m_isHiding);
@@ -445,19 +453,9 @@ public class Player : MonoBehaviour
 	}
 	#endregion
 
-	public void SpecialAbility(){
-		if (m_isAttacking) {
-			Special = true;
-			//play animation
-		}
-		else{
-			Special = false;
-		}
-	}
-
 	public bool IsActive()
 	{
-		return m_isAttacking || m_isDrinking || m_isMoving;
+		return m_isThrowing || m_isDrinking || m_isMoving;
 	}
 
 	#region sound control	

@@ -15,7 +15,13 @@ public class GameManager : UnitySingleton<GameManager>
 	#endregion
 
 	#region Characters
-	public int m_currentCharacter = 0;
+	public int m_currentCharacter;
+	public const int CAVEGIRL = 0;
+	public const int KNIGHT = 1;
+	public const int NINJA = 2;
+	public const int ASTRONAUT = 3;
+	public const int MUMMY = 4;
+	public const int ROBOT = 5;
 	public bool caveUnlocked = true;
 	public bool knightUnlocked = true;
 	public bool ninjaUnlocked = false;
