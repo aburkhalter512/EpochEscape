@@ -117,7 +117,11 @@ public class DetectionArea : MonoBehaviour
 					}
 				}
 				else
+				{
 					m_player.m_isDetected = false;
+
+					ChangeColor(ColorStatus.NORMAL);
+				}
 			}
 		}
 	}

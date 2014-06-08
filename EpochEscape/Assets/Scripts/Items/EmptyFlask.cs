@@ -18,8 +18,8 @@ public class EmptyFlask : Item
 
     #region Private Variables
     private Animator m_animator;
-    private bool thrown = false;
-	private bool m_isBroken;
+    public bool thrown = false;
+	public bool m_isBroken;
 
     Vector3 mOrigin;
     Vector3 mDestination;
@@ -151,6 +151,11 @@ public class EmptyFlask : Item
 
 	public void Destroy()
 	{
-		Destroy(gameObject);
+		Transform parent = transform.parent;
+		
+		if(parent != null)
+			Destroy(parent.gameObject);
+		else
+			Destroy(gameObject);
 	}
 }

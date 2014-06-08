@@ -419,7 +419,7 @@ public class Player : MonoBehaviour
 		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
 
 		if(renderer != null)
-			renderer.color = new Color(1f, 1f, 1f, (m_isHiding ? 0.4f : 1f));
+			renderer.color = new Color(1f, 1f, 1f, (m_isHiding ? 0.6f : 1f));
 	}
 
 	private void SelectSlot()

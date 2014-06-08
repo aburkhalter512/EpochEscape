@@ -12,6 +12,7 @@ public class CameraBehavior : MonoBehaviour
 	private float m_initialCameraSize;
 
 	private GameObject m_player;
+	private float m_mapWidth;
 	private float m_mapHeight;
 	private GameObject m_star;
 
@@ -22,6 +23,8 @@ public class CameraBehavior : MonoBehaviour
 	public bool m_displayCowbell = false;
 	private GameObject m_cowbell = null;
 
+	private Dimension m_largestDimension;
+
 	public enum State
 	{
 		DISPLAY_MAP,
@@ -29,6 +32,12 @@ public class CameraBehavior : MonoBehaviour
 		LERP_TO_PLAYER,
 		LERP_TO_TARGET,
 		LERP_REST
+	};
+
+	public enum Dimension
+	{
+		WIDTH,
+		HEIGHT
 	};
 	
 	public State m_currentState = State.FOLLOW_PLAYER;
@@ -43,7 +52,7 @@ public class CameraBehavior : MonoBehaviour
 
 		m_lerpTargets = new Stack<GameObject>();
 
-		CalculateMapHeight();
+		CalculateLargestDimension();
 		CreateStar();
 		CreateCowbell();
 	}
@@ -169,8 +178,9 @@ public class CameraBehavior : MonoBehaviour
 		}
 	}
 
-	private void CalculateMapHeight()
+	private void CalculateLargestDimension()
 	{
+		m_mapWidth = 0f;
 		m_mapHeight = 0f;
 
 		if(m_floor == null) return;
@@ -178,7 +188,15 @@ public class CameraBehavior : MonoBehaviour
 		SpriteRenderer mapRenderer = m_floor.GetComponent<SpriteRenderer>();
 
 		if(mapRenderer != null)
+		{
+			m_mapWidth = mapRenderer.bounds.size.x;
 			m_mapHeight = mapRenderer.bounds.size.y;
+
+			if(m_mapWidth > m_mapHeight)
+				m_largestDimension = Dimension.WIDTH;
+			else
+				m_largestDimension = Dimension.HEIGHT;
+		}
 	}
 
 	private void CreateStar()
@@ -259,7 +277,18 @@ public class CameraBehavior : MonoBehaviour
 
 	private void LerpCameraSize()
 	{
-		float targetCameraSize = m_currentState == State.DISPLAY_MAP ? m_mapHeight / 2 : m_initialCameraSize;
+		float aspectRatio = (float)Screen.width / Screen.height;
+		float targetCameraSize = 0f;
+
+		if(m_currentState == State.DISPLAY_MAP)
+		{
+			if(m_largestDimension == Dimension.WIDTH)
+				targetCameraSize = (m_mapWidth / aspectRatio) / 2f;
+			else
+				targetCameraSize = m_mapHeight / 2f;
+		}
+		else
+			targetCameraSize = m_initialCameraSize;
 
 		camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, targetCameraSize, 2 * LERP_SPEED * Time.deltaTime);
 	}
