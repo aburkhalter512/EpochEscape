@@ -42,6 +42,7 @@ public class SlidingWall : DynamicWall
 
     protected override void toChange()
     {
+		audio.Play ();
         currentIndex = (currentIndex + 1) % positionPts.Length;
 
         positionDelta = positionPts[currentIndex] + basePosition - transform.position;
