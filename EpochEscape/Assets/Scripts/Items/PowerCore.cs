@@ -10,6 +10,8 @@ public class PowerCore : MonoBehaviour
 	#endregion
 
 	#region Instance Variables
+	private bool m_isCollected = false;
+	private Animator m_animator;
 	#endregion
 
 	#region Class Constants
@@ -17,8 +19,9 @@ public class PowerCore : MonoBehaviour
 
 	//Put all initialization code here
 	//Remember to comment!
-	protected void Start()
+	public void Start()
 	{
+		m_animator = GetComponent<Animator>();
 	}
 
 	#region Initialization Methods
@@ -26,15 +29,26 @@ public class PowerCore : MonoBehaviour
 
 	//Put all update code here
 	//Remember to comment!
-	protected void Update()
+	public void Update()
 	{
+		UpdateAnimator();
+	}
+
+	private void UpdateAnimator()
+	{
+		if(m_animator != null)
+		{
+			m_animator.SetBool("isCollected", m_isCollected);
+		}
 	}
 
 	#region Update Methods
     protected void OnTriggerEnter2D(Collider2D collidee)
     {
-        if (collidee.tag == "Player")
+        if (collidee.tag == "Player" && !m_isCollected)
         {
+			m_isCollected = true;
+
 			GameObject player = GameObject.FindWithTag("Player");
 
 			if(player != null)
@@ -66,10 +80,13 @@ public class PowerCore : MonoBehaviour
 						AudioSource.PlayClipAtPoint(soundToPlay.clip, player.transform.position);
 				}
 			}
-
-            Destroy(gameObject);
         }
     }
+
+	public void Destroy()
+	{
+		Destroy(gameObject);
+	}
 	#endregion
 
 	#region Static Methods

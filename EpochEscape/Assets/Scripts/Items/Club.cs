@@ -15,6 +15,7 @@ public class Club : Item {
 
 	public override void PickUp(Player player)
 	{
+		PickUpSound.Play ();
 		player.m_hasSpecialItem = true;
 	}
 
