@@ -8,6 +8,14 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Skin
 	public GUISkin EpochSkin = null;
 	#endregion
+
+	#region Audio
+	public AudioSource ClickSound;
+	public AudioSource PopUp;
+	public AudioSource PopUpExit;
+	public AudioSource BackSound;
+	public bool playPopUpSound = true;
+	#endregion
 	
 	#region Game variables
 	#region Levels
@@ -126,29 +134,38 @@ public class GameManager : UnitySingleton<GameManager>
 		GUILayout.BeginArea (new Rect(Screen.width/2f - 175, Screen.height/2f - 200, 400, 400));
 			#region Pause Menu Options
 			GUILayout.BeginVertical ();
-				if (GUILayout.Button ("Continue", EpochSkin.button))
-						UnpauseGame ();
-				GUILayout.Space (10);
-				if (GUILayout.Button ("Main Menu", EpochSkin.button)) {
-						S.Save ();
-						Application.LoadLevel ("MainMenu");
-						UnpauseGame ();
+				if (GUILayout.Button ("Continue", EpochSkin.button)){
+					ClickSound.Play ();
+					UnpauseGame ();					
 				}
 				GUILayout.Space (10);
-				if (GUILayout.Button ("Save Game", EpochSkin.button))
-						S.Save ();
+				if (GUILayout.Button ("Main Menu", EpochSkin.button)) {
+					ClickSound.Play ();
+					S.Save ();
+					Application.LoadLevel ("MainMenu");
+					UnpauseGame ();
+				}
 				GUILayout.Space (10);
-				if (GUILayout.Button ("Options", EpochSkin.button))
-						currentPage = Page.Options;
+				if (GUILayout.Button ("Save Game", EpochSkin.button)){
+					ClickSound.Play ();
+					S.Save ();
+				}
+				GUILayout.Space (10);
+				if (GUILayout.Button ("Options", EpochSkin.button)){
+					ClickSound.Play ();
+					currentPage = Page.Options;
+				}
 				GUILayout.Space (10);
 				if (GUILayout.Button ("Restart Level", EpochSkin.button)) {
-						UnpauseGame ();
-						SceneManager.Load (Application.loadedLevelName);
+					ClickSound.Play ();
+					UnpauseGame ();
+					SceneManager.Load (Application.loadedLevelName);
 				}
 				GUILayout.Space (10);
 				if (GUILayout.Button ("Quit Game", EpochSkin.button)) {
-						S.Save ();
-						Application.Quit ();
+					ClickSound.Play ();
+					S.Save ();
+					Application.Quit ();
 				}
 			GUILayout.EndVertical ();
 			#endregion
@@ -157,8 +174,10 @@ public class GameManager : UnitySingleton<GameManager>
 	
 	void ShowBackButton(){
 		GUILayout.BeginArea (new Rect(Screen.width - 150, Screen.height - 75 , 110, 50));
-		if(GUILayout.Button ("Back", EpochSkin.GetStyle ("Small Button")))
+		if(GUILayout.Button ("Back", EpochSkin.GetStyle ("Small Button"))){
+			BackSound.Play ();
 			currentPage = Page.Main;
+		}
 		GUILayout.EndArea ();
 	}
 	
@@ -244,6 +263,7 @@ public class GameManager : UnitySingleton<GameManager>
 
 		GUILayout.BeginArea (new Rect(Screen.width - 150f, Screen.height - 75f, 110, 50));
 		if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
+			ClickSound.Play ();
 			SaveOptions ();
 			currentPage = Page.Main;
 		}
@@ -374,6 +394,10 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Popups
 	public void ShowPopupMessage(){
 		if(popup && Tutorial){
+			if(playPopUpSound){
+				PopUp.Play ();
+				playPopUpSound = false;
+			}
 			if(PopupPage + 1 < messages.Count)
 				PopupButtonText = "Next";
 			else
@@ -381,13 +405,17 @@ public class GameManager : UnitySingleton<GameManager>
 			PauseMovementTS();
 			#region Key Presses
 			if (Event.current.type == EventType.KeyUp && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Space)) {
+				ClickSound.Play ();
 				if(PopupPage + 1 == messages.Count){
+					PopUpExit.Play ();
 					popup = false;
 					//messages.Clear();
 					PopupPage = 0;
 					UnpauseMovementTS();
+					playPopUpSound = true;
 				}
 				else{
+					PopUp.Play ();
 					PopupPage++;
 				}
 			}
@@ -399,12 +427,16 @@ public class GameManager : UnitySingleton<GameManager>
 					GUILayout.BeginHorizontal ();
 						GUILayout.BeginVertical ();
 						if(GUILayout.Button (PopupButtonText, EpochSkin.GetStyle ("Popup Button"))){
+							ClickSound.Play ();
 							if(PopupPage + 1 == messages.Count){
+								PopUpExit.Play ();
 								popup = false;
 								PopupPage = 0;
 								UnpauseMovementTS();
+								playPopUpSound = true;
 							}
 							else{
+								PopUp.Play ();
 								PopupPage++;
 							}
 						}

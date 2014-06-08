@@ -5,13 +5,16 @@ using S = SaveManager;
 
 public class MainMenu : MonoBehaviour {
 	#region Levels
-	public int MAX_LEVELS = 4;
+	public int MAX_LEVELS = 8;
 	#endregion
 	#region Styles
 	public GUISkin EpochSkin = null;
 	#endregion
 	#region Options
 	private string name = "";
+	public AudioSource BackSound;
+	public AudioSource ClickSound;
+	private bool playSound = true;
 	#endregion
 	#region Character Select
 	private bool fromLoad = false;
@@ -76,25 +79,36 @@ public class MainMenu : MonoBehaviour {
 
 	#region Main Menu
 	void ShowMain () {
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height/2 - 175, 400f, 500));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
+		GUILayout.EndArea ();
 		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height * .35f, 400f, 500));
 			#region Main Menu Buttons
-			if (GUILayout.Button ("Load Game", EpochSkin.button))
-					currentPage = Page.LoadSelect;
+			if (GUILayout.Button ("Load Game", EpochSkin.button)){
+				ClickSound.Play ();	
+				currentPage = Page.LoadSelect;
+			}
 			GUILayout.Space (10);
 			if (GUILayout.Button ("New Game", EpochSkin.button)) {
+					ClickSound.Play ();	
 					characterNum = 0;
 					currentPage = Page.Character;
 			}
 			GUILayout.Space (10);
-			if (GUILayout.Button ("Options", EpochSkin.button))
-					currentPage = Page.Options;
+			if (GUILayout.Button ("Options", EpochSkin.button)){
+				ClickSound.Play ();	
+				currentPage = Page.Options;
+			}
 			GUILayout.Space (10);
-			if (GUILayout.Button ("Credits", EpochSkin.button))
-					currentPage = Page.Credits;
+			if (GUILayout.Button ("Credits", EpochSkin.button)){
+				ClickSound.Play ();	
+				currentPage = Page.Credits;
+			}
 			GUILayout.Space (10);
 			if (GUILayout.Button ("Quit Game", EpochSkin.button)) {
-					S.Save ();
-					Application.Quit ();
+				ClickSound.Play ();	
+				S.Save ();
+				Application.Quit ();
 			}
 			#endregion
 		GUILayout.EndArea ();
@@ -134,6 +148,7 @@ public class MainMenu : MonoBehaviour {
 			GUILayout.EndHorizontal ();
 
 			if (GUILayout.Button ("Reset Game", EpochSkin.button)) {
+				ClickSound.Play ();	
 				currentPage = Page.ResetWarning;
 			}
 			GUILayout.EndVertical ();
@@ -143,6 +158,7 @@ public class MainMenu : MonoBehaviour {
 
 		GUILayout.BeginArea (new Rect(Screen.width - 150f, Screen.height - 75, 110, 50));
 			if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
+				ClickSound.Play ();	
 				G.getInstance().SaveOptions ();
 				currentPage = Page.Main;
 			}
@@ -164,11 +180,13 @@ public class MainMenu : MonoBehaviour {
 
 				GUILayout.BeginHorizontal ();
 					if(GUILayout.Button ("Yes", EpochSkin.button)){
+						ClickSound.Play ();	
 						S.ResetGame ();
 						currentPage = Page.Options;
 					}
 					GUILayout.Space (10);
 					if(GUILayout.Button ("No", EpochSkin.button)){
+						ClickSound.Play ();	
 						currentPage = Page.Options;
 					}
 				GUILayout.EndHorizontal ();
@@ -241,12 +259,14 @@ public class MainMenu : MonoBehaviour {
 				GUILayout.Label ("Choose Your Character", EpochSkin.GetStyle ("Title"));
 				GUILayout.Label (CharacterName(), EpochSkin.label);
 				if (GUILayout.Button ("", EpochSkin.GetStyle ("SelectUp"))) {
+					ClickSound.Play ();	
 					increaseSelect();
 				}
 				GUILayout.Space (5);
 				GUILayout.Label (charTex[characterNum], EpochSkin.GetStyle ("imageSelect"));
 				GUILayout.Space (5);
 				if(GUILayout.Button("", EpochSkin.GetStyle ("SelectDown"))){
+					ClickSound.Play ();	
 					decreaseSelect();
 				}
 			GUILayout.EndVertical ();
@@ -255,6 +275,7 @@ public class MainMenu : MonoBehaviour {
 
 		GUILayout.BeginArea (new Rect(Screen.width - 270, Screen.height - 75 , 110, 100));
 			if (GUILayout.Button ("Select", EpochSkin.GetStyle ("Small Button"))) {
+				ClickSound.Play ();	
 				if(CharIsUnlocked ()){
 					if(fromLoad){
 						prevPage = Page.Character;
@@ -377,6 +398,7 @@ public class MainMenu : MonoBehaviour {
 				#region buttons
 				GUILayout.BeginHorizontal ();
 				if (GUILayout.Button (S.save1, EpochSkin.button)) {
+					ClickSound.Play ();	
 					S.ChooseSave (0);
 					if(S.SaveTaken()){
 						S.LoadGame ();
@@ -387,6 +409,7 @@ public class MainMenu : MonoBehaviour {
 				}
 				GUILayout.Space (10);
 				if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+					ClickSound.Play ();	
 					S.ChooseSave (0);
 					if(S.SaveTaken ())
 						currentPage = Page.DeleteWarning;
@@ -395,6 +418,7 @@ public class MainMenu : MonoBehaviour {
 				GUILayout.Space (10);
 				GUILayout.BeginHorizontal ();
 				if (GUILayout.Button (S.save2, EpochSkin.button)) {
+					ClickSound.Play ();	
 					S.ChooseSave (1);
 					if(S.SaveTaken()){
 						S.LoadGame ();
@@ -405,6 +429,7 @@ public class MainMenu : MonoBehaviour {
 				}
 				GUILayout.Space (10);
 				if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+					ClickSound.Play ();
 					S.ChooseSave (1);
 					if(S.SaveTaken())
 						currentPage = Page.DeleteWarning;
@@ -413,6 +438,7 @@ public class MainMenu : MonoBehaviour {
 				GUILayout.Space (10);
 				GUILayout.BeginHorizontal ();
 				if (GUILayout.Button (S.save3, EpochSkin.button)) {
+					ClickSound.Play ();
 					S.ChooseSave (2);
 					if(S.SaveTaken()){
 						S.LoadGame();
@@ -423,6 +449,7 @@ public class MainMenu : MonoBehaviour {
 				}
 				GUILayout.Space (10);
 				if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+					ClickSound.Play ();
 					S.ChooseSave (2);
 					if(S.SaveTaken ())
 						currentPage = Page.DeleteWarning;
@@ -431,6 +458,7 @@ public class MainMenu : MonoBehaviour {
 			GUILayout.Space (10);
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button (S.save4, EpochSkin.button)) {
+				ClickSound.Play ();
 				S.ChooseSave (3);
 				if(S.SaveTaken()){
 					S.LoadGame();
@@ -441,6 +469,7 @@ public class MainMenu : MonoBehaviour {
 			}
 			GUILayout.Space (10);
 			if (GUILayout.Button ("Delete", EpochSkin.GetStyle ("Small Button"))) {
+				ClickSound.Play ();
 				S.ChooseSave (3);
 				if(S.SaveTaken ())
 					currentPage = Page.DeleteWarning;
@@ -459,12 +488,14 @@ public class MainMenu : MonoBehaviour {
 					#region Buttons
 					GUILayout.BeginHorizontal ();
 					if (GUILayout.Button ("Yes", EpochSkin.button)) {
-							S.DeleteSave ();
-							currentPage = Page.LoadSelect;
+						ClickSound.Play ();
+						S.DeleteSave ();
+						currentPage = Page.LoadSelect;
 					}
 					GUILayout.Space (10);
 					if (GUILayout.Button ("No", EpochSkin.button)) {
-							currentPage = Page.LoadSelect;
+						ClickSound.Play ();
+						currentPage = Page.LoadSelect;
 					}
 					GUILayout.EndHorizontal ();
 					#endregion
@@ -479,12 +510,14 @@ public class MainMenu : MonoBehaviour {
 					#region Buttons
 					GUILayout.BeginHorizontal ();
 					if (GUILayout.Button ("Yes", EpochSkin.button)) {
-							fromLoad = true;
-							currentPage = Page.Character;
+						ClickSound.Play ();
+						fromLoad = true;
+						currentPage = Page.Character;
 					}
 					GUILayout.Space (10);
 					if (GUILayout.Button ("No", EpochSkin.button)) {
-							currentPage = Page.LoadSelect;
+						ClickSound.Play ();
+						currentPage = Page.LoadSelect;
 					}
 					GUILayout.EndHorizontal ();
 					#endregion
@@ -501,6 +534,7 @@ public class MainMenu : MonoBehaviour {
 			GUILayout.BeginVertical ();
 			GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
 			if (GUILayout.Button (S.save1, EpochSkin.button)) {
+				ClickSound.Play ();
 				S.ChooseSave (0);
 				if(S.SaveTaken ()){
 					currentPage = Page.SaveWarning;
@@ -512,6 +546,7 @@ public class MainMenu : MonoBehaviour {
 			}
 			GUILayout.Space (10);
 			if (GUILayout.Button (S.save2, EpochSkin.button)) {
+				ClickSound.Play ();
 				S.ChooseSave (1);
 				if(S.SaveTaken ()){
 					currentPage = Page.SaveWarning;
@@ -523,6 +558,7 @@ public class MainMenu : MonoBehaviour {
 			}
 			GUILayout.Space (10);
 			if (GUILayout.Button (S.save3, EpochSkin.button)) {
+				ClickSound.Play ();
 				S.ChooseSave (2);
 				if(S.SaveTaken ()){
 					currentPage = Page.SaveWarning;
@@ -534,6 +570,7 @@ public class MainMenu : MonoBehaviour {
 			}
 			GUILayout.Space (10);
 			if (GUILayout.Button (S.save4, EpochSkin.button)) {
+				ClickSound.Play ();
 				S.ChooseSave (3);
 				if(S.SaveTaken ()){
 					currentPage = Page.SaveWarning;
@@ -556,12 +593,14 @@ public class MainMenu : MonoBehaviour {
 				GUILayout.Label ("Save File Exists! Overwrite?", EpochSkin.label);
 				GUILayout.BeginHorizontal ();
 					if(GUILayout.Button ("Yes", EpochSkin.button)){
+						ClickSound.Play ();
 						S.ResetOnNew ();
 						prevPage = Page.SaveSelect;
 						currentPage = Page.SaveName;
 					}
 					GUILayout.Space (10);
 					if(GUILayout.Button ("No", EpochSkin.button)){
+						ClickSound.Play ();
 						currentPage = Page.SaveSelect;
 					}
 				GUILayout.EndHorizontal ();
@@ -574,6 +613,7 @@ public class MainMenu : MonoBehaviour {
 	void ShowTypeName(){
 		#region Key presses
 		if (Event.current.isKey && Event.current.keyCode == KeyCode.Return) {
+			ClickSound.Play ();
 			if (name != "")
 				S.SetSaveName (name);
 			else
@@ -596,6 +636,7 @@ public class MainMenu : MonoBehaviour {
 				GUILayout.BeginHorizontal ();
 					GUILayout.FlexibleSpace ();
 					if (GUILayout.Button ("Enter", EpochSkin.GetStyle ("Small Button"))) {
+						ClickSound.Play ();
 						if(name != "")
 							S.SetSaveName (name);
 						else
@@ -614,6 +655,7 @@ public class MainMenu : MonoBehaviour {
 	void ShowBackButton(){
 		GUILayout.BeginArea (new Rect(Screen.width - 270, Screen.height - 75, 110, 50));
 		if (GUILayout.Button ("Back", EpochSkin.GetStyle("Small Button"))){
+			BackSound.Play ();
 			name = "";
 			currentPage = prevPage;
 		}
@@ -623,10 +665,29 @@ public class MainMenu : MonoBehaviour {
 	void ShowHomeButton(){
 		GUILayout.BeginArea (new Rect(Screen.width - 150, Screen.height - 75 , 110, 50));
 		if(GUILayout.Button ("Home", EpochSkin.GetStyle("Small Button"))){
+			BackSound.Play ();
 			currentPage = Page.Main;
 			ResetVariables();
 		}
 		GUILayout.EndArea ();
+	}
+
+	bool MouseOver(){
+		return Event.current.type == EventType.Repaint && GUILayoutUtility.GetLastRect ().Contains (Event.current.mousePosition);
+	}
+
+	void PlayHover(){
+		if(MouseOver ())
+			if(playSound){
+				//HoverSound.Play ();
+				playSound = false;
+			}
+	}
+
+	void ResetHover(){
+		if(Event.current.type == EventType.Repaint && !GUILayoutUtility.GetLastRect ().Contains (Event.current.mousePosition))
+			if(!playSound)
+				playSound = true;
 	}
 	#endregion
 
