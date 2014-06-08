@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 38185339d951d784bac0bd492c1f69e1
+guid: 8944b0af32ee50245b3046a793390ea5
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -35,7 +35,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
-  spritePixelsToUnits: 600
+  spritePixelsToUnits: 450
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings:
@@ -45,85 +45,76 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: CaveGirlHiding_0
+    - name: Knight - Throw_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_1
+    - name: Knight - Throw_1
       rect:
         serializedVersion: 2
-        x: 187
+        x: 194
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_2
+    - name: Knight - Throw_2
       rect:
         serializedVersion: 2
-        x: 374
+        x: 388
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_3
+    - name: Knight - Throw_3
       rect:
         serializedVersion: 2
-        x: 561
+        x: 582
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_4
+    - name: Knight - Throw_4
       rect:
         serializedVersion: 2
-        x: 748
+        x: 776
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_5
+    - name: Knight - Throw_5
       rect:
         serializedVersion: 2
-        x: 935
+        x: 970
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_6
+    - name: Knight - Throw_6
       rect:
         serializedVersion: 2
-        x: 1122
+        x: 1164
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_7
+    - name: Knight - Throw_7
       rect:
         serializedVersion: 2
-        x: 1309
+        x: 1358
         y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlHiding_8
-      rect:
-        serializedVersion: 2
-        x: 1496
-        y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
   spritePackingTag: 

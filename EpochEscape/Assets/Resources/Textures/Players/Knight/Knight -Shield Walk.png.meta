@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 24fa9b73f2ff6fc4b91fbc63c2543753
+guid: 2b1e6763377fc544a9b02a2650e333c4
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -35,7 +35,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
-  spritePixelsToUnits: 600
+  spritePixelsToUnits: 450
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings:
@@ -45,94 +45,76 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: ThrownFlaskFast_0
+    - name: Knight -Shield Walk_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_1
+    - name: Knight -Shield Walk_1
       rect:
         serializedVersion: 2
-        x: 74
+        x: 194
         y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_2
+    - name: Knight -Shield Walk_2
       rect:
         serializedVersion: 2
-        x: 148
+        x: 388
         y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_3
+    - name: Knight -Shield Walk_3
       rect:
         serializedVersion: 2
-        x: 222
+        x: 582
         y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_4
+    - name: Knight -Shield Walk_4
       rect:
         serializedVersion: 2
-        x: 296
+        x: 776
         y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_5
+    - name: Knight -Shield Walk_5
       rect:
         serializedVersion: 2
-        x: 370
+        x: 970
         y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_6
+    - name: Knight -Shield Walk_6
       rect:
         serializedVersion: 2
-        x: 444
+        x: 1164
         y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_7
+    - name: Knight -Shield Walk_7
       rect:
         serializedVersion: 2
-        x: 518
+        x: 1358
         y: 0
-        width: 74
-        height: 74
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_8
-      rect:
-        serializedVersion: 2
-        x: 592
-        y: 0
-        width: 74
-        height: 74
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: ThrownFlaskFast_9
-      rect:
-        serializedVersion: 2
-        x: 666
-        y: 0
-        width: 74
-        height: 74
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
   spritePackingTag: 

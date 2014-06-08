@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 16adce32def9bdf42b73df9aa5cc0a47
+guid: 5bd7f90f82d0d004abce8611c4417425
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -35,7 +35,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
-  spritePixelsToUnits: 600
+  spritePixelsToUnits: 500
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings:
@@ -45,85 +45,94 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: FlaskBreak_0
+    - name: Gas Explode_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_1
+    - name: Gas Explode_1
       rect:
         serializedVersion: 2
-        x: 74
+        x: 146
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_2
+    - name: Gas Explode_2
       rect:
         serializedVersion: 2
-        x: 148
+        x: 292
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_3
+    - name: Gas Explode_3
       rect:
         serializedVersion: 2
-        x: 222
+        x: 438
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_4
+    - name: Gas Explode_4
       rect:
         serializedVersion: 2
-        x: 296
+        x: 584
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_5
+    - name: Gas Explode_5
       rect:
         serializedVersion: 2
-        x: 370
+        x: 730
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_6
+    - name: Gas Explode_6
       rect:
         serializedVersion: 2
-        x: 444
+        x: 876
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_7
+    - name: Gas Explode_7
       rect:
         serializedVersion: 2
-        x: 518
+        x: 1022
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: FlaskBreak_8
+    - name: Gas Explode_8
       rect:
         serializedVersion: 2
-        x: 592
+        x: 1168
         y: 0
-        width: 74
-        height: 74
+        width: 146
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Gas Explode_9
+      rect:
+        serializedVersion: 2
+        x: 1314
+        y: 0
+        width: 146
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
   spritePackingTag: 

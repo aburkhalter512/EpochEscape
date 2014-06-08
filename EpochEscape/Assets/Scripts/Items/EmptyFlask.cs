@@ -9,6 +9,9 @@ public class EmptyFlask : Item
     public float initialSpeed = 2f;
 	public Vector3 endScale = new Vector3(0.75f, 0.75f, 0.75f);
 
+	public const float SPEED = 2f;
+	public const float ROTATION_SPEED = 20f; // degrees
+
 	public AudioSource m_flaskSmash;
 	public AudioSource m_flaskStrike;
     #endregion
@@ -41,23 +44,17 @@ public class EmptyFlask : Item
 	{
 		if(!G.getInstance ().paused)
 		{
-            if (thrown)
-            {
-                if (Time.realtimeSinceStartup - startTime > throwTime)
-                {
-					if(!m_isBroken)
-						PlaySmashSound();
+			if(thrown)
+			{
+				Transform parent = transform.parent;
 
-                    m_isBroken = true;
-                    thrown = false;
-                }
-                else
-                {
-                    transform.position += mCurrentSpeed * Time.smoothDeltaTime * transform.up;
-                    mCurrentSpeed -= deceleration * Time.smoothDeltaTime;
-                    transform.localScale += mScaleDelta * Time.smoothDeltaTime;
-                }
-            }
+				if(parent != null)
+				{
+					parent.transform.position += (SPEED * Time.smoothDeltaTime) * parent.transform.up;
+					
+					transform.RotateAround(parent.transform.position, -Vector3.forward, ROTATION_SPEED);
+				}
+			}
 
 			UpdateAnimator();
 		}
@@ -73,40 +70,30 @@ public class EmptyFlask : Item
 		Throw ();
 		gameObject.renderer.enabled = true;
 	}
-	
-	private void Throw(){
+
+	private void Throw()
+	{
 		gameObject.tag = "ItemThrown";
-
+		
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
-
+		
 		if(player != null)
 		{
 			ActivateSound.Play ();
 			GameObject flaskThrowPosition = GameObject.FindGameObjectWithTag("FlaskThrowPosition");
 
-			transform.position = player.transform.position;
+			Transform parent = transform.parent;
 
-			// This should not work, but it does. RIP in pepperoni relative positioning. No copy pasterino Al Pacino.
+			parent.transform.position = player.transform.position;
+			
+			// This should not work, but it does.
 			if(flaskThrowPosition != null)
-				transform.position = flaskThrowPosition.transform.position;
+				parent.transform.position = flaskThrowPosition.transform.position;
+			
+			parent.transform.up = player.transform.up;
+			transform.up = -player.transform.up;
 
-			transform.up = player.transform.up;
 			thrown = true;
-
-            startTime = Time.realtimeSinceStartup;
-            mCurrentSpeed = initialSpeed;
-			mOrigin = transform.position;
-            mDestination = InputManager.getInstance().mouseInWorld;
-            mDestination.z = mOrigin.z; //Avoid incorrect displacement
-            mCurrentSpeed = (mDestination - mOrigin).magnitude;
-            mCurrentSpeed += (deceleration * throwTime * throwTime) / 2;
-            mCurrentSpeed /= throwTime;
-            mScaleDelta = endScale - transform.localScale;
-            mScaleDelta /= throwTime;
-
-            //Debug.Log(mOrigin);
-            //Debug.Log(mDestination);
-            //Debug.Log((mDestination - mOrigin).magnitude);
 		}
 	}
 

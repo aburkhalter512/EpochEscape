@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0ad5f20f2b176444c93a0caa5bb44e34
+guid: 3072aaa597dfda344a373b4294538348
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -35,7 +35,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
-  spritePixelsToUnits: 600
+  spritePixelsToUnits: 450
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings:
@@ -45,94 +45,58 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: CaveGirlIdleWithClub_0
+    - name: Knight - Hide_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_1
+    - name: Knight - Hide_1
       rect:
         serializedVersion: 2
-        x: 187
+        x: 194
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_2
+    - name: Knight - Hide_2
       rect:
         serializedVersion: 2
-        x: 374
+        x: 388
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_3
+    - name: Knight - Hide_3
       rect:
         serializedVersion: 2
-        x: 561
+        x: 582
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_4
+    - name: Knight - Hide_4
       rect:
         serializedVersion: 2
-        x: 748
+        x: 776
         y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_5
+    - name: Knight - Hide_5
       rect:
         serializedVersion: 2
-        x: 935
+        x: 970
         y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_6
-      rect:
-        serializedVersion: 2
-        x: 1122
-        y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_7
-      rect:
-        serializedVersion: 2
-        x: 1309
-        y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_8
-      rect:
-        serializedVersion: 2
-        x: 1496
-        y: 0
-        width: 187
-        height: 225
-      alignment: 0
-      pivot: {x: 0, y: 0}
-    - name: CaveGirlIdleWithClub_9
-      rect:
-        serializedVersion: 2
-        x: 1683
-        y: 0
-        width: 187
-        height: 225
+        width: 194
+        height: 265
       alignment: 0
       pivot: {x: 0, y: 0}
   spritePackingTag: 
