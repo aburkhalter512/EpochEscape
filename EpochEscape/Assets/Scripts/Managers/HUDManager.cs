@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// THIS HUDMANAGER WILL ONLY WORK FOR 4:3 RESOLUTIONS
+
 public class HUDManager : MonoBehaviour {
 	public Player playerManager;
 	public GUISkin EpochSkin;
+
+	#region scaling
+	private const float origWidth = 1024f;
+	private const float origHeight = 768f;
+	private Vector3 scale;
+	#endregion
 	
 	#region hero icon + detection bar
 	public Texture2D[] detectionBar;
@@ -40,7 +48,7 @@ public class HUDManager : MonoBehaviour {
 	public Texture2D piece2;
 	public Texture2D piece3;
 	public Texture2D currCore;
-	private Vector2 corePos = new Vector2 (Screen.width - 100f, Screen.height - 100f);
+	private Vector2 corePos = new Vector2 (924f, 668f);
 	private Vector2 frameSize = new Vector2(100f,100f);
 	private Vector2 coreSize = new Vector2(75f,75f);
 	#endregion
@@ -82,9 +90,16 @@ public class HUDManager : MonoBehaviour {
 		currMood = happy;
 		currPotion = potion;
 		currFlask = flask;
+
+		scale.z = 1f;
 	}
 	
 	void OnGUI() {
+		scale.x = Screen.width / HUDManager.origWidth;
+		scale.y = Screen.height / HUDManager.origHeight;
+		Matrix4x4 svMat = GUI.matrix;
+		GUI.matrix = Matrix4x4.TRS (Vector3.zero, Quaternion.identity, scale);
+
 		#region hero icon + detectionbar
 		GUI.BeginGroup(new Rect(iconPos.x,iconPos.y,iconSize.x,iconSize.y));
 		GUI.DrawTexture(new Rect(0f,0f,iconSize.x,iconSize.y),currMeter);
@@ -109,6 +124,8 @@ public class HUDManager : MonoBehaviour {
 		GUI.DrawTexture (new Rect(12.5f,12.5f,coreSize.x,coreSize.y),currCore);
 		GUI.EndGroup();
 		#endregion
+
+		GUI.matrix = svMat;
 	}
 	
 	void Update() {

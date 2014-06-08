@@ -3,10 +3,7 @@ using System.Collections;
 using G = GameManager;
 
 public class RedPotion : Item {
-	public const float Speed = 2f;
 	public const float HEAL_AMOUNT = 25f;
-	private bool thrown = false;
-	private bool m_isBroken = false;
 
 
 	//private Animator m_animator;
@@ -14,7 +11,6 @@ public class RedPotion : Item {
 	public void Start()
 	{
 		gameObject.tag = "Red Potion";
-
 		//m_animator = GetComponent<Animator>();
 	}
 

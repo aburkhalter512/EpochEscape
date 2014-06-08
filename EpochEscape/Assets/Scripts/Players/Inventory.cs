@@ -3,20 +3,19 @@ using System.Collections;
 
 public class Inventory{
 	#region member variables
-	public const int UNIQUE_ITEMS = 2; //only item currently is potion
+	public const int UNIQUE_ITEMS = 3; //only item currently is potion
 	public const int MAX_STACK = 10;
 	public const int POTION_SLOT = 0;
 	public const int FLASK_SLOT = 1;
+	public const int DASH_SLOT = 2;
+	public const int SPECIAL_SLOT = 3;
 
 	public Item[] inventory = new Item[UNIQUE_ITEMS];
 	public int[] inventoryCount = new int[UNIQUE_ITEMS];
-	GameObject emptyFlask = null;
 	#endregion
 
 
 	public Inventory(){
-		if(emptyFlask == null)
-			emptyFlask = Resources.Load ("Prefabs/Items/EmptyFlask") as GameObject;
 	}
 
 	public void addItem(Item i){
@@ -24,20 +23,36 @@ public class Inventory{
 			case "Red Potion":
 				if (inventory[POTION_SLOT] == null) {
 					inventory[POTION_SLOT] = i;
-					inventoryCount[POTION_SLOT] = 1;
 				} else {
 					inventory[POTION_SLOT].Add(i);
-					inventoryCount[POTION_SLOT]++;
-				}
+				}			
+				inventoryCount[POTION_SLOT]++;
 				break;
 			case "EmptyFlask":
 				if (inventory[FLASK_SLOT] == null) {
 					inventory[FLASK_SLOT] = i;
-					inventoryCount[FLASK_SLOT] = 1;
 				} else {
 					inventory[FLASK_SLOT].Add(i);
-					inventoryCount[FLASK_SLOT]++;
+				}			
+				inventoryCount[FLASK_SLOT]++;
+				break;
+			case "Dash Potion":
+				if(inventory[DASH_SLOT] == null){
+					inventory[DASH_SLOT] = i;
 				}
+				else{
+					inventory[DASH_SLOT].Add(i);
+				}
+				inventoryCount[DASH_SLOT]++;
+				break;
+			case "Special Item":
+				if(inventory[SPECIAL_SLOT] == null){
+					inventory[SPECIAL_SLOT] = i;
+				}
+				else{
+					inventory[SPECIAL_SLOT].Add(i);
+				}
+				inventoryCount[SPECIAL_SLOT]++;
 				break;
 		}
 	}
@@ -45,12 +60,6 @@ public class Inventory{
 	public void activateItem(int slot){
 		//if inventory slot is not empty
 		if(inventory[slot] != null){
-			//if using a red potion, drop an empty flask
-			if(inventory[slot].gameObject.tag == "Red Potion"){
-				Player player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player>();
-				emptyFlask = GameObject.Instantiate (emptyFlask, player.transform.position, Quaternion.identity) as GameObject;
-				emptyFlask.GetComponent<Item>().inInventory = false;
-			}
 			//activate and adjust inventory count and slot
 			inventory[slot].Activate();
 			inventory[slot] = inventory[slot].next;
@@ -59,9 +68,6 @@ public class Inventory{
 	}
 	
 	public bool canAdd(Item i){
-		//if the inventory is full 
-//		if(InventoryFull())
-//			return false;
 		//if the current item is in the inventory
 		if(inInventory (i))
 			//return whether or not there is space for it

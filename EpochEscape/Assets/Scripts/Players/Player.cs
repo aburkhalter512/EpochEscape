@@ -14,10 +14,16 @@ public class Player : MonoBehaviour
 	private bool m_isMovingDown;
 	private bool m_isMovingLeft;
 	private bool m_isMovingRight;
+	private bool m_isThrowing;
 	private bool m_isAttacking;
 	private bool m_hasSpecialItem;
 	private bool m_isDrinking;
 	private float m_directionAngle;
+
+	public AudioClip[] grateFoot;
+	public AudioClip[] solidFoot;
+	public int m_floorType; // 0 = solid, 1 = grate
+	private int m_footCounter;
 
 	public bool m_isDetected;
 	public bool m_isHiding;
@@ -29,6 +35,8 @@ public class Player : MonoBehaviour
 	public float m_detectionFade = 1.5f;
 	public float m_detectionMax = 0f;
 	public float m_detectionThres = 15f;
+	public float Boost = 1f;
+	public float BoostTime = 0f;
 
 	public PlayerState m_currentState;
 	public Vector3 m_spawnLocation;
@@ -77,12 +85,13 @@ public class Player : MonoBehaviour
 
 		m_animator = GetComponent<Animator>();
 
+		m_floorType = 0;
 		m_isMoving = false;
 		m_isMovingForward = false;
 		m_isMovingDown = false;
 		m_isMovingLeft = false;
 		m_isMovingRight = false;
-		m_isAttacking = false;
+		m_isThrowing = false;
 		m_hasSpecialItem = false;
 		m_isDrinking = false;
 
@@ -261,7 +270,7 @@ public class Player : MonoBehaviour
 		m_isMovingLeft = false;
 		m_isMovingRight = false;
 
-		if(m_isAttacking || m_isDrinking) return;
+		if(m_isThrowing || m_isDrinking) return;
 
 		if(Input.GetKey(KeyCode.W)) m_isMovingForward = true;
 		if(Input.GetKey(KeyCode.S)) m_isMovingDown = true;
@@ -283,13 +292,17 @@ public class Player : MonoBehaviour
 		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null)
 		{
 			if(m_selectedSlot == 0)
+			{
 				m_isDrinking = true;
-			else if(m_selectedSlot == 1)
-				m_isAttacking = true;
-		}
 
-		if (Input.GetButtonDown ("Fire2"))
-			SpecialAbility ();
+				inventory.activateItem(m_selectedSlot);
+			}
+			else if(m_selectedSlot == 1)
+				m_isThrowing = true;
+		}
+		if (Input.GetButtonDown ("Fire2") && inventory.inventory[Inventory.SPECIAL_SLOT] != null){
+			m_isAttacking = true;
+		}
 
 		if(Input.GetAxisRaw ("Mouse ScrollWheel") > 0)
 			ScrollSlotIncrement ();
@@ -309,9 +322,9 @@ public class Player : MonoBehaviour
 			m_selectedSlot = UNIQUE_ITEM_SLOTS;
 	}
 
-	public void FinishedAttacking()
+	public void FinishedThrowing()
 	{
-		m_isAttacking = false;
+		m_isThrowing = false;
 
 		inventory.activateItem(m_selectedSlot);
 	}
@@ -320,6 +333,13 @@ public class Player : MonoBehaviour
 	{
 		m_isDrinking = false;
 
+		//inventory.activateItem(m_selectedSlot);
+	}
+
+	public void FinishedAttacking()
+	{
+		m_isAttacking = false;
+		
 		inventory.activateItem(m_selectedSlot);
 	}
 
@@ -337,13 +357,6 @@ public class Player : MonoBehaviour
         movement *= mForce;
 		transForces += movement * Time.smoothDeltaTime;
 		transForces -= Utilities.toVector3(velocity * mDynamicFriction);
-
-		if ((Input.GetButtonDown ("Horizontal") || Input.GetButtonDown ("Vertical")) && !audio.isPlaying) {
-			audio.loop = true;
-			audio.Play ();
-		}
-		else if (!Input.GetButton ("Horizontal") && !Input.GetButton ("Vertical") && audio.isPlaying)
-			audio.loop = false;
 	}
 	#endregion
 
@@ -381,6 +394,8 @@ public class Player : MonoBehaviour
 
 	protected void ApplyForces()
 	{
+		if(Time.deltaTime - BoostTime > 2f)
+			Boost = 1f;
 		velocity += transForces;
 		transForces = Vector3.zero;
 
@@ -396,7 +411,7 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("isMovingBackward", m_isMovingDown);
 			m_animator.SetBool("isMovingLeft", m_isMovingLeft);
 			m_animator.SetBool("isMovingRight", m_isMovingRight);
-			m_animator.SetBool("isAttacking", m_isAttacking);
+			m_animator.SetBool("isAttacking", m_isThrowing);
 			m_animator.SetBool("hasSpecialItem", m_hasSpecialItem);
 			m_animator.SetBool("isDrinking", m_isDrinking);
 			m_animator.SetBool("isHiding", m_isHiding);
@@ -427,26 +442,42 @@ public class Player : MonoBehaviour
 			currentCores++;
 	}
 
+	public int CurrentCores
+	{
+		get { return currentCores; }
+	}
+
 	public bool isPowerCoreComplete()
 	{
 		return currentCores == MAX_CORES;
 	}
 	#endregion
 
-	public void SpecialAbility(){
-		if (m_isAttacking) {
-			Special = true;
-			//play animation
-		}
-		else{
-			Special = false;
-		}
-	}
-
 	public bool IsActive()
 	{
-		return m_isAttacking || m_isDrinking || m_isMoving;
+		return m_isThrowing || m_isDrinking || m_isMoving;
 	}
+
+	#region sound control	
+	public void PlayFootstep() {
+		switch (m_floorType) {
+			case 0:
+				audio.clip = solidFoot[m_footCounter];
+				break;
+			case 1:
+				audio.clip = grateFoot[m_footCounter];
+				break;
+		}
+		audio.Play ();
+		UpdateFootCounter ();
+	}
+
+	private void UpdateFootCounter(){
+		m_footCounter++;
+		if (m_footCounter >= 6)
+			m_footCounter = 0;
+	}
+	#endregion
 
 	#region Static Methods
 	#endregion

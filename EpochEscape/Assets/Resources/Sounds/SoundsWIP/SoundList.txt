@@ -1,0 +1,103 @@
+This is the tentative list of all sounds in the project, excluding music, listed with file name and description.
+The enumerations will be minus signs (-) when the sound has yet to be implemented into the game, and plus signs
+	(+) when they are.
+Even after a sound has been implemented, it will still be subject to polishing, in which case, the sound file
+	will be updated in a Git commit, to be updated in all clones of the project.
+Sounds that begin with *Pre* have a different version for each playable character, and *Pre* is replaced by the
+	character's prefix in the acutal filenames.
+No one is allowed to change the contents of ->Assets->Sounds without contacting me first.
+
+*New:  In the sound asset folder, sounds that are in a usable state have an underscore (_) preceding their name.
+
+==============================================================================================================
+SOUND LIST, BY CATEGORY
+==============================================================================================================
+
+Ambient
++AmbientLoop: Stereo sound of ambient "Space Ship" sounds.  Looped, implement as 2D sound.
+
+Footsteps
+-*Pre*FootFallSld1, FootFallSld2, FootFallSld3: Sound of a single footfall by a character on solid metal.
+	Multiple versions for random factor, modified further by script.  Versioned for specific characters where
+	applicable.
+-*Pre*FootFallGrate1, FootFallGrate2, FootFallGrate3: Sound of a single footfall by a character on metal grating.
+	Multipler versions for random factor, modified further by script.  Versioned for specific characters where
+	applicable.
+
+Potions/Flasks
+-PotionPickup: Sound played when a full potion bottle is picked up by the player.
+-EmptyPickup: Sound played when an empty flask is picked up by the player.
+-PotionDrink: Sound played when the player drinks a potion.
+-FlaskThrow: Sound played when the player throws an empty flask.
+-FlaskStrike: Sound played when a thrown flask hits and breaks on an alien.
+-FlaskSmash: Sound played when a thrown flask smashes against the environment.
+
+Level Mechanics
+-WallMove: Sound played when a wall shifts or rotates due to player interaction.
+-LaserTrip: Sound played when a player trips a laser line.
+-*Pre*PitFall: Sound played when a player falls into a pit.  Per-character variants.
+-FloorSwitchOn: Sound played when a player hits a pressure floor switch.
+-FloorSwitchOff: Sound played when a player removes their weight from a weighted floor switch.
+-FloorToggle: Sound played when a player hits a togglable floor switch.
+
+Boxes
+-*Pre*BoxGrab: Sound made by player when grabbing a box.  Variants made for each character.
+-*Pre*BoxPush: Sound made by player when pushing a box.  Looped.  Variants made for each character.
+-*Pre*BoxRelease: Sound made by player when releasing a box.  Variants made for each character.
+
+Power Cores
+-PowerCorePickup1: Sound played when the player collects the first power core.  Likely to be keyed to music.
+-PowerCorePickup2: Sound played when the player collects the second power core.  Likely to be keyed to music.
+-PowerCorePickup3: Sound played when the player collects the final power core.  Likely to be keyed to music.
+-PowerCoreLoop: Humming sound the power core makes in the environment.  Looped, impemented as 3D sound.
+-FinalDoorOpen: Sound made by the door unlocked by the power cores.  Likely to be keyed to music.
+
+Cameras
+-WallCamSurvey: Sound made by the wall-mounted cameras as they oscillate.  Looped. Synced to animation.
+-WallCamDetection: Sound made when the camera is detecting the player.  Likely to be a rapid beeping.
+-WallCamDirChange: Sound made when the camera changes directions.  Super brief rattle.  Called by script per camera.
+
+Aliens (Under discussion with Candelaria)
+-AlienStartWalk: Sound made by the aliens when they start walking from a standstill, or when making sharp turns.
+	Something of an alien grunt.
+-AlienAlert: Sound made by the aliens when they hear the player.  Curious grunt or phrase.
+-AlienDead: Alien exclamation when struck by cave girl or knight, followed up with teleport sound.  Synced to death animation.
+
+Game UI
+-DetectionFill: Sound made as the detection bar is filled up.  Loop, volume ramps when filling up, ducks to 0 when 
+	static.  May be music layer, but may be UI.  Test both.
+-LevelFail: UI sound made when player is caught by the aliens.  Likely to be Metal-Gear style musical stinger followed
+	up by defeated sounding stinger.
+-LevelVictory: Sound played when the player successfully completes a level.  Likely to be musical stinger.  UI sound.
+
+Menu UI
+-UIOptionHover: Sound when the player changes the highlighted option on the main and pause menus.
+-UIOptionAccept: Sound when the player clicks on or selects a menu option.
+-UIBackOut: Sound that plays when the player backs out of a menu.
+-UIPopUp: Sound that plays when a pop-up occurs.
+
+Cavegirl (Specific.  CG prefix used on all other cave girl variants)
+-CGClubPickup: Sound of the cave girl picking up a club.
+-CGClubMiss: Sound of the cave girl swinging her club and hitting nothing.
+-CGClubHit: Sound of the cave girl swinging her club and striking an alien (alien noise separate)
+
+Knight (Specific. Kni prefix used on all other knight variants)
+-KniSwordPickup: Sound of the knight picking up a sword.
+-KniSwordMiss: Sound of the knight swinging his sword and hitting nothing.
+-KniSwordHit: Sound of the knight swinging his sword and hitting an alien (alien sound separate)
+
+Ninja (Specific.  Nin prefix used on all other ninja sound variants) UNDER DEVELOPMENT
+-NinInvisibleOn: Sound of the Ninja casting his invisibility spell.
+-NinInvisibleOff: Sound of the Ninja's invisibility wearing off.
+
+Mummy (Specific.  Mum prefix used on all other mummy sound variants) UNDER DEVELOPMENT
+-MumBandagePickup: Sound of the mummy picking up bandages.
+-MumBandageThrow: Sound of the mummy casting bandages.
+-MumBandageStick: Sound of the bandages wrapping a wallcam.  Sourced 3D at wallcam position.
+
+Astronaut (Specific.  Ast prefix used on all other astronaut sound variants) UNDER DEVELOPMENT
+-AstJetPickup: Sound of the astronaut picking up a jetpack.
+-AstJetFire: Sound of the astronaut rocketing with the jetpack.
+
+Robot (Specific.  Rob prefix used on all other robot sound variants) UNDER DEVELOPMENT
+-NO SOUNDS YET
