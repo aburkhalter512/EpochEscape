@@ -24,8 +24,8 @@ public class SpecialItemSpawn : MonoBehaviour
                 club.gameObject.transform.position = transform.position;
                 break;
             case G.KNIGHT:
-                Shield club = Resources.Load<Club>("Prefabs/Items/SpecialItems/Club");
-                club.gameObject.transform.position = transform.position;
+                Shield shield = Resources.Load<Shield>("Prefabs/Items/SpecialItems/Shield");
+                shield.gameObject.transform.position = transform.position;
                 break;
             case G.MUMMY:
                 break;
