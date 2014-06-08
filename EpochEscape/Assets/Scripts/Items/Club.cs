@@ -13,11 +13,13 @@ public class Club : Item {
 		
 	}
 
-	public override void PickUp(Player player){
-		
+	public override void PickUp(Player player)
+	{
+		player.m_hasSpecialItem = true;
 	}
+
 	public override void Activate(){
-		ActivateSound.Play ();
+		//ActivateSound.Play ();
 		//Player player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Player> ();
 	}
 }

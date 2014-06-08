@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Inventory{
 	#region member variables
-	public const int UNIQUE_ITEMS = 3; //only item currently is potion
+	public const int UNIQUE_ITEMS = 4; //only item currently is potion
 	public const int MAX_STACK = 10;
 	public const int POTION_SLOT = 0;
 	public const int FLASK_SLOT = 1;

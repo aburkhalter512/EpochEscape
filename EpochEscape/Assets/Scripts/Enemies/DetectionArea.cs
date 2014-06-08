@@ -85,7 +85,7 @@ public class DetectionArea : MonoBehaviour
 			{
 				detectedPlayer = m_player;
 				
-				if(isPlayerInBounds(other) && !m_player.m_isHiding)
+				if(!m_player.m_isHiding)
 				{
 					if(!(m_parentRenderer == null || m_player.m_isDetected))
 						ChangeColor(ColorStatus.CAUTION);
@@ -155,27 +155,5 @@ public class DetectionArea : MonoBehaviour
 				}
 			}
 		}
-	}
-	
-	public bool isPlayerInBounds(Collider2D other)
-	{
-		if(other.tag == "Player")
-		{
-			if(m_parent != null)
-			{
-				float angleBound = Mathf.Atan(((m_parent.transform.localScale.x * transform.localScale.x) / 2f) / 
-				                              (m_parent.transform.localScale.y * transform.localScale.y)) * Mathf.Rad2Deg;
-				
-				Vector3 toPlayer = other.transform.position - m_parent.transform.position;
-				toPlayer.Normalize();
-				
-				float toPlayerAngle = Mathf.Acos(Vector3.Dot(toPlayer, m_parent.transform.up)) * Mathf.Rad2Deg;
-				
-				if(toPlayerAngle < angleBound)
-					return true;
-			}
-		}
-		
-		return false;
 	}
 }

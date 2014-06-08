@@ -1,0 +1,292 @@
+fileFormatVersion: 2
+guid: 18e9fb14f5edd9448b51ec7c95e74765
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 450
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: -2
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: Alien - Knocked Out v3_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_1
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_2
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_3
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_4
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_5
+      rect:
+        serializedVersion: 2
+        x: 875
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_6
+      rect:
+        serializedVersion: 2
+        x: 1050
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_7
+      rect:
+        serializedVersion: 2
+        x: 1225
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_8
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_9
+      rect:
+        serializedVersion: 2
+        x: 1575
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_10
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_11
+      rect:
+        serializedVersion: 2
+        x: 1925
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_12
+      rect:
+        serializedVersion: 2
+        x: 2100
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_13
+      rect:
+        serializedVersion: 2
+        x: 2275
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_14
+      rect:
+        serializedVersion: 2
+        x: 2450
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_15
+      rect:
+        serializedVersion: 2
+        x: 2625
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_16
+      rect:
+        serializedVersion: 2
+        x: 2800
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_17
+      rect:
+        serializedVersion: 2
+        x: 2975
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_18
+      rect:
+        serializedVersion: 2
+        x: 3150
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_19
+      rect:
+        serializedVersion: 2
+        x: 3325
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_20
+      rect:
+        serializedVersion: 2
+        x: 3500
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_21
+      rect:
+        serializedVersion: 2
+        x: 3675
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_22
+      rect:
+        serializedVersion: 2
+        x: 3850
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_23
+      rect:
+        serializedVersion: 2
+        x: 4025
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_24
+      rect:
+        serializedVersion: 2
+        x: 4200
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_25
+      rect:
+        serializedVersion: 2
+        x: 4375
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: Alien - Knocked Out v3_26
+      rect:
+        serializedVersion: 2
+        x: 4550
+        y: 0
+        width: 175
+        height: 181
+      alignment: 0
+      pivot: {x: 0, y: 0}
+  spritePackingTag: 
+  userData: 

@@ -1,0 +1,148 @@
+fileFormatVersion: 2
+guid: 7aed5566f5b1d824fb21d7c228c658d8
+TextureImporter:
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spritePixelsToUnits: 500
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 1024
+    textureFormat: -2
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: blinkingCamera v2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_1
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_3
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_4
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_5
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_6
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_7
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_8
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_9
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+    - name: blinkingCamera v2_10
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 0
+        width: 52
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+  spritePackingTag: 
+  userData: 

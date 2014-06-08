@@ -84,16 +84,19 @@ public class EmptyFlask : Item
 
 			Transform parent = transform.parent;
 
-			parent.transform.position = player.transform.position;
-			
-			// This should not work, but it does.
-			if(flaskThrowPosition != null)
-				parent.transform.position = flaskThrowPosition.transform.position;
-			
-			parent.transform.up = player.transform.up;
-			transform.up = -player.transform.up;
+			if(parent != null)
+			{
+				parent.transform.position = player.transform.position;
+				
+				// This should not work, but it does.
+				if(flaskThrowPosition != null)
+					parent.transform.position = flaskThrowPosition.transform.position;
+				
+				parent.transform.up = player.transform.up;
+				transform.up = -player.transform.up;
 
-			thrown = true;
+				thrown = true;
+			}
 		}
 	}
 
@@ -113,7 +116,12 @@ public class EmptyFlask : Item
                 other.gameObject.GetComponent<StationaryGuard>();
 
             if (guardManager != null)
+			{
                 guardManager.m_currentState = Guard.State.STUN;
+				guardManager.transform.up = Vector3.up;
+
+				other.enabled = false;
+			}
         }
 
 		if(other.gameObject.tag == "Wall" && gameObject.tag == "ItemThrown")

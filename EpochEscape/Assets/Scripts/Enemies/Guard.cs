@@ -265,4 +265,8 @@ public class Guard : Enemy
 		}
 	}
 
+	public void Destroy()
+	{
+		Destroy(gameObject);
+	}
 }

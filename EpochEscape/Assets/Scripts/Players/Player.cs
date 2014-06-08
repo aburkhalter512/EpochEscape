@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 	private bool m_isMovingRight;
 	private bool m_isThrowing;
 	private bool m_isAttacking;
-	private bool m_hasSpecialItem;
+	public bool m_hasSpecialItem;
 	private bool m_isDrinking;
 	private float m_directionAngle;
 
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 
 	public Inventory inventory;
 	public int m_selectedSlot;
-	public int m_specItems;
+	public int m_specItems = 0;
 
 	public int MAX_CORES = 3;
 
@@ -65,6 +65,10 @@ public class Player : MonoBehaviour
 	public const float AIR_RESTIANCE_MODIFIER = 0.5f;
 	public const float MAX_DETECTION_LEVEL = 100.0f;
 	public const int UNIQUE_ITEM_SLOTS = 1;
+
+	// Cave Girl variables
+	private bool m_isAtHitFrame = false;
+	private bool m_isClubBroken = false;
 
 	public enum PlayerState
 	{
@@ -115,10 +119,7 @@ public class Player : MonoBehaviour
 	protected void Update()
 	{
 		if(!G.getInstance ().paused)
-		{
 			UpdateCurrentState();
-			//UpdateDebug();
-		}
 		else
 		{
 			m_isMoving = false;
@@ -143,12 +144,6 @@ public class Player : MonoBehaviour
 			Dead();
 			break;
 		}
-	}
-
-	private void UpdateDebug()
-	{
-		if(Input.GetKeyUp(KeyCode.C))
-			m_hasSpecialItem = !m_hasSpecialItem;
 	}
 
 	private void Alive()
@@ -235,14 +230,6 @@ public class Player : MonoBehaviour
 			Vector3 toMousePosition = mouseWorldPosition - transform.renderer.bounds.center;
 			toMousePosition.z = 0f;
 
-			/*
-			if(Utilities.IsApproximately(mouseScreenPosition.x, m_previousMouseScreenPos.x) && 
-			   Utilities.IsApproximately(mouseScreenPosition.y, m_previousMouseScreenPos.y))
-			{
-				return;
-			}
-			*/
-
 			m_previousMouseScreenPos = mouseScreenPosition;
 
 			CircleCollider2D playerCollider = GetComponent<CircleCollider2D>();
@@ -270,7 +257,7 @@ public class Player : MonoBehaviour
 		m_isMovingLeft = false;
 		m_isMovingRight = false;
 
-		if(m_isThrowing || m_isDrinking) return;
+		if(m_isThrowing || m_isDrinking || m_isAttacking) return;
 
 		if(Input.GetKey(KeyCode.W)) m_isMovingForward = true;
 		if(Input.GetKey(KeyCode.S)) m_isMovingDown = true;
@@ -300,8 +287,14 @@ public class Player : MonoBehaviour
 			else if(m_selectedSlot == 1)
 				m_isThrowing = true;
 		}
+		
 		if (Input.GetButtonDown ("Fire2") && inventory.inventory[Inventory.SPECIAL_SLOT] != null){
 			m_isAttacking = true;
+
+			inventory.activateItem(Inventory.SPECIAL_SLOT);
+
+			if(inventory.inventoryCount[Inventory.SPECIAL_SLOT] <= 0)
+				m_isClubBroken = true; // Cave Girl
 		}
 
 		if(Input.GetAxisRaw ("Mouse ScrollWheel") > 0)
@@ -339,8 +332,12 @@ public class Player : MonoBehaviour
 	public void FinishedAttacking()
 	{
 		m_isAttacking = false;
-		
-		inventory.activateItem(m_selectedSlot);
+
+		if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
+		{
+			m_isClubBroken = false;
+			m_hasSpecialItem = false;
+		}
 	}
 
 	private void UpdateMovement()
@@ -411,10 +408,12 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("isMovingBackward", m_isMovingDown);
 			m_animator.SetBool("isMovingLeft", m_isMovingLeft);
 			m_animator.SetBool("isMovingRight", m_isMovingRight);
-			m_animator.SetBool("isAttacking", m_isThrowing);
+			m_animator.SetBool("isAttacking", m_isAttacking);
+			m_animator.SetBool("isThrowing", m_isThrowing);
 			m_animator.SetBool("hasSpecialItem", m_hasSpecialItem);
 			m_animator.SetBool("isDrinking", m_isDrinking);
 			m_animator.SetBool("isHiding", m_isHiding);
+			m_animator.SetBool("isClubBroken", m_isClubBroken);
 		}
 
 		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
@@ -455,7 +454,7 @@ public class Player : MonoBehaviour
 
 	public bool IsActive()
 	{
-		return m_isThrowing || m_isDrinking || m_isMoving;
+		return m_isThrowing || m_isDrinking || m_isMoving || m_isAttacking;
 	}
 
 	#region sound control	
@@ -476,6 +475,22 @@ public class Player : MonoBehaviour
 		m_footCounter++;
 		if (m_footCounter >= 6)
 			m_footCounter = 0;
+	}
+
+	public void HitFrameOn()
+	{
+		m_isAtHitFrame = true;
+	}
+
+	public void HitFrameOff()
+	{
+		m_isAtHitFrame = false;
+	}
+
+	// Cave Girl Method
+	public bool IsAtHitFrame
+	{
+		get { return m_isAtHitFrame; }
 	}
 	#endregion
 
