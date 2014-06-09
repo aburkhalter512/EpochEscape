@@ -8,7 +8,7 @@ public class CameraBehavior : MonoBehaviour
 
 	public Vector3 m_currentTarget;
 
-	private float m_initialMapYPosition;
+	private Vector3 m_initialMapPosition;
 	private float m_initialCameraSize;
 
 	private GameObject m_player;
@@ -22,6 +22,9 @@ public class CameraBehavior : MonoBehaviour
 
 	public bool m_displayCowbell = false;
 	private GameObject m_cowbell = null;
+
+	private Dimension m_displayDimension;
+	private float m_aspectRatio;
 
 	public enum State
 	{
@@ -43,11 +46,13 @@ public class CameraBehavior : MonoBehaviour
 
 	public void Start()
 	{
-		if(m_floor != null)
-			m_initialMapYPosition = m_floor.transform.position.y;
+		if (m_floor != null)
+			m_initialMapPosition = m_floor.transform.position;
 
 		m_initialCameraSize = camera.orthographicSize;
 		m_player = null;
+		m_displayDimension = Dimension.HEIGHT;
+		m_aspectRatio = (float)Screen.width / Screen.height;
 
 		m_lerpTargets = new Stack<GameObject>();
 
@@ -99,12 +104,22 @@ public class CameraBehavior : MonoBehaviour
 		if(!G.getInstance().paused)
 			G.getInstance().PauseMovement();
 
-		m_currentTarget.x = m_floor.transform.position.x;
-		m_currentTarget.y = m_initialMapYPosition - m_mapHeight;
+		if(m_displayDimension == Dimension.WIDTH)
+		{
+			m_currentTarget.x = m_initialMapPosition.x - m_mapWidth;
+			m_currentTarget.y = m_floor.transform.position.y;
+
+			m_star.transform.position = new Vector3(m_player.transform.position.x - m_mapWidth, m_player.transform.position.y, m_star.transform.position.z);
+		}
+		else
+		{
+			m_currentTarget.x = m_floor.transform.position.x;
+			m_currentTarget.y = m_initialMapPosition.y - m_mapHeight;
+
+			m_star.transform.position = new Vector3(m_player.transform.position.x, m_player.transform.position.y - m_mapHeight, m_star.transform.position.z);
+		}
 
 		m_floor.transform.position = new Vector3(m_currentTarget.x, m_currentTarget.y, m_floor.transform.position.z);
-
-		m_star.transform.position = new Vector3(m_player.transform.position.x, m_player.transform.position.y - m_mapHeight, m_star.transform.position.z);
 		m_star.SetActive(true);
 
 		transform.position = new Vector3(m_currentTarget.x, m_currentTarget.y, transform.position.z);
@@ -190,6 +205,11 @@ public class CameraBehavior : MonoBehaviour
 		{
 			m_mapWidth = mapRenderer.bounds.size.x;
 			m_mapHeight = mapRenderer.bounds.size.y;
+
+			if(m_mapWidth / m_mapHeight > m_aspectRatio)
+				m_displayDimension = Dimension.WIDTH;
+			else
+				m_displayDimension = Dimension.HEIGHT;
 		}
 	}
 
@@ -236,11 +256,8 @@ public class CameraBehavior : MonoBehaviour
 			{
 				m_currentState = State.DISPLAY_MAP;
 				
-				if(walls != null)
-					walls.transform.position = new Vector3(walls.transform.position.x, walls.transform.position.y - m_mapHeight, walls.transform.position.z);
-				
-				if(doors != null)
-					doors.transform.position = new Vector3(doors.transform.position.x, doors.transform.position.y - m_mapHeight, doors.transform.position.z);
+				if(walls != null) ShiftObjects(walls);
+				if(doors != null) ShiftObjects(doors);
 
 				if(m_cowbell != null && m_displayCowbell)
 					m_cowbell.SetActive(true);
@@ -250,15 +267,12 @@ public class CameraBehavior : MonoBehaviour
 			}
 			else if(m_currentState == State.DISPLAY_MAP)
 			{
-				m_floor.transform.position = new Vector3(m_floor.transform.position.x, m_initialMapYPosition, m_floor.transform.position.z);
+				m_floor.transform.position = m_initialMapPosition;
 				m_currentState = State.FOLLOW_PLAYER;
 				m_star.SetActive(false);
 
-				if(walls != null)
-					walls.transform.position = new Vector3(walls.transform.position.x, walls.transform.position.y + m_mapHeight, walls.transform.position.z);
-				
-				if(doors != null)
-					doors.transform.position = new Vector3(doors.transform.position.x, doors.transform.position.y + m_mapHeight, doors.transform.position.z);
+				if(walls != null) ShiftObjects(walls, true);
+				if(doors != null) ShiftObjects(doors, true);
 
 				if(m_cowbell != null)
 					m_cowbell.SetActive(false);
@@ -269,6 +283,20 @@ public class CameraBehavior : MonoBehaviour
 		}
 	}
 
+	private void ShiftObjects(GameObject objects, bool restore = false)
+	{
+		if(objects == null) return;
+
+		Vector3 offset = Vector3.zero;
+
+		if(m_displayDimension == Dimension.WIDTH)
+			offset = new Vector3(m_mapWidth, 0f, 0f);
+		else
+			offset = new Vector3(0f, m_mapHeight, 0f);
+
+		objects.transform.position -= restore ? -offset : offset;
+	}
+
 	private void LerpCameraSize()
 	{
 		if(m_currentState == State.PLAYER_CAUGHT)
@@ -277,14 +305,13 @@ public class CameraBehavior : MonoBehaviour
 
 			return;
 		}
-
-		float aspectRatio = (float)Screen.width / Screen.height;
+		
 		float targetCameraSize = 0f;
 
 		if(m_currentState == State.DISPLAY_MAP)
 		{
-			if(m_mapWidth / m_mapHeight > aspectRatio)
-				targetCameraSize = (m_mapWidth / aspectRatio) / 2f;
+			if(m_displayDimension == Dimension.WIDTH)
+				targetCameraSize = (m_mapWidth / m_aspectRatio) / 2f;
 			else
 				targetCameraSize = m_mapHeight / 2f;
 		}
