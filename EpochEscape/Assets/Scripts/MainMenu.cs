@@ -79,9 +79,6 @@ public class MainMenu : MonoBehaviour {
 
 	#region Main Menu
 	void ShowMain () {
-		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height/2 - 175, 400f, 500));
-		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
-		GUILayout.EndArea ();
 		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 150, Screen.height/2 - 100, 300f, 350));
 			#region Main Menu Buttons
 			if (GUILayout.Button ("Load Game", EpochSkin.GetStyle ("Top Button"))){
@@ -112,6 +109,9 @@ public class MainMenu : MonoBehaviour {
 			}
 			#endregion
 		GUILayout.EndArea ();
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height/2 - 175, 400f, 500));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
+		GUILayout.EndArea ();
 	}
 	#endregion
 
@@ -141,11 +141,11 @@ public class MainMenu : MonoBehaviour {
 				G.getInstance().showFPS = GUILayout.Toggle (G.getInstance().showFPS, "", EpochSkin.toggle);
 			GUILayout.EndHorizontal ();
 
-			GUILayout.BeginHorizontal ();
-				GUILayout.Space (25);
-				GUILayout.Label ("Tutorial On", EpochSkin.label);
-				G.getInstance().Tutorial = GUILayout.Toggle (G.getInstance ().Tutorial, "", EpochSkin.toggle);
-			GUILayout.EndHorizontal ();
+//			GUILayout.BeginHorizontal ();
+//				GUILayout.Space (25);
+//				GUILayout.Label ("Tutorial On", EpochSkin.label);
+//				G.getInstance().Tutorial = GUILayout.Toggle (G.getInstance ().Tutorial, "", EpochSkin.toggle);
+//			GUILayout.EndHorizontal ();
 			#endregion
 
 		GUILayout.EndArea ();

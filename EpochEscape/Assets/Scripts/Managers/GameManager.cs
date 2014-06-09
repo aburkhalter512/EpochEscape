@@ -255,11 +255,11 @@ public class GameManager : UnitySingleton<GameManager>
 					showFPS = GUILayout.Toggle (showFPS, "", EpochSkin.toggle);
 				GUILayout.EndHorizontal ();
 
-				GUILayout.BeginHorizontal ();
-					GUILayout.Space (25);
-					GUILayout.Label ("Tutorial On", EpochSkin.label);
-					Tutorial = GUILayout.Toggle (Tutorial, "", EpochSkin.toggle);
-				GUILayout.EndHorizontal ();
+//				GUILayout.BeginHorizontal ();
+//					GUILayout.Space (25);
+//					GUILayout.Label ("Tutorial On", EpochSkin.label);
+//					Tutorial = GUILayout.Toggle (Tutorial, "", EpochSkin.toggle);
+//				GUILayout.EndHorizontal ();
 			GUILayout.EndVertical ();
 			#endregion 
 		GUILayout.EndArea ();
