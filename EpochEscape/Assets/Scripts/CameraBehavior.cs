@@ -23,8 +23,6 @@ public class CameraBehavior : MonoBehaviour
 	public bool m_displayCowbell = false;
 	private GameObject m_cowbell = null;
 
-	private Dimension m_largestDimension;
-
 	public enum State
 	{
 		DISPLAY_MAP,
@@ -52,7 +50,7 @@ public class CameraBehavior : MonoBehaviour
 
 		m_lerpTargets = new Stack<GameObject>();
 
-		CalculateLargestDimension();
+		CalculateFloorDimensions();
 		CreateStar();
 		CreateCowbell();
 	}
@@ -178,7 +176,7 @@ public class CameraBehavior : MonoBehaviour
 		}
 	}
 
-	private void CalculateLargestDimension()
+	private void CalculateFloorDimensions()
 	{
 		m_mapWidth = 0f;
 		m_mapHeight = 0f;
@@ -191,11 +189,6 @@ public class CameraBehavior : MonoBehaviour
 		{
 			m_mapWidth = mapRenderer.bounds.size.x;
 			m_mapHeight = mapRenderer.bounds.size.y;
-
-			if(m_mapWidth > m_mapHeight)
-				m_largestDimension = Dimension.WIDTH;
-			else
-				m_largestDimension = Dimension.HEIGHT;
 		}
 	}
 
@@ -282,13 +275,15 @@ public class CameraBehavior : MonoBehaviour
 
 		if(m_currentState == State.DISPLAY_MAP)
 		{
-			if(m_largestDimension == Dimension.WIDTH)
+			if(m_mapWidth / m_mapHeight > aspectRatio)
 				targetCameraSize = (m_mapWidth / aspectRatio) / 2f;
 			else
 				targetCameraSize = m_mapHeight / 2f;
 		}
 		else
 			targetCameraSize = m_initialCameraSize;
+
+		//Debug.Log (targetCameraSize);
 
 		camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, targetCameraSize, 2 * LERP_SPEED * Time.deltaTime);
 	}
