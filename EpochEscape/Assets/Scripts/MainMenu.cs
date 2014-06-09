@@ -789,7 +789,7 @@ public class MainMenu : MonoBehaviour {
 				GUILayout.Label ("Enter A Name", EpochSkin.label);
 				GUILayout.EndHorizontal ();
 				GUI.SetNextControlName ("SaveName");
-				name = GUILayout.TextField (name.Replace ("\n", "").Replace ("\r", ""), 15, EpochSkin.textField);
+				name = GUILayout.TextField (name.Replace ("\n", "").Replace ("\r", ""), 12, EpochSkin.textField);
 				GUI.FocusControl ("SaveName");
 				GUILayout.Space (10);
 				GUILayout.BeginHorizontal ();
