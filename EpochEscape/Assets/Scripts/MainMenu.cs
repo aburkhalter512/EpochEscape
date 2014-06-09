@@ -18,12 +18,26 @@ public class MainMenu : MonoBehaviour {
 	#endregion
 	#region Character Select
 	private bool fromLoad = false;
+	private bool characterSelected = false;
 	private const int MAX_CHARS = 5;
 	private int characterNum = 0;
-	private Texture[] charTex;
+	private bool caveSelect = false;
+	private bool knightSelect = false;
+	private bool ninjaSelect = false;
+	private bool astronautSelect = false;
+	private bool mummySelect = false;
+	private bool robotSelect = false;
+	public Texture2D[] charTex;
+	public Texture2D[] charSel;
+	public Texture2D[] Backdrops;
+	public Texture2D currentBackdrop;
 	#endregion
-	#region Page
-	public enum Page{
+    #region Credits
+    private int creditPage = 0;
+    public Texture2D[] creditPages;
+    #endregion
+    #region Page
+    public enum Page{
 		Main, Character, Options, ResetWarning, Credits, LoadSelect, SaveSelect, 
 		SaveWarning, LoadWarning, DeleteWarning, SaveName, //Tutorial
 	}
@@ -32,29 +46,54 @@ public class MainMenu : MonoBehaviour {
 	#endregion
 
 	void Start(){
-		charTex = new Texture[6];
-		LoadCharTex ();
+		ResetSelections ();
 	}
-	#region Load Characters
-	private void LoadCharTex(){
-		charTex[0] = Resources.Load("Textures/GUI/Select/CaveGirlSelect", typeof(Texture)) as Texture;
-		charTex[1] = Resources.Load("Textures/GUI/Select/KnightSelect", typeof(Texture)) as Texture;
-		if(G.getInstance().ninjaUnlocked)
-			charTex[2] = Resources.Load("Textures/GUI/Select/NinjaSelect", typeof(Texture)) as Texture;
-		else
-			charTex[2] = Resources.Load ("Textures/GUI/Select/NinjaLocked", typeof(Texture)) as Texture;
-		if(G.getInstance().astroUnlocked)
-			charTex[3] = Resources.Load("Textures/GUI/Select/AstronautSelect", typeof(Texture)) as Texture;
-		else
-			charTex[3] = Resources.Load ("Textures/GUI/Select/AstronautLocked", typeof(Texture)) as Texture;
-		if(G.getInstance().mumUnlocked)
-			charTex[4] = Resources.Load("Textures/GUI/Select/MummySelect", typeof(Texture)) as Texture;
-		else
-			charTex[4] = Resources.Load ("Textures/GUI/Select/MummyLocked", typeof(Texture)) as Texture;
-		if(G.getInstance().robUnlocked)
-			charTex[5] = Resources.Load("Textures/GUI/Select/RobotSelect", typeof(Texture)) as Texture;
-		else
-			charTex[5] = Resources.Load ("Textures/GUI/Select/RobotLocked", typeof(Texture)) as Texture;
+
+	void Update(){
+        backdropImage();
+	}
+
+//	private void LoadCharTex(){
+//		charTex[0] = Resources.Load("Textures/GUI/Select/CaveGirlSelect", typeof(Texture)) as Texture;
+//		charTex[1] = Resources.Load("Textures/GUI/Select/KnightSelect", typeof(Texture)) as Texture;
+//		if(G.getInstance().ninjaUnlocked)
+//			charTex[2] = Resources.Load("Textures/GUI/Select/NinjaSelect", typeof(Texture)) as Texture;
+//		else
+//			charTex[2] = Resources.Load ("Textures/GUI/Select/NinjaLocked", typeof(Texture)) as Texture;
+//		if(G.getInstance().astroUnlocked)
+//			charTex[3] = Resources.Load("Textures/GUI/Select/AstronautSelect", typeof(Texture)) as Texture;
+//		else
+//			charTex[3] = Resources.Load ("Textures/GUI/Select/AstronautLocked", typeof(Texture)) as Texture;
+//		if(G.getInstance().mumUnlocked)
+//			charTex[4] = Resources.Load("Textures/GUI/Select/MummySelect", typeof(Texture)) as Texture;
+//		else
+//			charTex[4] = Resources.Load ("Textures/GUI/Select/MummyLocked", typeof(Texture)) as Texture;
+//		if(G.getInstance().robUnlocked)
+//			charTex[5] = Resources.Load("Textures/GUI/Select/RobotSelect", typeof(Texture)) as Texture;
+//		else
+//			charTex[5] = Resources.Load ("Textures/GUI/Select/RobotLocked", typeof(Texture)) as Texture;
+//	}
+
+	#region Characters
+	void backdropImage(){
+		if (NoCharHover())
+			currentBackdrop = Backdrops[0];
+		else if(caveSelect)
+			currentBackdrop = Backdrops[1];
+		else if(knightSelect)
+			currentBackdrop = Backdrops[2];
+		else if(ninjaSelect)
+			currentBackdrop = Backdrops[3];
+		else if(mummySelect)
+			currentBackdrop = Backdrops[4];
+		else if(astronautSelect)
+			currentBackdrop = Backdrops[5];
+		else if(robotSelect)
+			currentBackdrop = Backdrops[6];
+	}
+
+	bool NoCharHover(){
+		return caveSelect && knightSelect && ninjaSelect && astronautSelect && mummySelect && robotSelect;
 	}
 	#endregion
 
@@ -87,8 +126,10 @@ public class MainMenu : MonoBehaviour {
 			}
 			GUILayout.Space (10);
 			if (GUILayout.Button ("New Game", EpochSkin.GetStyle ("Top Middle"))) {
-					ClickSound.Play ();	
-					characterNum = 0;
+					ClickSound.Play ();
+                    GameObject.Find("Background Image").GetComponent<GUITexture>().texture = Resources.Load("Textures/GUI/Backgrounds/Title Menu Clear") as Texture;
+                    currentBackdrop = Backdrops[0];
+					characterNum = -1;
 					currentPage = Page.Character;
 			}
 			GUILayout.Space (10);
@@ -98,7 +139,8 @@ public class MainMenu : MonoBehaviour {
 			}
 			GUILayout.Space (10);
 			if (GUILayout.Button ("Credits", EpochSkin.GetStyle("Bottom Middle"))){
-				ClickSound.Play ();	
+				ClickSound.Play ();
+                creditPage = 0;
 				currentPage = Page.Credits;
 			}
 			GUILayout.Space (10);
@@ -157,7 +199,7 @@ public class MainMenu : MonoBehaviour {
 				currentPage = Page.Main;
 			}
 		GUILayout.EndArea ();
-		GUILayout.BeginArea (new Rect(Screen.width/2 + 10, Screen.height/2 + 175, 200, 50));
+		GUILayout.BeginArea (new Rect(Screen.width/2 + 25, Screen.height/2 + 175, 200, 50));
 			if (GUILayout.Button ("Reset Game", EpochSkin.button)) {
 				ClickSound.Play ();	
 				currentPage = Page.ResetWarning;
@@ -170,16 +212,10 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	private void ResetWarning(){
-		GUILayout.BeginArea (new Rect(Screen.width /1.5f - 250, Screen.height * .35f, 500, 125));
+		GUILayout.BeginArea (new Rect(Screen.width /1.5f - 235, Screen.height/2, 375, 100));
 			GUILayout.BeginVertical ();
 				GUILayout.BeginHorizontal ();
-					GUILayout.Space (80);
-					GUILayout.Label ("Reset All Of Your Progress?", EpochSkin.textArea);
-				GUILayout.EndHorizontal ();
-
-				GUILayout.BeginHorizontal ();
-					GUILayout.Space (130);
-					GUILayout.Label ("This Will Delete All Saves, And Unlocks", EpochSkin.textArea);
+					GUILayout.Label ("Reset All Progress?", EpochSkin.label);
 				GUILayout.EndHorizontal ();
 
 				GUILayout.BeginHorizontal ();
@@ -196,6 +232,9 @@ public class MainMenu : MonoBehaviour {
 				GUILayout.EndHorizontal ();
 
 			GUILayout.EndVertical ();
+		GUILayout.EndArea ();
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 300, Screen.height/2 - 175, 500f, 500));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet Wide"));
 		GUILayout.EndArea ();
 	}
 
@@ -258,29 +297,157 @@ public class MainMenu : MonoBehaviour {
 
 	#region Character Selection
 	void SelectMenu(){
-		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 250, Screen.height * .22f, 500, 500));
-			GUILayout.BeginVertical ();
-				GUILayout.Label ("Choose Your Character", EpochSkin.GetStyle ("Title"));
-				GUILayout.Label (CharacterName(), EpochSkin.label);
-				if (GUILayout.Button ("", EpochSkin.GetStyle ("SelectUp"))) {
-					ClickSound.Play ();	
-					increaseSelect();
-				}
-				GUILayout.Space (5);
-				GUILayout.Label (charTex[characterNum], EpochSkin.GetStyle ("imageSelect"));
-				GUILayout.Space (5);
-				if(GUILayout.Button("", EpochSkin.GetStyle ("SelectDown"))){
-					ClickSound.Play ();	
-					decreaseSelect();
-				}
-			GUILayout.EndVertical ();
+		GUILayout.BeginArea (new Rect(-10, 0, Screen.width + 15, Screen.height - 150));
+		GUILayout.Box (currentBackdrop, EpochSkin.GetStyle ("Backdrop"));
+		GUILayout.EndArea ();
 
-		EndPage ();
+		GUILayout.BeginArea (new Rect(50, 175, 130, 150));
+		if (GUILayout.Button ("", EpochSkin.GetStyle ("CaveGirl"))) {
+			ClickSound.Play ();
+			#region reset bools
+			caveSelect = true;
+			knightSelect = false;
+			ninjaSelect = false;
+			astronautSelect = false;
+			mummySelect = false;
+			robotSelect = false;
+			#endregion
+			characterNum = G.CAVEGIRL;
+			#region reset normals
+			EpochSkin.GetStyle ("CaveGirl").normal.background = charSel[0];
+			EpochSkin.GetStyle ("Knight").normal.background = charTex[1];
+			EpochSkin.GetStyle ("Ninja").normal.background = charTex[2];
+			EpochSkin.GetStyle ("Mummy").normal.background = charTex[3];
+			EpochSkin.GetStyle ("Astronaut").normal.background = charTex[4];
+			EpochSkin.GetStyle ("Robot").normal.background = charTex[5];
+			#endregion
+		}
+		GUILayout.EndArea ();
 
-		GUILayout.BeginArea (new Rect(Screen.width - 270, Screen.height - 75 , 110, 100));
+        GUILayout.BeginArea(new Rect(215, 175, 130, 150));
+        if (GUILayout.Button("", EpochSkin.GetStyle("Knight")))
+        {
+            ClickSound.Play();
+            #region reset bools
+            caveSelect = false;
+            knightSelect = true;
+            ninjaSelect = false;
+            astronautSelect = false;
+            mummySelect = false;
+            robotSelect = false;
+            #endregion
+            characterNum = G.KNIGHT;
+            #region reset normals
+            EpochSkin.GetStyle("CaveGirl").normal.background = charTex[0];
+            EpochSkin.GetStyle("Knight").normal.background = charSel[1];
+            EpochSkin.GetStyle("Ninja").normal.background = charTex[2];
+            EpochSkin.GetStyle("Mummy").normal.background = charTex[3];
+            EpochSkin.GetStyle("Astronaut").normal.background = charTex[4];
+            EpochSkin.GetStyle("Robot").normal.background = charTex[5];
+            #endregion
+        }
+        GUILayout.EndArea();
+
+        GUILayout.BeginArea (new Rect(375, 185, 110, 140));
+		if (GUILayout.Button ("", EpochSkin.GetStyle ("Ninja"))) {
+			ClickSound.Play ();
+			#region reset bools
+			caveSelect = false;
+			knightSelect = false;
+			ninjaSelect = true;
+			astronautSelect = false;
+			mummySelect = false;
+			robotSelect = false;
+			#endregion
+			characterNum = G.NINJA;
+			#region reset normals
+			EpochSkin.GetStyle ("CaveGirl").normal.background = charTex[0];
+			EpochSkin.GetStyle ("Knight").normal.background = charTex[1];
+			EpochSkin.GetStyle ("Ninja").normal.background = charSel[2];
+			EpochSkin.GetStyle ("Mummy").normal.background = charTex[3];
+			EpochSkin.GetStyle ("Astronaut").normal.background = charTex[4];
+			EpochSkin.GetStyle ("Robot").normal.background = charTex[5];
+			#endregion
+		}
+        GUILayout.EndArea();
+
+		GUILayout.BeginArea (new Rect(535, 175, 110, 150));
+		if (GUILayout.Button ("", EpochSkin.GetStyle ("Mummy"))) {
+			ClickSound.Play ();
+			#region reset bools
+			caveSelect = false;
+			knightSelect = false;
+			ninjaSelect = false;
+			astronautSelect = false;
+			mummySelect = true;
+			robotSelect = false;
+			#endregion
+			characterNum = G.MUMMY;
+			#region reset normals
+			EpochSkin.GetStyle ("CaveGirl").normal.background = charTex[0];
+			EpochSkin.GetStyle ("Knight").normal.background = charTex[1];
+			EpochSkin.GetStyle ("Ninja").normal.background = charTex[2];
+			EpochSkin.GetStyle ("Mummy").normal.background = charSel[3];
+			EpochSkin.GetStyle ("Astronaut").normal.background = charTex[4];
+			EpochSkin.GetStyle ("Robot").normal.background = charTex[5];
+			#endregion
+		}
+		GUILayout.EndArea ();
+
+        GUILayout.BeginArea(new Rect(695, 175, 110, 150));
+        if (GUILayout.Button("", EpochSkin.GetStyle("Astronaut")))
+        {
+            ClickSound.Play();
+            #region reset bools
+            caveSelect = false;
+            knightSelect = false;
+            ninjaSelect = false;
+            astronautSelect = true;
+            mummySelect = false;
+            robotSelect = false;
+            #endregion
+            characterNum = G.ASTRONAUT;
+            #region reset normals
+            EpochSkin.GetStyle("CaveGirl").normal.background = charTex[0];
+            EpochSkin.GetStyle("Knight").normal.background = charTex[1];
+            EpochSkin.GetStyle("Ninja").normal.background = charTex[2];
+            EpochSkin.GetStyle("Mummy").normal.background = charTex[3];
+            EpochSkin.GetStyle("Astronaut").normal.background = charSel[4];
+            EpochSkin.GetStyle("Robot").normal.background = charTex[5];
+            #endregion
+        }
+        GUILayout.EndArea();
+
+		GUILayout.BeginArea (new Rect(860, 175, 90, 150));
+		if (GUILayout.Button ("", EpochSkin.GetStyle ("Robot"))) {
+			ClickSound.Play ();
+			#region reset bools
+			caveSelect = false;
+			knightSelect = false;
+			ninjaSelect = false;
+			astronautSelect = false;
+			mummySelect = false;
+			robotSelect = true;
+			#endregion
+			characterNum = G.ROBOT;
+			#region reset normals
+			EpochSkin.GetStyle ("CaveGirl").normal.background = charTex[0];
+			EpochSkin.GetStyle ("Knight").normal.background = charTex[1];
+			EpochSkin.GetStyle ("Ninja").normal.background = charTex[2];
+			EpochSkin.GetStyle ("Mummy").normal.background = charTex[3];
+			EpochSkin.GetStyle ("Astronaut").normal.background = charTex[4];
+			EpochSkin.GetStyle ("Robot").normal.background = charSel[5];
+			#endregion
+		}
+		GUILayout.EndArea ();
+
+		#region Select Button
+		GUILayout.BeginArea (new Rect(Screen.width - 250, Screen.height - 75 , 110, 100));
 			if (GUILayout.Button ("Select", EpochSkin.GetStyle ("Small Button"))) {
 				ClickSound.Play ();	
 				if(CharIsUnlocked ()){
+                    GameObject.Find("Background Image").GetComponent<GUITexture>().texture = Resources.Load("Textures/GUI/Backgrounds/Title Menu") as Texture;
+					ResetSelections ();
 					if(fromLoad){
 						prevPage = Page.Character;
 						currentPage = Page.SaveName;
@@ -293,7 +460,17 @@ public class MainMenu : MonoBehaviour {
 				}
 			}
 		GUILayout.EndArea ();
-
+		#endregion
+		#region Home Button
+		GUILayout.BeginArea (new Rect(Screen.width - 125, Screen.height - 75 , 110, 50));
+		if(GUILayout.Button ("Home", EpochSkin.GetStyle("Small Button"))){
+            GameObject.Find("Background Image").GetComponent<GUITexture>().texture = Resources.Load("Textures/GUI/Backgrounds/Title Menu") as Texture;
+			BackSound.Play ();
+			currentPage = Page.Main;
+			ResetSelections ();
+		}
+		GUILayout.EndArea ();
+		#endregion
 	}	
 
 	private bool CharIsUnlocked(){
@@ -332,62 +509,25 @@ public class MainMenu : MonoBehaviour {
 		}
 		return unlocked;
 	}
-
-	string CharacterName(){
-		string name = "";
-		switch (characterNum) {
-		case 0:
-			name = "The Cave Girl";
-			break;
-		case 1:
-			name = "The Knight";
-			break;
-		case 2:
-			if(G.getInstance().ninjaUnlocked)
-				name = "The Ninja";
-			else
-				name = "Locked";
-			break;
-		case 3:
-			if(G.getInstance().astroUnlocked)
-				name = "The Astronaut";
-			else
-				name = "Locked";
-			break;
-		case 4:
-			if(G.getInstance().mumUnlocked)
-				name = "The Mummy";
-			else
-				name = "Locked";
-			break;
-		case 5:
-			if(G.getInstance().robUnlocked)
-				name = "The Robot";
-			else
-				name = "Locked";
-			break;
-		}
-		return name;
-	}
-
-	private void increaseSelect(){
-		characterNum++;
-		if(characterNum > MAX_CHARS)
-			characterNum = 0;
-	}
-
-	private void decreaseSelect(){
-		characterNum--;
-		if(characterNum < 0)
-			characterNum = MAX_CHARS;
-	}
 	#endregion
 
 	#region Credits Page
 	void ShowCredits(){
-		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 300, Screen.height * .25f, 575, 450));
-		GUILayout.Label ("", EpochSkin.GetStyle ("Credits"));
+        string buttonMessage = (creditPage + 1) + "/2";
+     
+        GUILayout.BeginArea(new Rect(Screen.width / 1.5f - 300, Screen.height / 2 - 275, 500f, 700));
+		GUILayout.Box (creditPages[creditPage], EpochSkin.GetStyle ("Credits"));
 		EndPage ();
+
+        GUILayout.BeginArea(new Rect(Screen.width /1.5f - 100, Screen.height / 2 + 175, 110f, 50));
+        if (GUILayout.Button(buttonMessage, EpochSkin.GetStyle("Small Button")))
+        {
+            if (creditPage == 1)
+                creditPage--;
+            else if (creditPage == 0)
+                creditPage++;
+        }
+        GUILayout.EndArea();
 	}
 	#endregion
 
@@ -542,10 +682,10 @@ public class MainMenu : MonoBehaviour {
 	#region Save Selection
 	void ShowSaveSelect(){
 		prevPage = Page.Character;
-		GUILayout.BeginArea (new Rect (Screen.width/1.5f - 225, Screen.height * .35f, 350, 300));
+		GUILayout.BeginArea (new Rect (Screen.width/1.5f - 225, Screen.height/2 - 90, 350, 300));
 			#region buttons
 			GUILayout.BeginVertical ();
-			GUILayout.Label ("Choose Your Save Slot", EpochSkin.label);
+			GUILayout.Label ("Choose Your Slot", EpochSkin.label);
 			if (GUILayout.Button (S.save1, EpochSkin.button)) {
 				ClickSound.Play ();
 				S.ChooseSave (0);
@@ -733,6 +873,21 @@ public class MainMenu : MonoBehaviour {
 	#endregion
 
 	#region Reset the scene
+	private void ResetSelections(){
+		caveSelect = false;
+		EpochSkin.GetStyle ("CaveGirl").normal.background = charTex [0];
+		ninjaSelect = false;
+		EpochSkin.GetStyle ("Knight").normal.background = charTex [1];
+		knightSelect = false;
+		EpochSkin.GetStyle ("Ninja").normal.background = charTex [2];
+		mummySelect = false;
+		EpochSkin.GetStyle ("Mummy").normal.background = charTex [3];
+		astronautSelect = false;
+		EpochSkin.GetStyle ("Astronaut").normal.background = charTex [4];
+		robotSelect = false;
+		EpochSkin.GetStyle ("Robot").normal.background = charTex [5];
+        currentBackdrop = Backdrops[0];
+	}
 	private void ResetVariables(){
 		name = "";
 		characterNum = 0;
