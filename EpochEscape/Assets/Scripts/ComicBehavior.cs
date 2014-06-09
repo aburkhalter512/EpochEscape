@@ -40,13 +40,13 @@ public class ComicBehavior : MonoBehaviour {
 	}
 
 	void ShowNext(){
-		GUILayout.BeginArea (new Rect (Screen.width - 175, Screen.height - 75, 110, 50));
+		GUILayout.BeginArea (new Rect (Screen.width/2 - 55, Screen.height - 75, 110, 50));
 		if (GUILayout.Button ("Skip", EpochSkin.GetStyle("Small Button"))) {
 			FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { Application.LoadLevel("Level1"); });
 		}
 		GUILayout.EndArea ();
-		GUILayout.BeginArea (new Rect (Screen.width - 50, Screen.height - 75, 110, 50));
-		if (GUILayout.Button ("", EpochSkin.GetStyle("Arrow Right"))) {
+		GUILayout.BeginArea (new Rect (Screen.width - 135, Screen.height - 75, 110, 50));
+		if (GUILayout.Button ("Next", EpochSkin.GetStyle("Small Button"))) {
 			if(page == (MAX_PAGES - 1))
 				FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { Application.LoadLevel("Level1"); });
 			else
@@ -55,8 +55,8 @@ public class ComicBehavior : MonoBehaviour {
 		GUILayout.EndArea ();
 	}
 	void ShowPrevious(){
-		GUILayout.BeginArea (new Rect (0, Screen.height - 75, 110, 50));
-		if (GUILayout.Button ("", EpochSkin.GetStyle("Arrow Left"))) {
+		GUILayout.BeginArea (new Rect (25, Screen.height - 75, 110, 50));
+		if (GUILayout.Button ("Prev", EpochSkin.GetStyle("Small Button"))) {
 			if(page != 0){
 				page--;
 			}
