@@ -171,7 +171,7 @@ public class GameManager : UnitySingleton<GameManager>
 			#endregion
 		GUILayout.EndArea ();
 		GUILayout.BeginArea (new Rect(Screen.width/2f - 250, Screen.height/2f - 250, 500, 500));
-		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet Wide"));
 		GUILayout.EndArea ();
 	}
 	
@@ -232,7 +232,7 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Options
 	void ShowOptions(){
 		#region Options List
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 150, Screen.height/2f - 150, 315, 500));
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 150, Screen.height/2f - 175, 315, 500));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space (90);
@@ -263,7 +263,7 @@ public class GameManager : UnitySingleton<GameManager>
 		
 		GUILayout.EndArea ();
 		GUILayout.EndVertical ();
-		GUILayout.BeginArea (new Rect(Screen.width/2 - 55f, Screen.height/2 + 125, 110, 50));
+		GUILayout.BeginArea (new Rect(Screen.width/2 - 55f, Screen.height/2 + 100, 110, 50));
 		if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
 			ClickSound.Play ();	
 			SaveOptions ();
@@ -271,7 +271,7 @@ public class GameManager : UnitySingleton<GameManager>
 		}
 		GUILayout.EndArea ();
 		GUILayout.BeginArea (new Rect(Screen.width/2f - 250, Screen.height/2f - 250, 500, 500));
-		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet Wide"));
 		GUILayout.EndArea ();
 	}
 	
