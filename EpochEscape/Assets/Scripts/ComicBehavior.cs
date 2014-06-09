@@ -25,7 +25,8 @@ public class ComicBehavior : MonoBehaviour {
 
 	void OnGUI(){
 		ShowNext ();
-		ShowPrevious ();
+		if(page != 0)
+			ShowPrevious ();
 	}
 
 	void GetKeyPresses(){
@@ -40,13 +41,18 @@ public class ComicBehavior : MonoBehaviour {
 	}
 
 	void ShowNext(){
+		string nextButton;
+		if(page != (MAX_PAGES - 1))
+			nextButton = "Next";
+		else
+			nextButton = "Start";
 		GUILayout.BeginArea (new Rect (Screen.width/2 - 55, Screen.height - 75, 110, 50));
 		if (GUILayout.Button ("Skip", EpochSkin.GetStyle("Small Button"))) {
 			FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { Application.LoadLevel("Level1"); });
 		}
 		GUILayout.EndArea ();
 		GUILayout.BeginArea (new Rect (Screen.width - 135, Screen.height - 75, 110, 50));
-		if (GUILayout.Button ("Next", EpochSkin.GetStyle("Small Button"))) {
+		if (GUILayout.Button (nextButton, EpochSkin.GetStyle("Small Button"))) {
 			if(page == (MAX_PAGES - 1))
 				FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { Application.LoadLevel("Level1"); });
 			else

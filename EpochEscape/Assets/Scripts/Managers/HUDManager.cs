@@ -6,7 +6,7 @@ using System.Collections;
 public class HUDManager : MonoBehaviour {
 	public Player playerManager;
 	public GUISkin EpochSkin;
-
+	
 	#region scaling
 	private const float origWidth = 1024f;
 	private const float origHeight = 768f;
@@ -14,84 +14,85 @@ public class HUDManager : MonoBehaviour {
 	#endregion
 	
 	#region hero icon + detection bar
-	public Texture2D[] detectionBar;
-	public Texture2D currMeter;
+	public Texture2D iconFrame;
+	public Texture2D detectionBar;
 	public Texture2D happy;
 	public Texture2D worried;
 	public Texture2D scared;
 	public Texture2D currMood;
-	private Vector2 iconPos = new Vector2(0f,0f);
+	public Texture2D specItem;
+	private Vector2 iconPos = new Vector2(0f,10f);
 	private Vector2 iconSize = new Vector2 (135f, 135f);
+	private float barFill;
 	#endregion
 	
 	#region inventory
-	public Texture2D potion;
-	public Texture2D potionSelected;
-	public Texture2D currPotion;
-	public Texture2D flask;
-	public Texture2D flaskSelected;
-	public Texture2D currFlask;
-	public Texture2D specItem;
+	public Texture2D redPot;
+	public Texture2D redSelected;
+	public Texture2D currRed;
+	public Texture2D greenPot;
+	public Texture2D greenSelected;
+	public Texture2D currGreen;
 	private int m_flaskCount = 0;
 	private int m_potionCount = 0;
 	private int m_specCount = 0;
-	private Vector2 potionPos = new Vector2 (0f,100f);
-	private Vector2 potionSize = new Vector2 (65.1f,81.9f);
-	private Vector2 flaskPos = new Vector2 (0f,150f);
-	private Vector2 flaskSize = new Vector2(65.1f,81.9f);
+	private Vector2 redPos = new Vector2 (0f,683f);
+	private Vector2 greenPos = new Vector2 (80f,683f);
+	private Vector2 potionSize = new Vector2 (71f,85f);
+
 	#endregion
 	
 	#region power core display
-	public Texture2D frame;
+	public Texture2D coreJar;
 	public Texture2D empty;
 	public Texture2D piece1;
 	public Texture2D piece2;
 	public Texture2D piece3;
 	public Texture2D currCore;
-	private Vector2 corePos = new Vector2 (924f, 668f);
-	private Vector2 frameSize = new Vector2(100f,100f);
-	private Vector2 coreSize = new Vector2(75f,75f);
+	private Vector2 corePos = new Vector2 (921f, 616f);
+	private Vector2 jarSize = new Vector2(103f,152f);
+	private Vector2 coreSize = new Vector2(67.7f,134f);
 	#endregion
 	
 	void Start() {
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
 		playerManager = player.GetComponent<Player>();
 		EpochSkin = Resources.Load ("Prefabs/GUI/EpochStyle",typeof(GUISkin)) as GUISkin;
-		detectionBar = new Texture2D[13];
-
-		detectionBar[0] = Resources.Load ("Textures/GUI/HUD/MeterEmpty",typeof(Texture2D)) as Texture2D;
-		detectionBar[1] = Resources.Load ("Textures/GUI/HUD/Meter1",typeof(Texture2D)) as Texture2D;
-		detectionBar[2] = Resources.Load ("Textures/GUI/HUD/Meter2",typeof(Texture2D)) as Texture2D;
-		detectionBar[3] = Resources.Load ("Textures/GUI/HUD/Meter3",typeof(Texture2D)) as Texture2D;
-		detectionBar[4] = Resources.Load ("Textures/GUI/HUD/Meter4",typeof(Texture2D)) as Texture2D;
-		detectionBar[5] = Resources.Load ("Textures/GUI/HUD/Meter5",typeof(Texture2D)) as Texture2D;
-		detectionBar[6] = Resources.Load ("Textures/GUI/HUD/Meter6",typeof(Texture2D)) as Texture2D;
-		detectionBar[7] = Resources.Load ("Textures/GUI/HUD/Meter7",typeof(Texture2D)) as Texture2D;
-		detectionBar[8] = Resources.Load ("Textures/GUI/HUD/Meter8",typeof(Texture2D)) as Texture2D;
-		detectionBar[9] = Resources.Load ("Textures/GUI/HUD/Meter9",typeof(Texture2D)) as Texture2D;
-		detectionBar[10] = Resources.Load ("Textures/GUI/HUD/Meter10",typeof(Texture2D)) as Texture2D;
-		detectionBar[11] = Resources.Load ("Textures/GUI/HUD/Meter11",typeof(Texture2D)) as Texture2D;
-		detectionBar[12] = Resources.Load ("Textures/GUI/HUD/Meter12",typeof(Texture2D)) as Texture2D;
-		happy = Resources.Load("Textures/GUI/HUD/CaveGirlHappy",typeof(Texture2D)) as Texture2D;
-		worried = Resources.Load("Textures/GUI/HUD/CaveGirlWorried",typeof(Texture2D)) as Texture2D;
-		scared = Resources.Load("Textures/GUI/HUD/CaveGirlScared",typeof(Texture2D)) as Texture2D;
-		potion = Resources.Load ("Textures/GUI/HUD/PotionNormal", typeof(Texture2D)) as Texture2D;
-		potionSelected = Resources.Load ("Textures/GUI/HUD/PotionSelected", typeof(Texture2D)) as Texture2D;
-		flask = Resources.Load("Textures/GUI/HUD/FlaskNormal",typeof(Texture2D)) as Texture2D;
-		flaskSelected = Resources.Load ("Textures/GUI/HUD/FlaskSelected", typeof(Texture2D)) as Texture2D;
-		specItem = Resources.Load("Textures/GUI/HUD/CaveGirlSpec",typeof(Texture2D)) as Texture2D;
-		frame = Resources.Load("Textures/GUI/HUD/HUDPlate", typeof(Texture2D)) as Texture2D;
-		empty = Resources.Load("Textures/GUI/HUD/EmptyCore", typeof(Texture2D)) as Texture2D;
+		iconFrame = Resources.Load ("Textures/GUI/HUD/IconFrame", typeof(Texture2D)) as Texture2D;
+		detectionBar = Resources.Load ("Textures/GUI/HUD/DetectionBar", typeof(Texture2D)) as Texture2D;
+		redPot = Resources.Load ("Textures/GUI/HUD/RedPot", typeof(Texture2D)) as Texture2D;
+		redSelected = Resources.Load("Textures/GUI/HUD/RedSelected",typeof(Texture2D)) as Texture2D;
+		greenPot = Resources.Load ("Textures/GUI/HUD/GreenPot", typeof(Texture2D)) as Texture2D;
+		greenSelected = Resources.Load ("Textures/GUI/HUD/GreenSelected",typeof(Texture2D)) as Texture2D;
+		coreJar = Resources.Load("Textures/GUI/HUD/PowerCoreJar", typeof(Texture2D)) as Texture2D;
+		empty = Resources.Load("Textures/GUI/HUD/PowerCoreEmpty", typeof(Texture2D)) as Texture2D;
 		piece1 = Resources.Load("Textures/GUI/HUD/PowerCore1", typeof(Texture2D)) as Texture2D;
 		piece2 = Resources.Load("Textures/GUI/HUD/PowerCore2",typeof(Texture2D)) as Texture2D;
-		piece3 = Resources.Load("Textures/GUI/HUD/PowerCoreFullFrame",typeof(Texture2D)) as Texture2D;
+		piece3 = Resources.Load("Textures/GUI/HUD/PowerCore3",typeof(Texture2D)) as Texture2D;
+		
+		switch (GameManager.getInstance ().m_currentCharacter) {
+		case 0:
+			happy = Resources.Load("Textures/GUI/HUD/CaveGirlHappy",typeof(Texture2D)) as Texture2D;
+			worried = Resources.Load("Textures/GUI/HUD/CaveGirlWorried",typeof(Texture2D)) as Texture2D;
+			scared = Resources.Load("Textures/GUI/HUD/CaveGirlScared",typeof(Texture2D)) as Texture2D;
+			specItem = Resources.Load("Textures/GUI/HUD/CaveGirlSpec",typeof(Texture2D)) as Texture2D;
+			break;
 
-		currMeter = detectionBar[0];
+		case 1:
+			happy = Resources.Load ("Textures/GUI/HUD/KnightHappy",typeof(Texture2D)) as Texture2D;
+			worried = Resources.Load ("Textures/GUI/HUD/KnightWorried",typeof(Texture2D)) as Texture2D;
+			scared = Resources.Load ("Textures/GUI/HUD/KnightScared",typeof(Texture2D)) as Texture2D;
+			specItem = Resources.Load ("Textures/GUI/HUD/KnightSpec",typeof(Texture2D)) as Texture2D;
+			break;
+		}
+
 		currMood = happy;
-		currPotion = potion;
-		currFlask = flask;
+		currRed = redPot;
+		currGreen = greenPot;
+		currCore = empty;
 
 		scale.z = 1f;
+		barFill = 0f;
 	}
 	
 	void OnGUI() {
@@ -99,38 +100,42 @@ public class HUDManager : MonoBehaviour {
 		scale.y = Screen.height / HUDManager.origHeight;
 		Matrix4x4 svMat = GUI.matrix;
 		GUI.matrix = Matrix4x4.TRS (Vector3.zero, Quaternion.identity, scale);
-
+		
 		#region hero icon + detectionbar
 		GUI.BeginGroup(new Rect(iconPos.x,iconPos.y,iconSize.x,iconSize.y));
-		GUI.DrawTexture(new Rect(0f,0f,iconSize.x,iconSize.y),currMeter);
-		GUI.DrawTexture(new Rect(22f,22f,75f,75f),currMood);
+		GUI.DrawTexture(new Rect(0f,89f,iconSize.x,-79f * barFill),detectionBar);
+		GUI.DrawTexture(new Rect(0f,0f,iconSize.x,iconSize.y),iconFrame);
+		GUI.DrawTexture(new Rect(22.8f,14f,76f,77f),currMood);
+		if (playerManager.m_hasSpecialItem)
+			GUI.DrawTexture(new Rect(20f,92f,30f,30f),specItem);
 		GUI.EndGroup();
 		#endregion
 		
 		#region inventory
-		GUI.BeginGroup(new Rect(potionPos.x,potionPos.y,potionSize.x,potionSize.y));
-		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currPotion);
-		GUI.Label(new Rect(36f,27f,20f,20f), m_potionCount.ToString(),EpochSkin.GetStyle("HudText"));
+		GUI.BeginGroup(new Rect(redPos.x,redPos.y,potionSize.x,potionSize.y));
+		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currRed);
+		GUI.Label(new Rect(10f,30f,40f,40f), m_potionCount.ToString(),EpochSkin.GetStyle("HudText"));
 		GUI.EndGroup();
-		GUI.BeginGroup(new Rect(flaskPos.x,flaskPos.y,flaskSize.x,flaskSize.y));
-		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currFlask);
-		GUI.Label(new Rect(36f,27f,20f,20f), m_flaskCount.ToString(),EpochSkin.GetStyle("HudText"));
+		GUI.BeginGroup(new Rect(greenPos.x,greenPos.y,potionSize.x,potionSize.y));
+		GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currGreen);
+		GUI.Label(new Rect(10f,30f,40f,40f), m_flaskCount.ToString(),EpochSkin.GetStyle("HudText"));
 		GUI.EndGroup();
 		#endregion
 		
 		#region power cores
-		GUI.BeginGroup(new Rect(corePos.x,corePos.y,frameSize.x,frameSize.y));
-		GUI.DrawTexture(new Rect(0f, 0f, frameSize.x, frameSize.y), frame);
-		GUI.DrawTexture (new Rect(12.5f,12.5f,coreSize.x,coreSize.y),currCore);
+		GUI.BeginGroup(new Rect(corePos.x,corePos.y,jarSize.x,jarSize.y));
+		GUI.DrawTexture (new Rect(18f, 4f, coreSize.x, coreSize.y),currCore);
+		GUI.DrawTexture(new Rect(0f, 0f, jarSize.x, jarSize.y), coreJar);
 		GUI.EndGroup();
 		#endregion
-
+		
 		GUI.matrix = svMat;
 	}
 	
 	void Update() {
 		if(playerManager == null)
 			return;
+
 		float currDetection = playerManager.m_detectionLevel;
 		
 		#region hero icon
@@ -142,34 +147,9 @@ public class HUDManager : MonoBehaviour {
 			currMood = scared;
 		}
 		#endregion
-
+		
 		#region detection bar
-		if (currDetection < 0.33f)
-			currMeter = detectionBar[0];
-		else if (currDetection < 8.33f)
-			currMeter = detectionBar[1];
-		else if (currDetection < 16.66f)
-			currMeter = detectionBar[2];
-		else if (currDetection < 25f)
-			currMeter = detectionBar[3];
-		else if (currDetection < 33.33f)
-			currMeter = detectionBar[4];
-		else if (currDetection < 41.66f)
-			currMeter = detectionBar[5];
-		else if (currDetection < 50f)
-			currMeter = detectionBar[6];
-		else if (currDetection < 58.33f)
-			currMeter = detectionBar[7];
-		else if (currDetection < 66.66f)
-			currMeter = detectionBar[8];
-		else if (currDetection < 75f)
-			currMeter = detectionBar[9];
-		else if (currDetection < 83.33f)
-			currMeter = detectionBar[10];
-		else if (currDetection < 91.66f)
-			currMeter = detectionBar[11];
-		else
-			currMeter = detectionBar[12];
+		barFill = currDetection / Player.MAX_DETECTION_LEVEL;
 		#endregion
 		
 		#region inventory
@@ -194,33 +174,33 @@ public class HUDManager : MonoBehaviour {
 			m_potionCount = 0;
 		
 		m_specCount = playerManager.m_specItems;
-
+		
 		switch (playerManager.m_selectedSlot) {
 		case 0:
-			currPotion = potionSelected;
-			currFlask = flask;
+			currRed = redSelected;
+			currGreen = greenPot;
 			break;
 		case 1:
-			currPotion = potion;
-			currFlask = flaskSelected;
+			currRed = redPot;
+			currGreen = greenSelected;
 			break;
 		}
 		#endregion
-	
+		
 		#region powercores
 		switch(playerManager.currentCores) {
-			case 0:
-				currCore = empty;
-				break;
-			case 1:
-				currCore = piece1;
-				break;
-			case 2:
-				currCore = piece2;
-				break;
-			case 3:
-				currCore = piece3;
-				break;
+		case 0:
+			currCore = empty;
+			break;
+		case 1:
+			currCore = piece1;
+			break;
+		case 2:
+			currCore = piece2;
+			break;
+		case 3:
+			currCore = piece3;
+			break;
 		}
 		#endregion
 	}
