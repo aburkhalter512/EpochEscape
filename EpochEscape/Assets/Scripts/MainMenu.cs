@@ -483,7 +483,7 @@ public class MainMenu : MonoBehaviour {
 				unlocked = true;
 				break;
 			case 2:
-				if (G.getInstance().knightUnlocked)
+				if (G.getInstance().ninjaUnlocked)
 					unlocked = true;	
 				else
 					unlocked = false;
