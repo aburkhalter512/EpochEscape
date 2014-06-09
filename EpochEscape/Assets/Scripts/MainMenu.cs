@@ -79,7 +79,7 @@ public class MainMenu : MonoBehaviour {
 
 	#region Main Menu
 	void ShowMain () {
-		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 150, Screen.height/2 - 100, 300f, 350));
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height/2 - 100, 300f, 350));
 			#region Main Menu Buttons
 			if (GUILayout.Button ("Load Game", EpochSkin.GetStyle ("Top Button"))){
 				ClickSound.Play ();	
@@ -109,7 +109,7 @@ public class MainMenu : MonoBehaviour {
 			}
 			#endregion
 		GUILayout.EndArea ();
-		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 200, Screen.height/2 - 175, 400f, 500));
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 300, Screen.height/2 - 175, 500f, 500));
 		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
 		GUILayout.EndArea ();
 	}
@@ -117,28 +117,28 @@ public class MainMenu : MonoBehaviour {
 
 	#region Options
 	void ShowOptions(){
-		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 350, Screen.height * .25f, 650, 400));
+		GUILayout.BeginArea (new Rect(Screen.width/1.5f - 210, Screen.height/2 - 115, 325, 400));
 			#region Options List
 			GUILayout.BeginVertical ();
 				GUILayout.BeginHorizontal ();
-					GUILayout.Space (270);
+					GUILayout.Space (115);
 					GUILayout.Label ("Volume", EpochSkin.label);
 				GUILayout.EndHorizontal ();
 
 			VolumeControl ();
-			GUILayout.Space (25);
+			GUILayout.Space (10);
 
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (180);
-				GUILayout.Label ("Graphics Quality", EpochSkin.label);
+				GUILayout.Space (90);
+				GUILayout.Label ("Graphics", EpochSkin.label);
 			GUILayout.EndHorizontal ();
 
 			GraphicControl ();
 
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (25);
-				GUILayout.Label ("Show FPS", EpochSkin.label);
-				G.getInstance().showFPS = GUILayout.Toggle (G.getInstance().showFPS, "", EpochSkin.toggle);
+				GUILayout.Space (115);
+				GUILayout.Label ("FPS", EpochSkin.label);
+				G.getInstance().showFPS = GUILayout.Toggle (G.getInstance().showFPS, "", EpochSkin.toggle);				
 			GUILayout.EndHorizontal ();
 
 //			GUILayout.BeginHorizontal ();
@@ -150,19 +150,22 @@ public class MainMenu : MonoBehaviour {
 
 		GUILayout.EndArea ();
 		GUILayout.EndVertical ();
-		GUILayout.BeginArea (new Rect(Screen.width - 150f, Screen.height - 75, 110, 50));
+		GUILayout.BeginArea (new Rect(Screen.width - 130f, Screen.height - 75, 110, 50));
 			if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
 				ClickSound.Play ();	
 				G.getInstance().SaveOptions ();
 				currentPage = Page.Main;
 			}
 		GUILayout.EndArea ();
-		GUILayout.BeginArea (new Rect(Screen.width/2 + 50, Screen.height/2 + 175, 200, 50));
+		GUILayout.BeginArea (new Rect(Screen.width/2 + 10, Screen.height/2 + 175, 200, 50));
 			if (GUILayout.Button ("Reset Game", EpochSkin.button)) {
 				ClickSound.Play ();	
 				currentPage = Page.ResetWarning;
 			}
 
+		GUILayout.EndArea ();
+		GUILayout.BeginArea (new Rect (Screen.width /1.5f - 300, Screen.height/2 - 175, 500f, 500));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
 		GUILayout.EndArea ();
 	}
 
@@ -198,14 +201,14 @@ public class MainMenu : MonoBehaviour {
 
 	private void VolumeControl(){
 		GUILayout.BeginHorizontal ();
-			GUILayout.Label ("Off", EpochSkin.textArea);
+			//GUILayout.Label ("Off", EpochSkin.textArea);
 			AudioListener.volume = GUILayout.HorizontalSlider (AudioListener.volume, 0f, 1f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-			GUILayout.Label ("Max", EpochSkin.textArea);
+			//GUILayout.Label ("Max", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
 
 		GUILayout.BeginVertical ();
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (250);
+				GUILayout.Space (100);
 				GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
 			GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
@@ -213,14 +216,14 @@ public class MainMenu : MonoBehaviour {
 
 	private void GraphicControl(){
 		GUILayout.BeginHorizontal ();
-			GUILayout.Label ("Fastest", EpochSkin.textArea);
+			//GUILayout.Label ("Fastest", EpochSkin.textArea);
 			G.getInstance().graphicsQuality = (int)GUILayout.HorizontalSlider ((float)G.getInstance().graphicsQuality, 1.0f, 6.0f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-			GUILayout.Label ("Fantastic", EpochSkin.textArea);
+			//GUILayout.Label ("Fantastic", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
 		GUILayout.BeginVertical ();
 					#region Quality Labels
 					GUILayout.BeginHorizontal ();
-					GUILayout.Space (250);
+					GUILayout.Space (90);
 					switch (G.getInstance ().graphicsQuality) {
 					case 1:
 							QualitySettings.SetQualityLevel (1);

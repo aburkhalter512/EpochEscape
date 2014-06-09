@@ -131,10 +131,7 @@ public class GameManager : UnitySingleton<GameManager>
 	}
 	
 	void showPauseMenu(){
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 175, Screen.height/2f - 250, 400, 500));
-		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
-		GUILayout.EndArea ();
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 125, Screen.height/2f - 180, 300, 350));
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 150, Screen.height/2f - 180, 300, 350));
 			#region Pause Menu Options
 			GUILayout.BeginVertical ();
 				if (GUILayout.Button ("Continue", EpochSkin.GetStyle ("Top Button"))){
@@ -172,6 +169,9 @@ public class GameManager : UnitySingleton<GameManager>
 				}
 			GUILayout.EndVertical ();
 			#endregion
+		GUILayout.EndArea ();
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 250, Screen.height/2f - 250, 500, 500));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
 		GUILayout.EndArea ();
 	}
 	
@@ -231,58 +231,60 @@ public class GameManager : UnitySingleton<GameManager>
 
 	#region Options
 	void ShowOptions(){
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 350, Screen.height/2 - 200, 700, 400));
-			#region Options Menu
-			GUILayout.BeginVertical ();
-				GUILayout.BeginHorizontal ();
-					GUILayout.Space (290);
-					GUILayout.Label ("Volume", EpochSkin.label);
-				GUILayout.EndHorizontal ();
-
-				VolumeControl ();
-				GUILayout.Space (25);
-
-				GUILayout.BeginHorizontal ();
-					GUILayout.Space (210);
-					GUILayout.Label ("Graphics Quality", EpochSkin.label);
-				GUILayout.EndHorizontal ();
-
-				GraphicControl ();
-
-				GUILayout.BeginHorizontal ();
-					GUILayout.Space (25);
-					GUILayout.Label ("Show FPS", EpochSkin.label);
-					showFPS = GUILayout.Toggle (showFPS, "", EpochSkin.toggle);
-				GUILayout.EndHorizontal ();
-
-//				GUILayout.BeginHorizontal ();
-//					GUILayout.Space (25);
-//					GUILayout.Label ("Tutorial On", EpochSkin.label);
-//					Tutorial = GUILayout.Toggle (Tutorial, "", EpochSkin.toggle);
-//				GUILayout.EndHorizontal ();
-			GUILayout.EndVertical ();
-			#endregion 
+		#region Options List
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 150, Screen.height/2f - 150, 315, 500));
+		GUILayout.BeginVertical ();
+		GUILayout.BeginHorizontal ();
+		GUILayout.Space (90);
+		GUILayout.Label ("Volume", EpochSkin.label);
+		GUILayout.EndHorizontal ();
+		
+		VolumeControl ();
+		
+		GUILayout.BeginHorizontal ();
+		GUILayout.Space (80);
+		GUILayout.Label ("Graphics", EpochSkin.label);
+		GUILayout.EndHorizontal ();
+		
+		GraphicControl ();
+		
+		GUILayout.BeginHorizontal ();
+		GUILayout.Space (100);
+		GUILayout.Label ("FPS", EpochSkin.label);
+		showFPS = GUILayout.Toggle (showFPS, "", EpochSkin.toggle);				
+		GUILayout.EndHorizontal ();
+		
+		//			GUILayout.BeginHorizontal ();
+		//				GUILayout.Space (25);
+		//				GUILayout.Label ("Tutorial On", EpochSkin.label);
+		//				G.getInstance().Tutorial = GUILayout.Toggle (G.getInstance ().Tutorial, "", EpochSkin.toggle);
+		//			GUILayout.EndHorizontal ();
+		#endregion
+		
 		GUILayout.EndArea ();
-
-		GUILayout.BeginArea (new Rect(Screen.width - 150f, Screen.height - 75f, 110, 50));
+		GUILayout.EndVertical ();
+		GUILayout.BeginArea (new Rect(Screen.width/2 - 55f, Screen.height/2 + 125, 110, 50));
 		if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
-			ClickSound.Play ();
+			ClickSound.Play ();	
 			SaveOptions ();
 			currentPage = Page.Main;
 		}
+		GUILayout.EndArea ();
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 250, Screen.height/2f - 250, 500, 500));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
 		GUILayout.EndArea ();
 	}
 	
 	private void VolumeControl(){
 		GUILayout.BeginHorizontal ();
-			GUILayout.Label ("Off", EpochSkin.textArea);
+			//GUILayout.Label ("Off", EpochSkin.textArea);
 			AudioListener.volume = GUILayout.HorizontalSlider (AudioListener.volume, 0f, 1f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-			GUILayout.Label ("Max", EpochSkin.textArea);
+			//GUILayout.Label ("Max", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
 
 		GUILayout.BeginVertical ();
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (270);
+				GUILayout.Space (90);
 				GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
 			GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
@@ -290,15 +292,15 @@ public class GameManager : UnitySingleton<GameManager>
 	
 	private void GraphicControl(){	
 		GUILayout.BeginHorizontal ();
-			GUILayout.Label ("Fastest", EpochSkin.textArea);
+			//GUILayout.Label ("Fastest", EpochSkin.textArea);
 			graphicsQuality = (int)GUILayout.HorizontalSlider ((float)graphicsQuality, 1.0f, 6.0f, EpochSkin.horizontalSlider, EpochSkin.horizontalSliderThumb);
-			GUILayout.Label ("Fantastic", EpochSkin.textArea);
+			//GUILayout.Label ("Fantastic", EpochSkin.textArea);
 		GUILayout.EndHorizontal ();
 
 		GUILayout.BeginVertical ();
 			#region Quality Labels
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (270);
+				GUILayout.Space (80);
 				switch (graphicsQuality) {
 				case 1:
 						QualitySettings.SetQualityLevel (1);
