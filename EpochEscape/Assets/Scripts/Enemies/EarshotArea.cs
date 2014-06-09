@@ -38,7 +38,7 @@ public class EarshotArea : MonoBehaviour
 	{
 		if(other.tag == "Player")
 		{
-			if(!(m_player == null || m_parent == null) && !m_player.m_isHiding)
+			if(!(m_player == null || m_parent == null) && !m_player.m_isHiding && !m_player.m_isShieldActive)
 			{
 				m_player.m_isWithinEarshot = true;
 

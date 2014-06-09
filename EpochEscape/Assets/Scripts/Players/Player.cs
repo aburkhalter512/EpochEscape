@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 	private bool m_isMovingLeft;
 	private bool m_isMovingRight;
 	private bool m_isThrowing;
-	private bool m_isAttacking;
+	public bool m_isAttacking;
 	public bool m_hasSpecialItem;
 	private bool m_isDrinking;
 	private float m_directionAngle;
@@ -48,6 +48,11 @@ public class Player : MonoBehaviour
 	public int MAX_CORES = 3;
 
 	private Vector3 m_previousMouseScreenPos;
+
+	Transform m_collectAnimation = null;
+	public bool m_playSpecialItemAnim = false;
+	public float m_specialItemAnimDuration; // seconds
+	public float m_specialItemCollectTime = 0f;
 	#endregion
 
 	#region Instance Variables
@@ -69,6 +74,10 @@ public class Player : MonoBehaviour
 	// Cave Girl variables
 	private bool m_isAtHitFrame = false;
 	private bool m_isClubBroken = false;
+
+	public bool m_isShieldActive = false;
+	public float m_shieldDuration = 3f; // seconds
+	public float m_shieldTime = 0f;
 
 	public enum PlayerState
 	{
@@ -109,6 +118,8 @@ public class Player : MonoBehaviour
 		transform.position = m_spawnLocation;
 
 		m_previousMouseScreenPos = Vector3.zero;
+
+		m_collectAnimation = transform.FindChild("CollectAnimation");
 	}
 
 	#region Initialization Methods
@@ -155,6 +166,41 @@ public class Player : MonoBehaviour
 
 		ApplyEnvironmentalForces();
 		ApplyForces();
+
+		UpdateItemCollectionAnim();
+		UpdateShield();
+	}
+
+	private void UpdateItemCollectionAnim()
+	{
+		if(!m_playSpecialItemAnim) return;
+
+		if(m_collectAnimation != null)
+		{
+			m_collectAnimation.up = Vector3.up;
+			
+			if(Time.time - m_specialItemCollectTime > m_specialItemAnimDuration)
+			{
+				m_specialItemCollectTime = 0f;
+				m_playSpecialItemAnim = false;
+			}
+			
+			m_collectAnimation.gameObject.SetActive(m_playSpecialItemAnim);
+		}
+	}
+
+	// Knight method
+	private void UpdateShield()
+	{
+		if(!m_isShieldActive) return;
+
+		if(Time.time - m_shieldTime > m_shieldDuration)
+		{
+			m_isShieldActive = false;
+
+			if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
+				m_hasSpecialItem = false;
+		}
 	}
 
 	private void UpdateDirection()
@@ -276,25 +322,34 @@ public class Player : MonoBehaviour
 		SelectSlot();
 
 		// 0th subscript indicates empty flask.
-		if(Input.GetButtonDown("Fire1") && inventory.inventory[m_selectedSlot] != null)
+		if(inventory.inventory[m_selectedSlot] != null && !m_isShieldActive)
 		{
-			if(m_selectedSlot == 0)
+			if(Input.GetButtonDown("Fire1"))
 			{
-				m_isDrinking = true;
+				if(m_selectedSlot == 0)
+				{
+					m_isDrinking = true;
 
-				inventory.activateItem(m_selectedSlot);
+					inventory.activateItem(m_selectedSlot);
+				}
+				else if(m_selectedSlot == 1)
+					m_isThrowing = true;
 			}
-			else if(m_selectedSlot == 1)
-				m_isThrowing = true;
 		}
 		
-		if (Input.GetButtonDown ("Fire2") && inventory.inventory[Inventory.SPECIAL_SLOT] != null){
-			m_isAttacking = true;
+		if (Input.GetButtonDown ("Fire2") && inventory.inventory[Inventory.SPECIAL_SLOT] != null)
+		{
+			if(!m_isShieldActive)
+			{
+				m_isAttacking = true;
 
-			inventory.activateItem(Inventory.SPECIAL_SLOT);
+				inventory.activateItem(Inventory.SPECIAL_SLOT);
+			}
 
 			if(inventory.inventoryCount[Inventory.SPECIAL_SLOT] <= 0)
+			{
 				m_isClubBroken = true; // Cave Girl
+			}
 		}
 
 		if(Input.GetAxisRaw ("Mouse ScrollWheel") > 0)
@@ -413,7 +468,8 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("hasSpecialItem", m_hasSpecialItem);
 			m_animator.SetBool("isDrinking", m_isDrinking);
 			m_animator.SetBool("isHiding", m_isHiding);
-			m_animator.SetBool("isClubBroken", m_isClubBroken);
+			m_animator.SetBool("isClubBroken", m_isClubBroken); // CaveGirl
+			m_animator.SetBool("isShieldActive", m_isShieldActive); // Knight
 		}
 
 		SpriteRenderer renderer = GetComponent<SpriteRenderer>();

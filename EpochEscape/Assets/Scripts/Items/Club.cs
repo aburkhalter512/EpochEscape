@@ -7,16 +7,13 @@ public class Club : Item {
 	void Start () {
 		gameObject.tag = "Special Item";
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	public override void PickUp(Player player)
 	{
 		PickUpSound.Play ();
 		player.m_hasSpecialItem = true;
+		player.m_specialItemCollectTime = Time.time;
+		player.m_playSpecialItemAnim = true;
 	}
 
 	public override void Activate(){

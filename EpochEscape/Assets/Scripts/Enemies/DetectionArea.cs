@@ -85,7 +85,7 @@ public class DetectionArea : MonoBehaviour
 			{
 				detectedPlayer = m_player;
 				
-				if(!m_player.m_isHiding)
+				if(!m_player.m_isHiding && !m_player.m_isShieldActive)
 				{
 					if(!(m_parentRenderer == null || m_player.m_isDetected))
 						ChangeColor(ColorStatus.CAUTION);
