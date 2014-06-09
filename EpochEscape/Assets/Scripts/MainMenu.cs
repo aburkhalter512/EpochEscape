@@ -98,13 +98,19 @@ public class MainMenu : MonoBehaviour {
 	#endregion
 
 	void OnGUI() {
-		if (Input.GetKeyDown (KeyCode.Escape))
-			currentPage = Page.Main;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameObject.Find("Background Image").GetComponent<GUITexture>().texture = Resources.Load("Textures/GUI/Backgrounds/Title Menu") as Texture;
+            currentPage = Page.Main;
+        }
 		switch (currentPage) {
 			case Page.Main: ShowMain (); break;
 			case Page.Options: ShowOptions(); break;
 			case Page.ResetWarning: ResetWarning(); break;
-			case Page.Character: SelectMenu(); break;
+			case Page.Character:
+                GameObject.Find("Background Image").GetComponent<GUITexture>().texture = Resources.Load("Textures/GUI/Backgrounds/Title Menu Clear") as Texture;
+                SelectMenu(); 
+                break;
 			case Page.Credits: ShowCredits(); break;
 			case Page.LoadSelect: ShowLoad(); break;
 			case Page.SaveSelect: ShowSaveSelect (); break;
@@ -127,7 +133,6 @@ public class MainMenu : MonoBehaviour {
 			GUILayout.Space (10);
 			if (GUILayout.Button ("New Game", EpochSkin.GetStyle ("Top Middle"))) {
 					ClickSound.Play ();
-                    GameObject.Find("Background Image").GetComponent<GUITexture>().texture = Resources.Load("Textures/GUI/Backgrounds/Title Menu Clear") as Texture;
                     currentBackdrop = Backdrops[0];
 					characterNum = -1;
 					currentPage = Page.Character;
@@ -247,7 +252,7 @@ public class MainMenu : MonoBehaviour {
 
 		GUILayout.BeginVertical ();
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (100);
+				GUILayout.Space (95);
 				GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
 			GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
@@ -297,7 +302,7 @@ public class MainMenu : MonoBehaviour {
 
 	#region Character Selection
 	void SelectMenu(){
-		GUILayout.BeginArea (new Rect(-10, 0, Screen.width + 15, Screen.height - 150));
+		GUILayout.BeginArea (new Rect(-10, 0, Screen.width + 15, Screen.height));
 		GUILayout.Box (currentBackdrop, EpochSkin.GetStyle ("Backdrop"));
 		GUILayout.EndArea ();
 
@@ -522,6 +527,7 @@ public class MainMenu : MonoBehaviour {
         GUILayout.BeginArea(new Rect(Screen.width /1.5f - 100, Screen.height / 2 + 175, 110f, 50));
         if (GUILayout.Button(buttonMessage, EpochSkin.GetStyle("Small Button")))
         {
+            ClickSound.Play();
             if (creditPage == 1)
                 creditPage--;
             else if (creditPage == 0)
