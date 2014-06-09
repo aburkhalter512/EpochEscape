@@ -79,6 +79,7 @@ public class LevelManager : MonoBehaviour
 				if(caveGirlLaserSpawn != null)
 				{
 					brokenLaser = Instantiate(brokenLaser) as GameObject;
+					brokenLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
 					brokenLaser.transform.position = caveGirlLaserSpawn.transform.position;
 				}
 			}
@@ -94,6 +95,7 @@ public class LevelManager : MonoBehaviour
 				if(caveGirlLaserSpawn != null)
 				{
 					staticLaser = Instantiate(staticLaser) as GameObject;
+					staticLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
 					staticLaser.transform.position = caveGirlLaserSpawn.transform.position;
 				}
 			}
@@ -124,6 +126,7 @@ public class LevelManager : MonoBehaviour
 				if(knightLaserSpawn != null)
 				{
 					brokenLaser = Instantiate(brokenLaser) as GameObject;
+					brokenLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
 					brokenLaser.transform.position = knightLaserSpawn.transform.position;
 				}
 			}
@@ -139,6 +142,7 @@ public class LevelManager : MonoBehaviour
 				if(knightLaserSpawn != null)
 				{
 					staticLaser = Instantiate(staticLaser) as GameObject;
+					staticLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
 					staticLaser.transform.position = knightLaserSpawn.transform.position;
 				}
 			}

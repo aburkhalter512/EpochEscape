@@ -248,9 +248,29 @@ public class Player : MonoBehaviour
 
 	private void Dead()
 	{
-		m_currentState = PlayerState.ALIVE;
+		//m_currentState = PlayerState.ALIVE;
 
-		Application.LoadLevel(Application.loadedLevelName);
+		//Application.LoadLevel(Application.loadedLevelName);
+		G.getInstance().PauseMovement();
+
+		/*
+		transform.position = new Vector3(-5f, 0f, 0f);
+		transform.up = -Vector3.up;
+		*/
+
+		GameObject.Find("HUDManager").SetActive(false);
+
+		CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
+
+		GameObject playerCaught = Resources.Load("Prefabs/PlayerCaught") as GameObject;
+
+		if(playerCaught != null)
+		{
+			playerCaught = Instantiate(playerCaught) as GameObject;
+			playerCaught.transform.position = transform.position;
+		}
+
+		cam.m_currentState = CameraBehavior.State.PLAYER_CAUGHT;
 	}
 
 	private void ResetVariables(){
