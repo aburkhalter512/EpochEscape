@@ -29,7 +29,8 @@ public class CameraBehavior : MonoBehaviour
 		FOLLOW_PLAYER,
 		LERP_TO_PLAYER,
 		LERP_TO_TARGET,
-		LERP_REST
+		LERP_REST,
+		PLAYER_CAUGHT
 	};
 
 	public enum Dimension
@@ -224,7 +225,7 @@ public class CameraBehavior : MonoBehaviour
 
 	private void UpdateInput()
 	{
-		if(m_floor == null) return;
+		if(m_floor == null || m_currentState == State.PLAYER_CAUGHT) return;
 
 		if(Input.GetKeyUp(KeyCode.M))
 		{
@@ -270,6 +271,13 @@ public class CameraBehavior : MonoBehaviour
 
 	private void LerpCameraSize()
 	{
+		if(m_currentState == State.PLAYER_CAUGHT)
+		{
+			camera.orthographicSize = m_initialCameraSize;
+
+			return;
+		}
+
 		float aspectRatio = (float)Screen.width / Screen.height;
 		float targetCameraSize = 0f;
 
