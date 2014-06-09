@@ -109,7 +109,7 @@ public class GameManager : UnitySingleton<GameManager>
 	private void UpdateKeyboard(){
 		#region Escape
 		if (Input.GetKeyDown (KeyCode.Escape) && !popup){
-			if(Application.loadedLevelName != "MainMenu" && Application.loadedLevelName != "Loading" && !paused)
+			if(Application.loadedLevelName != "MainMenu" && Application.loadedLevelName != "Loading" && Application.loadedLevelName != "Story" && !paused)
 				PauseGame ();
 			else if(paused && currentPage == Page.Main)
 				UnpauseGame ();
@@ -131,38 +131,41 @@ public class GameManager : UnitySingleton<GameManager>
 	}
 	
 	void showPauseMenu(){
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 175, Screen.height/2f - 200, 400, 400));
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 175, Screen.height/2f - 250, 400, 500));
+		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet"));
+		GUILayout.EndArea ();
+		GUILayout.BeginArea (new Rect(Screen.width/2f - 125, Screen.height/2f - 180, 300, 350));
 			#region Pause Menu Options
 			GUILayout.BeginVertical ();
-				if (GUILayout.Button ("Continue", EpochSkin.button)){
+				if (GUILayout.Button ("Continue", EpochSkin.GetStyle ("Top Button"))){
 					ClickSound.Play ();
 					UnpauseGame ();					
 				}
 				GUILayout.Space (10);
-				if (GUILayout.Button ("Main Menu", EpochSkin.button)) {
+		if (GUILayout.Button ("Main Menu", EpochSkin.GetStyle ("Top Middle"))) {
 					ClickSound.Play ();
 					S.Save ();
 					Application.LoadLevel ("MainMenu");
 					UnpauseGame ();
 				}
 				GUILayout.Space (10);
-				if (GUILayout.Button ("Save Game", EpochSkin.button)){
+		if (GUILayout.Button ("Save Game", EpochSkin.GetStyle ("Middle"))){
 					ClickSound.Play ();
 					S.Save ();
 				}
 				GUILayout.Space (10);
-				if (GUILayout.Button ("Options", EpochSkin.button)){
+		if (GUILayout.Button ("Options", EpochSkin.GetStyle ("Bottom Middle"))){
 					ClickSound.Play ();
 					currentPage = Page.Options;
 				}
 				GUILayout.Space (10);
-				if (GUILayout.Button ("Restart Level", EpochSkin.button)) {
+		if (GUILayout.Button ("Restart Level", EpochSkin.GetStyle ("Bottom"))) {
 					ClickSound.Play ();
 					UnpauseGame ();
 					SceneManager.Load (Application.loadedLevelName);
 				}
 				GUILayout.Space (10);
-				if (GUILayout.Button ("Quit Game", EpochSkin.button)) {
+		if (GUILayout.Button ("Quit Game", EpochSkin.GetStyle ("Bottom"))) {
 					ClickSound.Play ();
 					S.Save ();
 					Application.Quit ();
