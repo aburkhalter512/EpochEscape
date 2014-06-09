@@ -8,6 +8,8 @@ public class SpecialItemSpawn : MonoBehaviour
 	#endregion
 
 	#region Instance Variables
+    private GameObject mToPlace = null;
+    private GameObject mToInstantiate = null;
 	#endregion
 
 	#region Class Constants
@@ -20,12 +22,10 @@ public class SpecialItemSpawn : MonoBehaviour
         switch (G.getInstance().m_currentCharacter)
         {
             case G.CAVEGIRL:
-                Club club = Resources.Load<Club>("Prefabs/Items/SpecialItems/Club");
-                club.gameObject.transform.position = transform.position;
+                mToInstantiate = Resources.Load<GameObject>("Prefabs/Items/SpecialItems/Club");
                 break;
             case G.KNIGHT:
-                Shield shield = Resources.Load<Shield>("Prefabs/Items/SpecialItems/Shield");
-                shield.gameObject.transform.position = transform.position;
+                mToInstantiate = Resources.Load<GameObject>("Prefabs/Items/SpecialItems/Shield");
                 break;
             case G.MUMMY:
                 break;
@@ -36,6 +36,11 @@ public class SpecialItemSpawn : MonoBehaviour
             case G.ROBOT:
                 break;
         }
+
+        mToPlace = Instantiate(mToInstantiate) as GameObject;
+
+        if (mToPlace != null)
+            mToPlace.transform.position = transform.position;
 
         Destroy(gameObject);
 	}
