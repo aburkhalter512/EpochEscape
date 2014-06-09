@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
 	public int coresFound;
 
 	private GameObject m_player;
+	private GameObject m_playerSpecialItem;
 	#endregion
 
 	#region Instance Variables
@@ -38,13 +39,15 @@ public class LevelManager : MonoBehaviour
 		// Create the character.
 		switch(G.getInstance().m_currentCharacter)
 		{
-		/*case 1:
+		case 1:
 			m_player = Resources.Load("Prefabs/Players/Knight") as GameObject;
-			break;*/
+			m_playerSpecialItem = Resources.Load("Prefabs/Items/SpecialItems/Shield") as GameObject;
+			break;
 
 		case 0:
 		default:
 			m_player = Resources.Load("Prefabs/Players/CaveGirl") as GameObject;
+			m_playerSpecialItem = Resources.Load("Prefabs/Items/SpecialItems/Club") as GameObject;
 			break;
 		}
 
@@ -60,6 +63,18 @@ public class LevelManager : MonoBehaviour
 			}
 
 			Instantiate(m_player);
+		}
+
+		if(m_playerSpecialItem != null)
+		{
+			GameObject[] specialItemSpawnLocations = GameObject.FindGameObjectsWithTag("SpecialItemSpawn");
+
+			for(int i = 0; i < specialItemSpawnLocations.Length; i++)
+			{
+				GameObject newSpecialItem = Instantiate(m_playerSpecialItem) as GameObject;
+				
+				newSpecialItem.transform.position = specialItemSpawnLocations[i].transform.position;
+			}
 		}
 
 		GameObject hudManager = new GameObject();
