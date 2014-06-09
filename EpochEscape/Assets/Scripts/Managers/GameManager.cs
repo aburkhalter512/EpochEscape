@@ -94,7 +94,6 @@ public class GameManager : UnitySingleton<GameManager>
 		LoadOptions ();
 		S.Load ();
 	}
-	
 	void Update()
     {
 		UpdateKeyboard ();
