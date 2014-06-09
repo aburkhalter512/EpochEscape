@@ -251,6 +251,7 @@ public class CameraBehavior : MonoBehaviour
 		{
 			GameObject walls = GameObject.Find("DynamicWalls");
 			GameObject doors = GameObject.Find("Doors");
+			GameObject obstacles = GameObject.Find("Obstacles");
 
 			if(m_currentState == State.FOLLOW_PLAYER)
 			{
@@ -258,6 +259,13 @@ public class CameraBehavior : MonoBehaviour
 				
 				if(walls != null) ShiftObjects(walls);
 				if(doors != null) ShiftObjects(doors);
+				if(obstacles != null) ShiftObjects(obstacles);
+
+				for(int i = 0; i < walls.transform.childCount; i++)
+				{
+					for(int j = 0; j < walls.transform.GetChild(i).transform.childCount; j++)
+						ShiftObjects(walls.transform.GetChild(i).transform.GetChild(j).transform.gameObject, true);
+				}
 
 				if(m_cowbell != null && m_displayCowbell)
 					m_cowbell.SetActive(true);
@@ -273,6 +281,13 @@ public class CameraBehavior : MonoBehaviour
 
 				if(walls != null) ShiftObjects(walls, true);
 				if(doors != null) ShiftObjects(doors, true);
+				if(obstacles != null) ShiftObjects(obstacles, true);
+
+				for(int i = 0; i < walls.transform.childCount; i++)
+				{
+					for(int j = 0; j < walls.transform.GetChild(i).transform.childCount; j++)
+						ShiftObjects(walls.transform.GetChild(i).transform.GetChild(j).transform.gameObject);
+				}
 
 				if(m_cowbell != null)
 					m_cowbell.SetActive(false);
