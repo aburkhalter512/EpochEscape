@@ -527,6 +527,7 @@ public class MainMenu : MonoBehaviour {
         GUILayout.BeginArea(new Rect(Screen.width /1.5f - 100, Screen.height / 2 + 175, 110f, 50));
         if (GUILayout.Button(buttonMessage, EpochSkin.GetStyle("Small Button")))
         {
+            ClickSound.Play();
             if (creditPage == 1)
                 creditPage--;
             else if (creditPage == 0)
