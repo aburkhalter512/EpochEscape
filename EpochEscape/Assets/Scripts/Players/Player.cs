@@ -343,13 +343,11 @@ public class Player : MonoBehaviour
 			{
 				m_isAttacking = true;
 
-				//inventory.activateItem(Inventory.SPECIAL_SLOT);
+				inventory.activateItem(Inventory.SPECIAL_SLOT);
 			}
 
-			if(inventory.inventoryCount[Inventory.SPECIAL_SLOT] <= 1)
-			{
+			if(inventory.inventoryCount[Inventory.SPECIAL_SLOT] <= 0)
 				m_isClubBroken = true; // Cave Girl
-			}
 		}
 
 		if(Input.GetAxisRaw ("Mouse ScrollWheel") > 0)

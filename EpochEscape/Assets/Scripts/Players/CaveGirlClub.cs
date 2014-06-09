@@ -36,8 +36,6 @@ public class CaveGirlClub : MonoBehaviour
 				guard.m_currentState = Guard.State.STUN;
 				guard.transform.up = Vector3.up;
 
-				m_player.inventory.activateItem(Inventory.SPECIAL_SLOT);
-
 				if(m_hitSound != null)
 					AudioSource.PlayClipAtPoint(m_hitSound, guard.transform.position);
 				
