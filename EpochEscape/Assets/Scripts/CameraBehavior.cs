@@ -256,15 +256,19 @@ public class CameraBehavior : MonoBehaviour
 			if(m_currentState == State.FOLLOW_PLAYER)
 			{
 				m_currentState = State.DISPLAY_MAP;
-				
-				if(walls != null) ShiftObjects(walls);
+
 				if(doors != null) ShiftObjects(doors);
 				if(obstacles != null) ShiftObjects(obstacles);
 
-				for(int i = 0; i < walls.transform.childCount; i++)
+				if(walls != null)
 				{
-					for(int j = 0; j < walls.transform.GetChild(i).transform.childCount; j++)
-						ShiftObjects(walls.transform.GetChild(i).transform.GetChild(j).transform.gameObject, true);
+					ShiftObjects(walls);
+
+					for(int i = 0; i < walls.transform.childCount; i++)
+					{
+						for(int j = 0; j < walls.transform.GetChild(i).transform.childCount; j++)
+							ShiftObjects(walls.transform.GetChild(i).transform.GetChild(j).transform.gameObject, true);
+					}
 				}
 
 				if(m_cowbell != null && m_displayCowbell)
@@ -279,14 +283,18 @@ public class CameraBehavior : MonoBehaviour
 				m_currentState = State.FOLLOW_PLAYER;
 				m_star.SetActive(false);
 
-				if(walls != null) ShiftObjects(walls, true);
 				if(doors != null) ShiftObjects(doors, true);
 				if(obstacles != null) ShiftObjects(obstacles, true);
 
-				for(int i = 0; i < walls.transform.childCount; i++)
+				if(walls != null)
 				{
-					for(int j = 0; j < walls.transform.GetChild(i).transform.childCount; j++)
-						ShiftObjects(walls.transform.GetChild(i).transform.GetChild(j).transform.gameObject);
+					ShiftObjects(walls, true);
+
+					for(int i = 0; i < walls.transform.childCount; i++)
+					{
+						for(int j = 0; j < walls.transform.GetChild(i).transform.childCount; j++)
+							ShiftObjects(walls.transform.GetChild(i).transform.GetChild(j).transform.gameObject);
+					}
 				}
 
 				if(m_cowbell != null)
