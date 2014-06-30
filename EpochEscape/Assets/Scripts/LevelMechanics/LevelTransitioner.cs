@@ -31,21 +31,28 @@ public class LevelTransitioner : MonoBehaviour
 	}
 
 	#region Update Methods
+    /*
+     * A 2D collision why the player will trigger the transition between the
+     * current level and the next level.
+     */
     protected void OnTriggerEnter2D(Collider2D collidee)
     {
-        if (collidee.tag == "Player"){
-			if(Level == "Level1"){
-				GameManager.getInstance ().currentLevel = 1;
-				//GameManager.getInstance ().tutorial = false;
-			}
+        if (collidee.tag == "Player")
+        {
+            //Set the correct current level
+			if(Level == "Level1")
+				GameManager.getInstance().currentLevel = 1;
 			else
 				GameManager.getInstance().currentLevel++;
+
+            //Load the next level
             if (isWinning)
                 SceneManager.Win(Level);
             else
                 SceneManager.Load(Level);
-			SaveManager.Save ();
 
+            //Save all progress
+			SaveManager.Save ();
 		}
     }
 	#endregion

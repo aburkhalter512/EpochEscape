@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PressurePlate : Tile
+public class PressurePlate : MonoBehaviour
 {
 	#region Inspector Variables
     public GameObject[] actuators;
@@ -27,8 +27,9 @@ public class PressurePlate : Tile
     }
     #endregion
 
-    //Put all initialization code here
-	//Remember to comment!
+    /*
+     * Initializes the Pressure Plate
+     */
 	protected void Start()
     {
         mSR = gameObject.GetComponent<SpriteRenderer>();
@@ -40,8 +41,9 @@ public class PressurePlate : Tile
 	#region Initialization Methods
 	#endregion
 
-	//Put all update code here
-	//Remember to comment!
+	/*
+     * Updates the state of the Pressure Plate
+     */
 	protected void Update()
     {
         if (previousState != currentState)
@@ -61,22 +63,33 @@ public class PressurePlate : Tile
 	}
 
     #region Update Methods
+    /*
+     * Turns the pressure plate off
+     */
     virtual protected void Off()
     {
         mSR.sprite = switchOff;
     }
 
+    /*
+     * Turns the pressure plate on
+     */
     virtual protected void On()
     {
         mSR.sprite = switchOn;
     }
 
+    /*
+     * If the collidee is the player, then all actuators are triggered and the
+     * pressure plate is turned off.
+     */
     virtual protected void OnTriggerEnter2D(Collider2D collidee)
     {
         if (collidee.tag == "Player")
         {
 			audio.Play ();
-            //Activate all of the actuators
+
+            //Activate all of the connected actuators
             foreach (GameObject actuator in actuators)
             {
                 Debug.Log("Triggered");
@@ -87,6 +100,8 @@ public class PressurePlate : Tile
 
 					Transform parent = actuator.transform.parent;
 
+                    //Add the actuators camera movement stack. They will be activated in order
+                    //when the previous has finished changing.
 					if(parent != null && parent.tag == "WallPivot")
                     {
 						if(cameraBehavior.m_lerpTargets.Count == 0 || cameraBehavior.m_lerpTargets.Peek() != parent.gameObject)
@@ -101,6 +116,9 @@ public class PressurePlate : Tile
         }
     }
 
+    /*
+     * If the collidee is the player then the pressure plate is turned on.
+     */
     virtual protected void OnTriggerExit2D(Collider2D collidee)
     {
         if (collidee.tag == "Player")

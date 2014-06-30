@@ -180,10 +180,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 404ae35ffaa73974897f67560748c75c, type: 3}
+  m_Script: {fileID: 11500000, guid: 83939ffde17da8a4e955fa199a36f645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level: Level8
+  Level: 
   isWinning: 0
 --- !u!114 &11400002
 MonoBehaviour:

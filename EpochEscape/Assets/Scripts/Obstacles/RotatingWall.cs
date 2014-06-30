@@ -31,8 +31,9 @@ public class RotatingWall : DynamicWall
 	};
 	#endregion
 	
-	//Put all initialization code here
-	//Remember to comment!
+	/*
+     * Initializes the Rotating Wall
+     */
 	protected new void Start()
 	{
 		base.Start();

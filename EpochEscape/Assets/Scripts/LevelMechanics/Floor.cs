@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TileableWall : Tile
+public class Floor : MonoBehaviour
 {
 	#region Inspector Variables
+    public float mDynamicFriction = 0.001f;
 	#endregion
 
 	#region Instance Variables
@@ -15,24 +16,17 @@ public class TileableWall : Tile
     public const float MAX_FRICTION = 1.0f;
 	#endregion
 
-	//Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
-        //Empty Method
-	}
-
-	#region Initialization Methods
-	#endregion
-
-	//Put all update code here
-	//Remember to comment!
-	protected void Update()
-	{
-        //Empty Method
-	}
-
     #region Update Methods
+    protected void OnTriggerEnter2D(Collider2D collidee)
+    {
+        Player player = collidee.GetComponent<Player>();
+
+        if (player != null)
+        {
+            mDynamicFriction = Mathf.Clamp(mDynamicFriction, MIN_FRICTION, MAX_FRICTION);
+            player.mDynamicFriction = mDynamicFriction;
+        }
+    }
 	#endregion
 
 	#region Static Methods

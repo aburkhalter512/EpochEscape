@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * An interface the specifies if a class is an obstacle.
+ */
 public class Obstacle : MonoBehaviour
 {
 	#region Inspector Variables
@@ -12,8 +15,9 @@ public class Obstacle : MonoBehaviour
 	#region Class Constants
 	#endregion
 
-	//Put all initialization code here
-	//Remember to comment!
+	/*
+     * Initializes generic obstacle properties
+     */
 	protected void Start()
 	{
 	}
@@ -21,8 +25,9 @@ public class Obstacle : MonoBehaviour
 	#region Initialization Methods
 	#endregion
 
-	//Put all update code here
-	//Remember to comment!
+    /*
+     * Updates generic obstacle properties
+     */
 	protected void Update()
 	{
 	}

@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * This script represents a changing wall, and is thus abstract. This class
+ * allows for more different type of changing walls to be added easily.
+ */
 public abstract class DynamicWall : Wall
 {
     #region Inspector Variables
@@ -25,8 +29,9 @@ public abstract class DynamicWall : Wall
     };
 	#endregion
 
-	//Put all initialization code here
-	//Remember to comment!
+	/*
+     * Initializes the Dynamic Wall
+     */
 	protected void Start()
     {
         base.Start();
@@ -38,8 +43,9 @@ public abstract class DynamicWall : Wall
 	#region Initialization Methods
 	#endregion
 
-	//Put all update code here
-	//Remember to comment!
+	/*
+     * Updates the Dynamic Wall.
+     */
 	protected void Update()
 	{
         base.Update();
@@ -59,6 +65,9 @@ public abstract class DynamicWall : Wall
 	}
 
     #region Update Methods
+    /*
+     * Updates the bounds of the dynamic wall.
+     */
     protected void UpdateSize()
     {
         if (sr == null)

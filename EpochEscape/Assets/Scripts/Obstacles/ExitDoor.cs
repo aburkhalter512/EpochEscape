@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * An exit door for any level that opens up when all power cores are collected.
+ */
 public class ExitDoor : Door
 {
 	#region Inspector Variables
@@ -13,8 +16,9 @@ public class ExitDoor : Door
 	#region Class Constants
 	#endregion
 
-	//Put all initialization code here
-	//Remember to comment!
+	/*
+     * Initializes the exit door
+     */
 	protected override void Start()
 	{
         base.Start();
@@ -23,8 +27,9 @@ public class ExitDoor : Door
 	#region Initialization Methods
 	#endregion
 
-	//Put all update code here
-	//Remember to comment!
+	/*
+     * Updates the state of the Exit Door
+     */
 	protected override void Update()
 	{
         findPlayer();
@@ -34,22 +39,30 @@ public class ExitDoor : Door
 	}
 
 	#region Update Methods
+    /*
+     * Finds the player (to process if the power cores have been found)
+     */
     protected void findPlayer()
     {
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
-
+    
+    /*
+     * Checks to see if all power cores have been collected and opens the door
+     * if they have.
+     */
     protected void checkPowerCore()
     {
         if (player != null && player.isPowerCoreComplete())
             currentState = STATE.OPENED;
     }
 
+    /*
+     * Destroys the exit door.
+     */
     protected override void Destroy()
     {
-        Debug.Log("Exit door opened");
-
         base.Destroy();
     }
 	#endregion

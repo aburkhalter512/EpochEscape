@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BrokenLaser : MonoBehaviour
+/*
+ * A script that causes a game object to flicker and then finally destroy itself.
+ * It is useful for making the illusion of a flickering laser/light
+ */
+public class BrokenLaser : Obstacle
 {
 	#region Inspector Variables
     public float initialDelay = 1f;
@@ -34,8 +38,9 @@ public class BrokenLaser : MonoBehaviour
 	#region Class Constants
 	#endregion
 
-	//Put all initialization code here
-	//Remember to comment!
+	/*
+     * Initializes the broken laser.
+     */
 	protected void Start()
 	{
         mIsStarted = false;
@@ -50,8 +55,9 @@ public class BrokenLaser : MonoBehaviour
 	#region Initialization Methods
 	#endregion
 
-	//Put all update code here
-	//Remember to comment!
+	/*
+     * Updates the broken laser's state
+     */
 	protected void Update()
 	{
         if (!GameManager.getInstance().paused)
@@ -92,6 +98,9 @@ public class BrokenLaser : MonoBehaviour
 	}
 
 	#region Update Methods
+    /*
+     * Displays the initial laser before it starts to flicker
+     */
     protected void Solid()
     {
         if (!mIsStarted)
@@ -104,36 +113,49 @@ public class BrokenLaser : MonoBehaviour
             mCurrentState = STATE.FLICKER_ON;
     }
 
+    /*
+     * Fades the laser over a set period of time
+     */
     protected void FlickerOff()
     {
         mFadeColor.a -= Time.smoothDeltaTime / flickerDelay;
         mSR.color = mFadeColor;
 
-        if (mFadeColor.a < 0f)
+        if (mFadeColor.a <= 0f)
         {
             mFadeColor.a = 0.0f;
             mCurrentState = STATE.FLICKER_ON;
         }
     }
 
+    /*
+     * Causes the laser to brighten/flicker before fading again.
+     */
     protected void FlickerOn()
     {
+        //Reset the laser to full on
         mFadeColor.a = 1.0f;
         mSR.color = mFadeColor;
 
         mCurrentFlicker++;
 
+        //Lets wait a bit before fading again
         if (mCurrentFlicker > flickerCount)
             mCurrentState = STATE.FINAL_FLICKER;
         else
             mCurrentState = STATE.FLICKER_OFF;
     }
 
+    /*
+     * The final flicker, which can be different than the standard flickers.
+     * After it has completely flickered, the game object destroys itself.
+     */
     protected void FinalFlicker()
     {
         mFadeColor.a -= Time.smoothDeltaTime / finalFlickerDelay;
         mSR.color = mFadeColor;
 
+        //Is it time to break?
         if (mFadeColor.a < 0f)
         {
             mFadeColor.a = 0.0f;

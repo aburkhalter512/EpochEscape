@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * A script that opens a door.
+ */
 public class OneWayDoorTrigger : MonoBehaviour
 {
 	#region Inspector Variables
@@ -17,6 +20,10 @@ public class OneWayDoorTrigger : MonoBehaviour
 	#endregion
 
 	#region Update Methods
+    /*
+     * If the collidee is the player, then the door will open and the trigger
+     * will be automatically destroyed.
+     */
     protected void OnTriggerEnter2D(Collider2D collidee)
     {
         if (collidee.gameObject.tag == "Player")

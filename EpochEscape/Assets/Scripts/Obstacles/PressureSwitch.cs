@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * A specialized Pressure Plate that can only be activated once.
+ */
 public class PressureSwitch : PressurePlate
 {
     #region Inspector Variables
@@ -12,8 +15,9 @@ public class PressureSwitch : PressurePlate
 	#region Class Constants
 	#endregion
 
-	//Put all initialization code here
-	//Remember to comment!
+	/*
+     * Initializes the Pressure Switch
+     */
 	protected void Start()
 	{
         base.Start();
@@ -22,8 +26,9 @@ public class PressureSwitch : PressurePlate
 	#region Initialization Methods
 	#endregion
 
-	//Put all update code here
-	//Remember to comment!
+	/*
+     * Updates the state of the pressure switch
+     */
 	protected void Update()
 	{
         base.Update();
@@ -32,6 +37,10 @@ public class PressureSwitch : PressurePlate
 	}
 
     #region Update Methods
+    /*
+     * If the collidee is the player, and the Pressure Switch has not been
+     * activated previously, then it is activated.
+     */
     override protected void OnTriggerEnter2D(Collider2D collidee)
     {
 		if(collidee.tag == "Player" && currentState != STATE.OFF)
@@ -40,7 +49,7 @@ public class PressureSwitch : PressurePlate
 		}
     }
 
-    //Stop the switch from reseting to ON
+    //Does nothing, stops the switch from reseting to ON
     override protected void OnTriggerExit2D(Collider2D collidee)
     { }
 	#endregion
