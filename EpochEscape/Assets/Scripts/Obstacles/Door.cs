@@ -49,9 +49,6 @@ public class Door : Obstacle
         mSR = gameObject.GetComponent<SpriteRenderer>();
 	}
 
-	#region Initialization Methods
-	#endregion
-
 	/*
      * Updates the state of the door
      */
@@ -144,11 +141,5 @@ public class Door : Obstacle
 
         return currentState;
     }
-    #endregion
-
-    #region Static Methods
-    #endregion
-
-    #region Utilities
     #endregion
 }

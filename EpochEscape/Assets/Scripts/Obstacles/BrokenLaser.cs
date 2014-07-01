@@ -35,9 +35,6 @@ public class BrokenLaser : Obstacle
     private Color mFadeColor;
 	#endregion
 
-	#region Class Constants
-	#endregion
-
 	/*
      * Initializes the broken laser.
      */
@@ -51,9 +48,6 @@ public class BrokenLaser : Obstacle
         mSR = GetComponent<SpriteRenderer>();
         mFadeColor = mSR.color;
 	}
-
-	#region Initialization Methods
-	#endregion
 
 	/*
      * Updates the broken laser's state
@@ -167,11 +161,5 @@ public class BrokenLaser : Obstacle
     {
         Destroy(gameObject);
     }
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
 	#endregion
 }

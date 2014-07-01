@@ -6,17 +6,8 @@ using System.Collections;
  */
 public class OneWayDoorTrigger : MonoBehaviour
 {
-	#region Inspector Variables
-	#endregion
-
 	#region Instance Variables
     protected Player player;
-	#endregion
-
-	#region Class Constants
-	#endregion
-
-	#region Initialization Methods
 	#endregion
 
 	#region Update Methods
@@ -37,11 +28,5 @@ public class OneWayDoorTrigger : MonoBehaviour
             }
         }
     }
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
 	#endregion
 }

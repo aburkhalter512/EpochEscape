@@ -12,9 +12,6 @@ public class SlidingWall : DynamicWall
     private Vector3 basePosition;
     #endregion
 
-    #region Class Constants
-    #endregion
-
 	//Put all initialization code here
 	//Remember to comment!
 	protected new void Start()
@@ -23,9 +20,6 @@ public class SlidingWall : DynamicWall
 
         basePosition = transform.position;
 	}
-
-	#region Initialization Methods
-	#endregion
 
 	//Put all update code here
 	//Remember to comment!
@@ -90,11 +84,5 @@ public class SlidingWall : DynamicWall
         }
 
     }
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
 	#endregion
 }

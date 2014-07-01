@@ -7,14 +7,8 @@ using System.Collections;
  */
 public class EntranceDoor : Door
 {
-	#region Inspector Variables
-	#endregion
-
 	#region Instance Variables
     protected Player player;
-	#endregion
-
-	#region Class Constants
 	#endregion
 
 	/*
@@ -24,9 +18,6 @@ public class EntranceDoor : Door
 	{
         base.Start();
 	}
-
-	#region Initialization Methods
-	#endregion
 
 	/*
      * Updates the state of the Entrance Door
@@ -50,11 +41,5 @@ public class EntranceDoor : Door
             currentState = STATE.CLOSED;
         }
     }
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
 	#endregion
 }

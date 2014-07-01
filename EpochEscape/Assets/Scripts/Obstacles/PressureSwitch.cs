@@ -6,15 +6,6 @@ using System.Collections;
  */
 public class PressureSwitch : PressurePlate
 {
-    #region Inspector Variables
-	#endregion
-
-	#region Instance Variables
-	#endregion
-
-	#region Class Constants
-	#endregion
-
 	/*
      * Initializes the Pressure Switch
      */
@@ -22,9 +13,6 @@ public class PressureSwitch : PressurePlate
 	{
         base.Start();
 	}
-
-	#region Initialization Methods
-	#endregion
 
 	/*
      * Updates the state of the pressure switch
@@ -52,11 +40,5 @@ public class PressureSwitch : PressurePlate
     //Does nothing, stops the switch from reseting to ON
     override protected void OnTriggerExit2D(Collider2D collidee)
     { }
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
 	#endregion
 }

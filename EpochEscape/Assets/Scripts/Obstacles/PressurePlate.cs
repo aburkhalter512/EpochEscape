@@ -38,9 +38,6 @@ public class PressurePlate : MonoBehaviour
         currentState = STATE.ON;
 	}
 
-	#region Initialization Methods
-	#endregion
-
 	/*
      * Updates the state of the Pressure Plate
      */
@@ -126,11 +123,5 @@ public class PressurePlate : MonoBehaviour
             currentState = STATE.ON;
         }
     }
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
 	#endregion
 }

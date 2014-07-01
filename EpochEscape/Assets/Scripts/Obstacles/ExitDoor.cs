@@ -6,14 +6,8 @@ using System.Collections;
  */
 public class ExitDoor : Door
 {
-	#region Inspector Variables
-	#endregion
-
 	#region Instance Variables
     protected Player player;
-	#endregion
-
-	#region Class Constants
 	#endregion
 
 	/*

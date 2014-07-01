@@ -38,6 +38,7 @@ public class RotatingWall : DynamicWall
 	{
 		base.Start();
 		
+        //Finds the rotation point
 		switch (rotationPt)
 		{
 		case ROTATION_POINTS.CENTER:
@@ -70,9 +71,6 @@ public class RotatingWall : DynamicWall
 		for (int i = 0; i < rotationAngles.Length; i++)
 			rotationAngles[i] %= 360;
 	}
-	
-	#region Initialization Methods
-	#endregion
 	
 	//Put all update code here
 	//Remember to comment!
@@ -168,11 +166,5 @@ public class RotatingWall : DynamicWall
 		else
 			transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
 	}
-	#endregion
-	
-	#region Static Methods
-	#endregion
-	
-	#region Utilities
 	#endregion
 }

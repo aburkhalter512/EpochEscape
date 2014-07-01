@@ -40,9 +40,6 @@ public abstract class DynamicWall : Wall
         UpdateSize();
 	}
 
-	#region Initialization Methods
-	#endregion
-
 	/*
      * Updates the Dynamic Wall.
      */
@@ -79,11 +76,5 @@ public abstract class DynamicWall : Wall
     protected abstract void stationary();
     protected abstract void toChange();
     protected abstract void change();
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
 	#endregion
 }
