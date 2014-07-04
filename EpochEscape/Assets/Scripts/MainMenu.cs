@@ -200,7 +200,7 @@ public class MainMenu : MonoBehaviour
 
 		GUILayout.EndArea ();
 		GUILayout.EndVertical ();
-		GUILayout.BeginArea (new Rect(Screen.width - 130f, Screen.height - 75, 110, 50));
+		GUILayout.BeginArea (new Rect(900, 695 , 110, 50));
 			if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
 				ClickSound.Play ();	
 				G.getInstance().SaveOptions ();
@@ -443,7 +443,7 @@ public class MainMenu : MonoBehaviour
 		GUILayout.EndArea ();
 
 		#region Select Button
-		GUILayout.BeginArea (new Rect(Screen.width - 250, Screen.height - 75 , 110, 100));
+        GUILayout.BeginArea(new Rect(775, 695, 110, 50));
 			if (GUILayout.Button ("Select", EpochSkin.GetStyle ("Small Button"))) {
 				ClickSound.Play ();	
 				if(CharIsUnlocked ()){
@@ -463,7 +463,7 @@ public class MainMenu : MonoBehaviour
 		GUILayout.EndArea ();
 		#endregion
 		#region Home Button
-		GUILayout.BeginArea (new Rect(Screen.width - 125, Screen.height - 75 , 110, 50));
+        GUILayout.BeginArea(new Rect(900, 695, 110, 50));
 		if(GUILayout.Button ("Home", EpochSkin.GetStyle("Small Button"))){
             GameObject.Find("Background Image").GetComponent<GUITexture>().texture = Resources.Load("Textures/GUI/Backgrounds/Title Menu") as Texture;
 			BackSound.Play ();
@@ -817,7 +817,7 @@ public class MainMenu : MonoBehaviour
 
 	#region default Buttons
 	void ShowBackButton(){
-		GUILayout.BeginArea (new Rect(Screen.width - 235, Screen.height - 75, 110, 50));
+		GUILayout.BeginArea (new Rect(775, 695, 110, 50));
 		if (GUILayout.Button ("Back", EpochSkin.GetStyle("Small Button"))){
 			BackSound.Play ();
 			name = "";
@@ -827,7 +827,7 @@ public class MainMenu : MonoBehaviour
 	}
 
 	void ShowHomeButton(){
-		GUILayout.BeginArea (new Rect(Screen.width - 125, Screen.height - 75 , 110, 50));
+		GUILayout.BeginArea (new Rect(900, 695 , 110, 50));
 		if(GUILayout.Button ("Home", EpochSkin.GetStyle("Small Button"))){
 			BackSound.Play ();
 			currentPage = Page.Main;

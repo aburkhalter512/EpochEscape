@@ -187,21 +187,6 @@ public class GameManager : UnitySingleton<GameManager>
 		GUILayout.EndArea ();
 	}
 	
-	void ShowBackButton(){
-		GUILayout.BeginArea (new Rect(Screen.width - 150, Screen.height - 75 , 110, 50));
-		if(GUILayout.Button ("Back", EpochSkin.GetStyle ("Small Button"))){
-			BackSound.Play ();
-			currentPage = Page.Main;
-		}
-		GUILayout.EndArea ();
-	}
-	
-	private void EndPage() {
-		GUILayout.EndArea();
-		if (currentPage != Page.Main) {
-			ShowBackButton();
-		}
-	}
 	#region Pause Methods
 	public void UnpauseGame ()
 	{
