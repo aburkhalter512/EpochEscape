@@ -469,8 +469,8 @@ MonoBehaviour:
     m_Overflow:
       m_Left: 0
       m_Right: 0
-      m_Top: -2
-      m_Bottom: -3
+      m_Top: 0
+      m_Bottom: 0
     m_Font: {fileID: 0}
     m_FontSize: 0
     m_FontStyle: 0
@@ -1364,7 +1364,7 @@ MonoBehaviour:
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
     m_FixedWidth: 110
-    m_FixedHeight: 50
+    m_FixedHeight: 45
     m_StretchWidth: 0
     m_StretchHeight: 0
   - m_Name: Title
@@ -2297,7 +2297,7 @@ MonoBehaviour:
     m_StretchHeight: 1
   - m_Name: CaveGirl
     m_Normal:
-      m_Background: {fileID: 2800000, guid: bf18defb1c20bc543b83eee1d15eec59, type: 3}
+      m_Background: {fileID: 2800000, guid: 2c1aff49a49ea814bb5f7f871c8f1346, type: 3}
       m_TextColor: {r: .407843143, g: .423529416, b: .443137258, a: 1}
     m_Hover:
       m_Background: {fileID: 2800000, guid: 2c1aff49a49ea814bb5f7f871c8f1346, type: 3}
@@ -2349,10 +2349,10 @@ MonoBehaviour:
     m_TextClipping: 0
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_FixedWidth: 125
+    m_FixedHeight: 150
+    m_StretchWidth: 0
+    m_StretchHeight: 0
   - m_Name: Mummy
     m_Normal:
       m_Background: {fileID: 2800000, guid: 89e77afa391bea24a8b3ade13ca6921d, type: 3}
@@ -2407,10 +2407,10 @@ MonoBehaviour:
     m_TextClipping: 0
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_FixedWidth: 125
+    m_FixedHeight: 150
+    m_StretchWidth: 0
+    m_StretchHeight: 0
   - m_Name: Robot
     m_Normal:
       m_Background: {fileID: 2800000, guid: 031a2fbbdae1b784689e74485ab54002, type: 3}
@@ -2465,10 +2465,10 @@ MonoBehaviour:
     m_TextClipping: 0
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_FixedWidth: 125
+    m_FixedHeight: 150
+    m_StretchWidth: 0
+    m_StretchHeight: 0
   - m_Name: Ninja
     m_Normal:
       m_Background: {fileID: 2800000, guid: b7a81dde8215e4342aed7a69c715aa06, type: 3}
@@ -2523,10 +2523,10 @@ MonoBehaviour:
     m_TextClipping: 0
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_FixedWidth: 125
+    m_FixedHeight: 150
+    m_StretchWidth: 0
+    m_StretchHeight: 0
   - m_Name: Astronaut
     m_Normal:
       m_Background: {fileID: 2800000, guid: f32cb4a7b516a514da0281be2c8fbc7d, type: 3}
@@ -2581,10 +2581,10 @@ MonoBehaviour:
     m_TextClipping: 0
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_FixedWidth: 125
+    m_FixedHeight: 150
+    m_StretchWidth: 0
+    m_StretchHeight: 0
   - m_Name: Knight
     m_Normal:
       m_Background: {fileID: 2800000, guid: d60178c4973e4194bb7e33062e547df2, type: 3}
@@ -2639,10 +2639,10 @@ MonoBehaviour:
     m_TextClipping: 0
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
-    m_FixedWidth: 0
-    m_FixedHeight: 0
-    m_StretchWidth: 1
-    m_StretchHeight: 1
+    m_FixedWidth: 125
+    m_FixedHeight: 150
+    m_StretchWidth: 0
+    m_StretchHeight: 0
   m_Settings:
     m_DoubleClickSelectsWord: 1
     m_TripleClickSelectsLine: 1

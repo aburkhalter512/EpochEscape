@@ -5,6 +5,11 @@ using S = SaveManager;
 
 public class GameManager : UnitySingleton<GameManager>
 {
+    #region Aspect Ratio
+    public const float LAYOUT_WIDTH = 1024f;
+    public const float LAYOUT_HEIGHT = 768f;
+    #endregion
+
 	#region Skin
 	public GUISkin EpochSkin = null;
 	#endregion
@@ -99,7 +104,15 @@ public class GameManager : UnitySingleton<GameManager>
 		UpdateKeyboard ();
 		ShowFPSText ();
 	}
+
+    public static void SetGUIMatrix()
+    {
+        Vector3 scale = new Vector3(Screen.width / LAYOUT_WIDTH, Screen.height / LAYOUT_HEIGHT, 1f);
+        GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, scale);
+    }
+
 	void OnGUI() {
+        SetGUIMatrix();
 		Pause ();
 		ShowPopupMessage ();
 	}
@@ -130,7 +143,7 @@ public class GameManager : UnitySingleton<GameManager>
 	}
 	
 	void showPauseMenu(){
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 150, Screen.height/2f - 180, 300, 350));
+        GUILayout.BeginArea(new Rect(300, 200, 450, 350));
 			#region Pause Menu Options
 			GUILayout.BeginVertical ();
 				if (GUILayout.Button ("Continue", EpochSkin.GetStyle ("Top Button"))){
@@ -169,7 +182,7 @@ public class GameManager : UnitySingleton<GameManager>
 			GUILayout.EndVertical ();
 			#endregion
 		GUILayout.EndArea ();
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 250, Screen.height/2f - 250, 500, 500));
+        GUILayout.BeginArea(new Rect(250, 125, 550, 500));
 		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet Wide"));
 		GUILayout.EndArea ();
 	}
@@ -231,25 +244,25 @@ public class GameManager : UnitySingleton<GameManager>
 	#region Options
 	void ShowOptions(){
 		#region Options List
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 150, Screen.height/2f - 175, 315, 500));
+        GUILayout.BeginArea(new Rect(325, 200, 400, 300));
 		GUILayout.BeginVertical ();
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (90);
+		GUILayout.Space (125);
 		GUILayout.Label ("Volume", EpochSkin.label);
 		GUILayout.EndHorizontal ();
 		
 		VolumeControl ();
 		
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (80);
+        GUILayout.Space(125);
 		GUILayout.Label ("Graphics", EpochSkin.label);
 		GUILayout.EndHorizontal ();
 		
 		GraphicControl ();
 		
 		GUILayout.BeginHorizontal ();
-		GUILayout.Space (100);
-		GUILayout.Label ("FPS", EpochSkin.label);
+        GUILayout.Space(115);
+		GUILayout.Label ("Show FPS", EpochSkin.label);
 		showFPS = GUILayout.Toggle (showFPS, "", EpochSkin.toggle);				
 		GUILayout.EndHorizontal ();
 		
@@ -262,14 +275,14 @@ public class GameManager : UnitySingleton<GameManager>
 		
 		GUILayout.EndArea ();
 		GUILayout.EndVertical ();
-		GUILayout.BeginArea (new Rect(Screen.width/2 - 55f, Screen.height/2 + 100, 110, 50));
+		GUILayout.BeginArea (new Rect(475,500,125,50));
 		if(GUILayout.Button ("Save", EpochSkin.GetStyle ("Small Button"))){
 			ClickSound.Play ();	
 			SaveOptions ();
 			currentPage = Page.Main;
 		}
 		GUILayout.EndArea ();
-		GUILayout.BeginArea (new Rect(Screen.width/2f - 250, Screen.height/2f - 250, 500, 500));
+        GUILayout.BeginArea(new Rect(250, 125, 550, 500));
 		GUILayout.Box ("", EpochSkin.GetStyle ("Tablet Wide"));
 		GUILayout.EndArea ();
 	}
@@ -283,7 +296,7 @@ public class GameManager : UnitySingleton<GameManager>
 
 		GUILayout.BeginVertical ();
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (90);
+            GUILayout.Space(125);
 				GUILayout.Label ((int)(AudioListener.volume * 100) + "%", EpochSkin.textArea);
 			GUILayout.EndHorizontal ();
 		GUILayout.EndVertical ();
@@ -299,7 +312,7 @@ public class GameManager : UnitySingleton<GameManager>
 		GUILayout.BeginVertical ();
 			#region Quality Labels
 			GUILayout.BeginHorizontal ();
-				GUILayout.Space (80);
+            GUILayout.Space(125);
 				switch (graphicsQuality) {
 				case 1:
 						QualitySettings.SetQualityLevel (1);
@@ -337,8 +350,6 @@ public class GameManager : UnitySingleton<GameManager>
 			go.name = "FPS";
 
 			FPS = (GUIText) go.AddComponent(typeof(GUIText));
-			//FPS.transform.position = new Vector3 (.92f, .98f, 0);
-
 			FPS.anchor = TextAnchor.UpperRight;
 			FPS.transform.position = new Vector3 (1f, 1f, 0f);
 			FPS.text = "";
