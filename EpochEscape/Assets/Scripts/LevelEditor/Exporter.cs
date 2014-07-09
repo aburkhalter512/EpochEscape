@@ -1,5 +1,7 @@
 ﻿/*
  * This script works, but it may consume more memory than using XML since C# isn't optimized for JSON.
+ * 
+ * Usage: Apply the script to the main camera, or an empty game object. The script will output the level data to the console.
  */
 
 using UnityEngine;

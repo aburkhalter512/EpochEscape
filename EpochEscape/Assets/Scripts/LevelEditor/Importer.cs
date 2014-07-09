@@ -1,6 +1,8 @@
 ﻿/*
  * This script has a few bugs, but it works. It may consume more memory than using XML since C# isn't optimized for JSON.
  * 
+ * Usage: Apply to the main camera, or an empty game object. Game objects will be constructed based on the data received.
+ * 
  * Bug: For some reason, the initial position isn't set correctly despite being read properly.
  */
 
