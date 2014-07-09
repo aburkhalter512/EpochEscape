@@ -1061,7 +1061,9 @@ MonoBehaviour:
   PopUp: {fileID: 0}
   PopUpExit: {fileID: 0}
   BackSound: {fileID: 0}
+  HoverSound: {fileID: 0}
   playPopUpSound: 1
+  PlayHoverSound: 
   currentLevel: 0
   m_currentCharacter: 0
   caveUnlocked: 1
@@ -2555,7 +2557,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 583718793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 404ae35ffaa73974897f67560748c75c, type: 3}
+  m_Script: {fileID: 11500000, guid: 83939ffde17da8a4e955fa199a36f645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Level: Level3
@@ -3924,6 +3926,7 @@ GameObject:
   - 92: {fileID: 945654512}
   - 124: {fileID: 945654511}
   - 114: {fileID: 945654515}
+  - 114: {fileID: 945654510}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3931,6 +3934,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &945654510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 945654509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 308a51bb39638e545b1ec930bc159105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &945654511
 Behaviour:
   m_ObjectHideFlags: 0
@@ -4570,9 +4584,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 92595016}
   - {fileID: 2108854836}
   - {fileID: 714271658}
+  - {fileID: 92595016}
   - {fileID: 438973382}
   m_Father: {fileID: 0}
 --- !u!1 &1173006372
@@ -4826,6 +4840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitCodes: 1b000000
+  mouse: {fileID: 0}
   mMouseInScreen: {x: 0, y: 0, z: 0}
   mMouseInWorld: {x: 0, y: 0, z: 0}
 --- !u!1 &1271059308
