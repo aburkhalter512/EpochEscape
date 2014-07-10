@@ -1,82 +1,95 @@
 ﻿/*
- * This script works, but it may consume more memory than using XML since C# isn't optimized for JSON.
- * 
- * Usage: Apply the script to the main camera, or an empty game object. The script will output the level data to the console.
+ * Usage: Apply the script to the main camera, or an empty game object. The script will output the level data a file.
  */
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using MiniJSON;
+using System.IO;
 
 public class Exporter : MonoBehaviour
 {
-	void Start()
+	public void Start()
 	{
-		GameObject guards = GameObject.Find("Guards");
-
-		if(guards == null) return;
-
-		int guardCount = guards.transform.childCount;
-
-		if(guardCount == 0) return;
-
-		// Create the dictionary for the level data.
-		Dictionary<string, object> levelData = new Dictionary<string, object>();
-
-		// Create the array of dictionaries for each guard, and assign it to the key "guards".
-		levelData["guards"] = new Dictionary<string, object>[guardCount];
-
-		Transform guardTemp = null;
-		Vector3 initialPosition = Vector3.zero;
-		string guardType = null;
-		Guard guardScript = null;
-		Vector3[] patrolPoints = null;
-
-		for(int i = 0; i < guardCount; i++)
+		using(StreamWriter sw = new StreamWriter("level2.txt"))
 		{
-			guardTemp = guards.transform.GetChild(i);
-			guardType = guardTemp.name;
-			initialPosition = guardTemp.position;
-			guardScript = guardTemp.GetComponent<Guard>();
+			GameObject guards = GameObject.Find("Guards");
+			int guardCount = (guards == null ? 0 : guards.transform.childCount);
 
-			// Create the dictionary for the ith guard.
-			( (Dictionary<string, object>[]) (levelData["guards"]) )[i] = new Dictionary<string, object>();
+			sw.WriteLine("{");
+			sw.WriteLine("\t" + escape("guards") + ":[");
 
-			// Assign the type of the ith guard in the dictionary to the key "guardType".
-			( (Dictionary<string, object>[]) (levelData["guards"]) )[i]["guardType"] = guardType;
-
-			// Create the dictionary for the ith guard's initial location coordinates, and assign it to the key "initialLocation".
-			( (Dictionary<string, object>[]) (levelData["guards"]) )[i]["initialLocation"] = new Dictionary<string, object>();
-
-			// Store the x, y, and z coordinate of the ith guard's initial position to the respective keys.
-			( (Dictionary<string, object>) ( ( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["initialLocation"] ) )["x"] = initialPosition.x;
-			( (Dictionary<string, object>) ( ( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["initialLocation"] ) )["y"] = initialPosition.y;
-			( (Dictionary<string, object>) ( ( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["initialLocation"] ) )["z"] = initialPosition.z;
-
-			if(guardScript != null && guardType != "StationaryGuard")
+			if(guards != null && guardCount > 0)
 			{
-				patrolPoints = guardScript.m_patrolPoints;
-
-				// Create the array of dictionaries for the ith guard's patrol points, and assign it to the key "patrolPoints".
-				( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["patrolPoints"] = new Dictionary<string, object>[patrolPoints.Length];
-
-				for(int j = 0; j < patrolPoints.Length; j++)
+				// Temporary variables for each guard.
+				Transform guardTemp = null;
+				string guardType = null;
+				Guard guardScript = null;
+				Vector3[] patrolPoints = null;
+				
+				for(int i = 0; i < guardCount; i++)
 				{
-					// Create the dictionary for the ith guard's jth patrol point.
-					( (Dictionary<string, object>[]) ( ( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["patrolPoints"] ) ) [j] = new Dictionary<string, object>();
+					guardTemp = guards.transform.GetChild(i);
+					guardType = guardTemp.name;
+					guardScript = guardTemp.GetComponent<Guard>();
 
-					// Store the x, y, and z coordinate of the ith guard's jth patrol point to the respective keys.
-					( (Dictionary<string, object>) ( ( (Dictionary<string, object>[]) ( ( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["patrolPoints"] ) ) [j] ) ) ["x"] = patrolPoints[j].x;
-					( (Dictionary<string, object>) ( ( (Dictionary<string, object>[]) ( ( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["patrolPoints"] ) ) [j] ) ) ["y"] = patrolPoints[j].y;
-					( (Dictionary<string, object>) ( ( (Dictionary<string, object>[]) ( ( (Dictionary<string, object>[]) (levelData["guards"]) ) [i]["patrolPoints"] ) ) [j] ) ) ["z"] = patrolPoints[j].z;
+					sw.WriteLine(tab(2) + "{");
+					sw.WriteLine(tab(3) + escape("type") + ":" + escape(guardType) + ",");
+					sw.WriteLine(tab(3) + escape("initialPosition") + ":{");
+
+					printVector3(sw, guardTemp.position, 4);
+
+					sw.WriteLine(tab(3) + "},");
+					sw.WriteLine(tab(3) + escape("initialDirection") + ":{");
+
+					printVector3(sw, guardTemp.transform.up, 4);
+					
+					if(!(guardScript == null || guardType == "StationaryGuard"))
+					{
+						patrolPoints = guardScript.m_patrolPoints;
+
+						sw.WriteLine(tab(3) + "},");
+						sw.WriteLine(tab(3) + escape("patrolPoints") + ":[");
+
+						for(int j = 0; j < patrolPoints.Length; j++)
+						{
+							sw.WriteLine(tab(4) + "{");
+
+							printVector3(sw, patrolPoints[j], 5);
+
+							sw.WriteLine(tab(4) + "}" + (j != patrolPoints.Length - 1 ? "," : ""));
+						}
+
+						sw.WriteLine(tab(3) + "]");
+					}
+					else
+						sw.WriteLine(tab(3) + "}");
+
+					sw.WriteLine(tab(2) + "}" + (i != guards.transform.childCount - 1 ? "," : ""));
 				}
 			}
+
+			sw.WriteLine("\t]");
+			sw.WriteLine("}");
 		}
+	}
 
-		// Serialize the data to create a JSON string.
-		string json = Json.Serialize(levelData);
+	public string tab(int n)
+	{
+		return new string('\t', n);
+	}
 
-		Debug.Log(json);
+	public string escape(string str)
+	{
+		return "\"" + str + "\"";
+	}
+
+	public void printVector3(StreamWriter sw, Vector3 vector, int t)
+	{
+		if(vector == null) return;
+
+		sw.WriteLine(tab(t) + escape("x") + ":" + vector.x + ",");
+		sw.WriteLine(tab(t) + escape("y") + ":" + vector.y + ",");
+		sw.WriteLine(tab(t) + escape("z") + ":" + vector.z);
 	}
 }

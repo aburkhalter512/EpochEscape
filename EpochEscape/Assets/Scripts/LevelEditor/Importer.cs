@@ -1,24 +1,20 @@
 ﻿/*
- * This script has a few bugs, but it works. It may consume more memory than using XML since C# isn't optimized for JSON.
- * 
  * Usage: Apply to the main camera, or an empty game object. Game objects will be constructed based on the data received.
- * 
- * Bug: For some reason, the initial position isn't set correctly despite being read properly.
  */
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using MiniJSON;
 
 public class Importer : MonoBehaviour
 {
-	void Start()
+	public void Start()
 	{
-		// JSON data for level 2.
-		string levelDataJSON = "{\"guards\":[{\"guardType\":\"Guard\",\"initialLocation\":{\"x\":-1,\"y\":-2.2,\"z\":0},\"patrolPoints\":[{\"x\":-1,\"y\":-2.2,\"z\":0},{\"x\":-1,\"y\":1,\"z\":0}]},{\"guardType\":\"Guard\",\"initialLocation\":{\"x\":-2.6,\"y\":3.4,\"z\":0},\"patrolPoints\":[{\"x\":-2.6,\"y\":-3.4,\"z\":0},{\"x\":-2.6,\"y\":3.4,\"z\":0}]},{\"guardType\":\"Guard\",\"initialLocation\":{\"x\":-2,\"y\":3.9,\"z\":0},\"patrolPoints\":[{\"x\":-2,\"y\":3.9,\"z\":0},{\"x\":2.1,\"y\":3.9,\"z\":0}]},{\"guardType\":\"StationaryGuard\",\"initialLocation\":{\"x\":0.6,\"y\":0.5,\"z\":0}}]}";
+		string levelDataJSON = File.ReadAllText("level2.txt");
 
-		// Deserialize the level data, and assign it to a dictionary.
+		// Deserialize the level data, and convert it to a dictionary of keys and values.
 		Dictionary<string, object> levelData = Json.Deserialize(levelDataJSON) as Dictionary<string, object>;
 
 		// Create a list of guards.
@@ -26,49 +22,59 @@ public class Importer : MonoBehaviour
 
 		// Temporary variables for each guard.
 		Dictionary<string, object> guard = null;
-		string guardType = null;
-		Dictionary<string, object> guardInitialLocation = null;
-		Vector3 guardLocation = Vector3.zero;
+		string guardType = string.Empty;
+		Dictionary<string, object> guardInitialPosition = null;
+		Vector3 guardPosition = Vector3.zero;
+		Dictionary<string, object> guardInitialDirection = null;
+		Vector3 guardDirection = Vector3.zero;
 		List<object> guardPatrolPoints = null;
 		Dictionary<string, object> guardPatrolPoint = null;
 
 		GameObject guardGameObject = null;
 		Guard guardGameObjectScript = null;
-
-		// Iterate over each guard.
+		
 		for(int i = 0; i < guards.Count; i++)
 		{
 			// Create a dictionary for the ith guard.
 			guard = guards[i] as Dictionary<string, object>;
 
-			guardType = guard["guardType"] as string;
+			// Store the guard type.
+			guardType = guard["type"] as string;
 
-			// Create a dictionary for the initial location.
-			guardInitialLocation = guard["initialLocation"] as Dictionary<string, object>;
+			// Create a dictionary for the initial position.
+			guardInitialPosition = guard["initialPosition"] as Dictionary<string, object>;
 
-			// Assign the ith guard's initial location coordinates from the respective keys.
-			guardLocation.x = CastCoordinate(guardInitialLocation["x"]);
-			guardLocation.y = CastCoordinate(guardInitialLocation["y"]);
-			guardLocation.z = CastCoordinate(guardInitialLocation["z"]);
+			// Assign the coordinates of the initial position.
+			guardPosition.x = CastCoordinate(guardInitialPosition["x"]);
+			guardPosition.y = CastCoordinate(guardInitialPosition["y"]);
+			guardPosition.z = CastCoordinate(guardInitialPosition["z"]);
 
+			// Create a dictionary for the initial direction.
+			guardInitialDirection = guard["initialDirection"] as Dictionary<string, object>;
+
+			// Assign the coordinates of the initial direction.
+			guardDirection.x = CastCoordinate(guardInitialDirection["x"]);
+			guardDirection.y = CastCoordinate(guardInitialDirection["y"]);
+			guardDirection.z = CastCoordinate(guardInitialDirection["z"]);
+			
 			if(guardType == "Guard")
 			{
 				guardGameObject = Resources.Load("Prefabs/Enemies/Guard") as GameObject;
 				guardGameObjectScript = guardGameObject.GetComponent<Guard>();
 
-				// Create a list of patrol points from the patrolPoints key.
+				// Create a list of patrol points from the level data.
 				guardPatrolPoints = guard["patrolPoints"] as List<object>;
 
-				// Create the array to store the patrol points.
+				// Initialize the array of patrol points for the current guard game object.
 				guardGameObjectScript.m_patrolPoints = new Vector3[guardPatrolPoints.Count];
 
-				// Iterate over each patrol point in the object list.
+				// Iterate over each patrol point from the level data.
 				for(int j = 0; j < guardPatrolPoints.Count; j++)
 				{
 					// Create a dictionary for the jth patrol point.
 					guardPatrolPoint = guardPatrolPoints[j] as Dictionary<string, object>;
 
-					// Assign the patrol point from the object list to the point array.
+					// Assign the patrol point from the level data to the guard's patrol point array.
 					guardGameObjectScript.m_patrolPoints[j].x = CastCoordinate(guardPatrolPoint["x"]);
 					guardGameObjectScript.m_patrolPoints[j].y = CastCoordinate(guardPatrolPoint["y"]);
 					guardGameObjectScript.m_patrolPoints[j].z = CastCoordinate(guardPatrolPoint["z"]);
@@ -78,13 +84,18 @@ public class Importer : MonoBehaviour
 				guardGameObject = Resources.Load("Prefabs/Enemies/StationaryGuard") as GameObject;
 
 			if(guardGameObject != null)
-				guardGameObject.transform.position = guardLocation;
+			{
+				guardGameObject.transform.position = guardPosition;
+				guardGameObject.transform.up = guardDirection;
+			}
 
 			Instantiate(guardGameObject);
 		}
 	}
 
-	// Casting longs and doubles to floats is acceptable since no value will ever be greater than FLOAT_MAX.
+	// The MiniJSON library automatically converts integers to longs and floating point numbers to doubles.
+	// This method converts the longs and doubles to floats.
+	// Doing so is acceptable since no value will ever be greater than FLOAT_MAX.
 	private float CastCoordinate(object toCast)
 	{
 		if(toCast.GetType().Name == "Int64")
