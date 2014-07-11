@@ -18,78 +18,91 @@ public class Importer : MonoBehaviour
 		Dictionary<string, object> levelData = Json.Deserialize(levelDataJSON) as Dictionary<string, object>;
 
 		// Create a list of guards.
-		List<object> guards = levelData["guards"] as List<object>;
+		List<object> guardData = levelData["guards"] as List<object>;
 
-		// Temporary variables for each guard.
-		Dictionary<string, object> guard = null;
-		string guardType = string.Empty;
-		Dictionary<string, object> guardInitialPosition = null;
-		Vector3 guardPosition = Vector3.zero;
-		Dictionary<string, object> guardInitialDirection = null;
-		Vector3 guardDirection = Vector3.zero;
-		List<object> guardPatrolPoints = null;
-		Dictionary<string, object> guardPatrolPoint = null;
-
-		GameObject guardGameObject = null;
-		Guard guardGameObjectScript = null;
-		
-		for(int i = 0; i < guards.Count; i++)
+		if(guardData.Count > 0)
 		{
-			// Create a dictionary for the ith guard.
-			guard = guards[i] as Dictionary<string, object>;
+			GameObject guards = GameObject.Find("Guards");
 
-			// Store the guard type.
-			guardType = guard["type"] as string;
-
-			// Create a dictionary for the initial position.
-			guardInitialPosition = guard["initialPosition"] as Dictionary<string, object>;
-
-			// Assign the coordinates of the initial position.
-			guardPosition.x = CastCoordinate(guardInitialPosition["x"]);
-			guardPosition.y = CastCoordinate(guardInitialPosition["y"]);
-			guardPosition.z = CastCoordinate(guardInitialPosition["z"]);
-
-			// Create a dictionary for the initial direction.
-			guardInitialDirection = guard["initialDirection"] as Dictionary<string, object>;
-
-			// Assign the coordinates of the initial direction.
-			guardDirection.x = CastCoordinate(guardInitialDirection["x"]);
-			guardDirection.y = CastCoordinate(guardInitialDirection["y"]);
-			guardDirection.z = CastCoordinate(guardInitialDirection["z"]);
-			
-			if(guardType == "Guard")
+			if(guards == null)
 			{
-				guardGameObject = Resources.Load("Prefabs/Enemies/Guard") as GameObject;
-				guardGameObjectScript = guardGameObject.GetComponent<Guard>();
+				guards = new GameObject();
+				guards = Instantiate(guards) as GameObject;
+				guards.name = "Guards";
+			}
 
-				// Create a list of patrol points from the level data.
-				guardPatrolPoints = guard["patrolPoints"] as List<object>;
+			// Temporary variables for each guard.
+			Dictionary<string, object> guard = null;
+			string guardType = string.Empty;
+			Dictionary<string, object> guardInitialPosition = null;
+			Vector3 guardPosition = Vector3.zero;
+			Dictionary<string, object> guardInitialDirection = null;
+			Vector3 guardDirection = Vector3.zero;
+			List<object> guardPatrolPoints = null;
+			Dictionary<string, object> guardPatrolPoint = null;
 
-				// Initialize the array of patrol points for the current guard game object.
-				guardGameObjectScript.m_patrolPoints = new Vector3[guardPatrolPoints.Count];
+			GameObject guardGameObject = null;
+			Guard guardGameObjectScript = null;
+			
+			for(int i = 0; i < guardData.Count; i++)
+			{
+				// Create a dictionary for the ith guard.
+				guard = guardData[i] as Dictionary<string, object>;
 
-				// Iterate over each patrol point from the level data.
-				for(int j = 0; j < guardPatrolPoints.Count; j++)
+				// Store the guard type.
+				guardType = guard["type"] as string;
+
+				// Create a dictionary for the initial position.
+				guardInitialPosition = guard["initialPosition"] as Dictionary<string, object>;
+
+				// Assign the coordinates of the initial position.
+				guardPosition.x = CastCoordinate(guardInitialPosition["x"]);
+				guardPosition.y = CastCoordinate(guardInitialPosition["y"]);
+				guardPosition.z = CastCoordinate(guardInitialPosition["z"]);
+
+				// Create a dictionary for the initial direction.
+				guardInitialDirection = guard["initialDirection"] as Dictionary<string, object>;
+
+				// Assign the coordinates of the initial direction.
+				guardDirection.x = CastCoordinate(guardInitialDirection["x"]);
+				guardDirection.y = CastCoordinate(guardInitialDirection["y"]);
+				guardDirection.z = CastCoordinate(guardInitialDirection["z"]);
+				
+				if(guardType == "Guard")
 				{
-					// Create a dictionary for the jth patrol point.
-					guardPatrolPoint = guardPatrolPoints[j] as Dictionary<string, object>;
+					guardGameObject = Resources.Load("Prefabs/Enemies/Guard") as GameObject;
+					guardGameObjectScript = guardGameObject.GetComponent<Guard>();
 
-					// Assign the patrol point from the level data to the guard's patrol point array.
-					guardGameObjectScript.m_patrolPoints[j].x = CastCoordinate(guardPatrolPoint["x"]);
-					guardGameObjectScript.m_patrolPoints[j].y = CastCoordinate(guardPatrolPoint["y"]);
-					guardGameObjectScript.m_patrolPoints[j].z = CastCoordinate(guardPatrolPoint["z"]);
+					// Create a list of patrol points from the level data.
+					guardPatrolPoints = guard["patrolPoints"] as List<object>;
+
+					// Initialize the array of patrol points for the current guard game object.
+					guardGameObjectScript.m_patrolPoints = new Vector3[guardPatrolPoints.Count];
+
+					// Iterate over each patrol point from the level data.
+					for(int j = 0; j < guardPatrolPoints.Count; j++)
+					{
+						// Create a dictionary for the jth patrol point.
+						guardPatrolPoint = guardPatrolPoints[j] as Dictionary<string, object>;
+
+						// Assign the patrol point from the level data to the guard's patrol point array.
+						guardGameObjectScript.m_patrolPoints[j].x = CastCoordinate(guardPatrolPoint["x"]);
+						guardGameObjectScript.m_patrolPoints[j].y = CastCoordinate(guardPatrolPoint["y"]);
+						guardGameObjectScript.m_patrolPoints[j].z = CastCoordinate(guardPatrolPoint["z"]);
+					}
+				}
+				else if(guardType == "StationaryGuard")
+					guardGameObject = Resources.Load("Prefabs/Enemies/StationaryGuard") as GameObject;
+
+				if(guardGameObject != null)
+				{
+					guardGameObject = Instantiate(guardGameObject) as GameObject;
+					guardGameObject.transform.position = guardPosition;
+					guardGameObject.transform.up = guardDirection;
+					guardGameObject.transform.parent = guards.transform;
+					guardGameObject.name = guardType;
 				}
 			}
-			else if(guardType == "StationaryGuard")
-				guardGameObject = Resources.Load("Prefabs/Enemies/StationaryGuard") as GameObject;
-
-			if(guardGameObject != null)
-			{
-				guardGameObject.transform.position = guardPosition;
-				guardGameObject.transform.up = guardDirection;
-			}
-
-			Instantiate(guardGameObject);
 		}
 	}
 
