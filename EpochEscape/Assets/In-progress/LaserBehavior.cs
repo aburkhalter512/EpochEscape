@@ -5,6 +5,7 @@ using System.Collections;
 public class LaserBehavior : MonoBehaviour {
     public Transform start, end;
     public LineRenderer lr;
+    int count = 2;
 	void Start () {
         if (lr == null)
             lr = GetComponent<LineRenderer>();
@@ -23,7 +24,20 @@ public class LaserBehavior : MonoBehaviour {
 
         lr.enabled = true;
         lr.SetPosition(0, start.position);
-        lr.SetPosition(1, hit.point);
+        if (hit.collider != null)
+        {
+            lr.SetPosition(1, hit.point);
+            if (hit.collider.tag == "Mirror")
+            {
+                //reflect it here
+            }
+
+        }
+        else
+        {
+            lr.SetPosition(1, end.position);
+        }
+        
         Debug.DrawLine(start.position, hit.point, Color.red);
     }
 }
