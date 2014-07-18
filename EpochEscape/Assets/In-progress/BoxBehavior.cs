@@ -85,27 +85,26 @@ public class BoxBehavior : MonoBehaviour
                 pos.x = left;
             }
 
-            if ((other.renderer.bounds.max.x) > right && //greater than right
+            else if ((other.renderer.bounds.min.x) > right && //greater than right
                 (other.renderer.bounds.max.x) > left && //greater than leftside
                 other.transform.position.x > transform.position.x) // right of
             {
                 pos.x = right;
             }
 
-            if ((other.renderer.bounds.max.x) > bottom && //inside
+            else if ((other.renderer.bounds.max.x) > bottom && //inside
                 (other.renderer.bounds.max.x) < top && //less than right side
                 other.transform.position.y < transform.position.y) // left of
             {
                 pos.y = bottom;
             }
 
-            if ((other.renderer.bounds.max.x) > top && //inside
+            else if ((other.renderer.bounds.max.x) > top && //inside
                 (other.renderer.bounds.max.x) > bottom && //less than right side
                 other.transform.position.y > transform.position.y) // left of
             {
                 pos.y = top;
             }
-
             other.transform.position = pos;
 
             if ((other.transform.position.x < left) && ((other.transform.position.y < top) || (other.transform.position.y > bottom)))
