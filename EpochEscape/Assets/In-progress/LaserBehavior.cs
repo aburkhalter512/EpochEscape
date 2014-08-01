@@ -8,9 +8,10 @@ public class LaserBehavior : MonoBehaviour {
     public LineRenderer lr;
     public List<Vector3> positions;
     public Vector3 tempStart;
-    int count = 2;
+    private int bounces = 0;
 
 	void Start () {
+		positions = new List<Vector3> ();
         if (lr == null)
         {
             lr = GetComponent<LineRenderer>();
@@ -19,38 +20,96 @@ public class LaserBehavior : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        RenderLaser() ;
+        bounces = 0;
+        BuildLaser(transform.position);
+        DrawLaser();
+        positions.Clear();
 	}
 
-    void RenderLaser()
+//    void BuildLaser(Vector3 origin, int bounces)
+//    {
+//        if (bounces > 20)
+//        {
+//            return;
+//        }
+//
+//		RaycastHit2D hit = Physics2D.Raycast(new Vector2(origin.x, origin.y), (end.position - origin).normalized, 10000f);
+//        Vector3 reflectionPos = origin.normalized * 10000;
+//
+//        if (hit.collider == null)
+//        {
+//            positions.Add(end.position);
+//            return;
+//        }
+//
+//        //if hit mirror
+//        else if (hit.collider != null)
+//        {
+//            //add hit point (where to stop the laser)
+//            positions.Add(new Vector3(hit.point.x, hit.point.y, 0));
+//            //if object is mirror
+//            if (hit.collider.tag == "Mirror")
+//            {
+//                //reflect against the mirror
+//                reflectionPos = 10000 * Vector3.Reflect((new Vector3(hit.point.x, hit.point.y, 0) - origin), hit.normal) + new Vector3(hit.point.x, hit.point.y, 0);
+//                positions.Add(reflectionPos);
+//            }
+//        }
+//
+//        BuildLaser(hit.point, bounces + 1);
+//        //Debug.DrawLine(start.position, hit.point, Color.red);
+//    }
+
+	void BuildLaser(Vector3 origin)
+	{
+        positions.Add(origin);
+		Vector3 reflectionPos = origin.normalized;
+        Vector3 endPos = end.position;
+		while (true)
+		{
+			if(bounces > 20){
+				break;
+			}
+			RaycastHit2D hit = Physics2D.Raycast(new Vector2(origin.x, origin.y), (endPos - origin).normalized, 100);
+			if (hit.collider == null)
+			{
+                positions.Add(endPos);
+				break;
+			}
+			//if hit something
+			else{
+				//if object is mirror
+                positions.Add(new Vector3(hit.point.x, hit.point.y, 0));
+				if (hit.collider.tag == "Mirror")
+				{
+					//reflect against the mirror
+                    reflectionPos = 100 * Vector3.Reflect((new Vector3(hit.point.x, hit.point.y, 0) - origin), hit.normal) + new Vector3(hit.point.x, hit.point.y, 0);
+                    //positions.Add(new Vector3(hit.point.x, hit.point.y, 0));
+					endPos = reflectionPos;
+					origin = hit.point;
+					bounces++;
+				}
+				else{
+                    
+                    break;
+				}
+			}
+		}
+		
+		//BuildLaser(hit.point, bounces + 1);
+		//Debug.DrawLine(start.position, hit.point, Color.red);
+	}
+
+    void DrawLaser()
     {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.up, 10000f);
-        
-        lr.SetPosition(0, start.position);
-
-
-        if (hit.collider != null)
+        lr.SetWidth(.075f, .075f);
+        if (positions != null || lr != null)
         {
-            lr.SetPosition(1, hit.point);
-            if (hit.collider.tag == "Mirror")
+            lr.SetVertexCount(positions.Count);
+            for (int i = 0; i < positions.Count; i++)
             {
-                Vector2 reflectionPos = 10000 * Reflect((hit.point - new Vector2(start.position.x, start.position.y)).normalized, hit.normal);
-                lr.SetVertexCount(++count);
-                lr.SetPosition(count - 1, reflectionPos);
-                //reflect it here
+                lr.SetPosition(i, positions[i]);
             }
-
         }
-        else
-        {
-            lr.SetPosition(1, end.position);
-        }
-        //Debug.DrawLine(start.position, hit.point, Color.red);
     }
-
-    private Vector2 Reflect(Vector2 vector, Vector2 normal)
-    {
-        return vector - 2 * Vector2.Dot(vector, normal) * normal;
-    }
-
 }
