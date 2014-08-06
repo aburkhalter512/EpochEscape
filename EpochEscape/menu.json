@@ -1,0 +1,73 @@
+{
+	"mainMenu": [
+		{
+			"title": "Items",
+			"name": "ItemsSubMenu",
+			"hasSubMenu": true,
+			"menuItems": [
+				{
+					"title": "Core 1",
+					"name": "Core1MenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Items/Core1"
+				},
+				{
+					"title": "Core 2",
+					"name": "Core2MenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Items/Core2"
+				},
+				{
+					"title": "Core 3",
+					"name": "Core3MenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Items/Core3"
+				},
+				{
+					"title": "Red Potion",
+					"name": "RedPotionMenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Items/RedPotion"
+				},
+				{
+					"title": "Green Potion",
+					"name": "GreenPotionMenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Items/GreenPotion"
+				}
+			]
+		},
+		{
+			"title": "Tiles",
+			"name": "TilesSubMenu",
+			"hasSubMenu": true,
+			"menuItems": [
+				{
+					"title": "Dark Tile",
+					"name": "DarkTileMenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Tiles/Floor/FloorDark"
+				},
+				{
+					"title": "Light Tile",
+					"name": "LightTileMenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Tiles/Floor/FloorLight"
+				}
+			]
+		},
+		{
+			"title": "Enemies",
+			"name": "EnemiesSubMenu",
+			"hasSubMenu": true,
+			"menuItems": [
+				{
+					"title": "StationaryGuard",
+					"name": "StationaryGuardMenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/Enemies/StationaryGuard"
+				}
+			]
+		}
+	]
+}

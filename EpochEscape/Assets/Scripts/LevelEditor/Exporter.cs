@@ -11,7 +11,7 @@ public class Exporter : MonoBehaviour
 {
 	public void Start()
 	{
-		using(StreamWriter sw = new StreamWriter("level2.txt"))
+		using(StreamWriter sw = new StreamWriter("level1.json"))
 		{
 			sw.WriteLine("{");
 
@@ -31,17 +31,17 @@ public class Exporter : MonoBehaviour
 	{
 		GameObject spawnLocation = GameObject.FindWithTag("SpawnLocation");
 
-		sw.WriteLine("\t" + escape("player") + ":[");
-		sw.WriteLine(tab(2) + "{");
-		sw.WriteLine(tab(3) + escape("spawnLocation") + ":{");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("player") + ":[");
+		sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+		sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("spawnLocation") + ":{");
 		
 		if(spawnLocation != null)
-			printVector(sw, spawnLocation.transform.position, 4);
+			LevelEditorUtilities.PrintVector(sw, spawnLocation.transform.position, 4);
 		else
-			printVector(sw, Vector3.zero, 4);
+			LevelEditorUtilities.PrintVector(sw, Vector3.zero, 4);
 		
-		sw.WriteLine(tab(3) + "}");
-		sw.WriteLine(tab(2) + "}");
+		sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
+		sw.WriteLine(LevelEditorUtilities.Tab(2) + "}");
 		sw.WriteLine("\t],");
 	}
 
@@ -50,7 +50,7 @@ public class Exporter : MonoBehaviour
 		GameObject items = GameObject.Find("Items");
 		int itemCount = (items == null ? 0 : items.transform.childCount);
 		
-		sw.WriteLine("\t" + escape("items") + ":[");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("items") + ":[");
 
 		if(!(items == null || itemCount == 0))
 		{
@@ -60,19 +60,19 @@ public class Exporter : MonoBehaviour
 			{
 				itemTemp = items.transform.GetChild(i);
 
-				sw.WriteLine(tab(2) + "{");
-				sw.WriteLine(tab(3) + escape("name") + ":" + escape(itemTemp.name) + ",");
-				sw.WriteLine(tab(3) + escape("position") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(itemTemp.name) + ",");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
 
-				printVector(sw, itemTemp.position, 4);
+				LevelEditorUtilities.PrintVector(sw, itemTemp.position, 4);
 
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("direction") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
 				
-				printVector(sw, itemTemp.up, 4);
+				LevelEditorUtilities.PrintVector(sw, itemTemp.up, 4);
 				
-				sw.WriteLine(tab(3) + "}");
-				sw.WriteLine(tab(2) + "}" + (i != itemCount - 1 ? "," : ""));
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != itemCount - 1 ? "," : ""));
 			}
 		}
 
@@ -84,7 +84,7 @@ public class Exporter : MonoBehaviour
 		GameObject guards = GameObject.Find("Guards");
 		int guardCount = (guards == null ? 0 : guards.transform.childCount);
 		
-		sw.WriteLine("\t" + escape("guards") + ":[");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("guards") + ":[");
 		
 		if(!(guards == null || guardCount == 0))
 		{
@@ -98,39 +98,39 @@ public class Exporter : MonoBehaviour
 				guardTemp = guards.transform.GetChild(i);
 				guardScript = guardTemp.GetComponent<Guard>();
 				
-				sw.WriteLine(tab(2) + "{");
-				sw.WriteLine(tab(3) + escape("name") + ":" + escape(guardTemp.name) + ",");
-				sw.WriteLine(tab(3) + escape("position") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(guardTemp.name) + ",");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
 				
-				printVector(sw, guardTemp.position, 4);
+				LevelEditorUtilities.PrintVector(sw, guardTemp.position, 4);
 				
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("direction") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
 				
-				printVector(sw, guardTemp.up, 4);
+				LevelEditorUtilities.PrintVector(sw, guardTemp.up, 4);
 				
 				if(!(guardScript == null || guardTemp.name == "StationaryGuard"))
 				{
 					patrolPoints = guardScript.m_patrolPoints;
 					
-					sw.WriteLine(tab(3) + "},");
-					sw.WriteLine(tab(3) + escape("patrolPoints") + ":[");
+					sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+					sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("patrolPoints") + ":[");
 					
 					for(int j = 0; j < patrolPoints.Length; j++)
 					{
-						sw.WriteLine(tab(4) + "{");
+						sw.WriteLine(LevelEditorUtilities.Tab(4) + "{");
 						
-						printVector(sw, patrolPoints[j], 5);
+						LevelEditorUtilities.PrintVector(sw, patrolPoints[j], 5);
 						
-						sw.WriteLine(tab(4) + "}" + (j != patrolPoints.Length - 1 ? "," : ""));
+						sw.WriteLine(LevelEditorUtilities.Tab(4) + "}" + (j != patrolPoints.Length - 1 ? "," : ""));
 					}
 					
-					sw.WriteLine(tab(3) + "]");
+					sw.WriteLine(LevelEditorUtilities.Tab(3) + "]");
 				}
 				else
-					sw.WriteLine(tab(3) + "}");
+					sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
 				
-				sw.WriteLine(tab(2) + "}" + (i != guards.transform.childCount - 1 ? "," : ""));
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != guards.transform.childCount - 1 ? "," : ""));
 			}
 		}
 		
@@ -145,7 +145,7 @@ public class Exporter : MonoBehaviour
 		Transform hidingSpots = obstacles.transform.FindChild("HidingSpots");
 		int hidingSpotCount = (hidingSpots == null ? 0 : hidingSpots.childCount);
 		
-		sw.WriteLine("\t" + escape("obstacles") + ":[");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("obstacles") + ":[");
 
 		if(!(obstacles == null || obstacleCount == 0))
 		{
@@ -161,19 +161,19 @@ public class Exporter : MonoBehaviour
 			{
 				obstacleTemp = obstacles.transform.GetChild(i);
 
-				sw.WriteLine(tab(2) + "{");
-				sw.WriteLine(tab(3) + escape("name") + ":" + escape(obstacleTemp.name) + ",");
-				sw.WriteLine(tab(3) + escape("position") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(obstacleTemp.name) + ",");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
 				
-				printVector(sw, obstacleTemp.position, 4);
+				LevelEditorUtilities.PrintVector(sw, obstacleTemp.position, 4);
 				
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("direction") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
 				
-				printVector(sw, obstacleTemp.up, 4);
+				LevelEditorUtilities.PrintVector(sw, obstacleTemp.up, 4);
 				
-				sw.WriteLine(tab(3) + "}");
-				sw.WriteLine(tab(2) + "}" + (i != obstacleCount - 1 ? "," : ""));
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != obstacleCount - 1 ? "," : ""));
 			}
 
 			if(hidingSpots != null)
@@ -181,7 +181,7 @@ public class Exporter : MonoBehaviour
 		}
 
 		sw.WriteLine("\t],");
-		sw.WriteLine("\t" + escape("hidingSpots") + ":[");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("hidingSpots") + ":[");
 
 		if(!(hidingSpots == null || hidingSpotCount == 0))
 		{
@@ -191,19 +191,19 @@ public class Exporter : MonoBehaviour
 			{
 				hidingSpotTemp = hidingSpots.GetChild(i);
 				
-				sw.WriteLine(tab(2) + "{");
-				sw.WriteLine(tab(3) + escape("name") + ":" + escape(hidingSpotTemp.name) + ",");
-				sw.WriteLine(tab(3) + escape("position") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(hidingSpotTemp.name) + ",");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
 				
-				printVector(sw, hidingSpotTemp.position, 4);
+				LevelEditorUtilities.PrintVector(sw, hidingSpotTemp.position, 4);
 				
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("direction") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
 				
-				printVector(sw, hidingSpotTemp.up, 4);
+				LevelEditorUtilities.PrintVector(sw, hidingSpotTemp.up, 4);
 				
-				sw.WriteLine(tab(3) + "}");
-				sw.WriteLine(tab(2) + "}" + (i != hidingSpotCount - 1 ? "," : ""));
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != hidingSpotCount - 1 ? "," : ""));
 			}
 		}
 
@@ -224,24 +224,24 @@ public class Exporter : MonoBehaviour
 				wallCount = walls.Length;
 		}
 
-		sw.WriteLine("\t" + escape("walls") + ":[");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("walls") + ":[");
 
 		if(wallCount != 0)
 		{
 			for(int i = 0; i < wallCount; i++)
 			{
-				sw.WriteLine(tab(2) + "{");
-				sw.WriteLine(tab(3) + escape("size") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("size") + ":{");
 				
-				printVector(sw, walls[i].size, 4);
+				LevelEditorUtilities.PrintVector(sw, walls[i].size, 4);
 
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("center") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("center") + ":{");
 				
-				printVector(sw, walls[i].center, 4);
+				LevelEditorUtilities.PrintVector(sw, walls[i].center, 4);
 				
-				sw.WriteLine(tab(3) + "}");
-				sw.WriteLine(tab(2) + "}" + (i != wallCount - 1 ? "," : ""));
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != wallCount - 1 ? "," : ""));
 			}
 		}
 
@@ -253,7 +253,7 @@ public class Exporter : MonoBehaviour
 		GameObject doors = GameObject.Find("Doors");
 		int doorCount = (doors == null ? 0 : doors.transform.childCount);
 
-		sw.WriteLine("\t" + escape("doors") + ":[");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("doors") + ":[");
 
 		if(!(doors == null || doorCount == 0))
 		{
@@ -263,19 +263,19 @@ public class Exporter : MonoBehaviour
 			{
 				doorTemp = doors.transform.GetChild(i);
 				
-				sw.WriteLine(tab(2) + "{");
-				sw.WriteLine(tab(3) + escape("name") + ":" + escape(doorTemp.name) + ",");
-				sw.WriteLine(tab(3) + escape("position") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(doorTemp.name) + ",");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
 				
-				printVector(sw, doorTemp.position, 4);
+				LevelEditorUtilities.PrintVector(sw, doorTemp.position, 4);
 				
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("direction") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
 				
-				printVector(sw, doorTemp.up, 4);
+				LevelEditorUtilities.PrintVector(sw, doorTemp.up, 4);
 				
-				sw.WriteLine(tab(3) + "}");
-				sw.WriteLine(tab(2) + "}" + (i != doorCount - 1 ? "," : ""));
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != doorCount - 1 ? "," : ""));
 			}
 		}
 
@@ -287,7 +287,7 @@ public class Exporter : MonoBehaviour
 		GameObject floor = GameObject.Find("FloorColliders");
 		int floorCount = (floor == null ? 0 : floor.transform.childCount);
 		
-		sw.WriteLine("\t" + escape("floors") + ":[");
+		sw.WriteLine("\t" + LevelEditorUtilities.Escape("floors") + ":[");
 		
 		if(!(floor == null || floorCount == 0))
 		{
@@ -302,64 +302,35 @@ public class Exporter : MonoBehaviour
 				if(colliderTemp == null)
 					continue;
 				
-				sw.WriteLine(tab(2) + "{");
-				sw.WriteLine(tab(3) + escape("name") + ":" + escape(floorTemp.name) + ",");
-				sw.WriteLine(tab(3) + escape("position") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(floorTemp.name) + ",");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
 				
-				printVector(sw, floorTemp.position, 4);
+				LevelEditorUtilities.PrintVector(sw, floorTemp.position, 4);
 				
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("scale") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("scale") + ":{");
 				
-				printVector(sw, floorTemp.localScale, 4);
+				LevelEditorUtilities.PrintVector(sw, floorTemp.localScale, 4);
 				
-				sw.WriteLine(tab(3) + "},");
-				sw.WriteLine(tab(3) + escape("collider") + ":[");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("collider") + ":{");
 
-				sw.WriteLine(tab(4) + "{");
-				sw.WriteLine(tab(5) + escape("size") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(4) + LevelEditorUtilities.Escape("size") + ":{");
 				
-				printVector(sw, colliderTemp.size, 6);
+				LevelEditorUtilities.PrintVector(sw, colliderTemp.size, 5);
 				
-				sw.WriteLine(tab(5) + "},");
-				sw.WriteLine(tab(5) + escape("center") + ":{");
+				sw.WriteLine(LevelEditorUtilities.Tab(4) + "},");
+				sw.WriteLine(LevelEditorUtilities.Tab(4) + LevelEditorUtilities.Escape("center") + ":{");
 				
-				printVector(sw, colliderTemp.center, 6);
-				
-				sw.WriteLine(tab(5) + "}");
-				sw.WriteLine(tab(4) + "}");
-				sw.WriteLine(tab(3) + "]");
-				sw.WriteLine(tab(2) + "}" + (i != floorCount - 1 ? "," : ""));
+				LevelEditorUtilities.PrintVector(sw, colliderTemp.center, 5);
+
+				sw.WriteLine(LevelEditorUtilities.Tab(4) + "}");
+				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
+				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != floorCount - 1 ? "," : ""));
 			}
 		}
 		
 		sw.WriteLine("\t]");
-	}
-
-	public string tab(int n)
-	{
-		return new string('\t', n);
-	}
-
-	public string escape(string str)
-	{
-		return "\"" + str + "\"";
-	}
-
-	public void printVector(StreamWriter sw, Vector2 vector, int t)
-	{
-		if(vector == null) return;
-
-		sw.WriteLine(tab(t) + escape("x") + ":" + vector.x + ",");
-		sw.WriteLine(tab(t) + escape("y") + ":" + vector.y);
-	}
-
-	public void printVector(StreamWriter sw, Vector3 vector, int t)
-	{
-		if(vector == null) return;
-		
-		sw.WriteLine(tab(t) + escape("x") + ":" + vector.x + ",");
-		sw.WriteLine(tab(t) + escape("y") + ":" + vector.y + ",");
-		sw.WriteLine(tab(t) + escape("z") + ":" + vector.z);
 	}
 }

@@ -4,6 +4,7 @@ using G = GameManager;
 
 public class Player : MonoBehaviour
 {
+	public float m_interactionDistance = .2f;
 	#region Inspector Variables
 	public float mForce = FORCE;
 	public float mDynamicFriction = DYNAMIC_FRICTION;
@@ -90,8 +91,7 @@ public class Player : MonoBehaviour
 	public bool Special = false;
 	#endregion
 
-	//Put all initialization code here
-	//Remember to comment!
+	#region Initialization Methods
 	protected void Start()
 	{
 		FadeManager.StartAlphaFade (Color.black, true, 1f, 0f);
@@ -121,12 +121,24 @@ public class Player : MonoBehaviour
 
 		m_collectAnimation = transform.FindChild("CollectAnimation");
 	}
-
-	#region Initialization Methods
 	#endregion
 
-	//Put all update code here
-	//Remember to comment!
+	public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
+		if (Input.GetKeyDown(KeyCode.E)) {
+			collider2D.enabled = false;
+			RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
+			collider2D.enabled = true;
+			if (hit.collider != null) {
+				Debug.Log (hit.collider.gameObject.name);
+				if (hit.collider.gameObject.tag == "InteractiveObject") {
+					hit.collider.gameObject.SendMessage("Interact");
+				}
+			} else {
+				Debug.Log ("nothing hit");
+			}
+		}
+	}
+	#region Update Methods
 	protected void Update()
 	{
 		if(!G.getInstance ().paused)
@@ -143,6 +155,7 @@ public class Player : MonoBehaviour
 		UpdateAnimator();
 	}
 
+	#region State Directions
 	private void UpdateCurrentState()
 	{
 		switch(m_currentState)
@@ -171,116 +184,35 @@ public class Player : MonoBehaviour
 		UpdateShield();
 	}
 
-	private void UpdateItemCollectionAnim()
-	{
-		if(!m_playSpecialItemAnim) return;
-
-		if(m_collectAnimation != null)
-		{
-			m_collectAnimation.up = Vector3.up;
-			
-			if(Time.time - m_specialItemCollectTime > m_specialItemAnimDuration)
-			{
-				m_specialItemCollectTime = 0f;
-				m_playSpecialItemAnim = false;
-			}
-			
-			m_collectAnimation.gameObject.SetActive(m_playSpecialItemAnim);
-		}
-	}
-
-	// Knight method
-	private void UpdateShield()
-	{
-		if(!m_isShieldActive) return;
-
-		if(Time.time - m_shieldTime > m_shieldDuration)
-		{
-			m_isShieldActive = false;
-
-			if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
-				m_hasSpecialItem = false;
-		}
-	}
-
-	private void UpdateDirection()
-	{
-		if(!m_isMoving) return;
-
-		if(m_isMovingForward)
-		{
-			if(m_isMovingLeft)
-				m_directionAngle = 135f;
-			else if(m_isMovingRight)
-				m_directionAngle = 45f;
-			else
-				m_directionAngle = 90f;
-		}
-		else if(m_isMovingDown)
-		{
-			if(m_isMovingLeft)
-				m_directionAngle = 225f;
-			else if(m_isMovingRight)
-				m_directionAngle = 315f;
-			else
-				m_directionAngle = 270f;
-		}
-		else if(m_isMovingLeft)
-			m_directionAngle = 180f;
-		else if(m_isMovingRight)
-			m_directionAngle = 0f;
-
-		// Calculate the target vector and normalize it.
-		Vector3 target = new Vector3(Mathf.Cos(m_directionAngle * Mathf.Deg2Rad), Mathf.Sin(m_directionAngle * Mathf.Deg2Rad), 0f);
-		target.Normalize();
-
-		float currentAngle = Utilities.RotateTowards(gameObject, target, m_rotationSpeed);
-		
-		if(Utilities.IsApproximately(currentAngle, 0f))
-		{
-			// Align the up transformation perfectly with the target vector.
-			transform.up = target;
-			
-			// Reset the y Euler angle in case it changed randomly.
-			transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
-		}
-	}
-
 	private void Dead()
 	{
 		//m_currentState = PlayerState.ALIVE;
-
+		
 		//Application.LoadLevel(Application.loadedLevelName);
 		G.getInstance().PauseMovement();
-
+		
 		/*
 		transform.position = new Vector3(-5f, 0f, 0f);
 		transform.up = -Vector3.up;
 		*/
-
+		
 		GameObject.Find("HUDManager").SetActive(false);
-
+		
 		CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
-
+		
 		GameObject playerCaught = Resources.Load("Prefabs/PlayerCaught") as GameObject;
-
+		
 		if(playerCaught != null)
 		{
 			playerCaught = Instantiate(playerCaught) as GameObject;
 			playerCaught.transform.position = transform.position;
 		}
-
+		
 		cam.m_currentState = CameraBehavior.State.PLAYER_CAUGHT;
 	}
+	#endregion
 
-	private void ResetVariables(){
-		inventory.clear();
-		currentCores = 0;
-		m_detectionLevel = 0;
-	}
-
-	#region Update Methods
-	#region UpdateUserControl
+	#region Update UserControl
 	private void UpdateUserControl()
 	{
 		UpdateMouse();
@@ -340,6 +272,7 @@ public class Player : MonoBehaviour
 			m_isMoving = true;
 
 		SelectSlot();
+		Interact ();
 
 		// 0th subscript indicates empty flask.
 		if(inventory.inventory[m_selectedSlot] != null && !m_isShieldActive)
@@ -388,6 +321,17 @@ public class Player : MonoBehaviour
 			m_selectedSlot = UNIQUE_ITEM_SLOTS;
 	}
 
+	private void SelectSlot() {
+		if(Input.GetKeyDown(KeyCode.Alpha1)){
+			m_selectedSlot = 0;
+			Debug.Log("Slot 1");
+		}
+		else if(Input.GetKeyDown(KeyCode.Alpha2)){
+			m_selectedSlot = 1;
+			Debug.Log ("Slot 2");
+		}
+	}
+
 	public void FinishedThrowing()
 	{
 		m_isThrowing = false;
@@ -428,9 +372,52 @@ public class Player : MonoBehaviour
 		transForces += movement * Time.smoothDeltaTime;
 		transForces -= Utilities.toVector3(velocity * mDynamicFriction);
 	}
+
+	private void UpdateDirection()
+	{
+		if(!m_isMoving) return;
+		
+		if(m_isMovingForward)
+		{
+			if(m_isMovingLeft)
+				m_directionAngle = 135f;
+			else if(m_isMovingRight)
+				m_directionAngle = 45f;
+			else
+				m_directionAngle = 90f;
+		}
+		else if(m_isMovingDown)
+		{
+			if(m_isMovingLeft)
+				m_directionAngle = 225f;
+			else if(m_isMovingRight)
+				m_directionAngle = 315f;
+			else
+				m_directionAngle = 270f;
+		}
+		else if(m_isMovingLeft)
+			m_directionAngle = 180f;
+		else if(m_isMovingRight)
+			m_directionAngle = 0f;
+		
+		// Calculate the target vector and normalize it.
+		Vector3 target = new Vector3(Mathf.Cos(m_directionAngle * Mathf.Deg2Rad), Mathf.Sin(m_directionAngle * Mathf.Deg2Rad), 0f);
+		target.Normalize();
+		
+		float currentAngle = Utilities.RotateTowards(gameObject, target, m_rotationSpeed);
+		
+		if(Utilities.IsApproximately(currentAngle, 0f))
+		{
+			// Align the up transformation perfectly with the target vector.
+			transform.up = target;
+			
+			// Reset the y Euler angle in case it changed randomly.
+			transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
+		}
+	}
 	#endregion
 
-	#region UpdateDetection
+	#region Update Detection
 	private void UpdateDetection() 
 	{
 		if (m_isDetected) {
@@ -460,7 +447,6 @@ public class Player : MonoBehaviour
 	{
 		transForces -= Utilities.toVector3(rigidbody2D.velocity * mAirResistance);
 	}
-	#endregion
 
 	protected void ApplyForces()
 	{
@@ -471,7 +457,9 @@ public class Player : MonoBehaviour
 
 		rigidbody2D.AddForce(velocity * rigidbody2D.mass);
 	}
+	#endregion
 
+	#region Update Animation
 	private void UpdateAnimator()
 	{
 		if(m_animator != null)
@@ -496,19 +484,28 @@ public class Player : MonoBehaviour
 			renderer.color = new Color(1f, 1f, 1f, (m_isHiding ? 0.6f : 1f));
 	}
 
-	private void SelectSlot()
+	private void UpdateItemCollectionAnim()
 	{
-		//m_selectedSlot = 0; //currently only one item can be used (potion)
-		if(Input.GetKeyDown(KeyCode.Alpha1)){
-			m_selectedSlot = 0;
-			Debug.Log("Slot 1");
-		}
-		else if(Input.GetKeyDown(KeyCode.Alpha2)){
-			m_selectedSlot = 1;
-			Debug.Log ("Slot 2");
+		if(!m_playSpecialItemAnim) return;
+		
+		if(m_collectAnimation != null)
+		{
+			m_collectAnimation.up = Vector3.up;
+			
+			if(Time.time - m_specialItemCollectTime > m_specialItemAnimDuration)
+			{
+				m_specialItemCollectTime = 0f;
+				m_playSpecialItemAnim = false;
+			}
+			
+			m_collectAnimation.gameObject.SetActive(m_playSpecialItemAnim);
 		}
 	}
+	#endregion
 
+	#endregion
+
+	#region Power Core Interaction
 	public void addPowerCore()
 	{
 		if (currentCores < MAX_CORES)
@@ -526,12 +523,7 @@ public class Player : MonoBehaviour
 	}
 	#endregion
 
-	public bool IsActive()
-	{
-		return m_isThrowing || m_isDrinking || m_isMoving || m_isAttacking;
-	}
-
-	#region sound control	
+	#region Sound Control
 	public void PlayFootstep() {
 		switch (m_floorType) {
 			case 0:
@@ -568,9 +560,31 @@ public class Player : MonoBehaviour
 	}
 	#endregion
 
-	#region Static Methods
+	#region Utilities
+	public bool IsActive()
+	{
+		return m_isThrowing || m_isDrinking || m_isMoving || m_isAttacking;
+	}
+
+	private void ResetVariables(){
+		inventory.clear();
+		currentCores = 0;
+		m_detectionLevel = 0;
+	}
 	#endregion
 
-	#region Utilities
+	#region Miscellaneous
+	private void UpdateShield()
+	{
+		if(!m_isShieldActive) return;
+		
+		if(Time.time - m_shieldTime > m_shieldDuration)
+		{
+			m_isShieldActive = false;
+			
+			if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
+				m_hasSpecialItem = false;
+		}
+	}
 	#endregion
 }

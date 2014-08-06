@@ -36,8 +36,12 @@ TagManager:
   - Sensor
   - Collector
   - Collector Base
+<<<<<<< HEAD
   - Laser Switch
   - 
+=======
+  - MenuCamera
+>>>>>>> e7a899da07d1eb0dd3eb84edf977f04bf89cec4d
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -50,7 +54,7 @@ TagManager:
   User Layer 8: Main Menu
   User Layer 9: 
   User Layer 10: Background Image
-  User Layer 11: 
+  User Layer 11: LevelEditorMenu
   User Layer 12: 
   User Layer 13: 
   User Layer 14: 
