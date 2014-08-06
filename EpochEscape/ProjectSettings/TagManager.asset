@@ -36,6 +36,7 @@ TagManager:
   - Sensor
   - Collector
   - Collector Base
+  - MenuCamera
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
