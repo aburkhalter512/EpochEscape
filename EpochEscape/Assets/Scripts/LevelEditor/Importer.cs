@@ -12,18 +12,21 @@ public class Importer : MonoBehaviour
 {
 	public void Start()
 	{
-		string levelDataJSON = File.ReadAllText("level2.txt");
+		if(File.Exists("level1.json"))
+		{
+			string levelDataJSON = File.ReadAllText("level1.json");
 
-		// Deserialize the level data, and convert it to a dictionary of keys and values.
-		Dictionary<string, object> levelData = Json.Deserialize(levelDataJSON) as Dictionary<string, object>;
+			// Deserialize the level data, and convert it to a dictionary of keys and values.
+			Dictionary<string, object> levelData = Json.Deserialize(levelDataJSON) as Dictionary<string, object>;
 
-		ConstructItems(levelData);
-		ConstructGuards(levelData);
-		ConstructObstacles(levelData);
-		ConstructHidingSpots(levelData);
-		ConstructWalls(levelData);
-		ConstructDoors(levelData);
-		ConstructFloors(levelData);
+			ConstructItems(levelData);
+			ConstructGuards(levelData);
+			ConstructObstacles(levelData);
+			ConstructHidingSpots(levelData);
+			ConstructWalls(levelData);
+			ConstructDoors(levelData);
+			ConstructFloors(levelData);
+		}
 	}
 
 	private void ConstructItems(Dictionary<string, object> levelData)
@@ -416,8 +419,7 @@ public class Importer : MonoBehaviour
 			Vector3 floorPosition = Vector3.zero;
 			Dictionary<string, object> floorScaleDict = null;
 			Vector3 floorScale = Vector3.zero;
-			List<object> floorColliderData = null;
-			Dictionary<string, object> floorColliderDict = null;
+			Dictionary<string, object> floorColliderData = null;
 			Dictionary<string, object> floorColliderSizeDict = null;
 			Vector2 floorColliderSize = Vector2.zero;
 			Dictionary<string, object> floorColliderCenterDict = null;
@@ -433,10 +435,9 @@ public class Importer : MonoBehaviour
 				floorPositionDict = floorDict["position"] as Dictionary<string, object>;
 				floorScaleDict = floorDict["scale"] as Dictionary<string, object>;
 
-				floorColliderData = floorDict["collider"] as List<object>;
-				floorColliderDict = floorColliderData[0] as Dictionary<string, object>;
-				floorColliderSizeDict = floorColliderDict["size"] as Dictionary<string, object>;
-				floorColliderCenterDict = floorColliderDict["center"] as Dictionary<string, object>;
+				floorColliderData = floorDict["collider"] as Dictionary<string, object>;
+				floorColliderSizeDict = floorColliderData["size"] as Dictionary<string, object>;
+				floorColliderCenterDict = floorColliderData["center"] as Dictionary<string, object>;
 
 				floorPosition.x = CastCoordinate(floorPositionDict["x"]);
 				floorPosition.y = CastCoordinate(floorPositionDict["y"]);
@@ -463,16 +464,15 @@ public class Importer : MonoBehaviour
 						floor.name = floorName;
 						floor.transform.position = floorPosition;
 						floor.transform.localScale = floorScale;
+						floor.transform.parent = floors.transform;
 
-						floorCollider = floor.AddComponent<BoxCollider2D>();
+						floorCollider = floor.GetComponent<BoxCollider2D>();
 
 						if(floorCollider != null)
 						{
 							floorCollider.size = floorColliderSize;
 							floorCollider.center = floorColliderCenter;
 						}
-
-						floor.transform.parent = floors.transform;
 					}
 				}
 			}
