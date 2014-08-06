@@ -1,56 +1,90 @@
 ﻿using UnityEngine;
+using Vectrosity;
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(LineRenderer))]
-public class LaserBehavior : MonoBehaviour {
-    public Transform start, end;
-    public LineRenderer lr;
-    public List<Vector3> positions;
-    public Vector3 tempStart;
-    int count = 2;
+public class LaserBehavior : MonoBehaviour
+{
+	public Transform start, end;
+	public float lineWidth;
+	public VectorLine vLine;
+	public Color color;
+	public List<Vector3> positions;
+	public GameObject sensor;
+	protected int bounces = 0;
+	
+	void Start ()
+	{
+		positions = new List<Vector3> ();
+	}
 
-	void Start () {
-        if (lr == null)
-        {
-            lr = GetComponent<LineRenderer>();
-        }
+	void Update(){
+	}
+	// Update is called once per frame
+	void FixedUpdate ()
+	{
+		bounces = 0;
+		BuildLaser (start.position);
+		DrawLaser ();
+		positions.Clear ();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        RenderLaser() ;
+	public void BuildLaser (Vector3 origin)
+	{
+		Vector3 endPos = end.position;
+		positions.Add (origin);
+		Vector3 reflectionPos = origin.normalized;
+		while (true) {
+			if (bounces > 20) {
+				break;
+			}
+			RaycastHit2D hit = Physics2D.Raycast (new Vector2 (origin.x, origin.y), (endPos - origin).normalized, 100);
+			if (hit.collider == null) {
+				positions.Add (endPos);
+				break;
+			}
+			//if hit something
+			else {
+				//if object is mirror
+				positions.Add (new Vector3 (hit.point.x, hit.point.y, 0));
+				if (hit.collider.tag == "Mirror") {
+					//reflect against the mirror
+					reflectionPos = 100 * Vector3.Reflect ((new Vector3 (hit.point.x, hit.point.y, 0) - origin), hit.normal) + new Vector3 (hit.point.x, hit.point.y, 0);
+					//positions.Add(new Vector3(hit.point.x, hit.point.y, 0));
+					endPos = reflectionPos;
+					origin = hit.point;
+					bounces++;
+				} 
+				//if not mirror
+				else {
+					//if sensor is not null, then continue with sensor stuff
+					if (sensor != null) {
+						//if has a sensor, and is not hitting sensor or mirror
+						if (hit.collider.tag != "Sensor") {
+							//set alarm
+							sensor.GetComponent<SensorBehavior> ().Alarm ();
+						}
+					}
+
+					if(hit.collider.tag == "Collector"){
+						CollectorColors c = hit.collider.gameObject.GetComponent <CollectorColors>();
+						c.color = color;
+						c.Collect();
+					}
+					break;
+				}
+			}
+		}
+	}
+	
+	public void DrawLaser ()
+	{
+		vLine = VectorLine.SetLine (color, .1f, positions.ToArray ());
+		vLine.lineWidth = lineWidth;
+		vLine.Draw ();
 	}
 
-    void RenderLaser()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y), Vector2.up, 10000f);
-        
-        lr.SetPosition(0, start.position);
-
-
-        if (hit.collider != null)
-        {
-            lr.SetPosition(1, hit.point);
-            if (hit.collider.tag == "Mirror")
-            {
-                Vector2 reflectionPos = 10000 * Reflect((hit.point - new Vector2(start.position.x, start.position.y)).normalized, hit.normal);
-                lr.SetVertexCount(++count);
-                lr.SetPosition(count - 1, reflectionPos);
-                //reflect it here
-            }
-
-        }
-        else
-        {
-            lr.SetPosition(1, end.position);
-        }
-        //Debug.DrawLine(start.position, hit.point, Color.red);
-    }
-
-    private Vector2 Reflect(Vector2 vector, Vector2 normal)
-    {
-        return vector - 2 * Vector2.Dot(vector, normal) * normal;
-    }
-
+	public void SetColor(Color c){
+		color = c;
+	}
 }
