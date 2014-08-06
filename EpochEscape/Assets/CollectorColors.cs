@@ -5,6 +5,7 @@ public class CollectorColors : MonoBehaviour {
 	public Color color;
 	public CollectorBehavior collector;
 	public Side side;
+	//public bool collecting = false;
 
 	public enum Side{
 		Bottom, Left, Right

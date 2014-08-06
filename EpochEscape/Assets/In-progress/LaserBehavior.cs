@@ -68,9 +68,19 @@ public class LaserBehavior : MonoBehaviour
 
 					if(hit.collider.tag == "Collector"){
 						CollectorColors c = hit.collider.gameObject.GetComponent <CollectorColors>();
-						c.color = color;
+						if(c.color == Color.black){
+							c.color = color;
+						}
 						c.Collect();
 					}
+
+					if(hit.collider.tag == "Laser Switch"){
+						LaserSwitchBehavior ls = hit.collider.gameObject.GetComponent<LaserSwitchBehavior>();
+						if(ls.colorMatch == color){
+							ls.Activate ();
+						}
+					}
+
 					break;
 				}
 			}
@@ -79,7 +89,7 @@ public class LaserBehavior : MonoBehaviour
 	
 	public void DrawLaser ()
 	{
-		vLine = VectorLine.SetLine (color, .1f, positions.ToArray ());
+		vLine = VectorLine.SetLine (color, .05f, positions.ToArray ());
 		vLine.lineWidth = lineWidth;
 		vLine.Draw ();
 	}

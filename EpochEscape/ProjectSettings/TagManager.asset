@@ -36,6 +36,8 @@ TagManager:
   - Sensor
   - Collector
   - Collector Base
+  - Laser Switch
+  - 
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

@@ -10,34 +10,32 @@ public class CollectorBehavior : LaserBehavior {
 	public bool l = false;
 	public bool r = false;
 
-	public Color combinedColor = Color.black;
-
 	// Use this for initialization
 	void Start () {
+
 	}
 	void Update(){
+		//ResetCollecting();
 		CollectBottom ();
 		CollectLeft ();
 		CollectRight ();
 	}
 	// Update is called once per frame
 	void FixedUpdate () {
+		base.SetColor (color);
 		if (b || l || r) {
-			base.SetColor (combinedColor);
 			base.bounces = 0;
 			base.BuildLaser(start.position);
 			base.DrawLaser ();
 			base.positions.Clear ();
 		}
-		else{
-			base.SetColor (combinedColor);
-		}
-		combinedColor = Color.black;
+		base.color = Color.black;
 	}
 
 	public void CollectBottom(){
 		if (b) {
-			combinedColor += bottom.color;
+			base.color += bottom.color;
+			//bottom.collecting = true;
 		}
 		bottom.color = Color.black;
 		b = false;
@@ -45,7 +43,8 @@ public class CollectorBehavior : LaserBehavior {
 
 	public void CollectLeft(){
 		if (l) {
-			combinedColor += left.color;
+			base.color += left.color;
+			//left.collecting = true;
 		}
 		left.color = Color.black;
 		l = false;
@@ -53,9 +52,16 @@ public class CollectorBehavior : LaserBehavior {
 
 	public void CollectRight(){
 		if (r) {
-			combinedColor += right.color;
+			base.color += right.color;
+			//right.collecting = true;
 		}
 		right.color = Color.black;
 		r = false;
 	}
+
+//	public void ResetCollecting(){
+//		bottom.collecting = false;
+//		left.collecting = false;
+//		right.collecting = false;
+//	}
 }
