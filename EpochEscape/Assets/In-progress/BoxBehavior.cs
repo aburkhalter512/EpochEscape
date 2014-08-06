@@ -9,7 +9,7 @@ public class BoxBehavior : MonoBehaviour
     private enum direction
     {
         Left, Right, Up, Down, Static
-    }
+	};
 
     public Vector3 nextPos;
 

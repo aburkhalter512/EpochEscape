@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// THIS HUDMANAGER WILL ONLY WORK FOR 4:3 RESOLUTIONS
-
 public class HUDManager : MonoBehaviour {
 	public Player playerManager;
 	public GUISkin EpochSkin;
 	
 	#region scaling
-	private const float origWidth = 1024f;
-	private const float origHeight = 768f;
+	private const float origWidth = 1600f;
+	private const float origHeight = 900f;
 	private Vector3 scale;
 	#endregion
 	
@@ -22,7 +20,7 @@ public class HUDManager : MonoBehaviour {
 	public Texture2D currMood;
 	public Texture2D specItem;
 	private Vector2 iconPos = new Vector2(0f,10f);
-	private Vector2 iconSize = new Vector2 (135f, 135f);
+	private Vector2 iconSize = new Vector2 (175f, 175f);
 	private float barFill;
 	#endregion
 	
@@ -36,10 +34,10 @@ public class HUDManager : MonoBehaviour {
 	private int m_flaskCount = 0;
 	private int m_potionCount = 0;
 	private int m_specCount = 0;
-	private Vector2 redPos = new Vector2 (0f,683f);
-	private Vector2 greenPos = new Vector2 (80f,683f);
-	private Vector2 potionSize = new Vector2 (71f,85f);
-
+	private Vector2 redPos = new Vector2 (0f,800f);
+	private Vector2 greenPos = new Vector2 (93f,800f);
+	private Vector2 potionSize = new Vector2 (85.2f,100f);
+	
 	#endregion
 	
 	#region power core display
@@ -49,7 +47,7 @@ public class HUDManager : MonoBehaviour {
 	public Texture2D piece2;
 	public Texture2D piece3;
 	public Texture2D currCore;
-	private Vector2 corePos = new Vector2 (921f, 616f);
+	private Vector2 corePos = new Vector2 (1479f, 748f);
 	private Vector2 jarSize = new Vector2(103f,152f);
 	private Vector2 coreSize = new Vector2(67.7f,134f);
 	#endregion
@@ -77,7 +75,7 @@ public class HUDManager : MonoBehaviour {
 			scared = Resources.Load("Textures/GUI/HUD/CaveGirlScared",typeof(Texture2D)) as Texture2D;
 			specItem = Resources.Load("Textures/GUI/HUD/CaveGirlSpec",typeof(Texture2D)) as Texture2D;
 			break;
-
+			
 		case 1:
 			happy = Resources.Load ("Textures/GUI/HUD/KnightHappy",typeof(Texture2D)) as Texture2D;
 			worried = Resources.Load ("Textures/GUI/HUD/KnightWorried",typeof(Texture2D)) as Texture2D;
@@ -85,12 +83,12 @@ public class HUDManager : MonoBehaviour {
 			specItem = Resources.Load ("Textures/GUI/HUD/KnightSpec",typeof(Texture2D)) as Texture2D;
 			break;
 		}
-
+		
 		currMood = happy;
 		currRed = redPot;
 		currGreen = greenPot;
 		currCore = empty;
-
+		
 		scale.z = 1f;
 		barFill = 0f;
 	}
@@ -103,9 +101,9 @@ public class HUDManager : MonoBehaviour {
 		
 		#region hero icon + detectionbar
 		GUI.BeginGroup(new Rect(iconPos.x,iconPos.y,iconSize.x,iconSize.y));
-		GUI.DrawTexture(new Rect(0f,89f,iconSize.x,-79f * barFill),detectionBar);
+		GUI.DrawTexture(new Rect(0f,115f,iconSize.x,-95f * barFill),detectionBar);
 		GUI.DrawTexture(new Rect(0f,0f,iconSize.x,iconSize.y),iconFrame);
-		GUI.DrawTexture(new Rect(22.8f,14f,76f,77f),currMood);
+		GUI.DrawTexture(new Rect(30f,21f,100f,100f),currMood);
 		if (playerManager.m_hasSpecialItem)
 			GUI.DrawTexture(new Rect(20f,92f,30f,30f),specItem);
 		GUI.EndGroup();
@@ -135,7 +133,7 @@ public class HUDManager : MonoBehaviour {
 	void Update() {
 		if(playerManager == null)
 			return;
-
+		
 		float currDetection = playerManager.m_detectionLevel;
 		
 		#region hero icon
