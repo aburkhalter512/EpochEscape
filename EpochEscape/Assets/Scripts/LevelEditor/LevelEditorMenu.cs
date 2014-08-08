@@ -35,7 +35,7 @@ public class LevelEditorMenu : MonoBehaviour
 
 	public void Init()
 	{
-		m_menuItemSprite = Resources.Load<Sprite> ("Textures/LevelEditor/MenuItem");
+		m_menuItemSprite = Resources.Load<Sprite>("Textures/LevelEditor/MenuItem");
 		m_menuItemHoverSprite = Resources.Load<Sprite>("Textures/LevelEditor/MenuItemHover");
 
 		m_menuTextGameObject = GameObject.Find("MenuText");
