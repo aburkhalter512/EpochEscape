@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LevelEditorPivot : MonoBehaviour
+public class LevelEditorRotatingWall : MonoBehaviour
 {
 	public const float LINE_WIDTH = 0.05f;
 	public const float LINE_LENGTH = 0.5f;
@@ -248,26 +248,18 @@ public class LevelEditorPivot : MonoBehaviour
 			{
 				tempRenderer = m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount - 1].GetComponent<SpriteRenderer>();
 
-				if(m_currentAxis == Axis.East || m_currentAxis == Axis.West)
-					tempRenderer.sprite = m_horizontalStraight;
-				else if(m_currentAxis == Axis.North || m_currentAxis == Axis.South)
-					tempRenderer.sprite = m_verticalStraight;
+				if(tempRenderer != null)
+				{
+					if(m_currentAxis == Axis.East || m_currentAxis == Axis.West)
+						tempRenderer.sprite = m_horizontalStraight;
+					else if(m_currentAxis == Axis.North || m_currentAxis == Axis.South)
+						tempRenderer.sprite = m_verticalStraight;
+				}
 			}
 			
 			m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount] = newTile;
 			
 			UpdatePivotTexture();
-
-			/*
-			if(newTile != null)
-			{
-				newTile = Instantiate(newTile) as GameObject;
-				
-				if(newTile != null)
-				{
-
-				}
-			}*/
 		}
 	}
 
@@ -343,7 +335,11 @@ public class LevelEditorPivot : MonoBehaviour
 			}
 
 			if(tileCount == 1)
+			{
 				Destroy(m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount]);
+
+				m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount] = null;
+			}
 			else
 			{
 				Destroy(m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount - 1]);
