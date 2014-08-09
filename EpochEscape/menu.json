@@ -62,10 +62,23 @@
 			"hasSubMenu": true,
 			"menuItems": [
 				{
-					"title": "StationaryGuard",
+					"title": "Stationary Guard",
 					"name": "StationaryGuardMenuItem",
 					"hasSubMenu": false,
 					"prefabPath": "Prefabs/Enemies/StationaryGuard"
+				}
+			]
+		},
+		{
+			"title": "Walls",
+			"name": "WallsSubMenu",
+			"hasSubMenu": true,
+			"menuItems": [
+				{
+					"title": "Rotating Wall",
+					"name": "RotatingWallMenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/LevelEditor/RotatingWallPivot"
 				}
 			]
 		}
