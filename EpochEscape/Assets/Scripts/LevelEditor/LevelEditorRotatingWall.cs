@@ -6,7 +6,7 @@ public class LevelEditorRotatingWall : MonoBehaviour
 {
 	public const float LINE_WIDTH = 0.05f;
 	public const float LINE_LENGTH = 0.5f;
-	public const int TILES_FROM_PIVOT = 5;
+	public const int TILES_FROM_PIVOT = 10;
 	public const int NUMBER_OF_LIMBS = 4;
 	public const int PIVOT_INDEX = 0;
 
@@ -377,7 +377,6 @@ public class LevelEditorRotatingWall : MonoBehaviour
 		pixelsTemp = m_pivotRenderer.sprite.texture.GetPixels();
 
 		saveTexture.SetPixels(m_tileCounts[(int)Axis.West] * WALL_TILE_SIZE, m_tileCounts[(int)Axis.South] * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-		saveTexture.Apply();
 
 		// East Axis
 		for(int i = 0; i < m_tileCounts[(int)Axis.East]; i++)
@@ -388,7 +387,6 @@ public class LevelEditorRotatingWall : MonoBehaviour
 				pixelsTemp = m_horizontalStraight.texture.GetPixels();
 
 			saveTexture.SetPixels(m_tileCounts[(int)Axis.West] * WALL_TILE_SIZE + WALL_TILE_SIZE + WALL_TILE_SIZE * i, m_tileCounts[(int)Axis.South] * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-			saveTexture.Apply();
 		}
 
 		// North Axis
@@ -400,7 +398,6 @@ public class LevelEditorRotatingWall : MonoBehaviour
 				pixelsTemp = m_verticalStraight.texture.GetPixels();
 			
 			saveTexture.SetPixels(m_tileCounts[(int)Axis.West] * WALL_TILE_SIZE, m_tileCounts[(int)Axis.South] * WALL_TILE_SIZE + WALL_TILE_SIZE + WALL_TILE_SIZE * i, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-			saveTexture.Apply();
 		}
 
 		// West Axis
@@ -412,7 +409,6 @@ public class LevelEditorRotatingWall : MonoBehaviour
 				pixelsTemp = m_horizontalStraight.texture.GetPixels();
 			
 			saveTexture.SetPixels(i * WALL_TILE_SIZE, m_tileCounts[(int)Axis.South] * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-			saveTexture.Apply();
 		}
 
 		// South Axis
@@ -424,7 +420,6 @@ public class LevelEditorRotatingWall : MonoBehaviour
 				pixelsTemp = m_verticalStraight.texture.GetPixels();
 			
 			saveTexture.SetPixels(m_tileCounts[(int)Axis.West] * WALL_TILE_SIZE, i * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-			saveTexture.Apply();
 		}
 
 		// Transparency
@@ -434,32 +429,20 @@ public class LevelEditorRotatingWall : MonoBehaviour
 		for(int y = 0; y < m_tileCounts[(int)Axis.South]; y++)
 		{
 			for(int x = 0; x < m_tileCounts[(int)Axis.East]; x++)
-			{
-				saveTexture.SetPixels(x * WALL_TILE_SIZE + m_tileCounts[(int)Axis.West] * WALL_TILE_SIZE + WALL_TILE_SIZE, y * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-				saveTexture.Apply();
-			}
+			    saveTexture.SetPixels(x * WALL_TILE_SIZE + m_tileCounts[(int)Axis.West] * WALL_TILE_SIZE + WALL_TILE_SIZE, y * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
 
 			for(int x = 0; x < m_tileCounts[(int)Axis.West]; x++)
-			{
-				saveTexture.SetPixels(x * WALL_TILE_SIZE, y * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-				saveTexture.Apply();
-			}
+			    saveTexture.SetPixels(x * WALL_TILE_SIZE, y * WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
 		}
 
 		// North/West Transparency
 		for(int y = 0; y < m_tileCounts[(int)Axis.North]; y++)
 		{
 			for(int x = 0; x < m_tileCounts[(int)Axis.East]; x++)
-			{
 				saveTexture.SetPixels(x * WALL_TILE_SIZE + m_tileCounts[(int)Axis.West] * WALL_TILE_SIZE + WALL_TILE_SIZE, y * WALL_TILE_SIZE + m_tileCounts[(int)Axis.South] * WALL_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-				saveTexture.Apply();
-			}
 
 			for(int x = 0; x < m_tileCounts[(int)Axis.West]; x++)
-			{
 				saveTexture.SetPixels(x * WALL_TILE_SIZE, y * WALL_TILE_SIZE + m_tileCounts[(int)Axis.South] * WALL_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, pixelsTemp);
-				saveTexture.Apply();
-			}
 		}
 
 		File.WriteAllBytes("rotatingWall.png", saveTexture.EncodeToPNG());
