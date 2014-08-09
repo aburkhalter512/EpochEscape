@@ -2,7 +2,7 @@
 using System.Collections;
 using System.IO;
 
-public class LevelEditorRotatingWall : MonoBehaviour
+public class LevelEditorRotatingWall : LevelEditorObject
 {
 	public const float LINE_WIDTH = 0.05f;
 	public const float LINE_LENGTH = 0.5f;
@@ -155,11 +155,11 @@ public class LevelEditorRotatingWall : MonoBehaviour
 
 	public void Update()
 	{
-		UpdateInput();
+		//UpdateInput();
 		DrawLine();
 	}
 
-	private void UpdateInput()
+	public override void UpdateInput()
 	{
 		UpdateKeyboard();
 		UpdateMouse();
@@ -186,35 +186,40 @@ public class LevelEditorRotatingWall : MonoBehaviour
 
 		if(!(m_isChangingGrowthAxis || m_isChangingRotationAxis))
 		{
-			if(Input.GetKeyDown(KeyCode.A))
+			// Prevent any manipulation while the wall is rotated.
+			// Most, if not all, calculations are performed under the assumption that the object has not been rotated.
+			if(Utilities.IsApproximately(gameObject.transform.eulerAngles.z, 0f))
 			{
-				m_isChangingGrowthAxis = true;
-				m_lineRenderer.enabled = true;
+				if(Input.GetKeyDown(KeyCode.A))
+				{
+					m_isChangingGrowthAxis = true;
+					m_lineRenderer.enabled = true;
+				}
+				
+				if(Input.GetKeyDown(KeyCode.R))
+				{
+					m_isChangingRotationAxis = true;
+					m_lineRenderer.enabled = true;
+				}
+
+				if(Input.GetKeyDown(KeyCode.KeypadPlus))
+					GrowAxis();
+
+				if(Input.GetKeyDown(KeyCode.KeypadMinus))
+					ShrinkAxis();
+
+				if(Input.GetKeyDown(KeyCode.RightArrow))
+					m_growthAxis = Axis.East;
+				
+				if(Input.GetKeyDown(KeyCode.UpArrow))
+					m_growthAxis = Axis.North;
+				
+				if(Input.GetKeyDown(KeyCode.LeftArrow))
+					m_growthAxis = Axis.West;
+				
+				if(Input.GetKeyDown(KeyCode.DownArrow))
+					m_growthAxis = Axis.South;
 			}
-
-			if(Input.GetKeyDown(KeyCode.R))
-			{
-				m_isChangingRotationAxis = true;
-				m_lineRenderer.enabled = true;
-			}
-
-			if(Input.GetKeyDown(KeyCode.KeypadPlus))
-				GrowAxis();
-
-			if(Input.GetKeyDown(KeyCode.KeypadMinus))
-				ShrinkAxis();
-
-			if(Input.GetKeyDown(KeyCode.RightArrow))
-				m_growthAxis = Axis.East;
-
-			if(Input.GetKeyDown(KeyCode.UpArrow))
-				m_growthAxis = Axis.North;
-
-			if(Input.GetKeyDown(KeyCode.LeftArrow))
-				m_growthAxis = Axis.West;
-
-			if(Input.GetKeyDown(KeyCode.DownArrow))
-				m_growthAxis = Axis.South;
 
 			if(Input.GetKeyDown(KeyCode.S))
 				SaveImage();
@@ -237,6 +242,12 @@ public class LevelEditorRotatingWall : MonoBehaviour
 			m_tileCounts[i] = 0;
 
 		m_pivotRenderer.sprite = m_pivotSingle;
+		gameObject.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+
+		m_growthAxis = Axis.East;
+		m_rotationAxis = Axis.East;
+
+		m_rotatingWallScript.rotationAngles[1] = 0f;
 	}
 
 	private void GrowAxis()

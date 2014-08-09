@@ -9,7 +9,7 @@ public class Placeable : MonoBehaviour
 
 	public void Start()
 	{
-		TempLevelEditor.SetSelectedObject(gameObject);
+		LevelEditor.SetSelectedObject(gameObject);
 	}
 
 	public void Update()
@@ -46,6 +46,6 @@ public class Placeable : MonoBehaviour
 
 	public void OnMouseDown()
 	{
-		TempLevelEditor.SetSelectedObject(gameObject);
+		LevelEditor.SetSelectedObject(gameObject);
 	}
 }
