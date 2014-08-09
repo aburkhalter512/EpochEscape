@@ -12,9 +12,4 @@ public class KnightShield : MonoBehaviour
 		if(parent != null)
 			m_player = parent.GetComponent<Player>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

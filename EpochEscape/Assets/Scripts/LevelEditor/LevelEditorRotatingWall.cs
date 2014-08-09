@@ -155,7 +155,6 @@ public class LevelEditorRotatingWall : LevelEditorObject
 
 	public void Update()
 	{
-		//UpdateInput();
 		DrawLine();
 	}
 

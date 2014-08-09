@@ -57,9 +57,6 @@ public class LevelEditor : MonoBehaviour
 	private int m_floorWidth = DEFAULT_FLOOR_WIDTH;
 	private int m_floorHeight = DEFAULT_FLOOR_HEIGHT;
 	
-	private int m_floorWidthTemp = DEFAULT_FLOOR_WIDTH;
-	private int m_floorHeightTemp = DEFAULT_FLOOR_HEIGHT;
-	
 	private GameObject[,] m_tiles = null;
 	private GameObject[,] m_exteriorWalls = null;
 	
@@ -898,21 +895,4 @@ public class LevelEditor : MonoBehaviour
 				statusText.text = "Status: " + message;
 		}
 	}
-	
-	/*
-	public void OnGUI()
-	{
-		int.TryParse(GUI.TextField(new Rect(10, 10, 40, 20), m_floorWidthTemp.ToString(), 25), out m_floorWidthTemp);
-		int.TryParse(GUI.TextField(new Rect(10, 35, 40, 20), m_floorHeightTemp.ToString(), 25), out m_floorHeightTemp);
-
-		if(m_floorWidthTemp <= 0)
-			m_floorWidthTemp = m_floorWidth;
-
-		if(m_floorHeightTemp <= 0)
-			m_floorHeightTemp = m_floorHeight;
-
-		m_floorWidth = m_floorWidthTemp;
-		m_floorHeight = m_floorHeightTemp;
-	}
-	*/
 }
