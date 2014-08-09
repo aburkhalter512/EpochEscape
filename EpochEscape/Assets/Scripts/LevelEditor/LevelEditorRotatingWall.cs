@@ -18,7 +18,8 @@ public class LevelEditorRotatingWall : MonoBehaviour
 		South
 	};
 
-	private Axis m_currentAxis = Axis.East;
+	private Axis m_growthAxis = Axis.East;
+	private Axis m_rotationAxis = Axis.East;
 
 	// Mouse
 	private Vector3 m_mouseScreenPosition = Vector3.zero;
@@ -28,7 +29,8 @@ public class LevelEditorRotatingWall : MonoBehaviour
 	private LineRenderer m_lineRenderer = null;
 	private Vector3 m_lineEnd = Vector3.zero;
 
-	private bool m_isChangingAxis = false;
+	private bool m_isChangingGrowthAxis = false;
+	private bool m_isChangingRotationAxis = false;
 
 	private GameObject[] m_tiles = null;
 	private int[] m_tileCounts = null;
@@ -68,8 +70,15 @@ public class LevelEditorRotatingWall : MonoBehaviour
 
 	public const int WALL_TILE_SIZE = 200; // pixels
 
+	RotatingWall m_rotatingWallScript = null;
+
+	Color m_growthAxisColor = Color.red;
+	Color m_rotationAxisColor = Color.green;
+
 	public void Start()
 	{
+		m_rotatingWallScript = GetComponent<RotatingWall>();
+
 		InitSprites();
 		InitTiles();
 		InitLine();
@@ -139,7 +148,6 @@ public class LevelEditorRotatingWall : MonoBehaviour
 		{
 			m_lineRenderer.SetVertexCount(2);
 			m_lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-			m_lineRenderer.SetColors(Color.red, Color.red);
 			m_lineRenderer.SetWidth(LINE_WIDTH, LINE_WIDTH);
 			m_lineRenderer.enabled = false;
 		}
@@ -155,28 +163,41 @@ public class LevelEditorRotatingWall : MonoBehaviour
 	{
 		UpdateKeyboard();
 		UpdateMouse();
-		UpdateAxis();
+		UpdateGrowthAxis();
+		UpdateRotationAxis();
 	}
 
 	private void UpdateKeyboard()
 	{
-		if(Input.GetKeyDown(KeyCode.A))
-		{
-			m_isChangingAxis = true;
-			m_lineRenderer.enabled = true;
-		}
-
 		if(Input.GetKeyUp(KeyCode.A))
 		{
-			m_isChangingAxis = false;
+			m_isChangingGrowthAxis = false;
+			m_lineRenderer.enabled = false;
+		}
+
+		if(Input.GetKeyUp(KeyCode.R))
+		{
+			m_isChangingRotationAxis = false;
 			m_lineRenderer.enabled = false;
 		}
 
 		if(Input.GetKeyDown(KeyCode.C))
 			Clear();
 
-		if(!m_isChangingAxis)
+		if(!(m_isChangingGrowthAxis || m_isChangingRotationAxis))
 		{
+			if(Input.GetKeyDown(KeyCode.A))
+			{
+				m_isChangingGrowthAxis = true;
+				m_lineRenderer.enabled = true;
+			}
+
+			if(Input.GetKeyDown(KeyCode.R))
+			{
+				m_isChangingRotationAxis = true;
+				m_lineRenderer.enabled = true;
+			}
+
 			if(Input.GetKeyDown(KeyCode.KeypadPlus))
 				GrowAxis();
 
@@ -184,19 +205,22 @@ public class LevelEditorRotatingWall : MonoBehaviour
 				ShrinkAxis();
 
 			if(Input.GetKeyDown(KeyCode.RightArrow))
-				m_currentAxis = Axis.East;
+				m_growthAxis = Axis.East;
 
 			if(Input.GetKeyDown(KeyCode.UpArrow))
-				m_currentAxis = Axis.North;
+				m_growthAxis = Axis.North;
 
 			if(Input.GetKeyDown(KeyCode.LeftArrow))
-				m_currentAxis = Axis.West;
+				m_growthAxis = Axis.West;
 
 			if(Input.GetKeyDown(KeyCode.DownArrow))
-				m_currentAxis = Axis.South;
+				m_growthAxis = Axis.South;
 
 			if(Input.GetKeyDown(KeyCode.S))
 				SaveImage();
+
+			if(Input.GetKeyDown(KeyCode.Space) && m_rotatingWallScript != null)
+				m_rotatingWallScript.currentState = DynamicWall.STATES.TO_CHANGE;
 		}
 	}
 
@@ -217,15 +241,15 @@ public class LevelEditorRotatingWall : MonoBehaviour
 
 	private void GrowAxis()
 	{
-		if(m_tileCounts[(int)m_currentAxis] < TILES_FROM_PIVOT)
+		if(m_tileCounts[(int)m_growthAxis] < TILES_FROM_PIVOT)
 		{
-			int tileCount = ++m_tileCounts[(int)m_currentAxis];
+			int tileCount = ++m_tileCounts[(int)m_growthAxis];
 			float x = gameObject.transform.position.x;
 			float y = gameObject.transform.position.y;
 			Sprite sprite = null;
 			SpriteRenderer tempRenderer = null;
 
-			switch(m_currentAxis)
+			switch(m_growthAxis)
 			{
 			case Axis.East:
 				x += tileCount * m_tileWidth;
@@ -258,18 +282,18 @@ public class LevelEditorRotatingWall : MonoBehaviour
 
 			if(tileCount > 1)
 			{
-				tempRenderer = m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount - 1].GetComponent<SpriteRenderer>();
+				tempRenderer = m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount - 1].GetComponent<SpriteRenderer>();
 
 				if(tempRenderer != null)
 				{
-					if(m_currentAxis == Axis.East || m_currentAxis == Axis.West)
+					if(m_growthAxis == Axis.East || m_growthAxis == Axis.West)
 						tempRenderer.sprite = m_horizontalStraight;
-					else if(m_currentAxis == Axis.North || m_currentAxis == Axis.South)
+					else if(m_growthAxis == Axis.North || m_growthAxis == Axis.South)
 						tempRenderer.sprite = m_verticalStraight;
 				}
 			}
 			
-			m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount] = newTile;
+			m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount] = newTile;
 			
 			UpdatePivotTexture();
 		}
@@ -321,13 +345,13 @@ public class LevelEditorRotatingWall : MonoBehaviour
 
 	private void ShrinkAxis()
 	{
-		if(m_tileCounts[(int)m_currentAxis] > 0)
+		if(m_tileCounts[(int)m_growthAxis] > 0)
 		{
-			int tileCount = m_tileCounts[(int)m_currentAxis];
-			float x = m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount].transform.position.x;
-			float y = m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount].transform.position.y;
+			int tileCount = m_tileCounts[(int)m_growthAxis];
+			float x = m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount].transform.position.x;
+			float y = m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount].transform.position.y;
 
-			switch(m_currentAxis)
+			switch(m_growthAxis)
 			{
 			case Axis.East:
 				x -= m_tileWidth;
@@ -348,20 +372,20 @@ public class LevelEditorRotatingWall : MonoBehaviour
 
 			if(tileCount == 1)
 			{
-				Destroy(m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount]);
+				Destroy(m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount]);
 
-				m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount] = null;
+				m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount] = null;
 			}
 			else
 			{
-				Destroy(m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount - 1]);
+				Destroy(m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount - 1]);
 
-				m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount].transform.position = new Vector3(x, y, 0f);
-				m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount - 1] = m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount];
-				m_tiles[TILES_FROM_PIVOT * (int)m_currentAxis + tileCount] = null;
+				m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount].transform.position = new Vector3(x, y, 0f);
+				m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount - 1] = m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount];
+				m_tiles[TILES_FROM_PIVOT * (int)m_growthAxis + tileCount] = null;
 			}
 
-			m_tileCounts[(int)m_currentAxis]--;
+			m_tileCounts[(int)m_growthAxis]--;
 
 			UpdatePivotTexture();
 		}
@@ -459,9 +483,9 @@ public class LevelEditorRotatingWall : MonoBehaviour
 		m_mouseWorldPosition = Camera.main.ScreenToWorldPoint(m_mouseScreenPosition);
 	}
 
-	private void UpdateAxis()
+	private void UpdateGrowthAxis()
 	{
-		if(m_isChangingAxis)
+		if(m_isChangingGrowthAxis)
 		{
 			Vector3 dir = m_mouseWorldPosition - transform.position;
 			dir.Normalize();
@@ -475,24 +499,68 @@ public class LevelEditorRotatingWall : MonoBehaviour
 			angle %= 360f;
 
 			if(Utilities.IsApproximately(angle, 0f))
-				m_currentAxis = Axis.East;
+				m_growthAxis = Axis.East;
 			else if(Utilities.IsApproximately(angle, 90f))
-				m_currentAxis = Axis.North;
+				m_growthAxis = Axis.North;
 			else if(Utilities.IsApproximately(angle, 180f))
-				m_currentAxis = Axis.West;
+				m_growthAxis = Axis.West;
 			else if(Utilities.IsApproximately(angle, 270f))
-				m_currentAxis = Axis.South;
+				m_growthAxis = Axis.South;
+		}
+	}
+
+	private void UpdateRotationAxis()
+	{
+		if(m_isChangingRotationAxis)
+		{
+			Vector3 dir = m_mouseWorldPosition - transform.position;
+			dir.Normalize();
+			
+			float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+			
+			if(angle < 0f)
+				angle += 360f;
+			
+			angle = Mathf.Round(angle / 90f) * 90f;
+			angle %= 360f;
+
+			if(m_rotatingWallScript != null && m_rotatingWallScript.rotationAngles.Length == 2)
+			{
+				if(Utilities.IsApproximately(angle, 0f))
+				{
+					m_rotationAxis = Axis.East;
+					m_rotatingWallScript.rotationAngles[1] = 0f;
+				}
+				else if(Utilities.IsApproximately(angle, 90f))
+				{
+					m_rotationAxis = Axis.North;
+					m_rotatingWallScript.rotationAngles[1] = 90f;
+				}
+				else if(Utilities.IsApproximately(angle, 180f))
+				{
+					m_rotationAxis = Axis.West;
+					m_rotatingWallScript.rotationAngles[1] = 180f;
+				}
+				else if(Utilities.IsApproximately(angle, 270f))
+				{
+					m_rotationAxis = Axis.South;
+					m_rotatingWallScript.rotationAngles[1] = 270f;
+				}
+			}
 		}
 	}
 
 	private void DrawLine()
 	{
-		if(m_lineRenderer != null && m_isChangingAxis)
+		if(m_lineRenderer != null && (m_isChangingGrowthAxis || m_isChangingRotationAxis))
 		{
+			Color lineColor = m_isChangingGrowthAxis ? m_growthAxisColor : m_rotationAxisColor;
+
+			m_lineRenderer.SetColors(lineColor, lineColor);
 			m_lineRenderer.SetPosition(0, gameObject.transform.position);
 			m_lineEnd = transform.position;
 
-			switch(m_currentAxis)
+			switch(m_isChangingGrowthAxis ? m_growthAxis : m_rotationAxis)
 			{
 			case Axis.East:
 				m_lineEnd.x += LINE_LENGTH;

@@ -309,10 +309,10 @@ MonoBehaviour:
   changeTime: 1
   currentIndex: 0
   currentState: 0
-  rotationPt: 5
+  rotationPt: 0
   rotationAngles:
   - 0
-  - 90
+  - 0
   customRotationPoint: {x: 0, y: 0, z: 0}
 --- !u!82 &1400227788
 AudioSource:
