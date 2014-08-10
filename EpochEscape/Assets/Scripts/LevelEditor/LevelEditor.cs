@@ -54,26 +54,27 @@ public class LevelEditor : MonoBehaviour
 	private Material m_gridMaterial = null;
 	private bool m_isLerping = false;
 	
-	private int m_floorWidth = DEFAULT_FLOOR_WIDTH;
-	private int m_floorHeight = DEFAULT_FLOOR_HEIGHT;
+	public static int s_floorWidth = DEFAULT_FLOOR_WIDTH;
+	public static int s_floorHeight = DEFAULT_FLOOR_HEIGHT;
 	
 	private GameObject[,] m_tiles = null;
 	private GameObject[,] m_exteriorWalls = null;
 	
 	// Mouse
 	private Vector3 m_mouseScreenPosition = Vector3.zero;
-	private Vector3 m_mouseWorldPosition = Vector3.zero;
+	public static Vector3 s_mouseWorldPosition = Vector3.zero;
 	
-	private int m_mouseLogicalX = 0;
-	private int m_mouseLogicalY = 0;
+	public static int s_mouseLogicalX = 0;
+	public static int s_mouseLogicalY = 0;
 	
 	// Painter
 	private GameObject m_tile = null;
 	private SpriteRenderer m_tileRenderer = null;
-	float m_tileRendererX = 0f;
-	float m_tileRendererY = 0f;
-	float m_tileX = 0f;
-	float m_tileY = 0f;
+
+	public static float s_tileRendererX = 0f;
+	public static float s_tileRendererY = 0f;
+	public static float s_tileX = 0f;
+	public static float s_tileY = 0f;
 
 	// Selected Object
 	public static GameObject s_selectedObject = null;
@@ -122,6 +123,7 @@ public class LevelEditor : MonoBehaviour
 		UpdateGrid();
 		UpdateSaveManager();
 		UpdateLoadManager();
+		UpdateSelectedObject();
 	}
 	
 	private void UpdateMouse()
@@ -130,7 +132,7 @@ public class LevelEditor : MonoBehaviour
 		m_mouseScreenPosition.y = Input.mousePosition.y;
 		m_mouseScreenPosition.z = -Camera.main.transform.position.z;
 		
-		m_mouseWorldPosition = Camera.main.ScreenToWorldPoint(m_mouseScreenPosition);
+		s_mouseWorldPosition = Camera.main.ScreenToWorldPoint(m_mouseScreenPosition);
 	}
 	
 	private void UpdateCamera()
@@ -233,14 +235,14 @@ public class LevelEditor : MonoBehaviour
 		if(emptyTileRenderer == null)
 			return;
 		
-		Texture2D saveTexture = new Texture2D(m_floorWidth * FLOOR_TILE_SIZE + WALL_TILE_SIZE * 2, m_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE * 2, TextureFormat.ARGB32, false);
+		Texture2D saveTexture = new Texture2D(s_floorWidth * FLOOR_TILE_SIZE + WALL_TILE_SIZE * 2, s_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE * 2, TextureFormat.ARGB32, false);
 		
 		SpriteRenderer spriteRendererTemp = null;
 		Color[] pixelsTemp = null;
 		
-		for(int y = m_floorHeight - 1; y >= 0; y--)
+		for(int y = s_floorHeight - 1; y >= 0; y--)
 		{
-			for(int x = 0; x < m_floorWidth; x++)
+			for(int x = 0; x < s_floorWidth; x++)
 			{
 				if(m_tiles[y, x] == null)
 					pixelsTemp = emptyTileRenderer.sprite.texture.GetPixels();
@@ -256,7 +258,7 @@ public class LevelEditor : MonoBehaviour
 				
 				saveTexture.SetPixels(FLOOR_TILE_SIZE * x + WALL_TILE_SIZE, FLOOR_TILE_SIZE * y + WALL_TILE_SIZE, FLOOR_TILE_SIZE, FLOOR_TILE_SIZE, pixelsTemp);
 				
-				if(y == m_floorHeight - 1)
+				if(y == s_floorHeight - 1)
 				{
 					if(x == 0)
 					{
@@ -278,14 +280,14 @@ public class LevelEditor : MonoBehaviour
 						saveTexture.SetPixels((x / 2 + 1) * WALL_TILE_SIZE, 0, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
 					}
 					
-					if(x == m_floorWidth - 1)
+					if(x == s_floorWidth - 1)
 					{
-						spriteRendererTemp = m_exteriorWalls[0, m_floorWidth / 2 + 1].GetComponent<SpriteRenderer>();
+						spriteRendererTemp = m_exteriorWalls[0, s_floorWidth / 2 + 1].GetComponent<SpriteRenderer>();
 						
 						if(spriteRendererTemp == null)
 							return;
 						
-						saveTexture.SetPixels((m_floorWidth / 2 + 1) * WALL_TILE_SIZE, 0, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
+						saveTexture.SetPixels((s_floorWidth / 2 + 1) * WALL_TILE_SIZE, 0, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
 					}
 				}
 				
@@ -293,32 +295,32 @@ public class LevelEditor : MonoBehaviour
 				{
 					if(x == 0)
 					{
-						spriteRendererTemp = m_exteriorWalls[m_floorHeight / 2 + 1, 0].GetComponent<SpriteRenderer>();
+						spriteRendererTemp = m_exteriorWalls[s_floorHeight / 2 + 1, 0].GetComponent<SpriteRenderer>();
 						
 						if(spriteRendererTemp == null)
 							return;
 						
-						saveTexture.SetPixels(0, m_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
+						saveTexture.SetPixels(0, s_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
 					}
 					
 					if(x % 2 == 0)
 					{
-						spriteRendererTemp = m_exteriorWalls[m_floorHeight / 2 + 1, x / 2 + 1].GetComponent<SpriteRenderer>();
+						spriteRendererTemp = m_exteriorWalls[s_floorHeight / 2 + 1, x / 2 + 1].GetComponent<SpriteRenderer>();
 						
 						if(spriteRendererTemp == null)
 							return;
 						
-						saveTexture.SetPixels((x / 2 + 1) * WALL_TILE_SIZE, m_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
+						saveTexture.SetPixels((x / 2 + 1) * WALL_TILE_SIZE, s_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
 					}
 					
-					if(x == m_floorWidth - 1)
+					if(x == s_floorWidth - 1)
 					{
-						spriteRendererTemp = m_exteriorWalls[m_floorHeight / 2 + 1, m_floorWidth / 2 + 1].GetComponent<SpriteRenderer>();
+						spriteRendererTemp = m_exteriorWalls[s_floorHeight / 2 + 1, s_floorWidth / 2 + 1].GetComponent<SpriteRenderer>();
 						
 						if(spriteRendererTemp == null)
 							return;
 						
-						saveTexture.SetPixels((m_floorWidth / 2 + 1) * WALL_TILE_SIZE, m_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
+						saveTexture.SetPixels((s_floorWidth / 2 + 1) * WALL_TILE_SIZE, s_floorHeight * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
 					}
 				}
 				
@@ -335,16 +337,16 @@ public class LevelEditor : MonoBehaviour
 					}
 				}
 				
-				if(x == m_floorWidth - 1)
+				if(x == s_floorWidth - 1)
 				{
 					if(y % 2 == 0)
 					{
-						spriteRendererTemp = m_exteriorWalls[y / 2 + 1, m_floorWidth / 2 + 1].GetComponent<SpriteRenderer>();
+						spriteRendererTemp = m_exteriorWalls[y / 2 + 1, s_floorWidth / 2 + 1].GetComponent<SpriteRenderer>();
 						
 						if(spriteRendererTemp == null)
 							return;
 						
-						saveTexture.SetPixels(m_floorWidth * FLOOR_TILE_SIZE + WALL_TILE_SIZE, y * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
+						saveTexture.SetPixels(s_floorWidth * FLOOR_TILE_SIZE + WALL_TILE_SIZE, y * FLOOR_TILE_SIZE + WALL_TILE_SIZE, WALL_TILE_SIZE, WALL_TILE_SIZE, spriteRendererTemp.sprite.texture.GetPixels());
 					}
 				}
 			}
@@ -361,14 +363,14 @@ public class LevelEditor : MonoBehaviour
 		{
 			sw.WriteLine("{");
 			sw.WriteLine("\t" + U.Escape("size") + ":{");
-			sw.WriteLine(U.Tab(2) + U.Escape("width") + ":" + m_floorWidth + ",");
-			sw.WriteLine(U.Tab(2) + U.Escape("height") + ":" + m_floorHeight);
+			sw.WriteLine(U.Tab(2) + U.Escape("width") + ":" + s_floorWidth + ",");
+			sw.WriteLine(U.Tab(2) + U.Escape("height") + ":" + s_floorHeight);
 			sw.WriteLine("\t},");
 			sw.WriteLine("\t" + U.Escape("tiles") + ":[");
 			
-			for(int y = 0; y < m_floorHeight; y++)
+			for(int y = 0; y < s_floorHeight; y++)
 			{
-				for(int x = 0; x < m_floorWidth; x++)
+				for(int x = 0; x < s_floorWidth; x++)
 				{
 					if(m_tiles[y, x] == null)
 						continue;
@@ -380,7 +382,7 @@ public class LevelEditor : MonoBehaviour
 					sw.WriteLine(U.Tab(4) + U.Escape("x") + ":" + x + ",");
 					sw.WriteLine(U.Tab(4) + U.Escape("y") + ":" + y);
 					sw.WriteLine(U.Tab(3) + "}");
-					sw.WriteLine(U.Tab(2) + "}" + ((y == m_floorHeight - 1 && x == m_floorWidth - 1) ? "" : ","));
+					sw.WriteLine(U.Tab(2) + "}" + ((y == s_floorHeight - 1 && x == s_floorWidth - 1) ? "" : ","));
 				}
 			}
 			
@@ -403,14 +405,14 @@ public class LevelEditor : MonoBehaviour
 				Dictionary<string, object> floorData = Json.Deserialize(floorDataJSON) as Dictionary<string, object>;
 				Dictionary<string, object> floorSizeDict = floorData["size"] as Dictionary<string, object>;
 				
-				m_floorWidth = (int)( (long)floorSizeDict["width"] );
-				m_floorHeight = (int)( (long)floorSizeDict["height"] );
+				s_floorWidth = (int)( (long)floorSizeDict["width"] );
+				s_floorHeight = (int)( (long)floorSizeDict["height"] );
 				
 				InitializeTiles();
 				
 				List<object> tilesData = floorData["tiles"] as List<object>;
 				
-				if(tilesData.Count != m_floorWidth * m_floorHeight)
+				if(tilesData.Count != s_floorWidth * s_floorHeight)
 					return;
 				
 				Dictionary<string, object> tileDict = null;
@@ -446,6 +448,20 @@ public class LevelEditor : MonoBehaviour
 			}
 		}
 	}
+
+	private void UpdateSelectedObject()
+	{
+		if(Input.GetKeyDown(KeyCode.D) && s_selectedObject != null)
+		{
+			Destroy(s_selectedObjectScript);
+			Destroy(s_selectedObjectRenderer);
+			Destroy(s_selectedObject);
+			
+			s_selectedObjectScript = null;
+			s_selectedObjectRenderer = null;
+			s_selectedObject = null;
+		}
+	}
 	
 	public void OnPostRender()
 	{
@@ -479,21 +495,21 @@ public class LevelEditor : MonoBehaviour
 		{
 			GL.Color(m_gridColor);
 			
-			for(int y = 0; y <= m_floorHeight; y++)
+			for(int y = 0; y <= s_floorHeight; y++)
 			{
-				for(int x = 0; x <= m_floorWidth; x++)
+				for(int x = 0; x <= s_floorWidth; x++)
 				{
-					GL.Vertex3(0f, m_tileRendererY * y, 0f);
-					GL.Vertex3(m_tileRendererX * x, m_tileRendererY * y, 0f);
+					GL.Vertex3(0f, s_tileRendererY * y, 0f);
+					GL.Vertex3(s_tileRendererX * x, s_tileRendererY * y, 0f);
 				}
 			}
 			
-			for(int y = 0; y <= m_floorHeight; y++)
+			for(int y = 0; y <= s_floorHeight; y++)
 			{
-				for(int x = 0; x <= m_floorWidth; x++)
+				for(int x = 0; x <= s_floorWidth; x++)
 				{
-					GL.Vertex3(m_tileRendererX * x, 0f, 0f);
-					GL.Vertex3(m_tileRendererX * x, m_tileRendererY * y, 0f);
+					GL.Vertex3(s_tileRendererX * x, 0f, 0f);
+					GL.Vertex3(s_tileRendererX * x, s_tileRendererY * y, 0f);
 				}
 			}
 		}
@@ -547,22 +563,14 @@ public class LevelEditor : MonoBehaviour
 		
 		if(m_tileRenderer == null || m_isLerping)
 			return;
-		
-		m_mouseLogicalX = Mathf.FloorToInt(m_mouseWorldPosition.x / m_tileRendererX);
-		m_mouseLogicalY = Mathf.FloorToInt(m_mouseWorldPosition.y / m_tileRendererY);
-		
-		m_tileX = m_mouseLogicalX * m_tileRendererX;
-		m_tileY = m_mouseLogicalY * m_tileRendererY;
-		
-		if((m_mouseLogicalX < 0 || m_mouseLogicalX > m_floorWidth - 1) || (m_mouseLogicalY < 0 || m_mouseLogicalY > m_floorHeight - 1))
-			return;
-		
-		m_tile.transform.position = new Vector3(m_tileX + m_tileRendererX / 2f, m_tileY + m_tileRendererY / 2f, 0f);
+
+		LevelEditor.SnapToGrid(m_tile);
+
 		m_tile.SetActive(true);
 		
 		if(Input.GetMouseButtonUp((int)MouseButton.Left))
 		{
-			if(m_tiles[m_mouseLogicalY, m_mouseLogicalX] == null)
+			if(m_tiles[s_mouseLogicalY, s_mouseLogicalX] == null)
 			{
 				GameObject newTile = Resources.Load("Prefabs/Tiles/Floor/FloorLight") as GameObject;
 				
@@ -575,15 +583,37 @@ public class LevelEditor : MonoBehaviour
 						newTile.transform.position = m_tile.transform.position;
 						newTile.name = "FloorLight";
 						
-						m_tiles[m_mouseLogicalY, m_mouseLogicalX] = newTile;
+						m_tiles[s_mouseLogicalY, s_mouseLogicalX] = newTile;
 					}
 				}
 			}
 			else
-				Destroy(m_tiles[m_mouseLogicalY, m_mouseLogicalX]);
+				Destroy(m_tiles[s_mouseLogicalY, s_mouseLogicalX]);
 		}
 	}
-	
+
+	public static void SnapToGrid(GameObject obj)
+	{
+		if(obj == null)
+			return;
+
+		SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
+
+		if(renderer == null)
+			return;
+
+		s_mouseLogicalX = Mathf.FloorToInt(s_mouseWorldPosition.x / s_tileRendererX);
+		s_mouseLogicalY = Mathf.FloorToInt(s_mouseWorldPosition.y / s_tileRendererY);
+		
+		s_tileX = s_mouseLogicalX * s_tileRendererX;
+		s_tileY = s_mouseLogicalY * s_tileRendererY;
+		
+		if((s_mouseLogicalX < 0 || s_mouseLogicalX > s_floorWidth - 1) || (s_mouseLogicalY < 0 || s_mouseLogicalY > s_floorHeight - 1))
+			return;
+
+		obj.transform.position = new Vector3(s_tileX + renderer.bounds.size.x / 2, s_tileY + renderer.bounds.size.y / 2, 0f);
+	}
+
 	private void UpdateMiscKeyboardCommands()
 	{
 		if(Input.GetKeyUp(KeyCode.C))
@@ -606,8 +636,8 @@ public class LevelEditor : MonoBehaviour
 		
 		if(Input.GetKeyUp(KeyCode.KeypadPlus))
 		{
-			bool incrementX = (m_incrementAxis == Axis.X || m_incrementAxis == Axis.Both) && m_floorWidth < MAX_FLOOR_WIDTH;
-			bool incrementY = (m_incrementAxis == Axis.Y || m_incrementAxis == Axis.Both) && m_floorHeight < MAX_FLOOR_HEIGHT;
+			bool incrementX = (m_incrementAxis == Axis.X || m_incrementAxis == Axis.Both) && s_floorWidth < MAX_FLOOR_WIDTH;
+			bool incrementY = (m_incrementAxis == Axis.Y || m_incrementAxis == Axis.Both) && s_floorHeight < MAX_FLOOR_HEIGHT;
 			
 			if(!(incrementX || incrementY))
 				return;
@@ -616,27 +646,27 @@ public class LevelEditor : MonoBehaviour
 			ClearExteriorWalls();
 			
 			if(incrementX)
-				m_floorWidth += FLOOR_INCREMENT_STEP;
+				s_floorWidth += FLOOR_INCREMENT_STEP;
 			
 			if(incrementY)
-				m_floorHeight += FLOOR_INCREMENT_STEP;
+				s_floorHeight += FLOOR_INCREMENT_STEP;
 			
 			InitializeTiles();
 		}
 		
 		if(Input.GetKeyUp(KeyCode.KeypadMinus))
 		{
-			bool decrementX = (m_incrementAxis == Axis.X || m_incrementAxis == Axis.Both) && m_floorWidth > MIN_FLOOR_WIDTH;
-			bool decrementY = (m_incrementAxis == Axis.Y || m_incrementAxis == Axis.Both) && m_floorHeight > MIN_FLOOR_HEIGHT;
+			bool decrementX = (m_incrementAxis == Axis.X || m_incrementAxis == Axis.Both) && s_floorWidth > MIN_FLOOR_WIDTH;
+			bool decrementY = (m_incrementAxis == Axis.Y || m_incrementAxis == Axis.Both) && s_floorHeight > MIN_FLOOR_HEIGHT;
 			
 			ClearTiles();
 			ClearExteriorWalls();
 			
 			if(decrementX)
-				m_floorWidth -= FLOOR_INCREMENT_STEP;
+				s_floorWidth -= FLOOR_INCREMENT_STEP;
 			
 			if(decrementY)
-				m_floorHeight -= FLOOR_INCREMENT_STEP;
+				s_floorHeight -= FLOOR_INCREMENT_STEP;
 			
 			InitializeTiles();
 		}
@@ -646,20 +676,20 @@ public class LevelEditor : MonoBehaviour
 	{
 		bool initializeWalls = false;
 		
-		m_tiles = new GameObject[m_floorHeight, m_floorWidth];
+		m_tiles = new GameObject[s_floorHeight, s_floorWidth];
 		
 		if(m_exteriorWalls == null)
 		{
 			initializeWalls = true;
 			
-			m_exteriorWalls = new GameObject[m_floorHeight / 2 + 2, m_floorWidth / 2 + 2];
+			m_exteriorWalls = new GameObject[s_floorHeight / 2 + 2, s_floorWidth / 2 + 2];
 		}
 		
 		GameObject defaultTile = Resources.Load("Prefabs/Tiles/Floor/FloorLight") as GameObject;
 		
-		for(int y = 0; y < m_floorHeight; y++)
+		for(int y = 0; y < s_floorHeight; y++)
 		{
-			for(int x = 0; x < m_floorWidth; x++)
+			for(int x = 0; x < s_floorWidth; x++)
 			{
 				m_tiles[y, x] = null;
 				
@@ -669,7 +699,7 @@ public class LevelEditor : MonoBehaviour
 					
 					if(defaultTile != null)
 					{
-						defaultTile.transform.position = new Vector3(x * m_tileRendererX + m_tileRendererX / 2f, y * m_tileRendererY + m_tileRendererY / 2f, 0f);
+						defaultTile.transform.position = new Vector3(x * s_tileRendererX + s_tileRendererX / 2f, y * s_tileRendererY + s_tileRendererY / 2f, 0f);
 						defaultTile.name = "FloorLight";
 						
 						m_tiles[y, x] = defaultTile;
@@ -718,7 +748,7 @@ public class LevelEditor : MonoBehaviour
 				
 				if(y == 0)
 				{
-					if(x == m_floorWidth - 1)
+					if(x == s_floorWidth - 1)
 					{
 						GameObject bottomRightCorner = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/BottomRightCorner") as GameObject;
 						bottomRightCorner = Instantiate(bottomRightCorner) as GameObject;
@@ -732,7 +762,7 @@ public class LevelEditor : MonoBehaviour
 						bottomRightCorner.transform.position = wallPosition;
 						bottomRightCorner.name = "BottomRightCorner";
 						
-						m_exteriorWalls[y, m_floorWidth / 2 + 1] = bottomRightCorner;
+						m_exteriorWalls[y, s_floorWidth / 2 + 1] = bottomRightCorner;
 					}
 					
 					if(x % 2 == 0)
@@ -753,9 +783,9 @@ public class LevelEditor : MonoBehaviour
 					}
 				}
 				
-				if(x == m_floorWidth - 1)
+				if(x == s_floorWidth - 1)
 				{
-					if(y == m_floorHeight - 1)
+					if(y == s_floorHeight - 1)
 					{
 						GameObject topRightCorner = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/TopRightCorner") as GameObject;
 						topRightCorner = Instantiate(topRightCorner) as GameObject;
@@ -769,7 +799,7 @@ public class LevelEditor : MonoBehaviour
 						topRightCorner.transform.position = wallPosition;
 						topRightCorner.name = "TopRightCorner";
 						
-						m_exteriorWalls[m_floorHeight / 2 + 1, m_floorWidth / 2 + 1] = topRightCorner;
+						m_exteriorWalls[s_floorHeight / 2 + 1, s_floorWidth / 2 + 1] = topRightCorner;
 					}
 					
 					if(y % 2 == 0)
@@ -786,11 +816,11 @@ public class LevelEditor : MonoBehaviour
 						verticalWall.transform.position = wallPosition;
 						verticalWall.name = "VerticalStraight";
 						
-						m_exteriorWalls[y / 2 + 1, m_floorWidth / 2 + 1] = verticalWall;
+						m_exteriorWalls[y / 2 + 1, s_floorWidth / 2 + 1] = verticalWall;
 					}
 				}
 				
-				if(y == m_floorHeight - 1)
+				if(y == s_floorHeight - 1)
 				{
 					if(x == 0)
 					{
@@ -806,7 +836,7 @@ public class LevelEditor : MonoBehaviour
 						topLeftCorner.transform.position = wallPosition;
 						topLeftCorner.name = "TopLeftCorner";
 						
-						m_exteriorWalls[m_floorHeight / 2 + 1, x] = topLeftCorner;
+						m_exteriorWalls[s_floorHeight / 2 + 1, x] = topLeftCorner;
 					}
 					
 					if(x % 2 == 0)
@@ -823,7 +853,7 @@ public class LevelEditor : MonoBehaviour
 						horizontalWall.transform.position = wallPosition;
 						horizontalWall.name = "HorizontalStraight";
 						
-						m_exteriorWalls[m_floorHeight / 2 + 1, x / 2 + 1] = horizontalWall;
+						m_exteriorWalls[s_floorHeight / 2 + 1, x / 2 + 1] = horizontalWall;
 					}
 				}
 			}
@@ -835,9 +865,9 @@ public class LevelEditor : MonoBehaviour
 		if(m_exteriorWalls == null)
 			return;
 		
-		for(int y = 0; y < m_floorHeight / 2 + 2; y++)
+		for(int y = 0; y < s_floorHeight / 2 + 2; y++)
 		{
-			for(int x = 0; x < m_floorWidth / 2 + 2; x++)
+			for(int x = 0; x < s_floorWidth / 2 + 2; x++)
 			{
 				Destroy(m_exteriorWalls[y, x]);
 				m_exteriorWalls[y, x] = null;
@@ -852,9 +882,9 @@ public class LevelEditor : MonoBehaviour
 		if(m_tiles == null)
 			return;
 		
-		for(int y = 0; y < m_floorHeight; y++)
+		for(int y = 0; y < s_floorHeight; y++)
 		{
-			for(int x = 0; x < m_floorWidth; x++)
+			for(int x = 0; x < s_floorWidth; x++)
 			{
 				Destroy(m_tiles[y, x]);
 				m_tiles[y, x] = null;
@@ -876,8 +906,8 @@ public class LevelEditor : MonoBehaviour
 			
 			if(m_tileRenderer != null)
 			{
-				m_tileRendererX = m_tileRenderer.bounds.size.x;
-				m_tileRendererY = m_tileRenderer.bounds.size.y;
+				s_tileRendererX = m_tileRenderer.bounds.size.x;
+				s_tileRendererY = m_tileRenderer.bounds.size.y;
 			}
 		}
 	}
