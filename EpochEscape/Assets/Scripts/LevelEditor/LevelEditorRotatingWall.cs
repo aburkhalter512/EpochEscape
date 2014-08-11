@@ -146,8 +146,18 @@ public class LevelEditorRotatingWall : LevelEditorObject
 		
 		if(m_lineRenderer != null)
 		{
+			Material lineMaterial = new Material("Shader \"Lines/Colored Blended\" { " +
+			                              "SubShader { Pass { " +
+			                              "Blend SrcAlpha OneMinusSrcAlpha " +
+			                              "ZWrite Off Cull Off Fog { Mode Off } " +
+			                              "BindChannels { Bind \"vertex\", vertex Bind \"color\", color } " +
+			                              "} } }");
+			
+			lineMaterial.hideFlags = HideFlags.HideAndDontSave;
+			lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
+
 			m_lineRenderer.SetVertexCount(2);
-			m_lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+			m_lineRenderer.material = lineMaterial;
 			m_lineRenderer.SetWidth(LINE_WIDTH, LINE_WIDTH);
 			m_lineRenderer.enabled = false;
 		}

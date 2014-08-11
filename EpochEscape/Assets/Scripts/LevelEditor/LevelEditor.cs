@@ -566,6 +566,9 @@ public class LevelEditor : MonoBehaviour
 
 		LevelEditor.SnapToGrid(m_tile);
 
+		if((s_mouseLogicalX < 0 || s_mouseLogicalX > s_floorWidth - 1) || (s_mouseLogicalY < 0 || s_mouseLogicalY > s_floorHeight - 1))
+			return;
+
 		m_tile.SetActive(true);
 		
 		if(Input.GetMouseButtonUp((int)MouseButton.Left))
@@ -692,7 +695,7 @@ public class LevelEditor : MonoBehaviour
 			for(int x = 0; x < s_floorWidth; x++)
 			{
 				m_tiles[y, x] = null;
-				
+				/*
 				if(defaultTile != null)
 				{
 					defaultTile = Instantiate(defaultTile) as GameObject;
@@ -704,7 +707,7 @@ public class LevelEditor : MonoBehaviour
 						
 						m_tiles[y, x] = defaultTile;
 					}
-				}
+				}*/
 				
 				if(!initializeWalls)
 					continue;
