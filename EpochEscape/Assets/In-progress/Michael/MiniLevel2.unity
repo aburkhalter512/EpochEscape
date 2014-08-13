@@ -1712,6 +1712,22 @@ Prefab:
       propertyPath: destination
       value: 
       objectReference: {fileID: 2105055448}
+    - target: {fileID: 2300000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_UseLightProbes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_LocalScale.x
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_LocalScale.y
+      value: .100000001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
   m_RootGameObject: {fileID: 1578982579}
@@ -2352,7 +2368,7 @@ MonoBehaviour:
   Boost: 1
   BoostTime: 0
   m_currentState: 0
-  m_spawnLocation: {x: -7, y: 3, z: 0}
+  m_spawnLocation: {x: -9.60000038, y: 0, z: 0}
   m_selectedSlot: 0
   m_specItems: 0
   MAX_CORES: 3
@@ -5282,6 +5298,22 @@ Prefab:
       propertyPath: destination
       value: 
       objectReference: {fileID: 1578982581}
+    - target: {fileID: 2300000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_UseLightProbes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_LocalScale.x
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
+      propertyPath: m_LocalScale.y
+      value: .100000001
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74e07b55fcc70374395adf1ed11828cb, type: 2}
   m_RootGameObject: {fileID: 2105055447}
@@ -5769,6 +5801,7 @@ GameObject:
   - 61: {fileID: 1578982583}
   - 114: {fileID: 1578982581}
   - 23: {fileID: 1578982582}
+  - 33: {fileID: 1578982584}
   m_Layer: 0
   m_Name: Tele4B
   m_TagString: Untagged
@@ -5784,7 +5817,7 @@ Transform:
   m_GameObject: {fileID: 1578982579}
   m_LocalRotation: {x: 0, y: 0, z: .707106829, w: .707106829}
   m_LocalPosition: {x: 11.4499998, y: 3.04999995, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: .600000024, y: .100000001, z: 1}
   m_Children: []
   m_Father: {fileID: 1154603390}
 --- !u!114 &1578982581
@@ -5837,6 +5870,13 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .600000024, y: .100000001}
   m_Center: {x: 0, y: 0}
+--- !u!33 &1578982584
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1578982579}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &1597395296
 Prefab:
   m_ObjectHideFlags: 0
@@ -7015,11 +7055,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 2863645f3fba9534bb765b46d2bdbd45, type: 2}
       propertyPath: m_spawnLocation.x
-      value: -7
+      value: -9.60000038
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 2863645f3fba9534bb765b46d2bdbd45, type: 2}
       propertyPath: m_spawnLocation.y
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2863645f3fba9534bb765b46d2bdbd45, type: 2}
@@ -8187,6 +8227,7 @@ GameObject:
   - 61: {fileID: 2105055451}
   - 114: {fileID: 2105055448}
   - 23: {fileID: 2105055450}
+  - 33: {fileID: 2105055452}
   m_Layer: 0
   m_Name: Tele4A
   m_TagString: Untagged
@@ -8218,7 +8259,7 @@ Transform:
   m_GameObject: {fileID: 2105055447}
   m_LocalRotation: {x: 0, y: 0, z: .707106829, w: .707106829}
   m_LocalPosition: {x: 10, y: .25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: .600000024, y: .100000001, z: 1}
   m_Children: []
   m_Father: {fileID: 1154603390}
 --- !u!23 &2105055450
@@ -8255,6 +8296,13 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .600000024, y: .100000001}
   m_Center: {x: 0, y: 0}
+--- !u!33 &2105055452
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2105055447}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &2114145254
 GameObject:
   m_ObjectHideFlags: 0

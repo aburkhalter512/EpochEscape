@@ -71,5 +71,6 @@ public class TeleportAreaOne : MonoBehaviour {
 		TeleportAreaOne script = GetComponent<TeleportAreaOne>();
 		script.enabled = false;
 		collider2D.enabled = false;
+		renderer.enabled = false;
 	}
 }
