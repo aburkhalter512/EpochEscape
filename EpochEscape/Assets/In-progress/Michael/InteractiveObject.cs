@@ -13,5 +13,5 @@ public abstract class InteractiveObject : MonoBehaviour {
 	
 	}
 
-	public abstract void Interact();
+	public abstract void Interact();	
 }
