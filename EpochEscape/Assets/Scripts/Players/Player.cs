@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
 	public float m_specialItemCollectTime = 0f;
 	#endregion
 	public bool m_isHoldingBox = false;
+	public GameObject k_boxPrefab;
 	#region Instance Variables
 	private Animator m_animator;
 
@@ -136,6 +137,18 @@ public class Player : MonoBehaviour
 					}
 				} else {
 					Debug.Log ("nothing hit");
+				}
+			} else {
+				collider2D.enabled = false;
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
+				collider2D.enabled = true;
+				if (hit.collider != null) {
+					if (hit.collider.gameObject.GetComponent<PitFloor>() != null) {
+						hit.collider.gameObject.SendMessage("Interact");
+					}
+				} else {
+					HoldableBox box = GetComponentInChildren<HoldableBox>();
+					box.Place();
 				}
 			}
 		}

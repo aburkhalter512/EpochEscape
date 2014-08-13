@@ -296,6 +296,10 @@ MonoBehaviour:
   mDynamicFriction: 1
   mAirResistance: .5
   m_isMoving: 0
+  m_isMovingForward: 0
+  m_isMovingDown: 0
+  m_isMovingLeft: 0
+  m_isMovingRight: 0
   m_isAttacking: 0
   m_hasSpecialItem: 0
   grateFoot:
@@ -332,6 +336,8 @@ MonoBehaviour:
   m_playSpecialItemAnim: 0
   m_specialItemAnimDuration: .5
   m_specialItemCollectTime: 0
+  m_isHoldingBox: 0
+  k_boxPrefab: {fileID: 0}
   currentCores: 0
   m_isShieldActive: 0
   m_shieldDuration: 3

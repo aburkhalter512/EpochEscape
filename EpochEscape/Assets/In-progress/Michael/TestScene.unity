@@ -83,9 +83,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 267070722}
   - 61: {fileID: 267070721}
-  - 114: {fileID: 267070720}
   - 33: {fileID: 267070724}
   - 23: {fileID: 267070723}
+  - 114: {fileID: 267070720}
   m_Layer: 0
   m_Name: 2
   m_TagString: Untagged
@@ -101,11 +101,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 267070719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e9d3be432506f442932b258eb406b21, type: 3}
+  m_Script: {fileID: 11500000, guid: d98a525ab3034de40835ac3075b2f7f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2134843520}
   isVertical: 0
+  topLeftActive: 0
   exitOffset: .200000003
 --- !u!61 &267070721
 BoxCollider2D:
@@ -445,7 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddefba62d06b4a54abe25f5754e92b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  k_speed: .0500000007
 --- !u!23 &992663977
 Renderer:
   m_ObjectHideFlags: 0
@@ -717,6 +717,10 @@ MonoBehaviour:
   mDynamicFriction: 1
   mAirResistance: .5
   m_isMoving: 0
+  m_isMovingForward: 0
+  m_isMovingDown: 0
+  m_isMovingLeft: 0
+  m_isMovingRight: 0
   m_isAttacking: 0
   m_hasSpecialItem: 0
   grateFoot:
@@ -753,6 +757,7 @@ MonoBehaviour:
   m_playSpecialItemAnim: 0
   m_specialItemAnimDuration: .5
   m_specialItemCollectTime: 0
+  m_isHoldingBox: 0
   currentCores: 0
   m_isShieldActive: 0
   m_shieldDuration: 3
@@ -791,9 +796,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 2134843522}
   - 61: {fileID: 2134843521}
-  - 114: {fileID: 2134843520}
   - 33: {fileID: 2134843524}
   - 23: {fileID: 2134843523}
+  - 114: {fileID: 2134843520}
   m_Layer: 0
   m_Name: 1
   m_TagString: Untagged
@@ -809,11 +814,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2134843519}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e9d3be432506f442932b258eb406b21, type: 3}
+  m_Script: {fileID: 11500000, guid: d98a525ab3034de40835ac3075b2f7f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 267070720}
   isVertical: 0
+  topLeftActive: 1
   exitOffset: .200000003
 --- !u!61 &2134843521
 BoxCollider2D:

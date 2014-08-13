@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HoldableObject : InteractiveObject {
-	private enum direction {
+public class HoldableBox : InteractiveObject {
+	protected enum direction {
 		Left, Right, Up, Down, Static
 	};
 
-	public float k_speed = 0.05f;
-	private bool m_isInUse = false;
-	private direction m_direction;
-	private Player p;
+	//public float k_speed = 0.05f;
+	protected bool m_isInUse = false;
+	protected direction m_direction;
+	protected Player p;
 	
 	public void Start () {
 		m_direction = direction.Static;
@@ -22,17 +22,20 @@ public class HoldableObject : InteractiveObject {
 	}
 
 	public override void Interact() {
-		if (!m_isInUse && !p.m_isHoldingBox) { 
-			Renderer r  = gameObject.GetComponent<Renderer>();
-			r.enabled = false;
-			Collider2D c = gameObject.GetComponent<Collider2D>();
-			c.enabled = false;
-			m_isInUse = true;
-			p.m_isHoldingBox = true;
-		}
+		Debug.Log ("Box Interact");
+		renderer.enabled = false;
+		collider2D.enabled = false;
+		m_isInUse = true;
+		p.m_isHoldingBox = true;
+		transform.parent = p.transform;
 	}
 	
 	public void Place() { //places the box in front of the player
-			
+		
 	}
+	
+	public void Die() {
+		Destroy(gameObject);
+	}
+	
 }

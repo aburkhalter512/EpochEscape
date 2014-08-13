@@ -66,4 +66,10 @@ public class TeleportAreaOne : MonoBehaviour {
 			}
 		}
 	}
+	
+	public void Toggle() {
+		TeleportAreaOne script = GetComponent<TeleportAreaOne>();
+		script.enabled = false;
+		collider2D.enabled = false;
+	}
 }
