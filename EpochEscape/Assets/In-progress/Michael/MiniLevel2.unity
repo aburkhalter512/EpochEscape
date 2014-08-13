@@ -159,9 +159,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 15782990}
   - 212: {fileID: 15782989}
-  - 114: {fileID: 15782988}
   - 61: {fileID: 15782987}
   - 82: {fileID: 15782986}
+  - 114: {fileID: 15782988}
   m_Layer: 0
   m_Name: Pressure Plate
   m_TagString: Untagged
@@ -243,17 +243,17 @@ BoxCollider2D:
 --- !u!114 &15782988
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 4c3538e2b5554814d8e1e0f5e06c1793,
-    type: 2}
-  m_PrefabInternal: {fileID: 787706959}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 15782985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e62ae4259051d7459ca7f34bcf0f28f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f700b450a44ca841afb374fe135a523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actuators:
   - {fileID: 106807211}
+  m_isLocked: 0
   switchOn: {fileID: 21300000, guid: 0e960332d69bee74f93bd11b9f6cba75, type: 3}
   switchOff: {fileID: 21300000, guid: f75608b0f4a972c43b78bd74b60e0366, type: 3}
   currentState: 0
@@ -1882,7 +1882,8 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 5713b526ce934d147a7f1c2602915caa,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11400000, guid: 8cfb19fafeb24a2469edc3222da96de1, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 8cfb19fafeb24a2469edc3222da96de1, type: 2}
   m_RootGameObject: {fileID: 1490415138}
   m_IsPrefabParent: 0
@@ -2351,7 +2352,7 @@ MonoBehaviour:
   Boost: 1
   BoostTime: 0
   m_currentState: 0
-  m_spawnLocation: {x: 0, y: 0, z: 0}
+  m_spawnLocation: {x: -7, y: 3, z: 0}
   m_selectedSlot: 0
   m_specItems: 0
   MAX_CORES: 3
@@ -2946,7 +2947,12 @@ Prefab:
       propertyPath: actuators.Array.data[0]
       value: 
       objectReference: {fileID: 106807211}
-    m_RemovedComponents: []
+    - target: {fileID: 100000, guid: 4c3538e2b5554814d8e1e0f5e06c1793, type: 2}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11400000, guid: 4c3538e2b5554814d8e1e0f5e06c1793, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 4c3538e2b5554814d8e1e0f5e06c1793, type: 2}
   m_RootGameObject: {fileID: 15782985}
   m_IsPrefabParent: 0
@@ -4570,32 +4576,6 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: 1, y: 1}
   m_Center: {x: 0, y: 0}
---- !u!1 &1255481501
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1255481502}
-  m_Layer: 0
-  m_Name: Debugger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1255481502
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1255481501}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.14768314, y: 3.17806268, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
 --- !u!1 &1256384103
 GameObject:
   m_ObjectHideFlags: 0
@@ -5554,19 +5534,20 @@ Transform:
 --- !u!114 &1490415140
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 8cfb19fafeb24a2469edc3222da96de1,
-    type: 2}
-  m_PrefabInternal: {fileID: 493530636}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1490415138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7336eb268dec8f49a94d196d7b579fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a9b24fbd2e3a674bbd5e7049044a97e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
   closedDoor: {fileID: 21300000, guid: e9accbb19ca2d3645839f198dc2cd5eb, type: 3}
   openedDoor: {fileID: 21300000, guid: 5713b526ce934d147a7f1c2602915caa, type: 3}
-  mSize: {x: .920000017, y: .400000006}
+  mSize: {x: 0, y: 0}
+  isTimerActive: 0
+  CountDownSeconds: 30
 --- !u!212 &1490415141
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7034,11 +7015,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 2863645f3fba9534bb765b46d2bdbd45, type: 2}
       propertyPath: m_spawnLocation.x
-      value: 0
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 2863645f3fba9534bb765b46d2bdbd45, type: 2}
       propertyPath: m_spawnLocation.y
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2863645f3fba9534bb765b46d2bdbd45, type: 2}
