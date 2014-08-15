@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Xml.Linq;
 
 /*
  * This class is the central location for all key bindings. It is made
@@ -21,9 +22,6 @@ public class InputManager : UnitySingleton<InputManager>
 	#endregion
 
     #region Instance Variables
-    Vector2 mPrimaryJoystick = Vector2.zero;
-    public Vector3 mMouseInScreen = Vector3.zero;
-    public Vector3 mMouseInWorld = Vector3.zero;
 	#endregion
 
     //Put all initialization code here
@@ -35,16 +33,19 @@ public class InputManager : UnitySingleton<InputManager>
             new Axis(new Button(KeyCode.DownArrow), new Button(KeyCode.UpArrow)));
 
         itemButtons = new Button[10];
-        itemButtons[0].setInput(KeyCode.Alpha1);
-        itemButtons[1].setInput(KeyCode.Alpha2);
-        itemButtons[2].setInput(KeyCode.Alpha3);
-        itemButtons[3].setInput(KeyCode.Alpha4);
-        itemButtons[4].setInput(KeyCode.Alpha5);
-        itemButtons[5].setInput(KeyCode.Alpha6);
-        itemButtons[6].setInput(KeyCode.Alpha7);
-        itemButtons[7].setInput(KeyCode.Alpha8);
-        itemButtons[8].setInput(KeyCode.Alpha9);
-        itemButtons[9].setInput(KeyCode.Alpha0);
+        if (itemButtons != null)
+        {
+            itemButtons[0] = new Button(KeyCode.Alpha1);
+            itemButtons[1] = new Button(KeyCode.Alpha2);
+            itemButtons[2] = new Button(KeyCode.Alpha3);
+            itemButtons[3] = new Button(KeyCode.Alpha4);
+            itemButtons[4] = new Button(KeyCode.Alpha5);
+            itemButtons[5] = new Button(KeyCode.Alpha6);
+            itemButtons[6] = new Button(KeyCode.Alpha7);
+            itemButtons[7] = new Button(KeyCode.Alpha8);
+            itemButtons[8] = new Button(KeyCode.Alpha9);
+            itemButtons[9] = new Button(KeyCode.Alpha0);
+        }
 
         itemSwitcher = new Axis("Mouse ScrollWheel");
 
