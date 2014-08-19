@@ -24,6 +24,7 @@ public class EntryDoor : NEWDoor
 
         if (mIsFirstUpdate)
         {
+            mSecondSide.open();
             mFirstSide.open();
             mIsFirstUpdate = false;
         }

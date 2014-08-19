@@ -45,9 +45,6 @@ public class PowerCoreDoor : NEWDoor
        GameObject GO = GameObject.FindGameObjectWithTag("Player");
        if (GO != null)
            mPlayer = GO.GetComponent<Player>();
-
-       mFirstOpenedSide.gameObject.SetActive(false);
-       mSecondOpenedSide.gameObject.SetActive(false);
 	}
 
     protected override void Update()

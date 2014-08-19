@@ -44,7 +44,7 @@ public class TeleporterDoorSide : DoorSide
             mTeleportDestination = teleportDestination.GetComponent<TeleporterDoorSide>();
         mTeleportSpawn = new GameObject();
         mTeleportSpawn.transform.parent = transform;
-        mTeleportSpawn.transform.localPosition = new Vector3(0.0f, -.2f, 0.0f);
+        mTeleportSpawn.transform.localPosition = new Vector3(0.0f, -.5f, 0.0f);
 
         mSR.sprite = openSprite;
         mIsOpened = true;
@@ -57,8 +57,9 @@ public class TeleporterDoorSide : DoorSide
         if (player == null || mTeleportDestination == null)
             return;
 
-        player.transform.position = mTeleportDestination.mTeleportSpawn.transform.position;
-        mTeleportDestination.mCanTeleport = false;
+        Vector3 v = mTeleportDestination.mTeleportSpawn.transform.position;
+        player.transform.position = v;
+        //mTeleportDestination.mCanTeleport = false;
     }
     #endregion
 
