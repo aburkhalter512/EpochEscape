@@ -68,7 +68,7 @@ public class TeleportAreaOne : MonoBehaviour {
 			// Addition to handle camera transitions upon entering a teleportation door.
 			CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
 
-			if(cameraBehavior != null)
+			if(!(cameraBehavior == null || cameraBehavior.m_lerpTargets == null))
 				cameraBehavior.m_lerpTargets.Push(other.gameObject);
 		}
 	}
