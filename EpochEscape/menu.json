@@ -78,7 +78,7 @@
 					"title": "Rotating Wall",
 					"name": "RotatingWallMenuItem",
 					"hasSubMenu": false,
-					"prefabPath": "Prefabs/LevelEditor/RotatingWallPivot"
+					"prefabPath": "Prefabs/LevelEditor/Mechanics/RotatingWallPivot"
 				}
 			]
 		}

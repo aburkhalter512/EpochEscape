@@ -67,7 +67,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -78,7 +78,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.375
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -114,7 +114,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_currentTarget: {x: 0, y: 0, z: 0}
   m_floor: {fileID: 0}
-  m_displayCowbell: 0
   m_currentState: 1
 --- !u!124 &12400000
 Behaviour:

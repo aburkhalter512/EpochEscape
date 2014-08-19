@@ -7,12 +7,12 @@ using U = LevelEditorUtilities;
 
 public class LevelEditor : MonoBehaviour
 {
-	public const float INITIAL_CAMERA_SIZE = 1.375f;
 	public const float INITIAL_CAMERA_MOVE_SPEED = 0.1f;
 	public const float CAMERA_ZOOM_INCREMENT = 1.5f;
-	public const float CAMERA_ZOOM_MIN = 0.5f;
+	public const float CAMERA_ZOOM_MIN = 3f;
 	public const float CAMERA_ZOOM_MAX = 7.5f;
 	public const float CAMERA_ZOOM_SPEED = 10f;
+	public const float INITIAL_CAMERA_SIZE = CAMERA_ZOOM_MIN;
 	public const int DEFAULT_FLOOR_WIDTH = 20; // units
 	public const int DEFAULT_FLOOR_HEIGHT = 20; //units
 	
@@ -113,7 +113,7 @@ public class LevelEditor : MonoBehaviour
 	private void UpdateInput()
 	{
 		UpdateMiscKeyboardCommands();
-		UpdatePainter();
+		//UpdatePainter();
 	}
 
 	private void UpdateGlobalInput()
@@ -225,7 +225,7 @@ public class LevelEditor : MonoBehaviour
 	
 	private void SaveImage()
 	{
-		GameObject emptyTile = Resources.Load("Prefabs/Tiles/Floor/Empty") as GameObject;
+		GameObject emptyTile = Resources.Load("Prefabs/LevelEditor/Tiles/Floors/Empty") as GameObject;
 		
 		if(emptyTile == null)
 			return;
@@ -555,7 +555,8 @@ public class LevelEditor : MonoBehaviour
 		
 		GL.End();
 	}
-	
+
+	/*
 	private void UpdatePainter()
 	{
 		if(m_tile.activeInHierarchy)
@@ -593,7 +594,7 @@ public class LevelEditor : MonoBehaviour
 			else
 				Destroy(m_tiles[s_mouseLogicalY, s_mouseLogicalX]);
 		}
-	}
+	}*/
 
 	public static void SnapToGrid(GameObject obj)
 	{
@@ -716,7 +717,7 @@ public class LevelEditor : MonoBehaviour
 				{
 					if(y == 0)
 					{
-						GameObject bottomLeftCorner = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/BottomLeftCorner") as GameObject;
+						GameObject bottomLeftCorner = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/BottomLeftCorner") as GameObject;
 						bottomLeftCorner = Instantiate(bottomLeftCorner) as GameObject;
 						
 						SpriteRenderer wallRenderer = bottomLeftCorner.GetComponent<SpriteRenderer>();
@@ -733,7 +734,7 @@ public class LevelEditor : MonoBehaviour
 					
 					if(y % 2 == 0)
 					{
-						GameObject verticalWall = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/VerticalStraight") as GameObject;
+						GameObject verticalWall = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/VerticalStraight") as GameObject;
 						verticalWall = Instantiate(verticalWall) as GameObject;
 						
 						SpriteRenderer wallRenderer = verticalWall.GetComponent<SpriteRenderer>();
@@ -753,7 +754,7 @@ public class LevelEditor : MonoBehaviour
 				{
 					if(x == s_floorWidth - 1)
 					{
-						GameObject bottomRightCorner = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/BottomRightCorner") as GameObject;
+						GameObject bottomRightCorner = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/BottomRightCorner") as GameObject;
 						bottomRightCorner = Instantiate(bottomRightCorner) as GameObject;
 						
 						SpriteRenderer wallRenderer = bottomRightCorner.GetComponent<SpriteRenderer>();
@@ -770,7 +771,7 @@ public class LevelEditor : MonoBehaviour
 					
 					if(x % 2 == 0)
 					{
-						GameObject horizontalWall = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/HorizontalStraight") as GameObject;
+						GameObject horizontalWall = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/HorizontalStraight") as GameObject;
 						horizontalWall = Instantiate(horizontalWall) as GameObject;
 						
 						SpriteRenderer wallRenderer = horizontalWall.GetComponent<SpriteRenderer>();
@@ -790,7 +791,7 @@ public class LevelEditor : MonoBehaviour
 				{
 					if(y == s_floorHeight - 1)
 					{
-						GameObject topRightCorner = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/TopRightCorner") as GameObject;
+						GameObject topRightCorner = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/TopRightCorner") as GameObject;
 						topRightCorner = Instantiate(topRightCorner) as GameObject;
 						
 						SpriteRenderer wallRenderer = topRightCorner.GetComponent<SpriteRenderer>();
@@ -807,7 +808,7 @@ public class LevelEditor : MonoBehaviour
 					
 					if(y % 2 == 0)
 					{
-						GameObject verticalWall = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/VerticalStraight") as GameObject;
+						GameObject verticalWall = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/VerticalStraight") as GameObject;
 						verticalWall = Instantiate(verticalWall) as GameObject;
 						
 						SpriteRenderer wallRenderer = verticalWall.GetComponent<SpriteRenderer>();
@@ -827,7 +828,7 @@ public class LevelEditor : MonoBehaviour
 				{
 					if(x == 0)
 					{
-						GameObject topLeftCorner = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/TopLeftCorner") as GameObject;
+						GameObject topLeftCorner = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/TopLeftCorner") as GameObject;
 						topLeftCorner = Instantiate(topLeftCorner) as GameObject;
 						
 						SpriteRenderer wallRenderer = topLeftCorner.GetComponent<SpriteRenderer>();
@@ -844,7 +845,7 @@ public class LevelEditor : MonoBehaviour
 					
 					if(x % 2 == 0)
 					{
-						GameObject horizontalWall = Resources.Load("Prefabs/Tiles/ExteriorWalls/200/HorizontalStraight") as GameObject;
+						GameObject horizontalWall = Resources.Load("Prefabs/LevelEditor/Tiles/Walls/HorizontalStraight") as GameObject;
 						horizontalWall = Instantiate(horizontalWall) as GameObject;
 						
 						SpriteRenderer wallRenderer = horizontalWall.GetComponent<SpriteRenderer>();

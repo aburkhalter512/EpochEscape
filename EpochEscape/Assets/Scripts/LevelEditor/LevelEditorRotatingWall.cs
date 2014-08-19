@@ -68,7 +68,7 @@ public class LevelEditorRotatingWall : LevelEditorObject
 	// Transparent Sprite
 	private Sprite m_transparentTile = null;
 
-	public const int WALL_TILE_SIZE = 200; // pixels
+	public const int WALL_TILE_SIZE = 64; // pixels
 
 	RotatingWall m_rotatingWallScript = null;
 
@@ -87,33 +87,33 @@ public class LevelEditorRotatingWall : LevelEditorObject
 	private void InitSprites()
 	{
 		// Pivot Sprites
-		m_pivotSingle = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - Single Unit");
-		m_pivotIntersection = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - Intersection");
+		m_pivotSingle = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/SingleUnit");
+		m_pivotIntersection = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/Intersection");
 
 		// Straight Sprites
-		m_horizontalStraight = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - HorizontalStraight");
-		m_verticalStraight = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - VerticalStraight");
+		m_horizontalStraight = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/HorizontalStraight");
+		m_verticalStraight = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/VerticalStraight");
 
 		// Cap Sprites
-		m_eastEndCap = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - East End Cap");
-		m_northEndCap = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - North End Cap");
-		m_westEndCap = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - West End Cap");
-		m_southEndCap = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - South End Cap");
+		m_eastEndCap = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/EastEndCap");
+		m_northEndCap = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/NorthEndCap");
+		m_westEndCap = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/WestEndCap");
+		m_southEndCap = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/SouthEndCap");
 
 		// T Sprites
-		m_eastNorthWestT = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - East North West T");
-		m_eastNorthSouthT = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - East North South T");
-		m_eastWestSouthT = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - East West South T");
-		m_northWestSouthT = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - North West South T");
+		m_eastNorthWestT = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/EastNorthWestT");
+		m_eastNorthSouthT = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/EastNorthSouthT");
+		m_eastWestSouthT = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/EastWestSouthT");
+		m_northWestSouthT = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/NorthWestSouthT");
 
 		// Corner Sprites
-		m_eastNorthCorner = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - BottomLeftCorner");
-		m_eastSouthCorner = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - TopLeftCorner");
-		m_northWestCorner = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - BottomRightCorner");
-		m_westSouthCorner = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Walls - TopRightCorner");
+		m_eastNorthCorner = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/BottomLeftCorner");
+		m_eastSouthCorner = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/TopLeftCorner");
+		m_northWestCorner = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/BottomRightCorner");
+		m_westSouthCorner = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/TopRightCorner");
 
 		// Transparent Tile
-		m_transparentTile = Resources.Load<Sprite>("Textures/Tiles/Walls/200/Wall - Transparent");
+		m_transparentTile = Resources.Load<Sprite>("Textures/LevelEditor/Tiles/RotatingWall/Transparent");
 	}
 
 	private void InitTiles()
@@ -467,7 +467,8 @@ public class LevelEditorRotatingWall : LevelEditorObject
 		}
 
 		// Transparency
-		pixelsTemp = m_transparentTile.texture.GetPixels();
+		if(m_transparentTile != null)
+			pixelsTemp = m_transparentTile.texture.GetPixels();
 
 		// West/South Transparency
 		for(int y = 0; y < m_tileCounts[(int)Axis.South]; y++)
