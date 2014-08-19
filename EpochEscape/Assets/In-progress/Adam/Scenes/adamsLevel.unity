@@ -1122,13 +1122,13 @@ Transform:
   - {fileID: 859289388}
   - {fileID: 1007232452}
   - {fileID: 816908213}
-  - {fileID: 402214730}
   - {fileID: 673138822}
+  - {fileID: 402214730}
+  - {fileID: 1759745620}
   - {fileID: 912029021}
   - {fileID: 1513062873}
   - {fileID: 1143223356}
   - {fileID: 332758875}
-  - {fileID: 1759745620}
   - {fileID: 1518609820}
   m_Father: {fileID: 0}
 --- !u!1 &221236210
@@ -4295,7 +4295,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_currentTarget: {x: 0, y: 0, z: 0}
   m_floor: {fileID: 2024816501}
-  m_displayCowbell: 0
   m_currentState: 1
 --- !u!1 &953039277
 GameObject:
