@@ -491,6 +491,7 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("isHiding", m_isHiding);
 			m_animator.SetBool("isClubBroken", m_isClubBroken); // CaveGirl
 			m_animator.SetBool("isShieldActive", m_isShieldActive); // Knight
+			m_animator.SetBool("isHoldingBox", m_isHoldingBox);
 		}
 
 		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
