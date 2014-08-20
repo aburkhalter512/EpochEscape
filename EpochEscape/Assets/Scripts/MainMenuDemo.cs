@@ -978,27 +978,19 @@ public class MainMenuDemo : MonoBehaviour
 		}
 		G.getInstance().PlayHover(1);
 		GUILayout.Space (10);
-		if (GUILayout.Button ("Main Level 3", EpochSkin.GetStyle ("Middle"))){
+		if (GUILayout.Button ("Main Level 3", EpochSkin.GetStyle("Bottom Middle"))){
 			ClickSound.Play ();
 			currentPage = Page.Character;
 			m_currentLevel = 7;
-			m_levelName = "Level100";
-		}
-		G.getInstance().PlayHover(2);
-		GUILayout.Space (10);
-		if (GUILayout.Button ("Main Level 4", EpochSkin.GetStyle("Bottom Middle"))){
-			ClickSound.Play ();
-			currentPage = Page.Character;
-			m_currentLevel = 8;
 			m_levelName = "MiniLevel2";
 		}
-		G.getInstance().PlayHover(3);
+		G.getInstance().PlayHover(2);
 		GUILayout.Space (10);
 		if (GUILayout.Button ("Back", EpochSkin.GetStyle ("Bottom"))) {
 			ClickSound.Play ();	
 			currentPage = Page.Main;
 		}
-		G.getInstance().PlayHover(4);
+		G.getInstance().PlayHover(3);
 		#endregion
 		GUILayout.EndArea ();
 		GUILayout.BeginArea (new Rect (425, 185, 550, 500));
