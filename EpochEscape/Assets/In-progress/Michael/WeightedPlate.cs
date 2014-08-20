@@ -46,7 +46,9 @@ public class WeightedPlate : MonoBehaviour
 	{
 		if (!m_isLocked) {
 			GameObject g = GameObject.Find("Crate");
-			if (g.renderer.enabled && renderer.bounds.Intersects(g.renderer.bounds)) {
+			GameObject g2 = GameObject.FindGameObjectWithTag("Player");
+			Player p = g2.GetComponent<Player>();
+			if (g.renderer.enabled && renderer.bounds.Intersects(g.renderer.bounds) && !p.m_isHoldingBox) {
 				audio.Play ();
 				
 				//Activate all of the connected actuators
