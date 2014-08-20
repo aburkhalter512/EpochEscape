@@ -61,6 +61,8 @@ public class TeleporterDoorSide : DoorSide
         player.transform.position = v;
         //mTeleportDestination.mCanTeleport = false;
 
+		// ---
+
 		CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
 
 		if(!(cameraBehavior == null && cameraBehavior.m_lerpTargets == null))
