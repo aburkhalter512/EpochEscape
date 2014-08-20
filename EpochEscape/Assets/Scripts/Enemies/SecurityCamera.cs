@@ -137,4 +137,11 @@ public class SecurityCamera : MonoBehaviour
 			transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
 		}
 	}
+
+    public void Activate()
+    {
+        m_currentState = State.IDLE;
+
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
 }

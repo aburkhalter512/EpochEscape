@@ -127,5 +127,10 @@ public class LockedDoor : NEWDoor
                 break;
         }
     }
+
+    public void Activate()
+    {
+        toggleLock();
+    }
     #endregion
 }
