@@ -126,6 +126,7 @@ public class Player : MonoBehaviour
 
 	public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
 		if (Input.GetKeyDown(KeyCode.E)) {
+			Debug.Log ("E press");
 			if (!m_isHoldingBox) {
 				collider2D.enabled = false;
 				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);

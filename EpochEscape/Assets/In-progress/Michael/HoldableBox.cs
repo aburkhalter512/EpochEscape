@@ -18,12 +18,12 @@ public class HoldableBox : InteractiveObject {
 	}
 
 	public void Update () {
-
+		transform.localScale = new Vector3(1f,1f,1f);
 	}
 
 	public override void Interact() {
 		Debug.Log ("Box Interact");
-		renderer.enabled = false;
+		//renderer.enabled = false;
 		collider2D.enabled = false;
 		m_isInUse = true;
 		p.m_isHoldingBox = true;

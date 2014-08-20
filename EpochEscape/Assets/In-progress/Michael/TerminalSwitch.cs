@@ -19,7 +19,7 @@ public class TerminalSwitch : InteractiveObject {
 		foreach (GameObject actuator in actuators)
 		{
 			Debug.Log("Action performed!");
-			actuator.SendMessage("Toggle");
+			actuator.SendMessage("Activate");
 		}
 	}
 }

@@ -136,5 +136,10 @@ public class TeleporterDoorSide : DoorSide
         if (collidee.tag == "Player" && mCanTeleport)
             teleport(collidee.GetComponent<Player>());
     }
+    
+    public void Activate() {
+    	renderer.enabled = false;
+    	collider2D.enabled = false;
+    }
 	#endregion
 }
