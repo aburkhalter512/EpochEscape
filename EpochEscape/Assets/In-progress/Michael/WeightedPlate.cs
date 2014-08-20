@@ -6,6 +6,7 @@ public class WeightedPlate : MonoBehaviour
 	#region Inspector Variables
 	public GameObject[] actuators;
 	public bool m_isLocked = false;
+	public GameObject activeBox;
 	
 	public Sprite switchOn;
 	public Sprite switchOff;
@@ -48,7 +49,7 @@ public class WeightedPlate : MonoBehaviour
 			GameObject g = GameObject.Find("Crate");
 			GameObject g2 = GameObject.FindGameObjectWithTag("Player");
 			Player p = g2.GetComponent<Player>();
-			if (g != null && g.renderer.enabled && renderer.bounds.Intersects(g.renderer.bounds) && !p.m_isHoldingBox) {
+			if (activeBox != null && activeBox.renderer.enabled && renderer.bounds.Intersects(activeBox.renderer.bounds) && !p.m_isHoldingBox) {
 				audio.Play ();
 				
 				//Activate all of the connected actuators
@@ -93,8 +94,7 @@ public class WeightedPlate : MonoBehaviour
 				}
 			}
 		} else {
-			GameObject g = GameObject.Find("Crate");
-			if (g != null && !renderer.bounds.Intersects(g.renderer.bounds)) {
+			if (activeBox != null && !renderer.bounds.Intersects(activeBox.renderer.bounds)) {
 				m_isLocked = false;
 				audio.Play ();
 				
