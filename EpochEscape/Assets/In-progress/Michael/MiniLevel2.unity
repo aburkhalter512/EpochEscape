@@ -1557,7 +1557,7 @@ MonoBehaviour:
   rotationAngles:
   - 90
   - 0
-  customRotationPoint: {x: -.400000006, y: -.400000006, z: 0}
+  customRotationPoint: {x: 0, y: -.600000024, z: 0}
 --- !u!61 &210398217
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3365,11 +3365,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: e5e14790d8f695447a26d2bd3d685b61, type: 2}
       propertyPath: customRotationPoint.y
-      value: -.200000003
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: e5e14790d8f695447a26d2bd3d685b61, type: 2}
       propertyPath: customRotationPoint.x
-      value: -.25
+      value: -.400000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e5e14790d8f695447a26d2bd3d685b61, type: 2}
@@ -3723,7 +3723,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: .583364904
+      value: .600000024
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3755,11 +3755,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: customRotationPoint.x
-      value: .25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: customRotationPoint.y
-      value: .25
+      value: .400000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
@@ -4599,8 +4599,8 @@ MonoBehaviour:
   rotationPt: 5
   rotationAngles:
   - 90
-  - 0
-  customRotationPoint: {x: -.25, y: .25, z: 0}
+  - 180
+  customRotationPoint: {x: 0, y: -.400000006, z: 0}
 --- !u!61 &732768051
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5689,7 +5689,7 @@ MonoBehaviour:
   rotationAngles:
   - 270
   - 0
-  customRotationPoint: {x: -.25, y: -.200000003, z: 0}
+  customRotationPoint: {x: -.400000006, y: -0, z: 0}
 --- !u!61 &961936468
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6337,6 +6337,8 @@ MonoBehaviour:
   firstSide: {fileID: 1362239404}
   secondSide: {fileID: 1582065203}
   entranceLocation: {fileID: 417793182}
+  firstAuxillarySide: {fileID: 0}
+  secondAuxillarySide: {fileID: 0}
 --- !u!212 &1046589399
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8626,11 +8628,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
       propertyPath: customRotationPoint.y
-      value: -.400000006
+      value: -.600000024
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
       propertyPath: customRotationPoint.x
-      value: -.400000006
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
+      propertyPath: BypassReverbZones
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
@@ -9413,6 +9419,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1684755063}
   - {fileID: 1939852432}
   - {fileID: 732768048}
   - {fileID: 210398214}
@@ -11051,7 +11058,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
       propertyPath: customRotationPoint.x
-      value: .300000012
+      value: .400000006
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
       propertyPath: rotationPt
@@ -11063,7 +11070,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
       propertyPath: customRotationPoint.y
-      value: .25
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b594f0a9ddcc5c94a809371e7a33d929, type: 2}
@@ -11201,6 +11208,32 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .800000012, y: .400000006}
   m_Center: {x: 0, y: 0}
+--- !u!1 &1684755062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1684755063}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1684755063
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1684755062}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.4000001, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1399695242}
 --- !u!1 &1711968149
 GameObject:
   m_ObjectHideFlags: 0
@@ -11340,11 +11373,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: customRotationPoint.y
-      value: .25
+      value: -.400000006
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: customRotationPoint.x
-      value: -.25
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
+      propertyPath: rotationAngles.Array.data[1]
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
@@ -12364,7 +12401,7 @@ Transform:
   m_PrefabInternal: {fileID: 583883464}
   m_GameObject: {fileID: 1939852431}
   m_LocalRotation: {x: 0, y: 0, z: .707106829, w: .707106829}
-  m_LocalPosition: {x: 4.4000001, y: .583364904, z: 0}
+  m_LocalPosition: {x: 4.4000001, y: .600000024, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1399695242}
@@ -12446,7 +12483,7 @@ MonoBehaviour:
   rotationAngles:
   - 90
   - 0
-  customRotationPoint: {x: .25, y: .25, z: 0}
+  customRotationPoint: {x: 0, y: .400000006, z: 0}
 --- !u!61 &1939852435
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13631,7 +13668,7 @@ MonoBehaviour:
   rotationAngles:
   - 0
   - 90
-  customRotationPoint: {x: .300000012, y: .25, z: 0}
+  customRotationPoint: {x: .400000006, y: 0, z: 0}
 --- !u!61 &2137851622
 BoxCollider2D:
   m_ObjectHideFlags: 0
