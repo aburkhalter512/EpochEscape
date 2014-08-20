@@ -139,7 +139,7 @@ public class TeleporterDoorSide : DoorSide
     
     public void Activate() {
     	renderer.enabled = !renderer.enabled;
-    	collider2D.enabled = !renderer.enabled;
+    	collider2D.enabled = !collider2D.enabled;
     }
 	#endregion
 }
