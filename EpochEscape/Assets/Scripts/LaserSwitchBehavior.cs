@@ -22,6 +22,6 @@ public class LaserSwitchBehavior : MonoBehaviour {
 	}
 
 	public void Activate(){
-		Debug.Log ("Activating!");
+		
 	}
 }
