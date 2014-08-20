@@ -724,7 +724,7 @@ Transform:
   m_LocalPosition: {x: 1.60000002, y: -1.89999998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1092807243}
 --- !u!1001 &231403929
 Prefab:
   m_ObjectHideFlags: 0
@@ -1495,7 +1495,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1092807243}
     m_Modifications:
     - target: {fileID: 400000, guid: 4f2fff73d925e0b48bd596ff9a034767, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1615,7 +1615,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1092807243}
     m_Modifications:
     - target: {fileID: 400000, guid: 0030b8812efe29a4aba926f17a15919a, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1807,7 +1807,7 @@ Transform:
   m_LocalPosition: {x: .200000003, y: -2.29999995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1092807243}
 --- !u!1001 &617145402
 Prefab:
   m_ObjectHideFlags: 0
@@ -3837,7 +3837,7 @@ Transform:
   m_LocalPosition: {x: 1.20000005, y: 3.0999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1092807243}
 --- !u!1 &1081734190
 GameObject:
   m_ObjectHideFlags: 0
@@ -3985,7 +3985,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1035920115}
+  - {fileID: 1073148706}
+  - {fileID: 228386783}
   - {fileID: 1596257849}
+  - {fileID: 598457513}
+  - {fileID: 1706870724}
   - {fileID: 169488128}
   - {fileID: 755018049}
   m_Father: {fileID: 0}
@@ -4194,7 +4198,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: cc8020e665c8b4d4ab314a1f219259fe, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc8020e665c8b4d4ab314a1f219259fe, type: 2}
@@ -4457,7 +4461,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: .0196078438}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -5068,7 +5072,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1092807243}
     m_Modifications:
     - target: {fileID: 400000, guid: abbdacacc5706ee48ae8089bf3d247ab, type: 2}
       propertyPath: m_LocalPosition.x
@@ -5290,6 +5294,10 @@ Prefab:
     - target: {fileID: 11400000, guid: 09716a882018f184e8b87486db594d43, type: 2}
       propertyPath: Level
       value: Level2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: 09716a882018f184e8b87486db594d43, type: 2}
+      propertyPath: m_Name
+      value: LevelManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 09716a882018f184e8b87486db594d43, type: 2}
@@ -5545,7 +5553,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1566839727
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6283,7 +6291,7 @@ Transform:
   m_LocalPosition: {x: -1.39999998, y: -2.29999995, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1092807243}
 --- !u!1 &1744579765
 GameObject:
   m_ObjectHideFlags: 0
@@ -6916,7 +6924,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1092807243}
     m_Modifications:
     - target: {fileID: 400000, guid: c7aa66c972dd5d34989aa526af779055, type: 2}
       propertyPath: m_LocalPosition.x
@@ -7113,7 +7121,7 @@ GameObject:
   - 4: {fileID: 2038160612}
   - 114: {fileID: 2038160613}
   m_Layer: 0
-  m_Name: Level1LevelManager
+  m_Name: LevelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
