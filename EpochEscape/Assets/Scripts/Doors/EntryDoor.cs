@@ -72,21 +72,24 @@ public class EntryDoor : NEWDoor
 
     protected override void close(NEWDoor.SIDE side)
     {
-        switch (side)
-        {
-            case SIDE.FIRST:
-                mFirstSide.close();
-                mFirstSide.gameObject.SetActive(false);
-                mFirstSide = mFirstAuxillarySide;
-                mFirstSide.gameObject.SetActive(true);
-                break;
-            case SIDE.SECOND:
-                mSecondSide.close();
-                mSecondSide.gameObject.SetActive(false);
-                mSecondSide = mSecondAuxillarySide;
-                mSecondSide.gameObject.SetActive(true);
-                break;
-        }
+        if (!mIsFirstOpen)
+		{
+			switch (side)
+			{
+			case SIDE.FIRST:
+					mFirstSide.close ();
+					mFirstSide.gameObject.SetActive (false);
+					mFirstSide = mFirstAuxillarySide;
+					mFirstSide.gameObject.SetActive (true);
+					break;
+			case SIDE.SECOND:
+					mSecondSide.close ();
+					mSecondSide.gameObject.SetActive (false);
+					mSecondSide = mSecondAuxillarySide;
+					mSecondSide.gameObject.SetActive (true);
+					break;
+			}
+		}
     }
     #endregion
 }

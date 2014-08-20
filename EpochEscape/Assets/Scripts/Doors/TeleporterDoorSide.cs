@@ -60,6 +60,11 @@ public class TeleporterDoorSide : DoorSide
         Vector3 v = mTeleportDestination.mTeleportSpawn.transform.position;
         player.transform.position = v;
         //mTeleportDestination.mCanTeleport = false;
+
+		CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
+
+		if(!(cameraBehavior == null && cameraBehavior.m_lerpTargets == null))
+			cameraBehavior.m_lerpTargets.Push(mTeleportDestination.mTeleportSpawn);
     }
     #endregion
 
