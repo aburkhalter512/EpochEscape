@@ -644,13 +644,6 @@
 		{
 			"name":"FloorLight",
 			"position":{
-				"x":11,
-				"y":4
-			}
-		},
-		{
-			"name":"FloorLight",
-			"position":{
 				"x":12,
 				"y":4
 			}
@@ -1610,6 +1603,13 @@
 		{
 			"name":"FloorLight",
 			"position":{
+				"x":9,
+				"y":11
+			}
+		},
+		{
+			"name":"FloorLight",
+			"position":{
 				"x":10,
 				"y":11
 			}
@@ -1772,6 +1772,13 @@
 			"name":"FloorLight",
 			"position":{
 				"x":13,
+				"y":12
+			}
+		},
+		{
+			"name":"FloorLight",
+			"position":{
+				"x":14,
 				"y":12
 			}
 		},
@@ -2129,6 +2136,13 @@
 			"name":"FloorLight",
 			"position":{
 				"x":5,
+				"y":15
+			}
+		},
+		{
+			"name":"FloorLight",
+			"position":{
+				"x":6,
 				"y":15
 			}
 		},
@@ -2514,6 +2528,13 @@
 			"name":"FloorLight",
 			"position":{
 				"x":1,
+				"y":18
+			}
+		},
+		{
+			"name":"FloorLight",
+			"position":{
+				"x":2,
 				"y":18
 			}
 		},

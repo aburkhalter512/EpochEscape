@@ -3,45 +3,29 @@
 --- !u!78 &1
 TagManager:
   tags:
-  - Item
-  - ItemThrown
+  - 
   - Guard
   - DetectionArea
-  - SecurityCamera
-  - Potion
-  - ExitDoor
-  - SpawnLocation
-  - Wall
   - FlaskThrowPosition
-  - Red Potion
-  - Map
-  - Star
-  - EmptyFlask
-  - HidingSpot
-  - WallPivot
-  - RotatingWall
-  - Door
-  - EntranceDoor
-  - Dash Potion
-  - Special Item
-  - GrateFloor
-  - SpecialItemSpawn
-  - Dummy
-  - CaveGirlSpawn
-  - CaveGirlLaserSpawn
-  - KnightSpawn
-  - KnightLaserSpawn
-  - PlayerCaught
   - Mirror
-  - Sensor
-  - Collector
-  - Collector Base
-<<<<<<< HEAD
   - Laser Switch
-  - 
-=======
+  - Collector Base
+  - Collector
+  - Sensor
   - MenuCamera
->>>>>>> e7a899da07d1eb0dd3eb84edf977f04bf89cec4d
+  - 
+  - GrateFloor
+  - CaveGirlLaserSpawn
+  - Dummy
+  - KnightLaserSpawn
+  - SecurityCamera
+  - KnightSpawn
+  - Door
+  - Map
+  - CaveGirlSpawn
+  - Wall
+  - 
+  - Collector ssBase
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -51,10 +35,10 @@ TagManager:
   Builtin Layer 5: 
   Builtin Layer 6: 
   Builtin Layer 7: 
-  User Layer 8: Main Menu
+  User Layer 8: 
   User Layer 9: 
-  User Layer 10: Background Image
-  User Layer 11: LevelEditorMenu
+  User Layer 10: 
+  User Layer 11: 
   User Layer 12: 
   User Layer 13: 
   User Layer 14: 
