@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WallSwitch : InteractiveObject {
+public class TerminalSwitch : InteractiveObject {
 	
 	public GameObject[] actuators;
 
