@@ -9436,3 +9436,29 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: .800000012, y: .200000003}
   m_Center: {x: 0, y: -.100000001}
+--- !u!1 &2143140489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100008, guid: 2bf01732fe963ba40b828156fa3ed621, type: 2}
+  m_PrefabInternal: {fileID: 1587296705}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2143140490}
+  m_Layer: 0
+  m_Name: SpawnLocation
+  m_TagString: SpawnLocation
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2143140490
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400008, guid: 2bf01732fe963ba40b828156fa3ed621, type: 2}
+  m_PrefabInternal: {fileID: 1587296705}
+  m_GameObject: {fileID: 2143140489}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.80000019, y: 3.5999999, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 2038160612}
