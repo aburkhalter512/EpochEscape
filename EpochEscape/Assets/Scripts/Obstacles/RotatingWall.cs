@@ -38,7 +38,7 @@ public class RotatingWall : DynamicWall
 	{
 		base.Start();
 		
-        //Finds the rotation point
+		//Finds the rotation point
 		switch (rotationPt)
 		{
 		case ROTATION_POINTS.CENTER:
@@ -77,9 +77,6 @@ public class RotatingWall : DynamicWall
 	protected new void Update()
 	{
 		base.Update();
-
-		// Needed to ensure that the real rotation point is updated if the object is moved within the editor.
-		realRotationPt = transform.position + customRotationPoint;
 	}
 	
 	#region Update Methods
@@ -90,9 +87,6 @@ public class RotatingWall : DynamicWall
 	
 	protected override void toChange()
 	{
-		if(rotationAngles.Length == 0)
-			return;
-
 		audio.Play ();
 		currentIndex = (currentIndex + 1) % rotationAngles.Length;
 		
@@ -126,8 +120,8 @@ public class RotatingWall : DynamicWall
 			// ---
 			// This block was originally inside the stationary() method, but for some reason it wouldn't work.
 			CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-
-			if(cameraBehavior != null && cameraBehavior.m_currentState == CameraBehavior.State.LERP_REST)
+			
+			if(cameraBehavior.m_currentState == CameraBehavior.State.LERP_REST)
 				cameraBehavior.m_currentState = CameraBehavior.State.LERP_TO_TARGET;
 			// --- //*/
 			
@@ -136,18 +130,15 @@ public class RotatingWall : DynamicWall
 				if(transform.GetChild(i).tag == "SecurityCamera")
 				{
 					SecurityCamera cam = transform.GetChild(i).GetComponent<SecurityCamera>();
-
-					if(cam != null)
-					{
-						float sn = Mathf.Sin(destinationAngle * Mathf.Deg2Rad);
-						float cs = Mathf.Cos(destinationAngle * Mathf.Deg2Rad);
-
-						float px = cam.m_resetDirection.x * cs - cam.m_resetDirection.y * sn;
-						float py = cam.m_resetDirection.x * sn + cam.m_resetDirection.y * cs;
-						
-						cam.m_resetDirection = new Vector3(px, py, cam.m_resetDirection.z);
-						cam.m_resetAngle += destinationAngle;
-					}
+					
+					float sn = Mathf.Sin(destinationAngle * Mathf.Deg2Rad);
+					float cs = Mathf.Cos(destinationAngle * Mathf.Deg2Rad);
+					
+					float px = cam.m_resetDirection.x * cs - cam.m_resetDirection.y * sn;
+					float py = cam.m_resetDirection.x * sn + cam.m_resetDirection.y * cs;
+					
+					cam.m_resetDirection = new Vector3(px, py, cam.m_resetDirection.z);
+					cam.m_resetAngle += destinationAngle;
 				}
 			}
 			
