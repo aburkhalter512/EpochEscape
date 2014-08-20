@@ -973,8 +973,8 @@ public class MainMenuDemo : MonoBehaviour
 		if (GUILayout.Button ("Main Level 2", EpochSkin.GetStyle ("Top Middle"))) {
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 1;
-			m_levelName = "Level1";
+			m_currentLevel = 5;
+			m_levelName = "TerrysLevel";
 		}
 		G.getInstance().PlayHover(1);
 		GUILayout.Space (10);
