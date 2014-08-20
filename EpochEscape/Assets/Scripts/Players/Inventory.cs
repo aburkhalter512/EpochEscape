@@ -123,7 +123,10 @@ public class Inventory{
 	}
 
 	public void clear(){
-		for (int i = 0; i < inventory.Length; i++)
-			inventory [i] = null;
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            inventory[i] = null;
+            inventoryCount[i] = 0;
+        }
 	}
 }

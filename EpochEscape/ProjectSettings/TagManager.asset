@@ -18,6 +18,7 @@ TagManager:
   - CaveGirlLaserSpawn
   - Dummy
   - KnightLaserSpawn
+<<<<<<< HEAD
   - SecurityCamera
   - KnightSpawn
   - Door
@@ -26,6 +27,16 @@ TagManager:
   - Wall
   - 
   - Collector ssBase
+=======
+  - PlayerCaught
+  - Mirror
+  - Sensor
+  - Collector
+  - Collector Base
+  - Laser Switch
+  - MenuCamera
+  - OrganicCurtain
+>>>>>>> 218e860c369bddf0a79cbc035b0ea08def4e62d7
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

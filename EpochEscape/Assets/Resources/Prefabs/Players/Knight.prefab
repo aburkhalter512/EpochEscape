@@ -61,8 +61,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
-  m_LocalPosition: {x: 7.80000019, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 2.20000005, y: -4.5, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 0}
   m_Children:
   - {fileID: 400002}
   - {fileID: 400004}
@@ -212,10 +212,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f61c720f066d45c4597bfc4385db725f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_interactionDistance: .200000003
   mForce: 4000
   mDynamicFriction: 1
   mAirResistance: .5
   m_isMoving: 0
+  m_isMovingForward: 0
+  m_isMovingDown: 0
+  m_isMovingLeft: 0
+  m_isMovingRight: 0
   m_isAttacking: 0
   m_hasSpecialItem: 0
   grateFoot:
@@ -245,13 +250,15 @@ MonoBehaviour:
   Boost: 1
   BoostTime: 0
   m_currentState: 0
-  m_spawnLocation: {x: 7.80000019, y: 2, z: 0}
+  m_spawnLocation: {x: 2.20000005, y: -4.5, z: 0}
   m_selectedSlot: 0
   m_specItems: 0
   MAX_CORES: 3
   m_playSpecialItemAnim: 0
   m_specialItemAnimDuration: .5
   m_specialItemCollectTime: 0
+  m_isHoldingBox: 0
+  k_boxPrefab: {fileID: 0}
   currentCores: 0
   m_isShieldActive: 0
   m_shieldDuration: 1.5

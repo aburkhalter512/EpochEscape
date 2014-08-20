@@ -9,7 +9,7 @@ public class Placeable : MonoBehaviour
 
 	public void Start()
 	{
-		TempLevelEditor.SetSelectedObject(gameObject);
+		LevelEditor.SetSelectedObject(gameObject);
 	}
 
 	public void Update()
@@ -22,6 +22,7 @@ public class Placeable : MonoBehaviour
 		if(!m_isPlacing)
 			return;
 
+		/*
 		m_mousePosition.x = Input.mousePosition.x;
 		m_mousePosition.y = Input.mousePosition.y;
 		m_mousePosition.z = -Camera.main.transform.position.z;
@@ -32,6 +33,9 @@ public class Placeable : MonoBehaviour
 		m_position.y = m_mousePosition.y;
 
 		transform.position = m_position;
+		*/
+
+		LevelEditor.SnapToGrid(gameObject);
 	}
 
 	public void OnMouseDrag()
@@ -46,6 +50,6 @@ public class Placeable : MonoBehaviour
 
 	public void OnMouseDown()
 	{
-		TempLevelEditor.SetSelectedObject(gameObject);
+		LevelEditor.SetSelectedObject(gameObject);
 	}
 }

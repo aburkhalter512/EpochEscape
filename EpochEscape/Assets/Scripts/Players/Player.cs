@@ -11,10 +11,10 @@ public class Player : MonoBehaviour
 	public float mAirResistance = AIR_RESTIANCE_MODIFIER;
 
 	public bool m_isMoving;
-	private bool m_isMovingForward;
-	private bool m_isMovingDown;
-	private bool m_isMovingLeft;
-	private bool m_isMovingRight;
+	public bool m_isMovingForward;
+	public bool m_isMovingDown;
+	public bool m_isMovingLeft;
+	public bool m_isMovingRight;
 	private bool m_isThrowing;
 	public bool m_isAttacking;
 	public bool m_hasSpecialItem;
@@ -55,7 +55,8 @@ public class Player : MonoBehaviour
 	public float m_specialItemAnimDuration; // seconds
 	public float m_specialItemCollectTime = 0f;
 	#endregion
-
+	public bool m_isHoldingBox = false;
+	public GameObject k_boxPrefab;
 	#region Instance Variables
 	private Animator m_animator;
 
@@ -125,16 +126,30 @@ public class Player : MonoBehaviour
 
 	public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
 		if (Input.GetKeyDown(KeyCode.E)) {
-			collider2D.enabled = false;
-			RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
-			collider2D.enabled = true;
-			if (hit.collider != null) {
-				Debug.Log (hit.collider.gameObject.name);
-				if (hit.collider.gameObject.tag == "InteractiveObject") {
-					hit.collider.gameObject.SendMessage("Interact");
+			if (!m_isHoldingBox) {
+				collider2D.enabled = false;
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
+				collider2D.enabled = true;
+				if (hit.collider != null) {
+					Debug.Log (hit.collider.gameObject.name);
+					if (hit.collider.gameObject.tag == "InteractiveObject") {
+						hit.collider.gameObject.SendMessage("Interact");
+					}
+				} else {
+					Debug.Log ("nothing hit");
 				}
 			} else {
-				Debug.Log ("nothing hit");
+				collider2D.enabled = false;
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
+				collider2D.enabled = true;
+				if (hit.collider != null) {
+					if (hit.collider.gameObject.GetComponent<PitFloor>() != null) {
+						hit.collider.gameObject.SendMessage("Interact");
+					}
+				} else {
+					HoldableBox box = GetComponentInChildren<HoldableBox>();
+					box.Place();
+				}
 			}
 		}
 	}
@@ -476,6 +491,7 @@ public class Player : MonoBehaviour
 			m_animator.SetBool("isHiding", m_isHiding);
 			m_animator.SetBool("isClubBroken", m_isClubBroken); // CaveGirl
 			m_animator.SetBool("isShieldActive", m_isShieldActive); // Knight
+			m_animator.SetBool("isHoldingBox", m_isHoldingBox);
 		}
 
 		SpriteRenderer renderer = GetComponent<SpriteRenderer>();

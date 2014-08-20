@@ -13,6 +13,13 @@ public class Utilities
 	#region Static Methods
     public static Vector3 toVector3(Vector2 v) { return new Vector3(v.x, v.y, 0.0f); }
     public static Vector3 toVector3(Vector2 v, float z) { return new Vector3(v.x, v.y, z); }
+    public static Vector3 rotate(Vector3 v, float degrees)
+    {
+        return new Vector3(
+            v.x * Mathf.Cos(degrees) - v.y * Mathf.Sin(degrees),
+            v.x * Mathf.Sin(degrees) + v.y * Mathf.Cos(degrees),
+            v.z);
+    }
     public static Vector3 negate(Vector3 v) { return v * -1; }
     public static Vector3 copy(Vector3 v) { return new Vector3(v.x, v.y, v.z); }
     public static Vector2 copy(Vector2 v) { return new Vector2(v.x, v.y); }

@@ -34,6 +34,10 @@ public class Mouse : UnitySingleton<Mouse>
 	protected void Start()
 	{
         UpdatePosition();
+
+        mLeft = new Button(BUTTONS.LEFT);
+        mRight = new Button(BUTTONS.RIGHT);
+        mMiddle = new Button(BUTTONS.MIDDLE);
 	}
 
 	//Put all update code here
@@ -41,10 +45,6 @@ public class Mouse : UnitySingleton<Mouse>
 	protected void Update()
 	{
         UpdatePosition();
-
-        mLeft = new Button(BUTTONS.LEFT);
-        mRight = new Button(BUTTONS.RIGHT);
-        mMiddle = new Button(BUTTONS.MIDDLE);
 	}
 
 	#region Update Methods
@@ -97,6 +97,9 @@ public class Mouse : UnitySingleton<Mouse>
     {
         Button retVal = null;
 
+        if (mLeft == null)
+            Start();
+
         switch (mouseButton)
         {
             case BUTTONS.LEFT:
@@ -111,6 +114,9 @@ public class Mouse : UnitySingleton<Mouse>
             default:
                 return null;
         }
+
+        if (retVal == null)
+            return null;
 
         return retVal.clone();
     }

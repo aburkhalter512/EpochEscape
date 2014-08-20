@@ -124,7 +124,8 @@ public class EmptyFlask : Item
 			}
         }
 
-		if(other.gameObject.tag == "Wall" && gameObject.tag == "ItemThrown")
+		if((other.gameObject.tag == "Wall" || other.gameObject.tag == "OrganicCurtain")
+            && gameObject.tag == "ItemThrown")
 		{
 			if(!m_isBroken)
 				PlaySmashSound();

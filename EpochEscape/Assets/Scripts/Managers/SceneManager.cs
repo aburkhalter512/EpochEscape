@@ -3,21 +3,6 @@ using System.Collections;
 
 public class SceneManager : UnitySingleton<SceneManager>
 {
-	#region Inspector Variables
-	#endregion
-
-	#region Instance Variables
-	//bool isLoadingLevel = false;
-
-	LevelManager currentLevel = null;
-	LevelManager nextLevel = null;
-	#endregion
-
-	#region Class Constants
-	public const int DEFAULT_LEVEL_WIDTH = 100;
-	public const int DEFAULT_LEVEL_HEIGHT = 100;
-	#endregion
-
 	//Put all initialization code here
 	//Remember to comment!
 	protected void Start()
@@ -70,13 +55,4 @@ public class SceneManager : UnitySingleton<SceneManager>
         FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { Application.LoadLevel(name); });
         Destroy(this.gameObject);
     }
-
-	#region Update Methods
-	#endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
-	#endregion
 }

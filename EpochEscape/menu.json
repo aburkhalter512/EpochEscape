@@ -38,34 +38,28 @@
 			]
 		},
 		{
-			"title": "Tiles",
-			"name": "TilesSubMenu",
-			"hasSubMenu": true,
-			"menuItems": [
-				{
-					"title": "Dark Tile",
-					"name": "DarkTileMenuItem",
-					"hasSubMenu": false,
-					"prefabPath": "Prefabs/Tiles/Floor/FloorDark"
-				},
-				{
-					"title": "Light Tile",
-					"name": "LightTileMenuItem",
-					"hasSubMenu": false,
-					"prefabPath": "Prefabs/Tiles/Floor/FloorLight"
-				}
-			]
-		},
-		{
 			"title": "Enemies",
 			"name": "EnemiesSubMenu",
 			"hasSubMenu": true,
 			"menuItems": [
 				{
-					"title": "StationaryGuard",
+					"title": "Stationary Guard",
 					"name": "StationaryGuardMenuItem",
 					"hasSubMenu": false,
 					"prefabPath": "Prefabs/Enemies/StationaryGuard"
+				}
+			]
+		},
+		{
+			"title": "Walls",
+			"name": "WallsSubMenu",
+			"hasSubMenu": true,
+			"menuItems": [
+				{
+					"title": "Rotating Wall",
+					"name": "RotatingWallMenuItem",
+					"hasSubMenu": false,
+					"prefabPath": "Prefabs/LevelEditor/Mechanics/RotatingWallPivot"
 				}
 			]
 		}
