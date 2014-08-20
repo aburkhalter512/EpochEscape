@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
 
 	public int MAX_CORES = 3;
 
-	private Vector3 m_previousMouseScreenPos;
+	//private Vector3 m_previousMouseScreenPos;
 
 	Transform m_collectAnimation = null;
 	public bool m_playSpecialItemAnim = false;
@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
 		m_selectedSlot = 0;
 		transform.position = m_spawnLocation;
 
-		m_previousMouseScreenPos = Vector3.zero;
+		//m_previousMouseScreenPos = Vector3.zero;
 
 		m_collectAnimation = transform.FindChild("CollectAnimation");
 	}
@@ -126,6 +126,7 @@ public class Player : MonoBehaviour
 
 	public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
 		if (Input.GetKeyDown(KeyCode.E)) {
+			Debug.Log ("E press");
 			if (!m_isHoldingBox) {
 				collider2D.enabled = false;
 				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
@@ -243,7 +244,7 @@ public class Player : MonoBehaviour
 			Vector3 toMousePosition = mouseWorldPosition - transform.renderer.bounds.center;
 			toMousePosition.z = 0f;
 
-			m_previousMouseScreenPos = mouseScreenPosition;
+			//m_previousMouseScreenPos = mouseScreenPosition;
 
 			CircleCollider2D playerCollider = GetComponent<CircleCollider2D>();
 

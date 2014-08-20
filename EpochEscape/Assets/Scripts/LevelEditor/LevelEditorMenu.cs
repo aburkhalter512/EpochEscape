@@ -35,8 +35,8 @@ public class LevelEditorMenu : MonoBehaviour
 
 	public void Init()
 	{
-		m_menuItemSprite = Resources.Load<Sprite>("Textures/LevelEditor/MenuItem");
-		m_menuItemHoverSprite = Resources.Load<Sprite>("Textures/LevelEditor/MenuItemHover");
+		m_menuItemSprite = Resources.Load<Sprite>("Textures/LevelEditor/Menu/MenuItem");
+		m_menuItemHoverSprite = Resources.Load<Sprite>("Textures/LevelEditor/Menu/MenuItemHover");
 
 		m_menuTextGameObject = GameObject.Find("MenuText");
 
@@ -95,7 +95,7 @@ public class LevelEditorMenu : MonoBehaviour
 				name = menuDict["name"] as string;
 				hasSubMenu = (bool)menuDict["hasSubMenu"];
 
-				tempMenuItem = Resources.Load("Prefabs/LevelEditor/MenuItem") as GameObject;
+				tempMenuItem = Resources.Load("Prefabs/LevelEditor/Menu/MenuItem") as GameObject;
 
 				if(tempMenuItem != null)
 				{

@@ -143,5 +143,9 @@ public class TimerDoor : NEWDoor
 
         forceUpdate();
     }
+    
+    public void Activate() {
+    	beginTimer();
+    }
     #endregion
 }

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class CaveGirlClub : MonoBehaviour
 {
-	private Player m_player;
-	private AudioClip m_hitSound;
+	private Player m_player = null;
+	private AudioClip m_hitSound = null;
 
 	public void Start()
 	{

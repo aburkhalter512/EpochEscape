@@ -11,9 +11,6 @@ public class LevelManager : MonoBehaviour
 		KNIGHT
 	}
 
-    public string levelName = null;
-    public int levelWidth = SceneManager.DEFAULT_LEVEL_WIDTH;
-    public int levelHeight = SceneManager.DEFAULT_LEVEL_HEIGHT;
 	public int coresToFind = 3;
 	public int coresFound;
 
@@ -210,20 +207,6 @@ public class LevelManager : MonoBehaviour
 
     #region Initialization Methods
     #endregion
-
-    //Put all update code here
-    //Remember to comment!
-    protected void Update()
-	{
-	}
-
-	#region Update Methods
-    public void loadLevel()
-    {
-        if (levelName != null)
-            Application.LoadLevel(levelName);
-    }
-	#endregion
 
 	#region Static Methods
 	#endregion

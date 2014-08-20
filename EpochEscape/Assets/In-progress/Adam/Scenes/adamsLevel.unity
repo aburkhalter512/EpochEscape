@@ -18215,10 +18215,71 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
+<<<<<<< HEAD
   m_Size: {x: .0599999987, y: .400000006}
   m_Center: {x: -.370000005, y: 0}
 --- !u!61 &1435141686
 BoxCollider2D:
+=======
+  m_Size: {x: 1, y: 1}
+  m_Center: {x: 0, y: 0}
+--- !u!1 &212600616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 212600617}
+  m_Layer: 0
+  m_Name: Doors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &212600617
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 212600616}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 88629834}
+  - {fileID: 859289388}
+  - {fileID: 1007232452}
+  - {fileID: 816908213}
+  - {fileID: 673138822}
+  - {fileID: 402214730}
+  - {fileID: 1759745620}
+  - {fileID: 912029021}
+  - {fileID: 1513062873}
+  - {fileID: 1143223356}
+  - {fileID: 332758875}
+  - {fileID: 1518609820}
+  m_Father: {fileID: 0}
+--- !u!1 &221236210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 999d090ccfa9e194a8190e64d3932426, type: 2}
+  m_PrefabInternal: {fileID: 590221733}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 221236211}
+  - 114: {fileID: 221236212}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &221236211
+Transform:
+>>>>>>> 77da0c734f07b4328c28ef95abca1965c13245f5
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 6100012, guid: c6faeea91fb3e254c8ba466ae268fca1,
     type: 2}
@@ -21814,6 +21875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b02eece83c2acf4d8e4e2b024cc74ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   detectedPlayer: {fileID: 0}
   audioIsPlaying: 0
 --- !u!212 &1721908973
@@ -21841,6 +21903,12 @@ SpriteRenderer:
   m_Sprite: {fileID: 21300000, guid: 1dd3c2e8488724a48a265b86aa92d0e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1726217035
+=======
+  m_currentTarget: {x: 0, y: 0, z: 0}
+  m_floor: {fileID: 2024816501}
+  m_currentState: 1
+--- !u!1 &953039277
+>>>>>>> 77da0c734f07b4328c28ef95abca1965c13245f5
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100010, guid: be971ba5755655940b955ef93adf8712, type: 2}
