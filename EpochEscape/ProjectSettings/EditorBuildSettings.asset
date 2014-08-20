@@ -12,7 +12,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Loading.unity
   - enabled: 1
-    path: Assets/Scenes/Level1.unity
+    path: Assets/Scenes/Level102.unity
   - enabled: 1
     path: Assets/Scenes/Level2.unity
   - enabled: 1
@@ -27,3 +27,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Winning.unity
   - enabled: 0
     path: Assets/In-progress/Terry/LevelEditor.unity
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity

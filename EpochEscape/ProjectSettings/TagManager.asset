@@ -4,39 +4,27 @@
 TagManager:
   tags:
   - 
-  - Guard
   - DetectionArea
-  - FlaskThrowPosition
-  - Mirror
-  - Laser Switch
-  - Collector Base
-  - Collector
-  - Sensor
-  - MenuCamera
-  - 
-  - GrateFloor
+  - Guard
   - CaveGirlLaserSpawn
-  - Dummy
   - KnightLaserSpawn
-<<<<<<< HEAD
-  - SecurityCamera
-  - KnightSpawn
-  - Door
-  - Map
   - CaveGirlSpawn
+  - KnightSpawn
+  - SecurityCamera
+  - FlaskThrowPosition
+  - Special Item
+  - SpecialItemSpawn
+  - SpawnLocation
+  - HidingSpot
+  - Star
+  - Door
   - Wall
-  - 
-  - Collector ssBase
-=======
-  - PlayerCaught
-  - Mirror
-  - Sensor
-  - Collector
-  - Collector Base
-  - Laser Switch
-  - MenuCamera
   - OrganicCurtain
->>>>>>> 218e860c369bddf0a79cbc035b0ea08def4e62d7
+  - PlayerCaught
+  - EntranceDoor
+  - GrateFloor
+  - ExitDoor
+  - Red Potion
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
