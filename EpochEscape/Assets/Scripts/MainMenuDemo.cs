@@ -925,7 +925,7 @@ public class MainMenuDemo : MonoBehaviour
 		if (GUILayout.Button ("Tutorial Level 1", EpochSkin.GetStyle ("Top Button"))){
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 1;
+			m_currentLevel = 2;
 			m_levelName = "Level1";
 		}
 		G.getInstance().PlayHover(0);
@@ -933,7 +933,7 @@ public class MainMenuDemo : MonoBehaviour
 		if (GUILayout.Button ("Tutorial Level 2", EpochSkin.GetStyle ("Top Middle"))) {
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 2;
+			m_currentLevel = 3;
 			m_levelName = "Level2";
 		}
 		G.getInstance().PlayHover(1);
@@ -941,7 +941,7 @@ public class MainMenuDemo : MonoBehaviour
 		if (GUILayout.Button ("Tutorial Level 3", EpochSkin.GetStyle ("Middle"))){
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 3;
+			m_currentLevel = 4;
 			m_levelName = "Level3";
 		}
 		G.getInstance().PlayHover(2);
@@ -965,15 +965,15 @@ public class MainMenuDemo : MonoBehaviour
 		if (GUILayout.Button ("Main Level 1", EpochSkin.GetStyle ("Top Button"))){
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 1;
-			m_levelName = "Level1";
+			m_currentLevel = 5;
+			m_levelName = "adamsLevel";
 		}
 		G.getInstance().PlayHover(0);
 		GUILayout.Space (10);
 		if (GUILayout.Button ("Main Level 2", EpochSkin.GetStyle ("Top Middle"))) {
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 5;
+			m_currentLevel = 6;
 			m_levelName = "TerrysLevel";
 		}
 		G.getInstance().PlayHover(1);
@@ -981,7 +981,7 @@ public class MainMenuDemo : MonoBehaviour
 		if (GUILayout.Button ("Main Level 3", EpochSkin.GetStyle ("Middle"))){
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 6;
+			m_currentLevel = 7;
 			m_levelName = "Level100";
 		}
 		G.getInstance().PlayHover(2);
@@ -989,8 +989,8 @@ public class MainMenuDemo : MonoBehaviour
 		if (GUILayout.Button ("Main Level 4", EpochSkin.GetStyle("Bottom Middle"))){
 			ClickSound.Play ();
 			currentPage = Page.Character;
-			m_currentLevel = 1;
-			m_levelName = "Level1";
+			m_currentLevel = 8;
+			m_levelName = "MiniLevel2";
 		}
 		G.getInstance().PlayHover(3);
 		GUILayout.Space (10);
