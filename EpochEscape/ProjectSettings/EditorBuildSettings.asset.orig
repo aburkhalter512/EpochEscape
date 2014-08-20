@@ -28,4 +28,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/In-progress/Terry/LevelEditor.unity
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/In-progress/Terry/TerrysLevel.unity
+=======
+    path: Assets/Scenes/Level1.unity
+>>>>>>> 23a9b815938963cc99d23a1eaf997f6b7f53d400
