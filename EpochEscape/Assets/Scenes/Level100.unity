@@ -2389,6 +2389,7 @@ GameObject:
   - 92: {fileID: 765581428}
   - 124: {fileID: 765581427}
   - 81: {fileID: 765581426}
+  - 114: {fileID: 765581431}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2426,7 +2427,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -2437,7 +2438,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2457,6 +2458,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &765581431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 765581425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b2c05c35d366344b7606cd582a97d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_currentTarget: {x: 0, y: 0, z: 0}
+  m_floor: {fileID: 1018381677}
+  m_currentState: 1
 --- !u!1 &801583782
 GameObject:
   m_ObjectHideFlags: 0
