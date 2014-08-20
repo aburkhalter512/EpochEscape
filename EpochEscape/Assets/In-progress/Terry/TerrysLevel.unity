@@ -4413,6 +4413,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
+      propertyPath: rotationAngles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: m_LocalPosition.x
       value: -4.80000019
@@ -4440,6 +4444,18 @@ Prefab:
     - target: {fileID: 400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
+      propertyPath: customRotationPoint.x
+      value: .400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
+      propertyPath: customRotationPoint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
+      propertyPath: rotationAngles.Array.data[1]
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f02328314ddef94bb6608a25d85fb6d, type: 2}
@@ -4578,8 +4594,10 @@ MonoBehaviour:
   currentIndex: 0
   currentState: 0
   rotationPt: 5
-  rotationAngles: []
-  customRotationPoint: {x: 0, y: -.400000006, z: 0}
+  rotationAngles:
+  - 0
+  - 90
+  customRotationPoint: {x: .400000006, y: 0, z: 0}
 --- !u!61 &2013396825
 BoxCollider2D:
   m_ObjectHideFlags: 0
