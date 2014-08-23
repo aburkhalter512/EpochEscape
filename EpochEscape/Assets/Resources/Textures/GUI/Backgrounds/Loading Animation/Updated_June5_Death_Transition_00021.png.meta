@@ -1,6 +1,8 @@
 fileFormatVersion: 2
 guid: 6ef5f6f5c283c5f4aa996a93f9a83761
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: Updated_June5_Death_Transition_00021
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -35,6 +37,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 279
   alphaIsTransparency: 1
   textureType: 8
