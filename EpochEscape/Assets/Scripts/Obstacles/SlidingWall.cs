@@ -53,24 +53,8 @@ public class SlidingWall : DynamicWall
         {
             currentState = STATES.STATIONARY;
 
-			// ---
-			// This block was originally inside the stationary() method, but for some reason it wouldn't work.
-			CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-			
-			if(cameraBehavior.m_currentState == CameraBehavior.State.LERP_REST)
-				cameraBehavior.m_currentState = CameraBehavior.State.LERP_TO_TARGET;
-			// --- //*/
-
             return;
         }
-
-		// ---
-		// Cheap fix. Should be a state from within CameraBehavior.cs.
-		Transform parent = transform.parent;
-		
-		if(parent != null && parent.tag != "WallPivot")
-			Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
-		// --- //*/
 
         if (Utilities.isBounded(0.0f, positionDelta.sqrMagnitude * Time.smoothDeltaTime * Time.smoothDeltaTime,
                       (transform.position - (positionPts[currentIndex] + basePosition)).sqrMagnitude))
