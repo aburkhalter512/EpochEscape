@@ -31,7 +31,7 @@ public class WallSwitchNEW : InteractiveObject
 
             #region Retrieving Locked Door Actuators
             script = actuator.GetComponent<LockedDoorFrame>();
-
+			/*
             if (script != null)
                 doorActuators.Add(script as LockedDoorFrame);
             #endregion
@@ -49,7 +49,7 @@ public class WallSwitchNEW : InteractiveObject
             actuator.currentState = DynamicWall.STATES.CHANGE;
 
         foreach (LockedDoorFrame actuator in doorActuators)
-            actuator.toggleLock();
+            actuator.toggleLock();*/
 
 		foreach (GameObject actuator in actuators)
 		{

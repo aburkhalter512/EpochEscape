@@ -5,7 +5,7 @@ using System.Collections;
  * This script represents a changing wall, and is thus abstract. This class
  * allows for more different type of changing walls to be added easily.
  */
-public abstract class DynamicWall : Wall
+public abstract class DynamicWall : Wall, ITransitional
 {
     #region Inspector Variables
     public float changeTime = 1.0f;
@@ -77,4 +77,15 @@ public abstract class DynamicWall : Wall
     protected abstract void toChange();
     protected abstract void change();
 	#endregion
+
+	public IEnumerator OnFinishTransition()
+	{
+		// Instructs the wall to begin rotating.
+		currentState = DynamicWall.STATES.TO_CHANGE;
+
+		// Instructs the camera to wait until the wall has finished rotating.
+		yield return new WaitForSeconds(changeTime);
+
+		Debug.Log("Wall has finished rotating.");
+	}
 }

@@ -89,25 +89,13 @@ public class PressurePlate : MonoBehaviour
             //Activate all of the connected actuators
             foreach (GameObject actuator in actuators)
             {
-                Debug.Log("Triggered");
+                //Debug.Log("Triggered");
 
                 if (actuator != null)
-				{
-					CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-
-					Transform parent = actuator.transform.parent;
-
-                    //Add the actuators camera movement stack. They will be activated in order
-                    //when the previous has finished changing.
-					if(parent != null && parent.tag == "WallPivot")
-                    {
-						if(cameraBehavior.m_lerpTargets.Count == 0 || cameraBehavior.m_lerpTargets.Peek() != parent.gameObject)
-							cameraBehavior.m_lerpTargets.Push(parent.gameObject);
-                    }
-					else
-						cameraBehavior.m_lerpTargets.Push(actuator);
-				}
+					CameraManager.AddTransition(actuator);
             }
+
+			CameraManager.PlayTransitions();
 
             currentState = STATE.OFF;
         }

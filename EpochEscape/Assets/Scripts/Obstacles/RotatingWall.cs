@@ -117,14 +117,6 @@ public class RotatingWall : DynamicWall
 		{
 			currentState = STATES.STATIONARY;
 			
-			// ---
-			// This block was originally inside the stationary() method, but for some reason it wouldn't work.
-			CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-			
-			if(cameraBehavior.m_currentState == CameraBehavior.State.LERP_REST)
-				cameraBehavior.m_currentState = CameraBehavior.State.LERP_TO_TARGET;
-			// --- //*/
-			
 			for(int i = 0; i < transform.childCount; i++)
 			{
 				if(transform.GetChild(i).tag == "SecurityCamera")
@@ -144,14 +136,6 @@ public class RotatingWall : DynamicWall
 			
 			return;
 		}
-		
-		// ---
-		// Cheap fix. Should be a state from within CameraBehavior.cs.
-		Transform parent = transform.parent;
-		
-		if(parent != null && parent.tag != "WallPivot")
-			Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, Camera.main.transform.position.z);
-		// --- //*/
 		
 		float realRotationChanged = currentRotationChange * Time.smoothDeltaTime;
 		
