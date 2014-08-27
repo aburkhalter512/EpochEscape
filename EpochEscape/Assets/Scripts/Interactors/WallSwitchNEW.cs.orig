@@ -9,7 +9,11 @@ public class WallSwitchNEW : InteractiveObject
 
     #region InstanceVariables
     List<DynamicWall> wallActuators;
+<<<<<<< HEAD
     List<LockedDoorFrame> doorActuators;
+=======
+    //List<LockedDoor> doorActuators;
+>>>>>>> 03aef325a3045d571e101d5230d7f01808319359
     #endregion
 
     // Use this for initialization
@@ -18,7 +22,11 @@ public class WallSwitchNEW : InteractiveObject
         MonoBehaviour script = null;
 
         wallActuators = new List<DynamicWall>();
+<<<<<<< HEAD
         doorActuators = new List<LockedDoorFrame>();
+=======
+        //doorActuators = new List<LockedDoor>();
+>>>>>>> 03aef325a3045d571e101d5230d7f01808319359
 
         foreach (GameObject actuator in actuators)
         {
@@ -30,9 +38,17 @@ public class WallSwitchNEW : InteractiveObject
             #endregion
 
             #region Retrieving Locked Door Actuators
+<<<<<<< HEAD
             script = actuator.GetComponent<LockedDoorFrame>();
+
             if (script != null)
                 doorActuators.Add(script as LockedDoorFrame);
+=======
+            //script = actuator.GetComponent<LockedDoor>();
+			/*
+            if (script != null)
+                doorActuators.Add(script as LockedDoor);*/
+>>>>>>> 03aef325a3045d571e101d5230d7f01808319359
             #endregion
         }
 	}
@@ -47,8 +63,14 @@ public class WallSwitchNEW : InteractiveObject
         foreach (DynamicWall actuator in wallActuators)
             actuator.currentState = DynamicWall.STATES.CHANGE;
 
+<<<<<<< HEAD
         foreach (LockedDoorFrame actuator in doorActuators)
             actuator.toggleLock();
+=======
+		/*
+        foreach (LockedDoor actuator in doorActuators)
+            actuator.toggleLock();*/
+>>>>>>> 03aef325a3045d571e101d5230d7f01808319359
 
 		foreach (GameObject actuator in actuators)
 		{
