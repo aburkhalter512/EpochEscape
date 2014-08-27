@@ -9,7 +9,7 @@ public class WallSwitchNEW : InteractiveObject
 
     #region InstanceVariables
     List<DynamicWall> wallActuators;
-    List<LockedDoor> doorActuators;
+    List<LockedDoorFrame> doorActuators;
     #endregion
 
     // Use this for initialization
@@ -18,7 +18,7 @@ public class WallSwitchNEW : InteractiveObject
         MonoBehaviour script = null;
 
         wallActuators = new List<DynamicWall>();
-        doorActuators = new List<LockedDoor>();
+        doorActuators = new List<LockedDoorFrame>();
 
         foreach (GameObject actuator in actuators)
         {
@@ -30,10 +30,10 @@ public class WallSwitchNEW : InteractiveObject
             #endregion
 
             #region Retrieving Locked Door Actuators
-            script = actuator.GetComponent<LockedDoor>();
+            script = actuator.GetComponent<LockedDoorFrame>();
 
             if (script != null)
-                doorActuators.Add(script as LockedDoor);
+                doorActuators.Add(script as LockedDoorFrame);
             #endregion
         }
 	}
@@ -48,7 +48,7 @@ public class WallSwitchNEW : InteractiveObject
         foreach (DynamicWall actuator in wallActuators)
             actuator.currentState = DynamicWall.STATES.CHANGE;
 
-        foreach (LockedDoor actuator in doorActuators)
+        foreach (LockedDoorFrame actuator in doorActuators)
             actuator.toggleLock();
 
 		foreach (GameObject actuator in actuators)

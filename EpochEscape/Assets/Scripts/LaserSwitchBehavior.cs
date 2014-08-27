@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class LaserSwitchBehavior : MonoBehaviour {
-	public StandardDoor door;
+	public LockedDoorFrame door;
 	public List<Color> colors;
 	public Color colorMatch;
 	// Use this for initialization
