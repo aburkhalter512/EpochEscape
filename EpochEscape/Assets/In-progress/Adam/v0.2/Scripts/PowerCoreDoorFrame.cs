@@ -8,14 +8,14 @@ public class PowerCoreDoorFrame : DoorFrame
 	#endregion
 	
 	#region Instance Variables
-    StandardDoorSide mFrontSide;
-    StandardDoorSide mBackSide;
+    protected StandardDoorSide mFrontSide;
+    protected StandardDoorSide mBackSide;
 
-    STATE mCurState;
+    protected STATE mCurState;
 
-    Player mPlayer;
+    protected Player mPlayer;
 
-    bool mHasUnlocked = false;
+    protected bool mHasUnlocked = false;
 	#endregion
 
     #region Class Constants
@@ -94,17 +94,6 @@ public class PowerCoreDoorFrame : DoorFrame
     public override void deactivateSide(SIDE side)
     {
         return;
-    }
-
-    public void exitLevel(Player player)
-    {
-        if (player == null)
-            return;
-
-        //Should call something like:
-        //LevelManager.getInstance().exitLevel(player);
-        //Why:
-        //      Because a door should not do heavy save state processing
     }
 	#endregion
 	

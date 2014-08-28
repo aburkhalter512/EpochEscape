@@ -8,10 +8,10 @@ public class LockedDoorFrame : DoorFrame
 	#endregion
 	
 	#region Instance Variables
-    StandardDoorSide mFrontSide;
-    StandardDoorSide mBackSide;
+    protected StandardDoorSide mFrontSide;
+    protected StandardDoorSide mBackSide;
 
-    STATE mCurState;
+    protected STATE mCurState;
 	#endregion
 
     #region Class Constants
@@ -86,7 +86,7 @@ public class LockedDoorFrame : DoorFrame
         }
     }
 
-    public void lockDoor()
+    public virtual void lockDoor()
     {
         if (mCurState != STATE.LOCKED)
         {
@@ -96,7 +96,7 @@ public class LockedDoorFrame : DoorFrame
             mCurState = STATE.LOCKED;
         }
     }
-    public void unlockDoor()
+    public virtual void unlockDoor()
     {
         if (mCurState != STATE.UNLOCKED)
         {
@@ -106,7 +106,7 @@ public class LockedDoorFrame : DoorFrame
             mCurState = STATE.UNLOCKED;
         }
     }
-    public void toggleLock()
+    public virtual void toggleLock()
     {
         switch (mCurState)
         {

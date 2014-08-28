@@ -89,7 +89,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -6.5999999, z: 0}
+  m_LocalPosition: {x: -1.25, y: 1.20000005, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 0}
   m_Children:
   - {fileID: 400006}
@@ -335,7 +335,7 @@ MonoBehaviour:
   Boost: 1
   BoostTime: 0
   m_currentState: 0
-  m_spawnLocation: {x: -5, y: -6.5999999, z: 0}
+  m_spawnLocation: {x: -1.25, y: 1.20000005, z: 0}
   m_selectedSlot: 0
   m_specItems: 0
   MAX_CORES: 3

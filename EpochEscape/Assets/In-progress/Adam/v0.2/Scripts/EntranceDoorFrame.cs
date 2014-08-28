@@ -51,14 +51,13 @@ using System.Collections;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public class CheckpointDoorFrame : DirectionalDoorFrame
+public class EntranceDoorFrame : CheckpointDoorFrame
 {
 	#region Interface Variables
-    public GameObject respawnLocation;
 	#endregion
 	
 	#region Instance Variables
-    bool didRegisterCheckpoint = false;
+    bool mIsFirstOpen = true;
 	#endregion
 	
 	protected void Start()
@@ -67,6 +66,15 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
 	}
 	
 	#region Interface Methods
+    public override void triggerFrontEnter()
+    {
+        if (mIsFirstOpen)
+        {
+            mFrontSide.activate();
+            mIsFirstOpen = false;
+        }
+    }
+
     /**
      * triggerFrontExit()
      *      This method is the same as base.triggerFrontExit() except that a checkpoint
@@ -75,10 +83,10 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
      */
     public override void triggerFrontExit()
     {
-        base.triggerFrontExit();
+        if (mFrontSide.isActive())
+            mFrontSide.deactivate();
 
-        if (!didRegisterCheckpoint)
-            registerCheckpoint();
+        return;
     }
 
     public override void lockDoor()
@@ -93,20 +101,5 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
 	#endregion
 	
 	#region Instance Methods
-    /**
-     * This method is empty, as it is unknown how to save checkpoint data at this point
-     */
-    protected void registerCheckpoint()
-    {
-        return;
-    }
-
-    /**
-     * See above commet
-     */
-    protected void loadCheckpoint()
-    {
-        didRegisterCheckpoint = true;
-    }
 	#endregion
 }

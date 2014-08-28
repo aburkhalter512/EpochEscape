@@ -92,7 +92,8 @@ public class TeleporterDoorSide : DoorSide
     {
         if (player == null || 
             mTeleportDestination == null || 
-            mTeleportDestination.teleportSpawn == null)
+            mTeleportDestination.teleportSpawn == null ||
+            !mCanTeleport)
             return;
 
         player.transform.position = mTeleportDestination.teleportSpawn.transform.position;
@@ -102,12 +103,8 @@ public class TeleporterDoorSide : DoorSide
     {
         Player player = collidee.GetComponent<Player>();
 
-        if (player != null)
-        {
-            Debug.Log("Teleporting player");
-
+        if (player != null && isActive())
             teleport(player);
-        }
     }
     #endregion
 }

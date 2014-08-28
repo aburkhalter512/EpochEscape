@@ -3,7 +3,9 @@ using System.Collections;
 
 /**
  * This class a door frame for Epoch Escape. It contains two door sides along with player
- * detectors and should provide core interactability with the player.
+ * detectors and should provide core interactability with the player. There needs to be two
+ * gameobject children that acts as the detectors. Each detector needs to have either a 
+ * FrontDoorDetector or a BackDoorDetector script attached.
  * 
  * This DoorFrame and derived classes represent the primary location for interacting with
  * doors via code. It provides an interface for activating (opening) and deactivating
@@ -52,8 +54,6 @@ public abstract class DoorFrame : MonoBehaviour, IDetectable
 	#endregion
 	
 	#region Instance Variables
-    protected FrontDoorDetector mFrontDetector;
-    protected BackDoorDetector mBackDetector;
 	#endregion 
 
     #region Class Constants
@@ -73,8 +73,6 @@ public abstract class DoorFrame : MonoBehaviour, IDetectable
 	
 	protected void Start()
 	{
-        mFrontDetector = transform.GetComponentsInChildren<FrontDoorDetector>()[0];
-        mBackDetector = transform.GetComponentsInChildren<BackDoorDetector>()[0];
 	}
 	
 	#region Interface Methods

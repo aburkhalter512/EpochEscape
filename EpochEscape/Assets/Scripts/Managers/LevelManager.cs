@@ -14,12 +14,21 @@ public class LevelManager : MonoBehaviour
 	public int coresToFind = 3;
 	public int coresFound;
 
-	private GameObject m_player;
-	private GameObject m_playerSpecialItem;
+    public GameObject entranceDoor;
+    public GameObject exitDoor;
+
+    public string nextLevel;
+    public 
 	#endregion
 
 	#region Instance Variables
     ArrayList tiles = null;
+
+    GameObject m_player;
+    GameObject m_playerSpecialItem;
+
+    EntranceDoorFrame mEntranceDoor;
+    ExitDoorFrame mExitDoor;
 	#endregion
 
 	#region Class Constants
@@ -28,8 +37,10 @@ public class LevelManager : MonoBehaviour
 	//Put all initialization code here
 	//Remember to comment!
 	protected void Start()
-	{
-        //Debug.Log(G.getInstance().m_currentCharacter);
+    {
+        mEntranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
+        mExitDoor = exitDoor.GetComponent<ExitDoorFrame>();
+        mExitDoor.attachLevelManager(this);
 
 		coresFound = 0;
 
@@ -45,7 +56,28 @@ public class LevelManager : MonoBehaviour
 		hudManager.name = "HUDManager";
 	}
 
-	private void InstantiateAllPlayers()
+    #region Interface Methods
+    public void exitLevel()
+    {
+        //Set the correct current level
+        if (nextLevel == "Level1")
+            GameManager.getInstance().currentLevel = 1;
+        else
+            GameManager.getInstance().currentLevel++;
+
+        //Load the next level
+        /*if (isWinning)
+            SceneManager.Win(Level);
+        else//*/
+        SceneManager.Load(nextLevel);
+
+        //Save all progress
+        SaveManager.Save();
+    }
+    #endregion
+
+    #region Instance Methods
+    private void InstantiateAllPlayers()
 	{
 		// Lasers
 		GameObject brokenLaser = Resources.Load("Prefabs/Obstacles/JailBarBrokenLaser") as GameObject;
@@ -166,12 +198,13 @@ public class LevelManager : MonoBehaviour
 		if(m_player != null)
 		{
 			Player playerScript = m_player.GetComponent<Player>();
-			GameObject spawnLocation = GameObject.FindGameObjectWithTag("SpawnLocation");
 			
-			if(playerScript != null && spawnLocation != null)
+			if(playerScript != null)
 			{
-				playerScript.m_spawnLocation = spawnLocation.transform.position;
-				m_player.transform.position = spawnLocation.transform.position;
+                if (mEntranceDoor == null)
+                    Debug.Log("spawnLocation is null");
+				playerScript.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
+                m_player.transform.position = mEntranceDoor.respawnLocation.transform.position;
 				
 				Instantiate(m_player);
 			}
@@ -203,14 +236,6 @@ public class LevelManager : MonoBehaviour
 				newSpecialItem.transform.position = specialItemSpawnLocations[i].transform.position;
 			}
 		}
-	}
-
-    #region Initialization Methods
+    }
     #endregion
-
-	#region Static Methods
-	#endregion
-
-	#region Utilities
-	#endregion
 }
