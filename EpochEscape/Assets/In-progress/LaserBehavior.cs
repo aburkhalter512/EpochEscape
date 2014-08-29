@@ -17,11 +17,9 @@ public class LaserBehavior : MonoBehaviour
 	{
 		positions = new List<Vector3> ();
 	}
-
-	void Update(){
-	}
+	
 	// Update is called once per frame
-	void FixedUpdate ()
+	void Update ()
 	{
 		bounces = 0;
 		BuildLaser (start.position);
