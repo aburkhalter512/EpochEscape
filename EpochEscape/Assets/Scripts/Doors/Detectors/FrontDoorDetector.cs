@@ -3,20 +3,20 @@ using System.Collections;
 
 public class FrontDoorDetector : MonoBehaviour
 {
-	#region Interface Variables
+    #region Interface Variables
     public string[] DetecteeTags;
-	#endregion
+    #endregion
 
     #region Instance Variables
     IDetectable detectable;
-	#endregion 
+    #endregion 
 
-	protected void Start()
+    protected void Start()
     {
         detectable = transform.GetComponentInParent<DoorFrame>() as IDetectable;
-	}
-	
-	#region Instance Methods
+    }
+    
+    #region Instance Methods
     protected void OnTriggerEnter2D(Collider2D collidee)
     {
         foreach (string tag in DetecteeTags)
@@ -30,5 +30,5 @@ public class FrontDoorDetector : MonoBehaviour
             if (collidee.tag == tag)
                 detectable.triggerFrontExit();
     }
-	#endregion
+    #endregion
 }

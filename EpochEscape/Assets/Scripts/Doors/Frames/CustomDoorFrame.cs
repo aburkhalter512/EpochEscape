@@ -3,18 +3,18 @@ using System.Collections;
 
 public class CustomDoorFrame : DoorFrame
 {
-	#region Interface Variables
+    #region Interface Variables
     public STATE frontInitialState;
     public STATE backInitialState;
-	#endregion
-	
-	#region Instance Variables
+    #endregion
+    
+    #region Instance Variables
     DoorSide mFrontSide;
     DoorSide mBackSide;
-	#endregion 
-	
-	protected void Start()
-	{
+    #endregion 
+    
+    protected void Start()
+    {
         base.Start();
 
         mFrontSide = frontSide.GetComponent<DoorSide>();
@@ -38,14 +38,14 @@ public class CustomDoorFrame : DoorFrame
                 mBackSide.deactivate();
                 break;
         }
-	}
-	
-	protected void Update()
-	{
-		//Put update code here
-	}
-	
-	#region Interface Methods
+    }
+    
+    protected void Update()
+    {
+        //Put update code here
+    }
+    
+    #region Interface Methods
     public override void triggerFrontEnter()
     {
         mFrontSide.triggerFrontEnter();
@@ -93,8 +93,8 @@ public class CustomDoorFrame : DoorFrame
                 break;
         }
     }
-	#endregion
-	
-	#region Instance Methods
-	#endregion
+    #endregion
+    
+    #region Instance Methods
+    #endregion
 }

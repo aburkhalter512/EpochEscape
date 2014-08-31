@@ -3,37 +3,37 @@ using System.Collections;
 
 public class TeleporterDoorSide : DoorSide
 {
-	#region Interface Variables
+    #region Interface Variables
     public GameObject teleportDestination;
     public GameObject teleportSpawn;
-	#endregion
-	
-	#region Instance Variables
+    #endregion
+    
+    #region Instance Variables
     TeleporterDoorSide mTeleportDestination;
 
     bool mWasFrontHit = false;
     bool mWasBackHit = false;
     bool mCanTeleport = false;
-	#endregion 
-	
-	protected void Awake()
-	{
-		base.Awake();
-	}
-	
-	protected void Start()
-	{
-		base.Start();
+    #endregion 
+    
+    protected void Awake()
+    {
+        base.Awake();
+    }
+    
+    protected void Start()
+    {
+        base.Start();
 
         mTeleportDestination = teleportDestination.GetComponent<TeleporterDoorSide>();
-	}
-	
-	protected void Update()
-	{
-		base.Update();
-	}
-	
-	#region Interface Methods
+    }
+    
+    protected void Update()
+    {
+        base.Update();
+    }
+    
+    #region Interface Methods
     public override void triggerFrontEnter()
     {
         if (!mWasBackHit)
@@ -85,7 +85,7 @@ public class TeleporterDoorSide : DoorSide
         else
             activate();
     }
-	#endregion
+    #endregion
 
     #region Instance Methods
     protected void teleport(Player player)

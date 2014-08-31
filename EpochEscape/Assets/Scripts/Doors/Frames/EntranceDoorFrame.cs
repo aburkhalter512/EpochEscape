@@ -53,19 +53,19 @@ using System.Collections;
  */
 public class EntranceDoorFrame : CheckpointDoorFrame
 {
-	#region Interface Variables
-	#endregion
-	
-	#region Instance Variables
+    #region Interface Variables
+    #endregion
+    
+    #region Instance Variables
     bool mIsFirstOpen = true;
-	#endregion
-	
-	protected void Start()
-	{
+    #endregion
+    
+    protected void Start()
+    {
         base.Start();
-	}
-	
-	#region Interface Methods
+    }
+    
+    #region Interface Methods
     public override void triggerFrontEnter()
     {
         if (mIsFirstOpen)
@@ -98,8 +98,8 @@ public class EntranceDoorFrame : CheckpointDoorFrame
     {
         return;
     }
-	#endregion
-	
-	#region Instance Methods
-	#endregion
+    #endregion
+    
+    #region Instance Methods
+    #endregion
 }

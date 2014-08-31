@@ -3,31 +3,31 @@ using System.Collections;
 
 public class OrganicDoorSide : DoorSide
 {
-	#region Interface Variables
-	#endregion
-	
-	#region Instance Variables
+    #region Interface Variables
+    #endregion
+    
+    #region Instance Variables
     BoxCollider2D mCollider;
-	#endregion 
-	
-	protected void Awake()
-	{
-		base.Awake();
+    #endregion 
+    
+    protected void Awake()
+    {
+        base.Awake();
 
         mCollider = GetComponent<BoxCollider2D>();
-	}
-	
-	protected void Start()
-	{
-		base.Start();
-	}
-	
-	protected void Update()
-	{
-		base.Update();
-	}
-	
-	#region Interface Methods
+    }
+    
+    protected void Start()
+    {
+        base.Start();
+    }
+    
+    protected void Update()
+    {
+        base.Update();
+    }
+    
+    #region Interface Methods
     public override void triggerFrontEnter()
     {
         return;
@@ -79,7 +79,7 @@ public class OrganicDoorSide : DoorSide
         else
             activate();
     }
-	#endregion
+    #endregion
 
     #region Instance Methods
 

@@ -50,19 +50,19 @@ using System.Collections;
  */
 public class DirectionalDoorFrame : LockedDoorFrame
 {
-	#region Interface Variables
-	#endregion
-	
-	#region Instance Variables
+    #region Interface Variables
+    #endregion
+    
+    #region Instance Variables
     bool mIsFrontHit = false;
     bool mIsBackHit = false;
-	#endregion
+    #endregion
 
     #region Class Constants
     #endregion
-	
-	protected void Start()
-	{
+    
+    protected void Start()
+    {
         mFrontSide = frontSide.GetComponent<StandardDoorSide>();
         mBackSide = backSide.GetComponent<StandardDoorSide>();
 
@@ -79,7 +79,7 @@ public class DirectionalDoorFrame : LockedDoorFrame
                 mBackSide.deactivate();
                 break;
         }
-	}
+    }
 
     #region Interface Methods
     /**
@@ -169,8 +169,8 @@ public class DirectionalDoorFrame : LockedDoorFrame
             mCurState = STATE.UNLOCKED;
         }
     }
-	#endregion
-	
-	#region Instance Methods
-	#endregion
+    #endregion
+    
+    #region Instance Methods
+    #endregion
 }

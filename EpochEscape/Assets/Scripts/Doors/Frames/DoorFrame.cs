@@ -51,10 +51,10 @@ public abstract class DoorFrame : MonoBehaviour, IDetectable
     #region Interface Variables
     public GameObject frontSide;
     public GameObject backSide;
-	#endregion
-	
-	#region Instance Variables
-	#endregion 
+    #endregion
+    
+    #region Instance Variables
+    #endregion 
 
     #region Class Constants
     public enum SIDE
@@ -70,12 +70,12 @@ public abstract class DoorFrame : MonoBehaviour, IDetectable
         DEACTIVE
     }
     #endregion
-	
-	protected void Start()
-	{
-	}
-	
-	#region Interface Methods
+    
+    protected void Start()
+    {
+    }
+    
+    #region Interface Methods
     /**
      *  void triggerFrontEnter()
      *      A method that alerts the door that a gameobject has entered the front detection area.
@@ -135,8 +135,8 @@ public abstract class DoorFrame : MonoBehaviour, IDetectable
         deactivateSide(SIDE.FRONT);
         deactivateSide(SIDE.BACK);
     }
-	#endregion
-	
-	#region Instance Methods
-	#endregion
+    #endregion
+    
+    #region Instance Methods
+    #endregion
 }

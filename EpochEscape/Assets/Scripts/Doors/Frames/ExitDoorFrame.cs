@@ -3,20 +3,20 @@ using System.Collections;
 
 public class ExitDoorFrame : PowerCoreDoorFrame
 {
-	#region Interface Variables
-	#endregion
-	
-	#region Instance Variables
+    #region Interface Variables
+    #endregion
+    
+    #region Instance Variables
     LevelManager mLevelManager;
-	#endregion
+    #endregion
 
     #region Class Constants
     #endregion
-	
-	protected void Start()
-	{
+    
+    protected void Start()
+    {
         base.Start();
-	}
+    }
 
     protected void Update()
     {
@@ -24,8 +24,8 @@ public class ExitDoorFrame : PowerCoreDoorFrame
             if (mPlayer.currentCores == mPlayer.MAX_CORES)
                 unlockDoor();
     }
-	
-	#region Interface Methods
+    
+    #region Interface Methods
     public void attachLevelManager(LevelManager levelManager)
     {
         mLevelManager = levelManager;
@@ -38,8 +38,8 @@ public class ExitDoorFrame : PowerCoreDoorFrame
 
         mLevelManager.exitLevel();
     }
-	#endregion
-	
-	#region Instance Methods
-	#endregion
+    #endregion
+    
+    #region Instance Methods
+    #endregion
 }
