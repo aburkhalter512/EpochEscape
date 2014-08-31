@@ -11,14 +11,14 @@ using System.Collections;
  */
 public class Mouse : UnitySingleton<Mouse>
 {
-	#region Instance Variables
+    #region Instance Variables
     Vector3 mScreenPosition;
     Vector3 mWorldPosition;
 
     Button mLeft;
     Button mRight;
     Button mMiddle;
-	#endregion
+    #endregion
 
     #region Class Constants
     public enum BUTTONS
@@ -30,24 +30,24 @@ public class Mouse : UnitySingleton<Mouse>
     #endregion
 
     //Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
+    //Remember to comment!
+    protected void Start()
+    {
         UpdatePosition();
 
         mLeft = new Button(BUTTONS.LEFT);
         mRight = new Button(BUTTONS.RIGHT);
         mMiddle = new Button(BUTTONS.MIDDLE);
-	}
+    }
 
-	//Put all update code here
-	//Remember to comment!
-	protected void Update()
-	{
+    //Put all update code here
+    //Remember to comment!
+    protected void Update()
+    {
         UpdatePosition();
-	}
+    }
 
-	#region Update Methods
+    #region Update Methods
     /*
      * Updates the mouse position both in screen and in world.
      */
@@ -59,9 +59,9 @@ public class Mouse : UnitySingleton<Mouse>
             Camera.main.transform.position.z);
         mWorldPosition = Camera.main.ScreenToWorldPoint(mScreenPosition);
     }
-	#endregion
-	
-	#region Interface Methods
+    #endregion
+    
+    #region Interface Methods
     /*
      * Returns the screen position of the mouse as a Vector3.
      * 
@@ -120,5 +120,5 @@ public class Mouse : UnitySingleton<Mouse>
 
         return retVal.clone();
     }
-	#endregion
+    #endregion
 }
