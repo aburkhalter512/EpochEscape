@@ -3,36 +3,36 @@ using System.Collections;
 
 public class GUIManager : MonoBehaviour
 {
-	#region Inspector Variables
-	#endregion
+    #region Inspector Variables
+    #endregion
 
-	#region Instance Variables
-	#endregion
+    #region Instance Variables
+    #endregion
 
-	#region Class Constants
-	#endregion
+    #region Class Constants
+    #endregion
 
-	//Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
-	}
+    //Put all initialization code here
+    //Remember to comment!
+    protected void Start()
+    {
+    }
 
-	#region Initialization Methods
-	#endregion
+    #region Initialization Methods
+    #endregion
 
-	//Put all update code here
-	//Remember to comment!
-	protected void Update()
-	{
-	}
+    //Put all update code here
+    //Remember to comment!
+    protected void Update()
+    {
+    }
 
-	#region Update Methods
-	#endregion
+    #region Update Methods
+    #endregion
 
-	#region Static Methods
-	#endregion
+    #region Static Methods
+    #endregion
 
-	#region Utilities
-	#endregion
+    #region Utilities
+    #endregion
 }

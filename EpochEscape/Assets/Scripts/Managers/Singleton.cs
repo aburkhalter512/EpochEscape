@@ -4,11 +4,11 @@ using System.Collections;
 public class UnitySingleton<T> : MonoBehaviour
     where T : Component
 {
-	#region Instance Variables
-	#endregion
+    #region Instance Variables
+    #endregion
 
-	#region Class Constants
-	#endregion
+    #region Class Constants
+    #endregion
 
     #region Class Variables
     private static T mInstance;
@@ -24,7 +24,7 @@ public class UnitySingleton<T> : MonoBehaviour
         else
             Destroy(gameObject);
     }
-	#region Static Methods
+    #region Static Methods
     public static T getInstance()
     {
         if (mInstance == null)
@@ -44,8 +44,8 @@ public class UnitySingleton<T> : MonoBehaviour
         Destroy(mInstance);
         mInstance = null;
     }
-	#endregion
+    #endregion
 
-	#region Utilities
-	#endregion
+    #region Utilities
+    #endregion
 }

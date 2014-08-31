@@ -6,16 +6,16 @@ using System.Collections;
  */
 public class Obstacle : MonoBehaviour
 {
-	/*
+    /*
      * Initializes generic obstacle properties
      */
-	protected void Start()
-	{
-	}
+    protected void Start()
+    {
+    }
     /*
      * Updates generic obstacle properties
      */
-	protected void Update()
-	{
-	}
+    protected void Update()
+    {
+    }
 }

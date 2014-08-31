@@ -7,14 +7,14 @@ using System.Collections;
  */
 public class BrokenLaser : Obstacle
 {
-	#region Inspector Variables
+    #region Inspector Variables
     public float initialDelay = 1f;
     public int flickerCount = 3;
     public float flickerDelay = .1f;
     public float finalFlickerDelay = .5f;
-	#endregion
+    #endregion
 
-	#region Instance Variables
+    #region Instance Variables
     private float mStartTime;
     private int mCurrentFlicker;
 
@@ -33,13 +33,13 @@ public class BrokenLaser : Obstacle
 
     private SpriteRenderer mSR;
     private Color mFadeColor;
-	#endregion
+    #endregion
 
-	/*
+    /*
      * Initializes the broken laser.
      */
-	protected void Start()
-	{
+    protected void Start()
+    {
         mIsStarted = false;
         mWasPaused = false;
         mCurrentFlicker = 0;
@@ -47,13 +47,13 @@ public class BrokenLaser : Obstacle
 
         mSR = GetComponent<SpriteRenderer>();
         mFadeColor = mSR.color;
-	}
+    }
 
-	/*
+    /*
      * Updates the broken laser's state
      */
-	protected void Update()
-	{
+    protected void Update()
+    {
         if (!GameManager.getInstance().paused)
         {
             if (mWasPaused)
@@ -89,9 +89,9 @@ public class BrokenLaser : Obstacle
                 mStartTime = Time.realtimeSinceStartup - mStartTime;
             }
         }
-	}
+    }
 
-	#region Update Methods
+    #region Update Methods
     /*
      * Displays the initial laser before it starts to flicker
      */
@@ -161,5 +161,5 @@ public class BrokenLaser : Obstacle
     {
         Destroy(gameObject);
     }
-	#endregion
+    #endregion
 }

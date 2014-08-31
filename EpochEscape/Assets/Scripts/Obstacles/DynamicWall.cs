@@ -12,13 +12,13 @@ public abstract class DynamicWall : Wall, ITransitional
     public int currentIndex = 0; //index of rotations
 
     public STATES currentState;
-	#endregion
+    #endregion
 
     #region Instance Variables
     protected Vector2 size = Vector2.zero;
 
     private SpriteRenderer sr;
-	#endregion
+    #endregion
 
     #region Class Constants
     public enum STATES
@@ -27,24 +27,24 @@ public abstract class DynamicWall : Wall, ITransitional
         TO_CHANGE,
         CHANGE
     };
-	#endregion
+    #endregion
 
-	/*
+    /*
      * Initializes the Dynamic Wall
      */
-	protected void Start()
+    protected void Start()
     {
         base.Start();
 
         sr = GetComponent<SpriteRenderer>();
         UpdateSize();
-	}
+    }
 
-	/*
+    /*
      * Updates the Dynamic Wall.
      */
-	protected void Update()
-	{
+    protected void Update()
+    {
         base.Update();
 
         switch (currentState)
@@ -59,7 +59,7 @@ public abstract class DynamicWall : Wall, ITransitional
                 change();
                 break;
         }
-	}
+    }
 
     #region Update Methods
     /*
@@ -76,16 +76,16 @@ public abstract class DynamicWall : Wall, ITransitional
     protected abstract void stationary();
     protected abstract void toChange();
     protected abstract void change();
-	#endregion
+    #endregion
 
-	public IEnumerator OnFinishTransition()
-	{
-		// Instructs the wall to begin rotating.
-		currentState = DynamicWall.STATES.TO_CHANGE;
+    public IEnumerator OnFinishTransition()
+    {
+        // Instructs the wall to begin rotating.
+        currentState = DynamicWall.STATES.TO_CHANGE;
 
-		// Instructs the camera to wait until the wall has finished rotating.
-		yield return new WaitForSeconds(changeTime);
+        // Instructs the camera to wait until the wall has finished rotating.
+        yield return new WaitForSeconds(changeTime);
 
-		Debug.Log("Wall has finished rotating.");
-	}
+        Debug.Log("Wall has finished rotating.");
+    }
 }

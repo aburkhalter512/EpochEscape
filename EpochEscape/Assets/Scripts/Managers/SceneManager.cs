@@ -3,27 +3,27 @@ using System.Collections;
 
 public class SceneManager : UnitySingleton<SceneManager>
 {
-	//Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
-		DontDestroyOnLoad(this.gameObject);
-	}
+    //Put all initialization code here
+    //Remember to comment!
+    protected void Start()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 
-	#region Initialization Methods
-	#endregion
+    #region Initialization Methods
+    #endregion
 
-	//Put all update code here
-	//Remember to comment!
+    //Put all update code here
+    //Remember to comment!
 
-	public static void Load(string name)
-	{
-		GameObject go = new GameObject("SceneManager");
-		SceneManager instance = go.AddComponent<SceneManager>();
-		instance.StartCoroutine(instance.InnerLoad(name));
+    public static void Load(string name)
+    {
+        GameObject go = new GameObject("SceneManager");
+        SceneManager instance = go.AddComponent<SceneManager>();
+        instance.StartCoroutine(instance.InnerLoad(name));
 
-		//Debug.Log (GameManager.getInstance ().m_currentCharacter);
-	}
+        //Debug.Log (GameManager.getInstance ().m_currentCharacter);
+    }
 
     public static void Win(string name)
     {
@@ -33,17 +33,17 @@ public class SceneManager : UnitySingleton<SceneManager>
 
         //Debug.Log (GameManager.getInstance ().m_currentCharacter);
     }
-	
-	IEnumerator InnerWin(string name)
-	{
-		Object.DontDestroyOnLoad(this.gameObject);
-		FadeManager.StartAlphaFade (Color.black, false, 2f, 0f, ()=> {Application.LoadLevel("Winning");});
-		
-		yield return new WaitForSeconds(15.0f);
-		
-		FadeManager.StartAlphaFade (Color.black, false, 2f, 0f, ()=> {Application.LoadLevel (name);});
-		Destroy(this.gameObject);
-	}
+    
+    IEnumerator InnerWin(string name)
+    {
+        Object.DontDestroyOnLoad(this.gameObject);
+        FadeManager.StartAlphaFade (Color.black, false, 2f, 0f, ()=> {Application.LoadLevel("Winning");});
+        
+        yield return new WaitForSeconds(15.0f);
+        
+        FadeManager.StartAlphaFade (Color.black, false, 2f, 0f, ()=> {Application.LoadLevel (name);});
+        Destroy(this.gameObject);
+    }
 
     IEnumerator InnerLoad(string name)
     {

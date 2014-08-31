@@ -3,36 +3,36 @@ using System.Collections;
 
 public class Knight : Player
 {
-	#region Inspector Variables
-	#endregion
+    #region Inspector Variables
+    #endregion
 
     #region Instance Variables
     //REMOVE WHEN FINISHED REFACTORING
     /*public bool m_isShieldActive = false;
     public float m_shieldDuration = 3f; // seconds
     public float m_shieldTime = 0f;*/
-	#endregion
+    #endregion
 
-	#region Class Constants
-	#endregion
+    #region Class Constants
+    #endregion
 
-	//Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
-	}
+    //Put all initialization code here
+    //Remember to comment!
+    protected void Start()
+    {
+    }
 
-	#region Initialization Methods
-	#endregion
+    #region Initialization Methods
+    #endregion
 
-	//Put all update code here
-	//Remember to comment!
-	protected void Update()
-	{
+    //Put all update code here
+    //Remember to comment!
+    protected void Update()
+    {
         base.Update();
 
         //UpdateShield();
-	}
+    }
 
     #region Update Methods
     /*private void UpdateShield()
@@ -47,11 +47,11 @@ public class Knight : Player
                 m_hasSpecialItem = false;
         }
     }//*/
-	#endregion
+    #endregion
 
-	#region Static Methods
-	#endregion
+    #region Static Methods
+    #endregion
 
-	#region Utilities
-	#endregion
+    #region Utilities
+    #endregion
 }
