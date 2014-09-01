@@ -3,30 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class LaserSwitchBehavior : MonoBehaviour {
-    public List<DoorFrame> door;
-    public List<doorSides> doorSideToActivate;
-    public List<bool> toActivate;
-    public List<Color> colors;
-    public Color colorMatch;
+	public List<DoorFrame> door;
+	public List<doorSides> doorSideToActivate;
+	public List<bool> toActivate;
+	//public List<Color> colors;
+	public Color colorMatch;
 
     public enum doorSides{
         Front, Back, Both
     }
-
-    
-    void Start () {
-        if(colors != null || colors.Count != 0){
-            foreach(Color c in colors){
-                colorMatch += c;
-            }
-        }
-        gameObject.GetComponent<SpriteRenderer> ().color = colorMatch;
-    }
-    
-    // Update is called once per frame
-    void Update () {
-        resetActivate ();
-    }
+	
+	void Start () {
+		gameObject.GetComponent<SpriteRenderer> ().color = colorMatch;
+	}
+	
+	// Update is called once per frame
+	void FixedUpdate () {
+		resetActivate ();
+	}
 
     public void resetActivate(){
         //loop the doors that this switch is responsible for

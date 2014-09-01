@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Vectrosity;
 using System.Collections;
 using System.Collections.Generic;
@@ -71,27 +71,25 @@ public class LaserBehavior : MonoBehaviour
                         }
                         c.Collect();
                     }
-
-                    if(hit.collider.tag == "Laser Switch"){
-                        LaserSwitchBehavior ls = hit.collider.gameObject.GetComponent<LaserSwitchBehavior>();
-                        if(ls.colorMatch == color){
-                            ls.Activate ();
-                        }
-                    }
-
-                    break;
-                }
-            }
-        }
-    }
-    
-    public void DrawLaser ()
-    {
-        vLine = VectorLine.SetLine (color, .05f, positions.ToArray ());
-        vLine.lineWidth = lineWidth;
-        vLine.Draw ();
-    }
-
+					if(hit.collider.tag == "Laser Switch"){
+						LaserSwitchBehavior ls = hit.collider.gameObject.GetComponent<LaserSwitchBehavior>();
+						if(ls.colorMatch.r == color.r && ls.colorMatch.g == color.g && ls.colorMatch.b == color.b){
+							ls.Activate ();
+						}
+					}
+					break;
+				}
+			}
+		}
+	}
+	
+	public void DrawLaser ()
+	{
+		vLine = VectorLine.SetLine (color, .05f, positions.ToArray ());
+		vLine.lineWidth = lineWidth;
+		vLine.Draw ();
+	}
+                   
     public void SetColor(Color c){
         color = c;
     }
