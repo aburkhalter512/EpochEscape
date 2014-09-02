@@ -1,6 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * This class acts as a directional detector for a door frame, which needs to be
+ * the detector's parent.  Any gameobject that collides with this gameobject as has
+ * a tag specified by 'DetecteeTags[]' then a signal is sent to the door frame via
+ * triggerFrontEnter()/triggerFrontExit(). 'DetecteeTags[]' can be modified in the
+ * Unity Editor to easily change which tagged gameobjects trigger the collision.
+ * 
+ * Interface Variables
+ *      DetecteeTags: string[]
+ *          An array of strings that specifies vaild tags for gameobject collision.
+ *          If a gameobject does not have a tag listed in 'DetecteeTags[]' then the
+ *          collision is not triggered.
+ *          
+ * Interface Methods
+ *      There are no interface methods.
+ */
 public class FrontDoorDetector : MonoBehaviour
 {
     #region Interface Variables
@@ -8,12 +24,12 @@ public class FrontDoorDetector : MonoBehaviour
     #endregion
 
     #region Instance Variables
-    IDetectable detectable;
+    DoorFrame detectable;
     #endregion 
 
     protected void Start()
     {
-        detectable = transform.GetComponentInParent<DoorFrame>() as IDetectable;
+        detectable = transform.GetComponentInParent<DoorFrame>();
     }
     
     #region Instance Methods

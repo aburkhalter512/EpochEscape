@@ -15,7 +15,7 @@ using System.Collections;
  *          collision is not triggered.
  *          
  * Interface Methods
- *      There are not interface methods.
+ *      There are no interface methods.
  */
 public class BackDoorDetector : MonoBehaviour
 {
