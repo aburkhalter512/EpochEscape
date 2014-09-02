@@ -40,6 +40,7 @@ public class HoldableBox : InteractiveObject {
 	public void Place() { //places the box in front of the player
 		//transform.position = p.transform.position;
 		transform.localScale = new Vector3(1f,1f,1f);
+		transform.rotation = Quaternion.identity;
 		renderer.enabled = true;
 		collider2D.enabled = true;
 		transform.parent = null;
