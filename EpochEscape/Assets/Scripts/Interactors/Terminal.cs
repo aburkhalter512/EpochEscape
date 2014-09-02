@@ -13,6 +13,8 @@ public class Terminal : InteractiveObject
     #region InstanceVariables
     List<DynamicWall> mWallActuators;
     List<LockedDoorFrame> mDoorActuators;
+    List<DoorSide> mDoorSideActuators;
+    List<SecurityCamera> mCameraActuators;
 
     bool mIsActivated = false;
     bool mCanInteract = false;
@@ -32,6 +34,8 @@ public class Terminal : InteractiveObject
 
         mWallActuators = new List<DynamicWall>();
         mDoorActuators = new List<LockedDoorFrame>();
+        mDoorSideActuators = new List<DoorSide>();
+        mCameraActuators = new List<SecurityCamera>();
 
         foreach (GameObject actuator in actuators)
         {
@@ -47,24 +51,40 @@ public class Terminal : InteractiveObject
             if (script != null)
                 mDoorActuators.Add(script as LockedDoorFrame);
             #endregion
+
+            #region Retrieving Door Side Actuators
+            script = actuator.GetComponent<DoorSide>();
+            if (script != null)
+                mDoorSideActuators.Add(script as DoorSide);
+            #endregion
+
+            #region Retrieving Camera Actuators
+            script = actuator.GetComponent<SecurityCamera>();
+            if (script != null)
+                mCameraActuators.Add(script as SecurityCamera);
+            #endregion
         }
     }
 
     protected void Update()
     {
-        if (InputManager.getInstance().interactButton.getDown())
+        if (mCanInteract && InputManager.getInstance().interactButton.getDown())
             Interact();
     }
     
     public override void Interact()
     {
-        Debug.Log("Interacting");
-
         foreach (DynamicWall actuator in mWallActuators)
             actuator.currentState = DynamicWall.STATES.CHANGE;
 
         foreach (LockedDoorFrame actuator in mDoorActuators)
             actuator.toggleLock();
+
+        foreach (DoorSide actuator in mDoorSideActuators)
+            actuator.toggle();
+
+        foreach (SecurityCamera actuator in mCameraActuators)
+            actuator.toggle();
 
         if (mIsActivated)
         {
@@ -91,6 +111,6 @@ public class Terminal : InteractiveObject
         Player player = collidee.GetComponent<Player>();
 
         if (player != null)
-            mCanInteract = true;
+            mCanInteract = false;
     }
 }

@@ -231,7 +231,7 @@ public class CameraBehavior : MonoBehaviour
     {
         if(m_floor == null || m_currentState == State.PLAYER_CAUGHT) return;
 
-        if(Input.GetKeyUp(KeyCode.M))
+        if(InputManager.getInstance().mapButton.getDown())
         {
             GameObject walls = GameObject.Find("DynamicWalls");
             GameObject doors = GameObject.Find("Doors");
