@@ -14,7 +14,7 @@ public class LaserSwitchBehavior : MonoBehaviour {
     }
 	
 	void Start () {
-		gameObject.GetComponent<SpriteRenderer> ().color = colorMatch;
+		//gameObject.GetComponent<SpriteRenderer> ().color = colorMatch;
 	}
 	
 	// Update is called once per frame
