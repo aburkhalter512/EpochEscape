@@ -2,5 +2,5 @@
 
 public interface ITransitional
 {
-	IEnumerator OnFinishTransition();
+    IEnumerator OnFinishTransition();
 }

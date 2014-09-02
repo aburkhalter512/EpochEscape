@@ -3,16 +3,16 @@ using System.Collections;
 
 public class LockedDoorFrame : DoorFrame
 {
-	#region Interface Variables
+    #region Interface Variables
     public STATE initialState;
-	#endregion
-	
-	#region Instance Variables
+    #endregion
+    
+    #region Instance Variables
     protected StandardDoorSide mFrontSide;
     protected StandardDoorSide mBackSide;
 
     protected STATE mCurState;
-	#endregion
+    #endregion
 
     #region Class Constants
     public enum STATE
@@ -21,9 +21,9 @@ public class LockedDoorFrame : DoorFrame
         UNLOCKED
     }
     #endregion
-	
-	protected void Start()
-	{
+    
+    protected void Start()
+    {
         mFrontSide = frontSide.GetComponent<StandardDoorSide>();
         mBackSide = backSide.GetComponent<StandardDoorSide>();
 
@@ -40,9 +40,9 @@ public class LockedDoorFrame : DoorFrame
         }
 
         mCurState = initialState;
-	}
-	
-	#region Interface Methods
+    }
+    
+    #region Interface Methods
     public override void triggerFrontEnter()
     {
         return;
@@ -118,8 +118,8 @@ public class LockedDoorFrame : DoorFrame
                 break;
         }
     }
-	#endregion
-	
-	#region Instance Methods
-	#endregion
+    #endregion
+    
+    #region Instance Methods
+    #endregion
 }

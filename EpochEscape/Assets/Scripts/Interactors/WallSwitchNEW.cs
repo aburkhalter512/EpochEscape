@@ -13,7 +13,7 @@ public class WallSwitchNEW : InteractiveObject
     #endregion
 
     // Use this for initialization
-	void Start ()
+    void Start ()
     {
         MonoBehaviour script = null;
 
@@ -35,14 +35,14 @@ public class WallSwitchNEW : InteractiveObject
                 doorActuators.Add(script as LockedDoorFrame);
             #endregion
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
-	public override void Interact()
+    }
+    
+    // Update is called once per frame
+    void Update () {
+    
+    }
+    
+    public override void Interact()
     {
         foreach (DynamicWall actuator in wallActuators)
             actuator.currentState = DynamicWall.STATES.CHANGE;
@@ -50,10 +50,10 @@ public class WallSwitchNEW : InteractiveObject
         foreach (LockedDoorFrame actuator in doorActuators)
             actuator.toggleLock();
 
-		foreach (GameObject actuator in actuators)
-		{
-			Debug.Log("Action performed!");
-			//actuator.SendMessage("Toggle");
-		}
-	}
+        foreach (GameObject actuator in actuators)
+        {
+            Debug.Log("Action performed!");
+            //actuator.SendMessage("Toggle");
+        }
+    }
 }

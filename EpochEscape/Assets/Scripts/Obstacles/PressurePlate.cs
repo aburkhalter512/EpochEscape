@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PressurePlate : MonoBehaviour
 {
-	#region Inspector Variables
+    #region Inspector Variables
     public GameObject[] actuators;
 
     public Sprite switchOn;
@@ -30,18 +30,18 @@ public class PressurePlate : MonoBehaviour
     /*
      * Initializes the Pressure Plate
      */
-	protected void Start()
+    protected void Start()
     {
         mSR = gameObject.GetComponent<SpriteRenderer>();
 
         previousState = STATE.UN_INIT;
         currentState = STATE.ON;
-	}
+    }
 
-	/*
+    /*
      * Updates the state of the Pressure Plate
      */
-	protected void Update()
+    protected void Update()
     {
         if (previousState != currentState)
         {
@@ -57,7 +57,7 @@ public class PressurePlate : MonoBehaviour
 
             previousState = currentState;
         }
-	}
+    }
 
     #region Update Methods
     /*
@@ -84,7 +84,7 @@ public class PressurePlate : MonoBehaviour
     {
         if (collidee.tag == "Player")
         {
-			audio.Play ();
+            audio.Play ();
 
             //Activate all of the connected actuators
             foreach (GameObject actuator in actuators)
@@ -92,10 +92,10 @@ public class PressurePlate : MonoBehaviour
                 //Debug.Log("Triggered");
 
                 if (actuator != null)
-					CameraManager.AddTransition(actuator);
+                    CameraManager.AddTransition(actuator);
             }
 
-			CameraManager.PlayTransitions();
+            CameraManager.PlayTransitions();
 
             currentState = STATE.OFF;
         }
@@ -111,5 +111,5 @@ public class PressurePlate : MonoBehaviour
             currentState = STATE.ON;
         }
     }
-	#endregion
+    #endregion
 }

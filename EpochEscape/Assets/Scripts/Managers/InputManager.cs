@@ -19,15 +19,15 @@ public class InputManager : UnitySingleton<InputManager>
     public Button[] itemButtons = null;
     public Axis itemSwitcher = null;
     public Mouse mouse = null;
-	#endregion
+    #endregion
 
     #region Instance Variables
-	#endregion
+    #endregion
 
     //Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
+    //Remember to comment!
+    protected void Start()
+    {
         primaryJoystick = new Joystick(
             new Axis(new Button(KeyCode.LeftArrow), new Button(KeyCode.RightArrow)),
             new Axis(new Button(KeyCode.DownArrow), new Button(KeyCode.UpArrow)));
@@ -54,7 +54,7 @@ public class InputManager : UnitySingleton<InputManager>
         actionButton = mouse.button(Mouse.BUTTONS.LEFT);
 
         specialActionButton = mouse.button(Mouse.BUTTONS.RIGHT);
-	}
+    }
 
     #region Inteface Methods
     /*

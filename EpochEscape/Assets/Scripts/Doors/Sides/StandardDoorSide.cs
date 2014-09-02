@@ -3,29 +3,29 @@ using System.Collections;
 
 public class StandardDoorSide : DoorSide
 {
-	#region Interface Variables
-	#endregion
-	
-	#region Instance Variables
+    #region Interface Variables
+    #endregion
+    
+    #region Instance Variables
     BoxCollider2D mCollider = null;
-	#endregion 
-	
-	protected void Awake()
-	{
-		base.Awake();
-	}
-	
-	protected void Start()
-	{
-		base.Start();
-	}
-	
-	protected void Update()
-	{
-		base.Update();
-	}
-	
-	#region Interface Methods
+    #endregion 
+    
+    protected void Awake()
+    {
+        base.Awake();
+    }
+    
+    protected void Start()
+    {
+        base.Start();
+    }
+    
+    protected void Update()
+    {
+        base.Update();
+    }
+    
+    #region Interface Methods
     public override void triggerFrontEnter()
     {
         return;
@@ -80,5 +80,5 @@ public class StandardDoorSide : DoorSide
         else
             activate();
     }
-	#endregion
+    #endregion
 }

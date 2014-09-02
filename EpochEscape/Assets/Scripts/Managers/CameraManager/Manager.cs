@@ -2,32 +2,32 @@
 
 public class Manager<T> : MonoBehaviour where T : Component
 {
-	private static T m_instance = null;
+    private static T m_instance = null;
 
-	public virtual void Awake()
-	{
-		DontDestroyOnLoad(gameObject);
+    public virtual void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
 
-		if(m_instance == null)
-			m_instance = this as T;
-		else
-			Destroy(gameObject);
-	}
+        if(m_instance == null)
+            m_instance = this as T;
+        else
+            Destroy(gameObject);
+    }
 
-	protected static T GetInstance()
-	{
-		if(m_instance == null)
-		{
-			m_instance = FindObjectOfType(typeof(T)) as T;
+    protected static T GetInstance()
+    {
+        if(m_instance == null)
+        {
+            m_instance = FindObjectOfType(typeof(T)) as T;
 
-			if(m_instance == null)
-			{
-				GameObject obj = new GameObject();
+            if(m_instance == null)
+            {
+                GameObject obj = new GameObject();
 
-				m_instance = obj.AddComponent<T>();
-			}
-		}
+                m_instance = obj.AddComponent<T>();
+            }
+        }
 
-		return m_instance;
-	}
+        return m_instance;
+    }
 }

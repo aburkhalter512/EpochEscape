@@ -6,23 +6,23 @@ using System.Collections;
  */
 public class PressureSwitch : PressurePlate
 {
-	/*
+    /*
      * Initializes the Pressure Switch
      */
-	protected void Start()
-	{
+    protected void Start()
+    {
         base.Start();
-	}
+    }
 
-	/*
+    /*
      * Updates the state of the pressure switch
      */
-	protected void Update()
-	{
+    protected void Update()
+    {
         base.Update();
 
         mSR = gameObject.GetComponent<SpriteRenderer>();
-	}
+    }
 
     #region Update Methods
     /*
@@ -31,14 +31,14 @@ public class PressureSwitch : PressurePlate
      */
     override protected void OnTriggerEnter2D(Collider2D collidee)
     {
-		if(collidee.tag == "Player" && currentState != STATE.OFF)
-		{
-			base.OnTriggerEnter2D(collidee);
-		}
+        if(collidee.tag == "Player" && currentState != STATE.OFF)
+        {
+            base.OnTriggerEnter2D(collidee);
+        }
     }
 
     //Does nothing, stops the switch from reseting to ON
     override protected void OnTriggerExit2D(Collider2D collidee)
     { }
-	#endregion
+    #endregion
 }

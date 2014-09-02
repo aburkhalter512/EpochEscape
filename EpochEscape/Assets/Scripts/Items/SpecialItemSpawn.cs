@@ -4,21 +4,21 @@ using G = GameManager;
 
 public class SpecialItemSpawn : MonoBehaviour
 {
-	#region Inspector Variables
-	#endregion
+    #region Inspector Variables
+    #endregion
 
-	#region Instance Variables
+    #region Instance Variables
     private GameObject mToPlace = null;
     private GameObject mToInstantiate = null;
-	#endregion
+    #endregion
 
-	#region Class Constants
-	#endregion
+    #region Class Constants
+    #endregion
 
-	//Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
+    //Put all initialization code here
+    //Remember to comment!
+    protected void Start()
+    {
         switch (G.getInstance().m_currentCharacter)
         {
             case G.CAVEGIRL:
@@ -43,23 +43,23 @@ public class SpecialItemSpawn : MonoBehaviour
             mToPlace.transform.position = transform.position;
 
         Destroy(gameObject);
-	}
+    }
 
-	#region Initialization Methods
-	#endregion
+    #region Initialization Methods
+    #endregion
 
-	//Put all update code here
-	//Remember to comment!
-	protected void Update()
-	{
-	}
+    //Put all update code here
+    //Remember to comment!
+    protected void Update()
+    {
+    }
 
-	#region Update Methods
-	#endregion
+    #region Update Methods
+    #endregion
 
-	#region Static Methods
-	#endregion
+    #region Static Methods
+    #endregion
 
-	#region Utilities
-	#endregion
+    #region Utilities
+    #endregion
 }

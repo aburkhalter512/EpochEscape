@@ -3,11 +3,11 @@ using System.Collections;
 
 public class PowerCoreDoorFrame : DoorFrame
 {
-	#region Interface Variables
+    #region Interface Variables
     public CORES powerCores = CORES.FULL;
-	#endregion
-	
-	#region Instance Variables
+    #endregion
+    
+    #region Instance Variables
     protected StandardDoorSide mFrontSide;
     protected StandardDoorSide mBackSide;
 
@@ -16,7 +16,7 @@ public class PowerCoreDoorFrame : DoorFrame
     protected Player mPlayer;
 
     protected bool mHasUnlocked = false;
-	#endregion
+    #endregion
 
     #region Class Constants
     public enum STATE
@@ -32,9 +32,9 @@ public class PowerCoreDoorFrame : DoorFrame
         FULL
     }
     #endregion
-	
-	protected void Start()
-	{
+    
+    protected void Start()
+    {
         mFrontSide = frontSide.GetComponent<StandardDoorSide>();
         mFrontSide.deactivate();
 
@@ -44,7 +44,7 @@ public class PowerCoreDoorFrame : DoorFrame
         GameObject GO = GameObject.FindGameObjectWithTag("Player");
         if (GO != null)
             mPlayer = GO.GetComponent<Player>();
-	}
+    }
 
     protected void Update()
     {
@@ -67,8 +67,8 @@ public class PowerCoreDoorFrame : DoorFrame
             }
         }
     }
-	
-	#region Interface Methods
+    
+    #region Interface Methods
     public override void triggerFrontEnter()
     {
         return;
@@ -95,9 +95,9 @@ public class PowerCoreDoorFrame : DoorFrame
     {
         return;
     }
-	#endregion
-	
-	#region Instance Methods
+    #endregion
+    
+    #region Instance Methods
     protected void unlockDoor()
     {
         mFrontSide.activate();
@@ -105,5 +105,5 @@ public class PowerCoreDoorFrame : DoorFrame
 
         mHasUnlocked = true;
     }
-	#endregion
+    #endregion
 }

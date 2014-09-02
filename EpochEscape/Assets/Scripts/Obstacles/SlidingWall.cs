@@ -12,21 +12,21 @@ public class SlidingWall : DynamicWall
     private Vector3 basePosition;
     #endregion
 
-	//Put all initialization code here
-	//Remember to comment!
-	protected new void Start()
-	{
+    //Put all initialization code here
+    //Remember to comment!
+    protected new void Start()
+    {
         base.Start();
 
         basePosition = transform.position;
-	}
+    }
 
-	//Put all update code here
-	//Remember to comment!
-	protected new void Update()
-	{
+    //Put all update code here
+    //Remember to comment!
+    protected new void Update()
+    {
         base.Update();
-	}
+    }
 
     #region Update Methods
     protected override void stationary()
@@ -36,7 +36,7 @@ public class SlidingWall : DynamicWall
 
     protected override void toChange()
     {
-		audio.Play ();
+        audio.Play ();
         currentIndex = (currentIndex + 1) % positionPts.Length;
 
         positionDelta = positionPts[currentIndex] + basePosition - transform.position;
@@ -68,5 +68,5 @@ public class SlidingWall : DynamicWall
         }
 
     }
-	#endregion
+    #endregion
 }

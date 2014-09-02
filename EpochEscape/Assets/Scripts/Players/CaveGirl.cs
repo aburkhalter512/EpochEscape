@@ -3,33 +3,33 @@ using System.Collections;
 
 public class CaveGirl : Player
 {
-	#region Inspector Variables
-	#endregion
+    #region Inspector Variables
+    #endregion
 
     #region Instance Variables
     //REMOVE WHEN FINISHED REFACTORING CODE
     /*private bool m_isAtHitFrame = false;
     private bool m_isClubBroken = false;//*/
-	#endregion
+    #endregion
 
-	#region Class Constants
-	#endregion
+    #region Class Constants
+    #endregion
 
-	//Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
+    //Put all initialization code here
+    //Remember to comment!
+    protected void Start()
+    {
         base.Start();
-	}
+    }
 
-	#region Initialization Methods
-	#endregion
+    #region Initialization Methods
+    #endregion
 
-	//Put all update code here
-	//Remember to comment!
-	protected void Update()
-	{
-	}
+    //Put all update code here
+    //Remember to comment!
+    protected void Update()
+    {
+    }
 
     #region Update Methods
     /*public void HitFrameOn()
@@ -47,11 +47,11 @@ public class CaveGirl : Player
     {
         get { return m_isAtHitFrame; }
     }//*/
-	#endregion
+    #endregion
 
-	#region Static Methods
-	#endregion
+    #region Static Methods
+    #endregion
 
-	#region Utilities
-	#endregion
+    #region Utilities
+    #endregion
 }

@@ -12,3 +12,4 @@ Temp/
 *.db
 *.sublime-project
 *.sublime-workspace
+*.booproj

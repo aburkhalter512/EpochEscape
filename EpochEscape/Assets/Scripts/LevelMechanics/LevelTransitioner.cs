@@ -3,34 +3,34 @@ using System.Collections;
 
 public class LevelTransitioner : MonoBehaviour
 {
-	#region Inspector Variables
+    #region Inspector Variables
     public string Level = "";
 
     public bool isWinning = false;
-	#endregion
+    #endregion
 
-	#region Instance Variables
-	#endregion
+    #region Instance Variables
+    #endregion
 
-	#region Class Constants
-	#endregion
+    #region Class Constants
+    #endregion
 
-	//Put all initialization code here
-	//Remember to comment!
-	protected void Start()
-	{
-	}
+    //Put all initialization code here
+    //Remember to comment!
+    protected void Start()
+    {
+    }
 
-	#region Initialization Methods
-	#endregion
+    #region Initialization Methods
+    #endregion
 
-	//Put all update code here
-	//Remember to comment!
-	protected void Update()
-	{
-	}
+    //Put all update code here
+    //Remember to comment!
+    protected void Update()
+    {
+    }
 
-	#region Update Methods
+    #region Update Methods
     /*
      * A 2D collision why the player will trigger the transition between the
      * current level and the next level.
@@ -40,10 +40,10 @@ public class LevelTransitioner : MonoBehaviour
         if (collidee.tag == "Player")
         {
             //Set the correct current level
-			if(Level == "Level1")
-				GameManager.getInstance().currentLevel = 1;
-			else
-				GameManager.getInstance().currentLevel++;
+            if(Level == "Level1")
+                GameManager.getInstance().currentLevel = 1;
+            else
+                GameManager.getInstance().currentLevel++;
 
             //Load the next level
             if (isWinning)
@@ -52,14 +52,14 @@ public class LevelTransitioner : MonoBehaviour
                 SceneManager.Load(Level);
 
             //Save all progress
-			SaveManager.Save ();
-		}
+            SaveManager.Save ();
+        }
     }
-	#endregion
+    #endregion
 
-	#region Static Methods
-	#endregion
+    #region Static Methods
+    #endregion
 
-	#region Utilities
-	#endregion
+    #region Utilities
+    #endregion
 }

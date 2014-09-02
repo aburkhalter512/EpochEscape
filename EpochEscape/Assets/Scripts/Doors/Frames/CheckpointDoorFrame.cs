@@ -53,20 +53,20 @@ using System.Collections;
  */
 public class CheckpointDoorFrame : DirectionalDoorFrame
 {
-	#region Interface Variables
+    #region Interface Variables
     public GameObject respawnLocation;
-	#endregion
-	
-	#region Instance Variables
+    #endregion
+    
+    #region Instance Variables
     bool didRegisterCheckpoint = false;
-	#endregion
-	
-	protected void Start()
-	{
+    #endregion
+    
+    protected void Start()
+    {
         base.Start();
-	}
-	
-	#region Interface Methods
+    }
+    
+    #region Interface Methods
     /**
      * triggerFrontExit()
      *      This method is the same as base.triggerFrontExit() except that a checkpoint
@@ -90,9 +90,9 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
     {
         return;
     }
-	#endregion
-	
-	#region Instance Methods
+    #endregion
+    
+    #region Instance Methods
     /**
      * This method is empty, as it is unknown how to save checkpoint data at this point
      */
@@ -108,5 +108,5 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
     {
         didRegisterCheckpoint = true;
     }
-	#endregion
+    #endregion
 }
