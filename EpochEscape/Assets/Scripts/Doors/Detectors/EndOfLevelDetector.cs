@@ -1,6 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * This class triggers the ExitDoorFrame to begin exiting the level. If a gameobject
+ * with a tag that equals 'Player" collides with the gameobject,
+ * then trigger is started and exiting the level commences.
+ * 
+ * Interface Variables:
+ *      There are no interface variables
+ *      
+ * Interface Methods
+ *      There are no interface methods
+ */
 public class EndOfLevelDetector : MonoBehaviour
 {
     #region Interface Variables
