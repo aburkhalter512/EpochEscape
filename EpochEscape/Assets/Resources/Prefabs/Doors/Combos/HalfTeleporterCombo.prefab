@@ -263,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontSide: {fileID: 100000}
   backSide: {fileID: 100008}
-  frontInitialState: 2
+  frontInitialState: 1
   backInitialState: 1
 --- !u!114 &11400004
 MonoBehaviour:

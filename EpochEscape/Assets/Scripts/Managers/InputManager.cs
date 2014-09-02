@@ -16,6 +16,7 @@ public class InputManager : UnitySingleton<InputManager>
     public Joystick primaryJoystick = null;
     public Button actionButton = null;
     public Button specialActionButton = null;
+    public Button interactButton = null;
     public Button[] itemButtons = null;
     public Axis itemSwitcher = null;
     public Mouse mouse = null;
@@ -54,6 +55,8 @@ public class InputManager : UnitySingleton<InputManager>
         actionButton = mouse.button(Mouse.BUTTONS.LEFT);
 
         specialActionButton = mouse.button(Mouse.BUTTONS.RIGHT);
+
+        interactButton = new Button(KeyCode.E);
     }
 
     #region Inteface Methods

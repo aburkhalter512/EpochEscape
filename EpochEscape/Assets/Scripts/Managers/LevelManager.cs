@@ -194,18 +194,18 @@ public class LevelManager : MonoBehaviour
             m_player = Resources.Load("Prefabs/Players/CaveGirl") as GameObject;
             break;
         }
-        
-        if(m_player != null)
+
+        if (m_player != null)
         {
             Player playerScript = m_player.GetComponent<Player>();
-            
-            if(playerScript != null)
+
+            if (playerScript != null)
             {
                 if (mEntranceDoor == null)
                     Debug.Log("spawnLocation is null");
                 playerScript.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
                 m_player.transform.position = mEntranceDoor.respawnLocation.transform.position;
-                
+
                 Instantiate(m_player);
             }
         }

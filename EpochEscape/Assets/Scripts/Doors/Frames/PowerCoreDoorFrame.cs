@@ -48,7 +48,13 @@ public class PowerCoreDoorFrame : DoorFrame
 
     protected void Update()
     {
-        if (!mHasUnlocked)
+        if (mPlayer == null)
+        {
+            GameObject GO = GameObject.FindGameObjectWithTag("Player");
+            if (GO != null)
+                mPlayer = GO.GetComponent<Player>();
+        }
+        else if (!mHasUnlocked)
         {
             switch (powerCores)
             {
