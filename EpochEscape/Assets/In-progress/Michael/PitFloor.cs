@@ -20,8 +20,11 @@ public class PitFloor : InteractiveObject {
     {
         if (mCanInteract && InputManager.getInstance().interactButton.getDown())
             Interact();
+            
+        if (mPlayer == null)
+        	FindPlayer();
 	}
-
+	/*
     public void OnTriggerEnter2D(Collider2D collidee)
     {
         mPlayer = collidee.GetComponent<Player>();
@@ -37,7 +40,7 @@ public class PitFloor : InteractiveObject {
             mCanInteract = false;
             mPlayer = null;
         }
-    }
+    } */
 	
 	public override void Interact()
     {
@@ -49,6 +52,17 @@ public class PitFloor : InteractiveObject {
 			box.Die ();
             mPlayer.m_isHoldingBox = false;
 			gameObject.GetComponent<Collider2D>().enabled = false;
+		}
+	}
+	
+	private void FindPlayer()
+	{
+		if(mPlayer == null)
+		{
+			GameObject player = GameObject.FindWithTag("Player");
+			
+			if(player != null)
+				mPlayer = player.GetComponent<Player>();
 		}
 	}
 }

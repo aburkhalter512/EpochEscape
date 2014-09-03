@@ -25,10 +25,18 @@ public class HoldableBox : InteractiveObject {
     }
 
     public override void Interact() {
-        Debug.Log ("Box Interact");
-        //renderer.enabled = false;
         collider2D.enabled = false;
         m_isInUse = true;
+        
+        GameObject[] list;
+        list = GameObject.FindGameObjectsWithTag("WeightedPlate");
+        foreach(GameObject go in list) {
+        	WeightedPlate plateScript = go.GetComponent<WeightedPlate>();
+        	if (plateScript != null) {
+        		if (!plateScript.m_isLocked)
+        			plateScript.activeBox = gameObject;
+        	}
+        }
 
         if(p != null)
         {

@@ -18,7 +18,7 @@ public class WeightedPlate : MonoBehaviour
 	protected SpriteRenderer mSR;
 	
 	private STATE previousState;
-	private Player p;
+	public Player p;
 	#endregion
 	
 	#region Class Constants
@@ -41,7 +41,6 @@ public class WeightedPlate : MonoBehaviour
 		currentState = STATE.ON;
 		
 		GameObject g2 = GameObject.FindGameObjectWithTag("Player");
-		Player p = g2.GetComponent<Player>();
 	}
 	
 	/*
@@ -49,6 +48,9 @@ public class WeightedPlate : MonoBehaviour
      */
 	protected void Update()
 	{
+		if (p == null)
+			FindPlayer();
+
 		if (!m_isLocked) {
 			if (activeBox != null && activeBox.renderer.enabled && renderer.bounds.Intersects(activeBox.renderer.bounds) && !p.m_isHoldingBox) {
 				audio.Play ();
@@ -171,4 +173,15 @@ public class WeightedPlate : MonoBehaviour
 		}
 	}
 	#endregion
+	
+	private void FindPlayer()
+	{
+		if(p == null)
+		{
+			GameObject player = GameObject.FindWithTag("Player");
+			
+			if(player != null)
+				p = player.GetComponent<Player>();
+		}
+	}
 }
