@@ -38,12 +38,7 @@ public class LevelManager : MonoBehaviour
     {
         coresFound = 0;
 
-        mEntranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
-        if (mEntranceDoor == null)
-            Debug.Log("Boohoo!");
-
-        mExitDoor = exitDoor.GetComponent<ExitDoorFrame>();
-        mExitDoor.attachLevelManager(this);
+        findLevelDoors();
 
         if (G.getInstance().currentLevel == 1)
             InstantiateAllPlayers();
@@ -74,7 +69,10 @@ public class LevelManager : MonoBehaviour
     {
         Application.LoadLevel(Application.loadedLevelName);
 
-        //mCheckpointPlayer.transform.position = mCheckpoint.respawnLocation.transform.position;
+        mCheckpointPlayer.transform.position = mCheckpoint.respawnLocation.transform.position;
+        mCheckpointPlayer.m_spawnLocation = mCheckpoint.respawnLocation.transform.position;
+
+        findLevelDoors();
 
         GameManager.getInstance().UnpauseMovement();
     }
@@ -97,6 +95,13 @@ public class LevelManager : MonoBehaviour
         SaveManager.Save();
 
         Destroy(this.gameObject);
+    }
+
+    public void findLevelDoors()
+    {
+        mEntranceDoor = GameObject.Find("EntranceDoorCombo").GetComponent<EntranceDoorFrame>();
+        mExitDoor = GameObject.Find("ExitDoorCombo").GetComponent<ExitDoorFrame>();
+        mExitDoor.attachLevelManager(this);
     }
     #endregion
 
