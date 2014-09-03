@@ -4482,6 +4482,10 @@ Prefab:
       propertyPath: teleportDestination
       value: 
       objectReference: {fileID: 430705137}
+    - target: {fileID: 11400006, guid: 20a84050690b9fd418d9670ca4ad7c58, type: 2}
+      propertyPath: frontInitialState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20a84050690b9fd418d9670ca4ad7c58, type: 2}
   m_RootGameObject: {fileID: 1018320643}
@@ -17107,7 +17111,7 @@ MonoBehaviour:
   frontSide: {fileID: 1838845947}
   backSide: {fileID: 430705137}
   frontInitialState: 1
-  backInitialState: 1
+  backInitialState: 2
 --- !u!212 &981199899
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -17336,7 +17340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontSide: {fileID: 149215661}
   backSide: {fileID: 1344134702}
-  frontInitialState: 1
+  frontInitialState: 2
   backInitialState: 1
 --- !u!212 &1018320648
 SpriteRenderer:
@@ -19553,6 +19557,10 @@ Prefab:
       propertyPath: teleportDestination
       value: 
       objectReference: {fileID: 149215661}
+    - target: {fileID: 11400006, guid: 20a84050690b9fd418d9670ca4ad7c58, type: 2}
+      propertyPath: backInitialState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20a84050690b9fd418d9670ca4ad7c58, type: 2}
   m_RootGameObject: {fileID: 981199894}
