@@ -34,21 +34,10 @@ public class LevelManager : MonoBehaviour
     #region Class Constants
     #endregion
 
-    //Put all initialization code here
-    //Remember to comment!
     protected void Awake()
     {
         coresFound = 0;
 
-        GameObject hudManager = new GameObject();
-        hudManager.AddComponent<HUDManager>();
-        hudManager.name = "HUDManager";
-
-        //GameObject.DontDestroyOnLoad(this.gameObject);
-    }
-
-    protected void Start()
-    {
         mEntranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
         if (mEntranceDoor == null)
             Debug.Log("Boohoo!");
@@ -62,6 +51,11 @@ public class LevelManager : MonoBehaviour
             InstantiateCurrentPlayer();
 
         InstantiateSpecialItems();
+
+        // Create HUD
+        GameObject hudManager = new GameObject();
+        hudManager.AddComponent<HUDManager>();
+        hudManager.name = "HUDManager";
     }
 
     #region Interface Methods
@@ -256,20 +250,39 @@ public class LevelManager : MonoBehaviour
             }
         }*/
 
+        GameObject player = null;
+
+        switch (G.getInstance().m_currentCharacter)
+        {
+            case G.KNIGHT:
+                player = Resources.Load("Prefabs/Players/Knight") as GameObject;
+                break;
+
+            case G.CAVEGIRL:
+            default:
+                player = Resources.Load("Prefabs/Players/CaveGirl") as GameObject;
+                break;
+        }
+
         if (player != null)
         {
-            Player playerScript = player.GetComponent<Player>();
+            player = Instantiate(player) as GameObject;
 
-            if (playerScript != null)
+            if (player != null)
             {
-                if (mEntranceDoor == null)
-                    Debug.Log("Entrance Door is null");
+                Player playerScript = player.GetComponent<Player>();
 
-                playerScript.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
-                playerScript.levelManager = this;
-                player.transform.position = mEntranceDoor.respawnLocation.transform.position;
+                if (playerScript != null)
+                {
+                    if (mEntranceDoor == null)
+                        Debug.Log("Entrance Door is null");
 
-                registerCheckpoint(mEntranceDoor, playerScript);
+                    playerScript.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
+                    playerScript.levelManager = this;
+                    player.transform.position = mEntranceDoor.respawnLocation.transform.position;
+
+                    registerCheckpoint(mEntranceDoor, playerScript);
+                }
             }
         }
     }
