@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TeleporterDoorSide : DoorSide
+public class TeleporterDoorSide : DoorSide, ITransitional
 {
     #region Interface Variables
     public GameObject teleportDestination;
@@ -11,6 +11,7 @@ public class TeleporterDoorSide : DoorSide
     
     #region Instance Variables
     TeleporterDoorSide mTeleportDestination;
+    Player mPlayerToTeleport;
 
     bool mWasFrontHit = false;
     bool mWasBackHit = false;
@@ -89,20 +90,30 @@ public class TeleporterDoorSide : DoorSide
         else
             activate();
     }
+
+    public void OnFinishTransition()
+    {
+        return;
+    }
+
+    public float GetWaitTime()
+    {
+        return 0.01f;
+    }
     #endregion
 
     #region Instance Methods
-    protected void teleport(Player player)
+    protected void teleport()
     {
-        if (player == null || 
+        if (mPlayerToTeleport == null || 
             mTeleportDestination == null || 
             mTeleportDestination.teleportSpawn == null ||
             !mCanTeleport)
             return;
 
-        player.transform.position = mTeleportDestination.teleportSpawn.transform.position;
+        Debug.Log("Teleporting");
 
-        StartCoroutine("pauseMovement");
+        mPlayerToTeleport.transform.position = mTeleportDestination.teleportSpawn.transform.position;
     }
 
     protected IEnumerator pauseMovement()
@@ -116,10 +127,16 @@ public class TeleporterDoorSide : DoorSide
 
     protected virtual void OnTriggerEnter2D(Collider2D collidee)
     {
-        Player player = collidee.GetComponent<Player>();
+        mPlayerToTeleport = collidee.GetComponent<Player>();
 
-        if (player != null && isActive())
-            teleport(player);
+        if (mPlayerToTeleport != null && isActive())
+        {
+            teleport();
+
+            CameraManager.AddTransition(mTeleportDestination.gameObject);
+            CameraManager.PlayTransitions();
+        }
+            //teleport(player);
     }
     #endregion
 }
