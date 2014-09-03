@@ -59,7 +59,7 @@ public class LevelManager : MonoBehaviour
 
     protected void Start()
     {
-        PlacePlayerAtCheckpoint();
+        //PlacePlayerAtCheckpoint();
 
         Debug.Log("Start");
     }
