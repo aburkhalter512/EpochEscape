@@ -542,6 +542,7 @@ MonoBehaviour:
   actuators:
   - {fileID: 452947933}
   - {fileID: 508331222}
+  - {fileID: 0}
 --- !u!212 &44637120
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14860,7 +14861,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11400000, guid: a5a8943e79f93aa47b28c60ded71e036, type: 2}
       propertyPath: actuators.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a5a8943e79f93aa47b28c60ded71e036, type: 2}
       propertyPath: m_LocalPosition.x
@@ -14902,6 +14903,10 @@ Prefab:
       propertyPath: actuators.Array.data[1]
       value: 
       objectReference: {fileID: 508331222}
+    - target: {fileID: 11400000, guid: a5a8943e79f93aa47b28c60ded71e036, type: 2}
+      propertyPath: actuators.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a5a8943e79f93aa47b28c60ded71e036, type: 2}
   m_RootGameObject: {fileID: 44637115}
@@ -20461,7 +20466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1938432693
 Transform:
   m_ObjectHideFlags: 0
@@ -21135,7 +21140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &2040025737
 BoxCollider2D:
   m_ObjectHideFlags: 0
