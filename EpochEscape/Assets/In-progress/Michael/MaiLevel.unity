@@ -2572,6 +2572,7 @@ MonoBehaviour:
   backSide: {fileID: 2134878999}
   initialState: 0
   time: 30
+  timeActive: 0
 --- !u!212 &46737219
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -15850,7 +15851,8 @@ MonoBehaviour:
   frontSide: {fileID: 383519942}
   backSide: {fileID: 1766243746}
   initialState: 0
-  time: 3
+  time: 20
+  timeActive: 0
 --- !u!212 &877926345
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -18316,6 +18318,7 @@ MonoBehaviour:
   backSide: {fileID: 236556490}
   initialState: 0
   time: 60
+  timeActive: 0
 --- !u!212 &1124219137
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26523,6 +26526,10 @@ Prefab:
     - target: {fileID: 100000, guid: fab0b6733a2173d49adb0eb5273319ff, type: 2}
       propertyPath: m_Name
       value: TimerDoorComboEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: fab0b6733a2173d49adb0eb5273319ff, type: 2}
+      propertyPath: time
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fab0b6733a2173d49adb0eb5273319ff, type: 2}

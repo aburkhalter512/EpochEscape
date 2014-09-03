@@ -5,9 +5,11 @@ public class TimerDoorFrame : LockedDoorFrame
 {
     #region Interface Variables
     public int time = 1;
+    public bool timeActive = false;
     #endregion
 
     #region Instance Variables
+    private int timeRemaining;
     #endregion
 
     #region Class Constants
@@ -85,6 +87,7 @@ public class TimerDoorFrame : LockedDoorFrame
     protected void startTimer()
     {
         StartCoroutine("countDownTimer");
+        timeActive = true;
     }
 
     private IEnumerator countDownTimer()
@@ -92,15 +95,22 @@ public class TimerDoorFrame : LockedDoorFrame
         for (int timeLeft = time; timeLeft > 0; timeLeft--)
         {
             Debug.Log(timeLeft);
+            timeRemaining = timeLeft;
             yield return new WaitForSeconds(1.0f);
         }
-
         stopTimer();
     }
 
     private void stopTimer()
     {
         base.lockDoor();
+        timeActive = false;
     }
     #endregion
+    
+    public void OnGUI(){
+    	if (timeActive) {
+			GUI.Label(new Rect(650.0f, 0.0f, 100.0f, 75.0f), timeRemaining.ToString());
+    	}
+    }
 }
