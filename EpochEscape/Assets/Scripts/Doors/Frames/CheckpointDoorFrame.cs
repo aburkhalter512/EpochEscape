@@ -73,9 +73,9 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
      *      is triggered the first time the player exits. Current progress is saved and
      *      the save location is moved a location based off of the Checkpoint door frame.
      */
-    public override void triggerFrontExit()
+    public override void triggerFrontEnter()
     {
-        base.triggerFrontExit();
+        base.triggerFrontEnter();
 
         if (!didRegisterCheckpoint)
             registerCheckpoint();
@@ -98,7 +98,7 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
      */
     protected void registerCheckpoint()
     {
-        return;
+        GameObject.Find("LevelManager").GetComponent<LevelManager>().registerCheckpoint(this, GameObject.FindObjectOfType<Player>());
     }
 
     /**

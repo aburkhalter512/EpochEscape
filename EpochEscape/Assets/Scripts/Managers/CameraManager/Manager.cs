@@ -30,4 +30,9 @@ public class Manager<T> : MonoBehaviour where T : Component
 
 		return m_instance;
 	}
+
+    protected static bool IsInstantiated()
+    {
+        return m_instance != null;
+    }
 }

@@ -114,6 +114,9 @@ public class TeleporterDoorSide : DoorSide, ITransitional
         Debug.Log("Teleporting");
 
         mPlayerToTeleport.transform.position = mTeleportDestination.teleportSpawn.transform.position;
+
+        CameraManager.AddTransition(mTeleportDestination.gameObject);
+        CameraManager.PlayTransitions();
     }
 
     protected IEnumerator pauseMovement()
@@ -132,9 +135,6 @@ public class TeleporterDoorSide : DoorSide, ITransitional
         if (mPlayerToTeleport != null && isActive())
         {
             teleport();
-
-            CameraManager.AddTransition(mTeleportDestination.gameObject);
-            CameraManager.PlayTransitions();
         }
             //teleport(player);
     }

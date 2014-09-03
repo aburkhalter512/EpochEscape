@@ -22,6 +22,8 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Instance Variables
+    Player mInstantiatedPlayer;
+
     ArrayList tiles = null;
 
     CheckpointDoorFrame mCheckpoint = null;
@@ -53,6 +55,13 @@ public class LevelManager : MonoBehaviour
         hudManager.name = "HUDManager";
     }
 
+    protected void Start()
+    {
+        PlacePlayerAtCheckpoint();
+
+        Debug.Log("Start");
+    }
+
     #region Interface Methods
     public void registerCheckpoint(CheckpointDoorFrame checkpoint, Player player)
     {
@@ -67,6 +76,8 @@ public class LevelManager : MonoBehaviour
 
     public void loadCheckpoint()
     {
+        Debug.Log("Loading checkpoint");
+
         Application.LoadLevel(Application.loadedLevelName);
 
         mCheckpointPlayer.transform.position = mCheckpoint.respawnLocation.transform.position;
@@ -275,18 +286,14 @@ public class LevelManager : MonoBehaviour
 
             if (player != null)
             {
-                Player playerScript = player.GetComponent<Player>();
+                mInstantiatedPlayer = player.GetComponent<Player>();
 
-                if (playerScript != null)
+                if (mInstantiatedPlayer != null)
                 {
                     if (mEntranceDoor == null)
                         Debug.Log("Entrance Door is null");
 
-                    playerScript.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
-                    playerScript.levelManager = this;
-                    player.transform.position = mEntranceDoor.respawnLocation.transform.position;
-
-                    registerCheckpoint(mEntranceDoor, playerScript);
+                    registerCheckpoint(mEntranceDoor, mInstantiatedPlayer);
                 }
             }
         }
@@ -319,6 +326,13 @@ public class LevelManager : MonoBehaviour
                 newSpecialItem.transform.position = specialItemSpawnLocations[i].transform.position;
             }
         }
+    }
+
+    private void PlacePlayerAtCheckpoint()
+    {
+        mInstantiatedPlayer.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
+        mInstantiatedPlayer.levelManager = this;
+        mInstantiatedPlayer.gameObject.transform.position = mEntranceDoor.respawnLocation.transform.position;
     }
     #endregion
 }
