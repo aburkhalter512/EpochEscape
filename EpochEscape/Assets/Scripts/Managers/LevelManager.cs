@@ -38,10 +38,6 @@ public class LevelManager : MonoBehaviour
     //Remember to comment!
     protected void Awake()
     {
-        mEntranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
-        mExitDoor = exitDoor.GetComponent<ExitDoorFrame>();
-        mExitDoor.attachLevelManager(this);
-
         coresFound = 0;
 
         if(G.getInstance().currentLevel == 1)
@@ -54,6 +50,13 @@ public class LevelManager : MonoBehaviour
         GameObject hudManager = new GameObject();
         hudManager.AddComponent<HUDManager>();
         hudManager.name = "HUDManager";
+    }
+
+    protected void Start()
+    {
+        mEntranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
+        mExitDoor = exitDoor.GetComponent<ExitDoorFrame>();
+        mExitDoor.attachLevelManager(this);
     }
 
     #region Interface Methods
