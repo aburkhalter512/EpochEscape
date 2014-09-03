@@ -23,12 +23,14 @@ public class Terminal : InteractiveObject
     #endregion
 
     // Use this for initialization
-    protected void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         mSR = GetComponent<SpriteRenderer>();
     }
 
-    protected void Start ()
+    protected virtual void Start ()
     {
         MonoBehaviour script = null;
 
@@ -66,7 +68,7 @@ public class Terminal : InteractiveObject
         }
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (mCanInteract && InputManager.getInstance().interactButton.getDown())
             Interact();
@@ -75,7 +77,7 @@ public class Terminal : InteractiveObject
     public override void Interact()
     {
         foreach (DynamicWall actuator in mWallActuators)
-            actuator.currentState = DynamicWall.STATES.CHANGE;
+            actuator.currentState = DynamicWall.STATES.TO_CHANGE;
 
         foreach (LockedDoorFrame actuator in mDoorActuators)
             actuator.toggleLock();
@@ -98,7 +100,7 @@ public class Terminal : InteractiveObject
         }
     }
 
-    public void OnTriggerEnter2D(Collider2D collidee)
+    public virtual void OnTriggerEnter2D(Collider2D collidee)
     {
         Player player = collidee.GetComponent<Player>();
 
@@ -106,7 +108,7 @@ public class Terminal : InteractiveObject
             mCanInteract = true;
     }
 
-    public void OnTriggerExit2D(Collider2D collidee)
+    public virtual void OnTriggerExit2D(Collider2D collidee)
     {
         Player player = collidee.GetComponent<Player>();
 

@@ -4,6 +4,8 @@ using System.Collections;
 public class RotatingWall : DynamicWall
 {
     #region Inspector Variables
+    public GameObject rotationPoint;
+
     public ROTATION_POINTS rotationPt;
     public float[] rotationAngles;
     
@@ -15,6 +17,8 @@ public class RotatingWall : DynamicWall
     private float baseAngle = 0.0f;
     private float originalAngle = 0.0f;
     private float destinationAngle = 0.0f;
+
+    private bool mRotationDirection; //False for counter-clockwise, true for clockwise
     
     private float currentRotationChange = 0.0f;
     #endregion
@@ -28,7 +32,7 @@ public class RotatingWall : DynamicWall
         BOTTOM_LEFT,
         TOP_LEFT,
         CUSTOM
-    };
+    }
     #endregion
     
     /*
@@ -38,38 +42,15 @@ public class RotatingWall : DynamicWall
     {
         base.Start();
         
-        //Finds the rotation point
-        switch (rotationPt)
-        {
-        case ROTATION_POINTS.CENTER:
-            break;
-        case ROTATION_POINTS.TOP_RIGHT:
-            realRotationPt.x = size.x;
-            realRotationPt.y = size.y;
-            break;
-        case ROTATION_POINTS.BOTTOM_RIGHT:
-            realRotationPt.x = size.x;
-            realRotationPt.y = -size.y;
-            break;
-        case ROTATION_POINTS.BOTTOM_LEFT:
-            realRotationPt.x = -size.x;
-            realRotationPt.y = -size.y;
-            break;
-        case ROTATION_POINTS.TOP_LEFT:
-            realRotationPt.x = -size.x;
-            realRotationPt.y = size.y;
-            break;
-        case ROTATION_POINTS.CUSTOM:
-            realRotationPt = customRotationPoint;
-            break;
-        }
-        
-        realRotationPt += transform.position;
-        
         baseAngle = transform.rotation.eulerAngles.z;
-        
+
         for (int i = 0; i < rotationAngles.Length; i++)
-            rotationAngles[i] %= 360;
+        {
+            if (rotationAngles[i] < 0)
+                rotationAngles[i] = 360 + rotationAngles[i] % 360;
+            else
+                rotationAngles[i] %= 360;
+        }
     }
     
     //Put all update code here
@@ -90,23 +71,32 @@ public class RotatingWall : DynamicWall
         audio.Play ();
         currentIndex = (currentIndex + 1) % rotationAngles.Length;
         
-        destinationAngle = rotationAngles[currentIndex] - transform.eulerAngles.z;
-        
-        if (destinationAngle > 180)
-            destinationAngle = destinationAngle - 360;
-        else if (destinationAngle < -180)
-            destinationAngle = destinationAngle + 360;
-        
-        /*if (destinationAngle < -180)
-            destinationAngle += 360;*/
+        destinationAngle = rotationAngles[currentIndex];
+
+        if (transform.localEulerAngles.z < 0)
+            transform.localEulerAngles.Set(
+                transform.localEulerAngles.x, 
+                transform.localEulerAngles.y,
+                360 + transform.localEulerAngles.z % 360);
+
+        float rotationDistance = 0.0f;
+
+        if (transform.localEulerAngles.z + (360 - destinationAngle) <= 180.0f)
+        {
+            mRotationDirection = true;
+            rotationDistance = -transform.localEulerAngles.z - (360 - destinationAngle);
+        }
+        else
+        {
+            mRotationDirection = false;
+            rotationDistance = destinationAngle - transform.localEulerAngles.z;
+        }
         
         originalAngle = transform.eulerAngles.z;
         
-        currentRotationChange = destinationAngle / changeTime;
+        currentRotationChange = rotationDistance / changeTime;
         
         UpdateSize();
-        
-        //Debug.Log(destinationAngle);
         
         currentState = STATES.CHANGE;
     }
@@ -140,15 +130,18 @@ public class RotatingWall : DynamicWall
         float realRotationChanged = currentRotationChange * Time.smoothDeltaTime;
         
         if (Utilities.isBounded(
-            rotationAngles[currentIndex] - realRotationChanged,
-            rotationAngles[currentIndex] + realRotationChanged,
-            transform.eulerAngles.z))
+            destinationAngle - realRotationChanged,
+            destinationAngle + realRotationChanged,
+            transform.localEulerAngles.z))
         {
-            transform.RotateAround(realRotationPt, Vector3.forward, rotationAngles[currentIndex] - transform.eulerAngles.z);
+            transform.eulerAngles.Set(0, 0, destinationAngle);
             currentRotationChange = 0.0f;
         }
         else
-            transform.RotateAround(realRotationPt, Vector3.forward, currentRotationChange * Time.smoothDeltaTime);
+            transform.RotateAround(
+                rotationPoint.transform.position, 
+                Vector3.forward, 
+                realRotationChanged);
     }
     #endregion
 }

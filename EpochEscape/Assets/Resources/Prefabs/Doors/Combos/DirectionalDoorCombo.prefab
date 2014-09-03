@@ -260,6 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontSide: {fileID: 100004}
   backSide: {fileID: 100000}
+  initialState: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
