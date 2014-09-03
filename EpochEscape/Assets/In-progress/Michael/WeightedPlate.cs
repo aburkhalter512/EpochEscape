@@ -18,6 +18,7 @@ public class WeightedPlate : MonoBehaviour
 	protected SpriteRenderer mSR;
 	
 	private STATE previousState;
+	private Player p;
 	#endregion
 	
 	#region Class Constants
@@ -38,6 +39,9 @@ public class WeightedPlate : MonoBehaviour
 		
 		previousState = STATE.UN_INIT;
 		currentState = STATE.ON;
+		
+		GameObject g2 = GameObject.FindGameObjectWithTag("Player");
+		Player p = g2.GetComponent<Player>();
 	}
 	
 	/*
@@ -46,9 +50,6 @@ public class WeightedPlate : MonoBehaviour
 	protected void Update()
 	{
 		if (!m_isLocked) {
-			GameObject g = GameObject.Find("Crate");
-			GameObject g2 = GameObject.FindGameObjectWithTag("Player");
-			Player p = g2.GetComponent<Player>();
 			if (activeBox != null && activeBox.renderer.enabled && renderer.bounds.Intersects(activeBox.renderer.bounds) && !p.m_isHoldingBox) {
 				audio.Play ();
 				
