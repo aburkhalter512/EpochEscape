@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LockedDoorFrame : DoorFrame
+public class LockedDoorFrame : DoorFrame, ITransitional
 {
     #region Interface Variables
     public STATE initialState;
@@ -122,4 +122,14 @@ public class LockedDoorFrame : DoorFrame
     
     #region Instance Methods
     #endregion
+
+    public void OnFinishTransition()
+    {
+        toggleLock();
+    }
+
+    public float GetWaitTime()
+    {
+        return 0.33f;
+    }
 }

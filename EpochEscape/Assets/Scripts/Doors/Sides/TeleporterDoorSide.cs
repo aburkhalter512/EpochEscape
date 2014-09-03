@@ -93,11 +93,15 @@ public class TeleporterDoorSide : DoorSide, ITransitional
 
     public void OnFinishTransition()
     {
-        return;
+        if(!mCanTeleport)
+            base.OnFinishTransition();
     }
 
     public float GetWaitTime()
     {
+        if(!mCanTeleport)
+            return base.GetWaitTime();
+
         return 0.01f;
     }
     #endregion

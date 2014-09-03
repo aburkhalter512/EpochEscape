@@ -77,16 +77,18 @@ public class Terminal : InteractiveObject
         if (mCanInteract)
         {
             foreach (DynamicWall actuator in mWallActuators)
-                actuator.currentState = DynamicWall.STATES.TO_CHANGE;
+                CameraManager.AddTransition(actuator.gameObject);
 
             foreach (LockedDoorFrame actuator in mDoorActuators)
-                actuator.toggleLock();
+                CameraManager.AddTransition(actuator.gameObject);
 
             foreach (DoorSide actuator in mDoorSideActuators)
-                actuator.toggle();
+                CameraManager.AddTransition(actuator.gameObject);
 
             foreach (SecurityCamera actuator in mCameraActuators)
-                actuator.toggle();
+                CameraManager.AddTransition(actuator.gameObject);
+
+            CameraManager.PlayTransitions();
 
             if (mIsActivated)
             {
