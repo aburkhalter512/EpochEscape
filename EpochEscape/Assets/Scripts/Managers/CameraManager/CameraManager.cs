@@ -37,7 +37,11 @@ public class CameraManager : Manager<CameraManager>
             GameObject player = GameObject.FindWithTag("Player");
 
             if (player != null)
+            {
                 m_player = player.GetComponent<Player>();
+
+                transform.position = new Vector3(m_player.transform.position.x, m_player.transform.position.y, transform.position.z);
+            }
         }
     }
 

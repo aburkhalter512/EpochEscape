@@ -115,6 +115,6 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional
 
     public float GetWaitTime()
     {
-        return 0.33f;
+        return 0.33f; // Wait for 1/3 of a second after unlocking the door.
     }
 }
