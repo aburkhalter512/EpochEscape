@@ -6,6 +6,7 @@ public class TeleporterDoorSide : DoorSide
     #region Interface Variables
     public GameObject teleportDestination;
     public GameObject teleportSpawn;
+    public float teleportMovementDelay = 1.0f;
     #endregion
     
     #region Instance Variables
@@ -19,6 +20,9 @@ public class TeleporterDoorSide : DoorSide
     protected void Awake()
     {
         base.Awake();
+
+        if (teleportMovementDelay < 0)
+            teleportMovementDelay = 1.0f;
     }
     
     protected void Start()
@@ -97,6 +101,17 @@ public class TeleporterDoorSide : DoorSide
             return;
 
         player.transform.position = mTeleportDestination.teleportSpawn.transform.position;
+
+        StartCoroutine("pauseMovement");
+    }
+
+    protected IEnumerator pauseMovement()
+    {
+        GameManager.getInstance().PauseMovement();
+
+        yield return new WaitForSeconds(teleportMovementDelay);
+
+        GameManager.getInstance().UnpauseMovement();
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collidee)
