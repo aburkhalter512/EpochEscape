@@ -23,12 +23,14 @@ public class OneTimeTerminal : Terminal
 
     protected override void Update()
     {
-        if (!mHasInteracted)
-            base.Update();
+        base.Update();
     }
     
     public override void Interact()
     {
+        if (mHasInteracted)
+            return;
+
         base.Interact();
 
         mHasInteracted = true;

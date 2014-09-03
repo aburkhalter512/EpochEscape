@@ -125,19 +125,15 @@ public class Player : MonoBehaviour
     #endregion
 
     public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
-        /*if (Input.GetKeyDown(KeyCode.E)) {
-            Debug.Log ("E press");
+        if (mIM.interactButton.getDown()) {
             if (!m_isHoldingBox) {
                 collider2D.enabled = false;
                 RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
                 collider2D.enabled = true;
                 if (hit.collider != null) {
-                    Debug.Log (hit.collider.gameObject.name);
                     if (hit.collider.gameObject.tag == "InteractiveObject") {
                         hit.collider.gameObject.SendMessage("Interact");
                     }
-                } else {
-                    Debug.Log ("nothing hit");
                 }
             } else {
                 collider2D.enabled = false;
@@ -152,7 +148,7 @@ public class Player : MonoBehaviour
                     box.Place();
                 }
             }
-        }*/
+        }
     }
 
     #region Update Methods
@@ -287,7 +283,7 @@ public class Player : MonoBehaviour
             m_isMoving = true;
 
         SelectSlot();
-        //Interact ();
+        Interact ();
 
         // 0th subscript indicates empty flask.
         if(inventory.inventory[m_selectedSlot] != null && !m_isShieldActive)

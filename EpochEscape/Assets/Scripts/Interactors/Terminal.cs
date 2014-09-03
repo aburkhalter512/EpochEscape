@@ -70,33 +70,34 @@ public class Terminal : InteractiveObject
 
     protected virtual void Update()
     {
-        if (mCanInteract && InputManager.getInstance().interactButton.getDown())
-            Interact();
     }
     
     public override void Interact()
     {
-        foreach (DynamicWall actuator in mWallActuators)
-            actuator.currentState = DynamicWall.STATES.TO_CHANGE;
-
-        foreach (LockedDoorFrame actuator in mDoorActuators)
-            actuator.toggleLock();
-
-        foreach (DoorSide actuator in mDoorSideActuators)
-            actuator.toggle();
-
-        foreach (SecurityCamera actuator in mCameraActuators)
-            actuator.toggle();
-
-        if (mIsActivated)
+        if (mCanInteract)
         {
-            mSR.sprite = deactivatedSprited;
-            mIsActivated = false;
-        }
-        else
-        {
-            mSR.sprite = activatedSprite;
-            mIsActivated = true;
+            foreach (DynamicWall actuator in mWallActuators)
+                actuator.currentState = DynamicWall.STATES.TO_CHANGE;
+
+            foreach (LockedDoorFrame actuator in mDoorActuators)
+                actuator.toggleLock();
+
+            foreach (DoorSide actuator in mDoorSideActuators)
+                actuator.toggle();
+
+            foreach (SecurityCamera actuator in mCameraActuators)
+                actuator.toggle();
+
+            if (mIsActivated)
+            {
+                mSR.sprite = deactivatedSprited;
+                mIsActivated = false;
+            }
+            else
+            {
+                mSR.sprite = activatedSprite;
+                mIsActivated = true;
+            }
         }
     }
 
