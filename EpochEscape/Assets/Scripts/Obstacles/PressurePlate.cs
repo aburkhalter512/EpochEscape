@@ -97,7 +97,9 @@ public class PressurePlate : MonoBehaviour
 
             CameraManager.PlayTransitions();
 
-            currentState = STATE.OFF;
+            //currentState = STATE.OFF;
+
+            currentState = (currentState == STATE.ON ? STATE.OFF : STATE.ON);
         }
     }
 
@@ -108,7 +110,7 @@ public class PressurePlate : MonoBehaviour
     {
         if (collidee.tag == "Player")
         {
-            currentState = STATE.ON;
+            //currentState = STATE.ON;
         }
     }
     #endregion
