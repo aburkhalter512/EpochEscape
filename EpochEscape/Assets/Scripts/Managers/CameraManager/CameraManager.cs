@@ -178,12 +178,15 @@ public class CameraManager : Manager<CameraManager>
 
         Vector3 targetPosition = new Vector3(centerX, centerY, transform.position.z);
         Vector3 previousPosition = new Vector3(m_player.transform.position.x, m_player.transform.position.y, transform.position.z);
-        float targetSize = 0f;
+        float targetSize = m_initialCameraSize;
 
-        if (sizeX / sizeY > m_camera.aspect)
-            targetSize = (sizeX / m_camera.aspect) / 2;
-        else
-            targetSize = sizeY / 2;
+        if(m_transitions.Count > 1)
+        {
+            if(sizeX / sizeY > m_camera.aspect)
+                targetSize = (sizeX / m_camera.aspect) / 2;
+            else
+                targetSize = sizeY / 2;
+        }
 
         GameManager.getInstance().PauseMovement();
 
@@ -204,7 +207,7 @@ public class CameraManager : Manager<CameraManager>
         if (!m_isInitialized)
             yield break;
 
-        while (Vector3.Distance(transform.position, targetPosition) > TRANSITION_THRESHOLD && Mathf.Abs(targetSize - m_camera.orthographicSize) > TRANSITION_THRESHOLD)
+        while (Vector3.Distance(transform.position, targetPosition) > TRANSITION_THRESHOLD || Mathf.Abs(targetSize - m_camera.orthographicSize) > TRANSITION_THRESHOLD)
         {
             transform.position = Vector3.Lerp(transform.position, targetPosition, TRANSITION_SPEED_MULTIPLIER * Time.smoothDeltaTime);
             m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, targetSize, TRANSITION_SPEED_MULTIPLIER * Time.smoothDeltaTime);
