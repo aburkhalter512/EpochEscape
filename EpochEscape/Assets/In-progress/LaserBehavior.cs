@@ -11,7 +11,7 @@ public class LaserBehavior : MonoBehaviour
     public Color color;
     public List<Vector3> positions;
     public GameObject sensor;
-	public bool on = true;
+    public bool on = true;
     protected int bounces = 0;
     
     void Start ()
@@ -22,12 +22,12 @@ public class LaserBehavior : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-		if(on){
-	        bounces = 0;
-	        BuildLaser (start.position);
-	        DrawLaser ();
-	        positions.Clear ();
-		}
+        if(on){
+            bounces = 0;
+            BuildLaser (start.position);
+            DrawLaser ();
+            positions.Clear ();
+        }
     }
     
     public void BuildLaser (Vector3 origin)
@@ -74,30 +74,30 @@ public class LaserBehavior : MonoBehaviour
                         }
                         c.Collect();
                     }
-					if(hit.collider.tag == "Laser Switch"){
-						LaserSwitchBehavior ls = hit.collider.gameObject.GetComponent<LaserSwitchBehavior>();
-						if(ls.colorMatch.r == color.r && ls.colorMatch.g == color.g && ls.colorMatch.b == color.b){
-							ls.Activate ();
-						}
-					}
-					break;
-				}
-			}
-		}
-	}
-	
-	public void DrawLaser ()
-	{
-		vLine = VectorLine.SetLine (color, .05f, positions.ToArray ());
-		vLine.lineWidth = lineWidth;
-		vLine.Draw ();
-	}
+                    if(hit.collider.tag == "Laser Switch"){
+                        LaserSwitchBehavior ls = hit.collider.gameObject.GetComponent<LaserSwitchBehavior>();
+                        if(ls.colorMatch.r == color.r && ls.colorMatch.g == color.g && ls.colorMatch.b == color.b){
+                            ls.Activate ();
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void DrawLaser ()
+    {
+        vLine = VectorLine.SetLine (color, .05f, positions.ToArray ());
+        vLine.lineWidth = lineWidth;
+        vLine.Draw ();
+    }
                    
     public void SetColor(Color c){
         color = c;
     }
 
-	public void Activate(){
-		on = true;
-	}
+    public void Activate(){
+        on = true;
+    }
 }

@@ -13,3 +13,4 @@ Temp/
 *.sublime-project
 *.sublime-workspace
 *.booproj
+*.log

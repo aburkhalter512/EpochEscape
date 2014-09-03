@@ -36,7 +36,7 @@ public class LevelManager : MonoBehaviour
 
     //Put all initialization code here
     //Remember to comment!
-    protected void Start()
+    protected void Awake()
     {
         mEntranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
         mExitDoor = exitDoor.GetComponent<ExitDoorFrame>();

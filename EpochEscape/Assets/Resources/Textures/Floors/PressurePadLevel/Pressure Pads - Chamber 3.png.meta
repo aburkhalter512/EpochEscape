@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: c4d2a30f43f3fb64fa1ee0968e0ad12c
+guid: 6ef19ce044e6eb14da79e2e4c46be314
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Teleporter level 1 v3
+    21300000: Pressure Pads - Chamber 3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -41,11 +41,7 @@ TextureImporter:
   spritePixelsToUnits: 160
   alphaIsTransparency: 1
   textureType: 5
-  buildTargetSettings:
-  - buildTarget: iPhone
-    maxTextureSize: 1024
-    textureFormat: 13
-    compressionQuality: 50
+  buildTargetSettings: []
   spriteSheet:
     sprites: []
   spritePackingTag: 
