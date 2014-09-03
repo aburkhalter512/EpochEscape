@@ -4,13 +4,9 @@ using System.Collections;
 public abstract class InteractiveObject : MonoBehaviour {
 
 	// Use this for initialization
-	protected void Start () {
+	protected virtual void Awake ()
+    {
 		gameObject.tag = "InteractiveObject";
-	}
-	
-	// Update is called once per frame
-	protected void Update () {
-	
 	}
 
 	public abstract void Interact();	

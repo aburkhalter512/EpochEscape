@@ -4,8 +4,11 @@ using G = GameManager;
 
 public class Player : MonoBehaviour
 {
-    public float m_interactionDistance = .2f;
     #region Inspector Variables
+    public LevelManager levelManager;
+
+    public float m_interactionDistance = .2f;
+
     public bool m_isMoving;
     public bool m_isMovingForward;
     public bool m_isMovingDown;
@@ -50,13 +53,17 @@ public class Player : MonoBehaviour
     public bool m_playSpecialItemAnim = false;
     public float m_specialItemAnimDuration; // seconds
     public float m_specialItemCollectTime = 0f;
-    #endregion
+
     public bool m_isHoldingBox = false;
     public GameObject k_boxPrefab;
+    #endregion
+
     #region Instance Variables
     private Animator m_animator;
 
     public int currentCores = 0;
+
+    private InputManager mIM = null;
     #endregion
 
     #region Class Constants
@@ -112,11 +119,13 @@ public class Player : MonoBehaviour
         //m_previousMouseScreenPos = Vector3.zero;
 
         m_collectAnimation = transform.FindChild("CollectAnimation");
+
+        mIM = InputManager.getInstance();
     }
     #endregion
 
     public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
-        if (Input.GetKeyDown(KeyCode.E)) {
+        /*if (Input.GetKeyDown(KeyCode.E)) {
             Debug.Log ("E press");
             if (!m_isHoldingBox) {
                 collider2D.enabled = false;
@@ -143,8 +152,9 @@ public class Player : MonoBehaviour
                     box.Place();
                 }
             }
-        }
+        }*/
     }
+
     #region Update Methods
     protected void Update()
     {
@@ -210,6 +220,7 @@ public class Player : MonoBehaviour
         {
             playerCaught = Instantiate(playerCaught) as GameObject;
             playerCaught.transform.position = transform.position;
+            //playerCaught.GetComponent<PlayerCaughtAnimation>().levelManager = levelManager;
         }
         
         //cam.m_currentState = CameraBehavior.State.PLAYER_CAUGHT;
@@ -227,8 +238,8 @@ public class Player : MonoBehaviour
     {
         if(!m_isMoving)
         {
-            Vector3 mouseScreenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z);
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+            Vector3 mouseScreenPosition = mIM.mouse.inScreen();
+            Vector3 mouseWorldPosition = mIM.mouse.inWorld();
             Vector3 toMousePosition = mouseWorldPosition - transform.renderer.bounds.center;
             toMousePosition.z = 0f;
 
@@ -276,12 +287,12 @@ public class Player : MonoBehaviour
             m_isMoving = true;
 
         SelectSlot();
-        Interact ();
+        //Interact ();
 
         // 0th subscript indicates empty flask.
         if(inventory.inventory[m_selectedSlot] != null && !m_isShieldActive)
         {
-            if(Input.GetButtonDown("Fire1"))
+            if(mIM.actionButton.getDown())
             {
                 if(m_selectedSlot == 0)
                 {
@@ -294,7 +305,7 @@ public class Player : MonoBehaviour
             }
         }
         
-        if (Input.GetButtonDown ("Fire2") && inventory.inventory[Inventory.SPECIAL_SLOT] != null)
+        if (mIM.specialActionButton.getDown() && inventory.inventory[Inventory.SPECIAL_SLOT] != null)
         {
             if(!m_isShieldActive)
             {
@@ -307,9 +318,9 @@ public class Player : MonoBehaviour
                 m_isClubBroken = true; // Cave Girl
         }
 
-        if(Input.GetAxisRaw ("Mouse ScrollWheel") > 0)
+        if(mIM.itemSwitcher.get() > 0)
             ScrollSlotIncrement ();
-        if(Input.GetAxisRaw ("Mouse ScrollWheel") < 0)
+        if (mIM.itemSwitcher.get() < 0)
             ScrollSlotDecrement();
     }
 
@@ -326,13 +337,12 @@ public class Player : MonoBehaviour
     }
 
     private void SelectSlot() {
-        if(Input.GetKeyDown(KeyCode.Alpha1)){
+        if(mIM.itemButtons[0].getDown()){
             m_selectedSlot = 0;
-            Debug.Log("Slot 1");
         }
-        else if(Input.GetKeyDown(KeyCode.Alpha2)){
+        else if (mIM.itemButtons[1].getDown())
+        {
             m_selectedSlot = 1;
-            Debug.Log ("Slot 2");
         }
     }
 

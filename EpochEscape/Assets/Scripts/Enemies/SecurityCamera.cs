@@ -15,7 +15,8 @@ public class SecurityCamera : MonoBehaviour
         ROTATE_RIGHT,
         ALERT,
         FIXATE,
-        RESET
+        RESET,
+        DISABLE
     };
     
     public float m_patrolAngle = DEFAULT_PATROL_ANGLE;
@@ -41,6 +42,34 @@ public class SecurityCamera : MonoBehaviour
     {
         if(!G.getInstance().paused)
             UpdateCurrentState();
+    }
+
+    public void deactivate()
+    {
+        if (cur != State.DISABLE)
+        {
+            cur = State.DISABLE;
+
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
+
+    public void activate()
+    {
+        if (cur == State.DISABLE)
+        {
+            cur = State.ROTATE_LEFT;
+
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+
+    public void toggle()
+    {
+        if (cur != State.DISABLE)
+            deactivate();
+        else
+            activate();
     }
     
     private void UpdateCurrentState()

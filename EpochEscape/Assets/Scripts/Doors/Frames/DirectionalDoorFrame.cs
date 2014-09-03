@@ -110,8 +110,11 @@ public class DirectionalDoorFrame : LockedDoorFrame
      */
     public override void triggerBackEnter()
     {
-        mIsBackHit = true;
-        mFrontSide.activate();
+        if (mCurState != STATE.LOCKED)
+        {
+            mIsBackHit = true;
+            mFrontSide.activate();
+        }
     }
 
     /**

@@ -6,21 +6,18 @@ public class TimerDoorFrame : LockedDoorFrame
     #region Interface Variables
     public int time = 1;
     #endregion
-    
+
     #region Instance Variables
-    private float mCurTime = -1;
-    private float mDestTime = -1;
-    private int mIntTime = -1;
     #endregion
 
     #region Class Constants
     #endregion
-    
+
     protected void Start()
     {
         base.Start();
     }
-    
+
     #region Interface Methods
     public override void triggerFrontEnter()
     {
@@ -65,36 +62,38 @@ public class TimerDoorFrame : LockedDoorFrame
         }
     }
 
-    public virtual void lockDoor()
+    public override void lockDoor()
     {
         return;
     }
-    public virtual void unlockDoor()
+    public override void unlockDoor()
     {
         base.unlockDoor();
 
         startTimer();
     }
-    public virtual void toggleLock()
+    public override void toggleLock()
     {
-        return;
+        Debug.Log("Toggling");
+
+        if (mCurState != STATE.UNLOCKED)
+            unlockDoor();
     }
     #endregion
-    
+
     #region Instance Methods
     protected void startTimer()
     {
-        mCurTime = Time.realtimeSinceStartup;
-        mDestTime = mCurTime + time;
-        mIntTime = time;
-
-        countDownTimer();
+        StartCoroutine("countDownTimer");
     }
 
     private IEnumerator countDownTimer()
     {
         for (int timeLeft = time; timeLeft > 0; timeLeft--)
+        {
+            Debug.Log(timeLeft);
             yield return new WaitForSeconds(1.0f);
+        }
 
         stopTimer();
     }
