@@ -2,7 +2,7 @@
 using System.Collections;
 using G = GameManager;
 
-public class SecurityCamera : MonoBehaviour
+public class SecurityCamera : MonoBehaviour, ITransitional
 {
     public const float DEFAULT_PATROL_ANGLE = 45f; // 45 degrees
     public const float DEFAULT_PATROL_SPEED = 90f; // 90 degrees/sec
@@ -172,5 +172,15 @@ public class SecurityCamera : MonoBehaviour
         m_currentState = State.IDLE;
 
         transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    public void OnFinishTransition()
+    {
+        toggle();
+    }
+
+    public float GetWaitTime()
+    {
+        return 0.33f;
     }
 }
