@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PowerCoreDoorFrame : DoorFrame
+public class PowerCoreDoorFrame : DoorFrame, ITransitional
 {
     #region Interface Variables
     public CORES powerCores = CORES.FULL;
@@ -100,10 +100,21 @@ public class PowerCoreDoorFrame : DoorFrame
     #region Instance Methods
     protected void unlockDoor()
     {
-        mFrontSide.activate();
-        mBackSide.activate();
-
         mHasUnlocked = true;
+
+        CameraManager.AddTransition(gameObject);
+        CameraManager.PlayTransitions();
     }
     #endregion
+
+    public void OnFinishTransition()
+    {
+        mFrontSide.activate();
+        mBackSide.activate();
+    }
+
+    public float GetWaitTime()
+    {
+        return 0.33f;
+    }
 }

@@ -6,10 +6,6 @@ public class Player : MonoBehaviour
 {
     public float m_interactionDistance = .2f;
     #region Inspector Variables
-    public float mForce = FORCE;
-    public float mDynamicFriction = DYNAMIC_FRICTION;
-    public float mAirResistance = AIR_RESTIANCE_MODIFIER;
-
     public bool m_isMoving;
     public bool m_isMovingForward;
     public bool m_isMovingDown;
@@ -60,16 +56,11 @@ public class Player : MonoBehaviour
     #region Instance Variables
     private Animator m_animator;
 
-    private Vector3 transForces = Vector3.zero; //Translation forces
-    private Vector3 velocity = Vector3.zero;
-
     public int currentCores = 0;
     #endregion
 
     #region Class Constants
-    public const float FORCE = 1.0f;
-    public const float DYNAMIC_FRICTION = 1.0f;
-    public const float AIR_RESTIANCE_MODIFIER = 0.5f;
+    public const float SPEED = 2f;
     public const float MAX_DETECTION_LEVEL = 100.0f;
     public const int UNIQUE_ITEM_SLOTS = 1;
 
@@ -190,11 +181,8 @@ public class Player : MonoBehaviour
     {
         UpdateUserControl();
         UpdateDetection();
-        UpdateMovement();
         UpdateDirection();
-
-        ApplyEnvironmentalForces();
-        ApplyForces();
+        UpdateMovement();
 
         UpdateItemCollectionAnim();
         UpdateShield();
@@ -214,7 +202,7 @@ public class Player : MonoBehaviour
         
         GameObject.Find("HUDManager").SetActive(false);
         
-        CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
+        //CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
         
         GameObject playerCaught = Resources.Load("Prefabs/PlayerCaught") as GameObject;
         
@@ -224,7 +212,7 @@ public class Player : MonoBehaviour
             playerCaught.transform.position = transform.position;
         }
         
-        cam.m_currentState = CameraBehavior.State.PLAYER_CAUGHT;
+        //cam.m_currentState = CameraBehavior.State.PLAYER_CAUGHT;
     }
     #endregion
 
@@ -375,18 +363,14 @@ public class Player : MonoBehaviour
 
     private void UpdateMovement()
     {
-        Vector3 movement = Vector3.zero;
+        if (m_isMoving)
+        {
+            float xDirection = Mathf.Cos(m_directionAngle * Mathf.Deg2Rad);
+            float yDirection = Mathf.Sin(m_directionAngle * Mathf.Deg2Rad);
+            Vector3 direction = new Vector3(xDirection, yDirection, 0f);
 
-        if(m_isMovingForward) movement.y = mDynamicFriction;
-        else if(m_isMovingDown) movement.y = -mDynamicFriction;
-
-        if(m_isMovingLeft) movement.x = -mDynamicFriction;
-        else if(m_isMovingRight) movement.x = mDynamicFriction;
-
-        movement.Normalize();
-        movement *= mForce;
-        transForces += movement * Time.smoothDeltaTime;
-        transForces -= Utilities.toVector3(velocity * mDynamicFriction);
+            transform.position += (direction * SPEED * Time.smoothDeltaTime);
+        }
     }
 
     private void UpdateDirection()
@@ -450,28 +434,6 @@ public class Player : MonoBehaviour
             if (m_detectionLevel > (m_detectionMax - m_detectionThres) && m_detectionLevel > 0)
                 m_detectionLevel -= m_detectionFade * Time.deltaTime;
         }
-    }
-    #endregion
-
-    #region ApplyEnvironmentalForces methods
-    void ApplyEnvironmentalForces()
-    {
-        ApplyAirResistance();
-    }
-
-    void ApplyAirResistance()
-    {
-        transForces -= Utilities.toVector3(rigidbody2D.velocity * mAirResistance);
-    }
-
-    protected void ApplyForces()
-    {
-        if(Time.deltaTime - BoostTime > 2f)
-            Boost = 1f;
-        velocity += transForces;
-        transForces = Vector3.zero;
-
-        rigidbody2D.AddForce(velocity * rigidbody2D.mass);
     }
     #endregion
 

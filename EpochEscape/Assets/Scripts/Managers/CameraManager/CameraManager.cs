@@ -181,7 +181,7 @@ public class CameraManager : Manager<CameraManager>
         else
             targetSize = sizeY / 2;
 
-        GameManager.PauseMovement();
+        GameManager.getInstance().PauseMovement();
 
         m_isTransitioning = true;
 
@@ -192,7 +192,7 @@ public class CameraManager : Manager<CameraManager>
         m_isTransitioning = false;
         m_waitTime = 0f;
 
-        GameManager.UnpauseMovement();
+        GameManager.getInstance().UnpauseMovement();
     }
 
     private IEnumerator TransformCamera(Vector3 targetPosition, float targetSize)

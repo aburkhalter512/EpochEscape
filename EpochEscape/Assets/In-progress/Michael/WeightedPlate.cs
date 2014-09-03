@@ -56,24 +56,13 @@ public class WeightedPlate : MonoBehaviour
 				foreach (GameObject actuator in actuators)
 				{
 					Debug.Log("Triggered");
-					
-					if (actuator != null)
-					{
-						CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-						
-						Transform parent = actuator.transform.parent;
-						
-						//Add the actuators camera movement stack. They will be activated in order
-						//when the previous has finished changing.
-						if(parent != null && parent.tag == "WallPivot")
-						{
-							if(cameraBehavior.m_lerpTargets.Count == 0 || cameraBehavior.m_lerpTargets.Peek() != parent.gameObject)
-								cameraBehavior.m_lerpTargets.Push(parent.gameObject);
-						}
-						else
-							cameraBehavior.m_lerpTargets.Push(actuator);
-					}
+
+                    if (actuator != null)
+                        CameraManager.AddTransition(actuator);
 				}
+
+                CameraManager.PlayTransitions();
+
 				currentState = STATE.OFF;
 				collider2D.enabled = false;
 				m_isLocked = true;
@@ -102,24 +91,13 @@ public class WeightedPlate : MonoBehaviour
 				foreach (GameObject actuator in actuators)
 				{
 					Debug.Log("Triggered");
-					
-					if (actuator != null)
-					{
-						CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-						
-						Transform parent = actuator.transform.parent;
-						
-						//Add the actuators camera movement stack. They will be activated in order
-						//when the previous has finished changing.
-						if(parent != null && parent.tag == "WallPivot")
-						{
-							if(cameraBehavior.m_lerpTargets.Count == 0 || cameraBehavior.m_lerpTargets.Peek() != parent.gameObject)
-								cameraBehavior.m_lerpTargets.Push(parent.gameObject);
-						}
-						else
-							cameraBehavior.m_lerpTargets.Push(actuator);
-					}
+
+                    if (actuator != null)
+                        CameraManager.AddTransition(actuator);
 				}
+
+                CameraManager.PlayTransitions();
+
 				collider2D.enabled = true;
 				currentState = STATE.ON;
 			}
@@ -157,24 +135,13 @@ public class WeightedPlate : MonoBehaviour
 			foreach (GameObject actuator in actuators)
 			{
 				Debug.Log("Triggered");
-				
-				if (actuator != null)
-				{
-					CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-					
-					Transform parent = actuator.transform.parent;
-					
-					//Add the actuators camera movement stack. They will be activated in order
-					//when the previous has finished changing.
-					if(parent != null && parent.tag == "WallPivot")
-					{
-						if(cameraBehavior.m_lerpTargets.Count == 0 || cameraBehavior.m_lerpTargets.Peek() != parent.gameObject)
-							cameraBehavior.m_lerpTargets.Push(parent.gameObject);
-					}
-					else
-						cameraBehavior.m_lerpTargets.Push(actuator);
-				}
+
+                if (actuator != null)
+                    CameraManager.AddTransition(actuator);
 			}
+
+            CameraManager.PlayTransitions();
+
 			currentState = STATE.OFF;
 		}
 	}
@@ -192,24 +159,13 @@ public class WeightedPlate : MonoBehaviour
 			foreach (GameObject actuator in actuators)
 			{
 				Debug.Log("Triggered");
-				
-				if (actuator != null)
-				{
-					CameraBehavior cameraBehavior = Camera.main.GetComponent<CameraBehavior>();
-					
-					Transform parent = actuator.transform.parent;
-					
-					//Add the actuators camera movement stack. They will be activated in order
-					//when the previous has finished changing.
-					if(parent != null && parent.tag == "WallPivot")
-					{
-						if(cameraBehavior.m_lerpTargets.Count == 0 || cameraBehavior.m_lerpTargets.Peek() != parent.gameObject)
-							cameraBehavior.m_lerpTargets.Push(parent.gameObject);
-					}
-					else
-						cameraBehavior.m_lerpTargets.Push(actuator);
-				}
+
+                if (actuator != null)
+                    CameraManager.AddTransition(actuator);
 			}
+
+            CameraManager.PlayTransitions();
+
 			currentState = STATE.ON;
 		}
 	}

@@ -24,7 +24,7 @@ public class Floor : MonoBehaviour
         if (player != null)
         {
             mDynamicFriction = Mathf.Clamp(mDynamicFriction, MIN_FRICTION, MAX_FRICTION);
-            player.mDynamicFriction = mDynamicFriction;
+            //player.mDynamicFriction = mDynamicFriction;
         }
     }
     #endregion

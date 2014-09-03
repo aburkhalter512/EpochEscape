@@ -298,9 +298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_interactionDistance: .200000003
-  mForce: 800
-  mDynamicFriction: 1
-  mAirResistance: 1
   m_isMoving: 0
   m_isMovingForward: 0
   m_isMovingDown: 0

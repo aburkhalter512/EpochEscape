@@ -78,14 +78,14 @@ public abstract class DynamicWall : Wall, ITransitional
     protected abstract void change();
     #endregion
 
-    public IEnumerator OnFinishTransition()
+    public void OnFinishTransition()
     {
         // Instructs the wall to begin rotating.
         currentState = DynamicWall.STATES.TO_CHANGE;
+    }
 
-        // Instructs the camera to wait until the wall has finished rotating.
-        yield return new WaitForSeconds(changeTime);
-
-        Debug.Log("Wall has finished rotating.");
+    public float GetWaitTime()
+    {
+        return changeTime;
     }
 }
