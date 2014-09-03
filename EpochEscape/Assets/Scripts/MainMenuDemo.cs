@@ -966,7 +966,7 @@ public class MainMenuDemo : MonoBehaviour
             ClickSound.Play ();
             currentPage = Page.Character;
             m_currentLevel = 4;
-            m_levelName = "adamsLevel";
+            m_levelName = "TerrysLevel";
         }
         G.getInstance().PlayHover(0);
         GUILayout.Space (10);
@@ -974,7 +974,7 @@ public class MainMenuDemo : MonoBehaviour
             ClickSound.Play ();
             currentPage = Page.Character;
             m_currentLevel = 5;
-            m_levelName = "TerrysLevel";
+            m_levelName = "adamsLevel";
         }
         G.getInstance().PlayHover(1);
         GUILayout.Space (10);
@@ -982,7 +982,7 @@ public class MainMenuDemo : MonoBehaviour
             ClickSound.Play ();
             currentPage = Page.Character;
             m_currentLevel = 6;
-            m_levelName = "MiniLevel2";
+            m_levelName = "MaiLevel";
         }
         G.getInstance().PlayHover(2);
         GUILayout.Space (10);

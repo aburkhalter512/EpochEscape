@@ -21,7 +21,7 @@ public class ExitDoorFrame : PowerCoreDoorFrame
     protected void Update()
     {
         if (!mHasUnlocked)
-            if (mPlayer.currentCores == mPlayer.MAX_CORES)
+            if (powerCores == CORES.NONE || mPlayer.currentCores == mPlayer.MAX_CORES)
                 unlockDoor();
     }
     

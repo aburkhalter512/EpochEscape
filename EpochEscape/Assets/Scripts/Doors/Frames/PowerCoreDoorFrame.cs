@@ -27,6 +27,7 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional
 
     public enum CORES
     {
+        NONE,
         ONE,
         TWO,
         FULL

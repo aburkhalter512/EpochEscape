@@ -11146,6 +11146,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 087d37dffbbe6b34abaaf8027d193ea4, type: 2}
+      propertyPath: powerCores
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 087d37dffbbe6b34abaaf8027d193ea4, type: 2}
   m_RootGameObject: {fileID: 979872748}
@@ -11887,6 +11891,10 @@ Prefab:
     - target: {fileID: 400010, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400010, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
+      propertyPath: powerCores
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
@@ -18715,7 +18723,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontSide: {fileID: 1300687194}
   backSide: {fileID: 790228557}
-  powerCores: 2
+  powerCores: 3
 --- !u!1001 &899185814
 Prefab:
   m_ObjectHideFlags: 0
@@ -20777,7 +20785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontSide: {fileID: 516807817}
   backSide: {fileID: 1287946913}
-  powerCores: 0
+  powerCores: 1
 --- !u!212 &979872753
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -29152,6 +29160,10 @@ Prefab:
     - target: {fileID: 400002, guid: 0ad1b5ccef436024592864910a31119f, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 0ad1b5ccef436024592864910a31119f, type: 2}
+      propertyPath: powerCores
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0ad1b5ccef436024592864910a31119f, type: 2}
@@ -40160,7 +40172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontSide: {fileID: 1255482683}
   backSide: {fileID: 323883396}
-  powerCores: 1
+  powerCores: 2
 --- !u!212 &1896061536
 SpriteRenderer:
   m_ObjectHideFlags: 0

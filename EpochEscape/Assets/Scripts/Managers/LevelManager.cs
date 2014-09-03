@@ -53,6 +53,8 @@ public class LevelManager : MonoBehaviour
         GameObject hudManager = new GameObject();
         hudManager.AddComponent<HUDManager>();
         hudManager.name = "HUDManager";
+
+        PlacePlayerAtCheckpoint();
     }
 
     protected void Start()

@@ -22,11 +22,12 @@ public class CameraManager : Manager<CameraManager>
         base.Awake();
 
         m_isInitialized = InitializeCamera() && InitializeTransitionContainer();
+
+        FindPlayer();
     }
 
     public void Update()
     {
-        FindPlayer();
         FollowPlayer();
     }
 
