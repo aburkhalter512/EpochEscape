@@ -30,6 +30,14 @@ public class OrganicDoorSide : DoorSide
     #region Interface Methods
     public override void triggerFrontEnter()
     {
+		GameObject go = GameObject.FindGameObjectWithTag("Player");
+		Player p = go.GetComponent<Player>();
+		if (p != null) {
+			if (p.m_isHoldingBox)
+				gameObject.collider2D.isTrigger = false;
+			else
+				gameObject.collider2D.isTrigger = true;
+		}
         return;
     }
     public override void triggerFrontExit()
@@ -39,6 +47,16 @@ public class OrganicDoorSide : DoorSide
 
     public override void triggerBackEnter()
     {
+    	/*
+		GameObject go = GameObject.FindGameObjectWithTag("Player");
+		Player p = go.GetComponent<Player>();
+		if (p != null) {
+			if (p.m_isHoldingBox)
+				gameObject.collider2D.isTrigger = true;
+			else
+				gameObject.collider2D.isTrigger = false;
+		}
+		*/
         return;
     }
     public override void triggerBackExit()
