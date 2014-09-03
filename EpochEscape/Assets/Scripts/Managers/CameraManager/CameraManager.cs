@@ -226,6 +226,8 @@ public class CameraManager : Manager<CameraManager>
 
         m_transitions.Clear();
 
+        Debug.Log(m_waitTime);
+
         yield return new WaitForSeconds(m_waitTime);
     }
 
