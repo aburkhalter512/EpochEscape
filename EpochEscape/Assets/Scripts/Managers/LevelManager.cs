@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     public GameObject exitDoor;
 
     public string nextLevel;
-    public 
+    public GameObject player;
     #endregion
 
     #region Instance Variables
@@ -40,13 +40,6 @@ public class LevelManager : MonoBehaviour
     {
         coresFound = 0;
 
-        if(G.getInstance().currentLevel == 1)
-            InstantiateAllPlayers();
-        else
-            InstantiateCurrentPlayer();
-
-        InstantiateSpecialItems();
-
         GameObject hudManager = new GameObject();
         hudManager.AddComponent<HUDManager>();
         hudManager.name = "HUDManager";
@@ -57,8 +50,18 @@ public class LevelManager : MonoBehaviour
     protected void Start()
     {
         mEntranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
+        if (mEntranceDoor == null)
+            Debug.Log("Boohoo!");
+
         mExitDoor = exitDoor.GetComponent<ExitDoorFrame>();
         mExitDoor.attachLevelManager(this);
+
+        if (G.getInstance().currentLevel == 1)
+            InstantiateAllPlayers();
+        else
+            InstantiateCurrentPlayer();
+
+        InstantiateSpecialItems();
     }
 
     #region Interface Methods
@@ -219,7 +222,7 @@ public class LevelManager : MonoBehaviour
 
     private void InstantiateCurrentPlayer()
     {
-        GameObject GO = null;
+        /*GameObject GO = null;
         Player player = null;
 
         // Create the character.
@@ -250,6 +253,23 @@ public class LevelManager : MonoBehaviour
                 Instantiate(GO);
 
                 registerCheckpoint(mEntranceDoor, player);
+            }
+        }*/
+
+        if (player != null)
+        {
+            Player playerScript = player.GetComponent<Player>();
+
+            if (playerScript != null)
+            {
+                if (mEntranceDoor == null)
+                    Debug.Log("Entrance Door is null");
+
+                playerScript.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
+                playerScript.levelManager = this;
+                player.transform.position = mEntranceDoor.respawnLocation.transform.position;
+
+                registerCheckpoint(mEntranceDoor, playerScript);
             }
         }
     }
