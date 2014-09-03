@@ -2,5 +2,6 @@
 
 public interface ITransitional
 {
-    IEnumerator OnFinishTransition();
+    void OnFinishTransition();
+    float GetWaitTime();
 }

@@ -3,60 +3,102 @@ using System.Collections;
 
 public class Transition
 {
-    private Vector3 m_position;
-    private ITransitional m_transitional;
-    private float m_duration;
+    private bool m_isInitialized = false;
+    private Vector3 m_position = Vector3.zero;
+    private SpriteRenderer m_renderer = null;
+    private ITransitional m_transitional = null;
+    private float m_waitTime = 0f;
 
-    public Transition(Vector3 position, ITransitional transitional, float duration)
+    public Transition(GameObject objectToTransition)
     {
-        SetPosition(position);
-        SetTransitional(transitional);
-        SetDuration(duration);
+        m_isInitialized =
+            SetPosition(objectToTransition) &&
+            SetRenderer(objectToTransition) &&
+            SetTransitional(objectToTransition);
+    }
+
+    public bool SetPosition(GameObject objectToTransition)
+    {
+        if (objectToTransition != null)
+        {
+            m_position = objectToTransition.transform.position;
+
+            return true;
+        }
+
+        return false;
     }
 
     public Vector3 GetPosition()
     {
-        if(m_position == null)
-            return Vector3.zero;
-
         return m_position;
     }
 
-    public void SetPosition(Vector3 position)
+    public bool SetRenderer(GameObject objectToTransition)
     {
-        if(position != null)
-            m_position = position;
+        if(objectToTransition != null)
+        {
+            m_renderer = objectToTransition.GetComponent<SpriteRenderer>();
+
+            if(m_renderer == null)
+                return false;
+        }
+
+        return true;
     }
 
-    public ITransitional GetTransitional()
+    public Vector3 GetSize()
     {
-        return m_transitional;
+        if(m_renderer == null)
+            return Vector3.zero;
+
+        return m_renderer.bounds.size;
     }
 
-    public void SetTransitional(ITransitional transitional)
+    public bool SetTransitional(GameObject objectToTransition)
     {
-        if(transitional != null)
-            m_transitional = transitional;
+        if(objectToTransition != null)
+        {
+            m_transitional = objectToTransition.GetComponent(typeof(ITransitional)) as ITransitional;
+
+            if(m_transitional == null)
+                return false;
+
+            SetWaitTime(m_transitional.GetWaitTime());
+
+            return true;
+        }
+
+        return false;
     }
 
-    public float GetDuration()
+    public float GetWaitTime()
     {
-        return m_duration;
+        return m_waitTime;
     }
 
-    public void SetDuration(float duration)
+    public bool SetWaitTime(float waitTime)
     {
-        if(duration < 0f)
-            m_duration = 0f;
+        if (waitTime < 0f)
+        {
+            waitTime = 0f;
 
-        m_duration = duration;
+            return false;
+        }
+
+        m_waitTime = waitTime;
+
+        return true;
     }
 
-    public IEnumerator OnFinishTransition()
+    public bool IsInitialized()
     {
-        if(m_transitional == null)
-            return null;
+        return m_isInitialized;
+    }
 
-        return m_transitional.OnFinishTransition();
+    public void OnFinishTransition()
+    {
+        if(m_transitional != null)
+            m_transitional.OnFinishTransition();
     }
 }
