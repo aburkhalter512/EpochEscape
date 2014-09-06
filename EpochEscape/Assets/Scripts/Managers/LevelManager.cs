@@ -60,8 +60,6 @@ public class LevelManager : MonoBehaviour
     protected void Start()
     {
         //PlacePlayerAtCheckpoint();
-
-        Debug.Log("Start");
     }
 
     #region Interface Methods

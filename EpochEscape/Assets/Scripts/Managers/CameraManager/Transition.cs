@@ -101,4 +101,10 @@ public class Transition
         if(m_transitional != null)
             m_transitional.OnFinishTransition();
     }
+
+    public void OnReadyIdle()
+    {
+        if(m_transitional != null)
+            m_transitional.OnReadyIdle();
+    }
 }

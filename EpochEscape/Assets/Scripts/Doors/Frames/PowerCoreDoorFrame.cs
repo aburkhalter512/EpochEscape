@@ -120,6 +120,10 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional
         mBackSide.activate();
     }
 
+    public void OnReadyIdle()
+    {
+    }
+
     public float GetWaitTime()
     {
         return 0.33f; // Wait for 1/3 of a second after unlocking the door.

@@ -179,6 +179,10 @@ public class SecurityCamera : MonoBehaviour, ITransitional
         toggle();
     }
 
+    public void OnReadyIdle()
+    {
+    }
+
     public float GetWaitTime()
     {
         return 0.33f;

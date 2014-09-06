@@ -197,6 +197,12 @@ public class CameraManager : Manager<CameraManager>
         yield return StartCoroutine(TransformObjects());
         yield return StartCoroutine(TransformCamera(previousPosition, m_initialCameraSize));
 
+        // Crap code
+        foreach(Transition transition in m_transitions)
+            transition.OnReadyIdle();
+
+        m_transitions.Clear();
+
         m_isTransitioning = false;
         m_waitTime = 0f;
 
@@ -224,9 +230,7 @@ public class CameraManager : Manager<CameraManager>
         foreach (Transition transition in m_transitions)
             transition.OnFinishTransition();
 
-        m_transitions.Clear();
-
-        Debug.Log(m_waitTime);
+        //m_transitions.Clear();
 
         yield return new WaitForSeconds(m_waitTime);
     }
