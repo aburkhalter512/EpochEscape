@@ -2,32 +2,19 @@
 using System.Collections;
 using G = GameManager;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Manager<LevelManager>
 {
     #region Inspector Variables
-    public enum Character
-    {
-        CAVE_GIRL,
-        KNIGHT
-    }
-
-    public int coresToFind = 3;
-    public int coresFound;
-
     public GameObject entranceDoor;
     public GameObject exitDoor;
-
     public string nextLevel;
-    public GameObject player;
     #endregion
 
     #region Instance Variables
-    Player mInstantiatedPlayer;
-
-    ArrayList tiles = null;
-
     CheckpointDoorFrame mCheckpoint = null;
-    Player mCheckpointPlayer = null;
+
+    [SerializeField]
+    int number = 0;
 
     EntranceDoorFrame mEntranceDoor;
     ExitDoorFrame mExitDoor;
@@ -36,45 +23,45 @@ public class LevelManager : MonoBehaviour
     #region Class Constants
     #endregion
 
-    protected void Awake()
+    /*
+    public override void Awake()
     {
-        coresFound = 0;
-
+        base.Awake();
         findLevelDoors();
 
-        if (G.getInstance().currentLevel == 1)
-            InstantiateAllPlayers();
-        else
-            InstantiateCurrentPlayer();
+        //PlacePlayerAtCheckpoint();
 
-        InstantiateSpecialItems();
+        Debug.Log(number);
+    }*/
 
-        // Create HUD
-        GameObject hudManager = new GameObject();
-        hudManager.AddComponent<HUDManager>();
-        hudManager.name = "HUDManager";
-
-        PlacePlayerAtCheckpoint();
+    protected override void Initialize()
+    {
+        findLevelDoors();
+        Debug.Log("LevelManager initialized.");
     }
 
     protected void Start()
     {
-        //PlacePlayerAtCheckpoint();
+        if (mCheckpoint == null)
+            PlayerManager.SetSpawnPosition(mEntranceDoor.respawnLocation.transform.position);
+        else
+            PlayerManager.SetSpawnPosition(mCheckpoint.respawnLocation.transform.position);
 
-        Debug.Log("Start");
+        PlayerManager.Respawn();
     }
 
     #region Interface Methods
+    /*
     public void registerCheckpoint(CheckpointDoorFrame checkpoint, Player player)
     {
         if (checkpoint == null || player == null)
             return;
 
         mCheckpoint = checkpoint;
-        mCheckpointPlayer = player;
+        //mCheckpointPlayer = player;
 
         return;
-    }
+    }*/
 
     public void loadCheckpoint()
     {
@@ -82,8 +69,8 @@ public class LevelManager : MonoBehaviour
 
         Application.LoadLevel(Application.loadedLevelName);
 
-        mCheckpointPlayer.transform.position = mCheckpoint.respawnLocation.transform.position;
-        mCheckpointPlayer.m_spawnLocation = mCheckpoint.respawnLocation.transform.position;
+        //mCheckpointPlayer.transform.position = mCheckpoint.respawnLocation.transform.position;
+        //mCheckpointPlayer.m_spawnLocation = mCheckpoint.respawnLocation.transform.position;
 
         findLevelDoors();
 
@@ -119,222 +106,28 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Instance Methods
-    private void InstantiateAllPlayers()
-    {
-        // Lasers
-        GameObject brokenLaser = Resources.Load("Prefabs/Obstacles/JailBarBrokenLaser") as GameObject;
-        GameObject staticLaser = Resources.Load("Prefabs/Obstacles/JailBarLaser") as GameObject;
-
-        Player playerScript = null;
-
-        // Cave Girl
-        GameObject caveGirl = Resources.Load("Prefabs/Players/CaveGirl") as GameObject;
-        GameObject caveGirlSpawn = GameObject.FindWithTag("CaveGirlSpawn");
-        GameObject caveGirlLaserSpawn = GameObject.FindWithTag("CaveGirlLaserSpawn");
-
-        if(caveGirl != null && caveGirlSpawn != null)
-        {
-            caveGirl = Instantiate(caveGirl) as GameObject;
-
-            playerScript = caveGirl.GetComponent<Player>();
-            
-            if(G.getInstance().m_currentCharacter == G.CAVEGIRL)
-            {
-                // Set the player spawn point
-                caveGirl.tag = "Player";
-
-                if (playerScript != null)
-                {
-                    playerScript.m_spawnLocation = caveGirlSpawn.transform.position;
-                    playerScript.levelManager = this;
-
-                    registerCheckpoint(mEntranceDoor, playerScript);
-                }
-
-                // Create the broken laser
-                if(caveGirlLaserSpawn != null)
-                {
-                    brokenLaser = Instantiate(brokenLaser) as GameObject;
-                    brokenLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
-                    brokenLaser.transform.position = caveGirlLaserSpawn.transform.position;
-                }
-            }
-            else
-            {
-                // Set the player up as a dummy
-                caveGirl.tag = "Dummy";
-
-                if(playerScript != null)
-                    playerScript.enabled = false;
-
-                // Create the static laser
-                if(caveGirlLaserSpawn != null)
-                {
-                    staticLaser = Instantiate(staticLaser) as GameObject;
-                    staticLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
-                    staticLaser.transform.position = caveGirlLaserSpawn.transform.position;
-                }
-            }
-
-            caveGirl.transform.position = caveGirlSpawn.transform.position;
-        }
-
-        // Knight
-        GameObject knight = Resources.Load("Prefabs/Players/Knight") as GameObject;
-        GameObject knightSpawn = GameObject.FindWithTag("KnightSpawn");
-        GameObject knightLaserSpawn = GameObject.FindWithTag("KnightLaserSpawn");
-        
-        if(knight != null && knightSpawn != null)
-        {
-            knight = Instantiate(knight) as GameObject;
-            
-            playerScript = knight.GetComponent<Player>();
-            
-            if(G.getInstance().m_currentCharacter == G.KNIGHT)
-            {
-                // Set the player spawn point
-                knight.tag = "Player";
-
-                if (playerScript != null)
-                {
-                    playerScript.m_spawnLocation = knightSpawn.transform.position;
-                    playerScript.levelManager = this;
-
-                    registerCheckpoint(mEntranceDoor, playerScript);
-                }
-                
-                // Create the broken laser
-                if(knightLaserSpawn != null)
-                {
-                    brokenLaser = Instantiate(brokenLaser) as GameObject;
-                    brokenLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
-                    brokenLaser.transform.position = knightLaserSpawn.transform.position;
-                }
-            }
-            else
-            {
-                // Set the player up as a dummy
-                knight.tag = "Dummy";
-                
-                if(playerScript != null)
-                    playerScript.enabled = false;
-                
-                // Create the static laser
-                if(knightLaserSpawn != null)
-                {
-                    staticLaser = Instantiate(staticLaser) as GameObject;
-                    staticLaser.transform.parent = GameObject.Find("JailBarLasers").transform;
-                    staticLaser.transform.position = knightLaserSpawn.transform.position;
-                }
-            }
-            
-            knight.transform.position = knightSpawn.transform.position;
-        }
-    }
-
-    private void InstantiateCurrentPlayer()
-    {
-        /*GameObject GO = null;
-        Player player = null;
-
-        // Create the character.
-        switch(G.getInstance().m_currentCharacter)
-        {
-        case G.KNIGHT:
-            GO = Resources.Load("Prefabs/Players/Knight") as GameObject;
-            break;
-            
-        case G.CAVEGIRL:
-        default:
-            GO = Resources.Load("Prefabs/Players/CaveGirl") as GameObject;
-            break;
-        }
-
-        if (GO != null)
-        {
-            player = GO.GetComponent<Player>();
-
-            if (player != null)
-            {
-                if (mEntranceDoor == null)
-                    Debug.Log("spawnLocation is null");
-                player.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
-                player.levelManager = this;
-                GO.transform.position = mEntranceDoor.respawnLocation.transform.position;
-
-                Instantiate(GO);
-
-                registerCheckpoint(mEntranceDoor, player);
-            }
-        }*/
-
-        GameObject player = null;
-
-        switch (G.getInstance().m_currentCharacter)
-        {
-            case G.KNIGHT:
-                player = Resources.Load("Prefabs/Players/Knight") as GameObject;
-                break;
-
-            case G.CAVEGIRL:
-            default:
-                player = Resources.Load("Prefabs/Players/CaveGirl") as GameObject;
-                break;
-        }
-
-        if (player != null)
-        {
-            player = Instantiate(player) as GameObject;
-
-            if (player != null)
-            {
-                mInstantiatedPlayer = player.GetComponent<Player>();
-
-                if (mInstantiatedPlayer != null)
-                {
-                    if (mEntranceDoor == null)
-                        Debug.Log("Entrance Door is null");
-
-                    registerCheckpoint(mEntranceDoor, mInstantiatedPlayer);
-                }
-            }
-        }
-    }
-
-    private void InstantiateSpecialItems()
-    {
-        GameObject GO = null;
-
-        switch(G.getInstance().m_currentCharacter)
-        {
-        case G.KNIGHT:
-                GO = Resources.Load("Prefabs/Items/SpecialItems/Shield") as GameObject;
-            break;
-            
-        case G.CAVEGIRL:
-        default:
-            GO = Resources.Load("Prefabs/Items/SpecialItems/Club") as GameObject;
-            break;
-        }
-
-        if (GO != null)
-        {
-            GameObject[] specialItemSpawnLocations = GameObject.FindGameObjectsWithTag("SpecialItemSpawn");
-            
-            for(int i = 0; i < specialItemSpawnLocations.Length; i++)
-            {
-                GameObject newSpecialItem = Instantiate(GO) as GameObject;
-                
-                newSpecialItem.transform.position = specialItemSpawnLocations[i].transform.position;
-            }
-        }
-    }
-
     private void PlacePlayerAtCheckpoint()
     {
-        mInstantiatedPlayer.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
-        mInstantiatedPlayer.levelManager = this;
-        mInstantiatedPlayer.gameObject.transform.position = mEntranceDoor.respawnLocation.transform.position;
+        //mInstantiatedPlayer.m_spawnLocation = mEntranceDoor.respawnLocation.transform.position;
+        //mInstantiatedPlayer.levelManager = this;
+        //mInstantiatedPlayer.gameObject.transform.position = mEntranceDoor.respawnLocation.transform.position;
+    }
+    #endregion
+
+    #region Private Interfaces
+    private void _SetCheckpoint(CheckpointDoorFrame checkpoint)
+    {
+        mCheckpoint = checkpoint;
+        number = 9001;
+
+        Debug.Log("Checkpoint set.");
+    }
+    #endregion
+
+    #region Public Interfaces
+    public static void SetCheckoint(CheckpointDoorFrame checkpoint)
+    {
+        LevelManager.GetInstance()._SetCheckpoint(checkpoint);
     }
     #endregion
 }
