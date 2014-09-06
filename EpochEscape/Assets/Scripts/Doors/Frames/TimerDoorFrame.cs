@@ -11,7 +11,7 @@ public class TimerDoorFrame : LockedDoorFrame
 
     #region Instance Variables
     private int timeRemaining = 0;
-    private TimerState m_timerState = TimerState.Ready;
+    public TimerState m_timerState = TimerState.Ready;
     #endregion
 
     #region Class Constants
@@ -39,7 +39,6 @@ public class TimerDoorFrame : LockedDoorFrame
 
         yield return StartCoroutine(countDownTimer());
 
-        timeRemaining = 0;
         timerStyle.normal.textColor = Color.white;
     }
 
@@ -65,6 +64,7 @@ public class TimerDoorFrame : LockedDoorFrame
         }
 
         m_timerState = TimerState.Expired;
+        timeRemaining = 0;
 
         CameraManager.AddTransition(gameObject);
         CameraManager.PlayTransitions();
@@ -79,7 +79,7 @@ public class TimerDoorFrame : LockedDoorFrame
 
     public override void OnFinishTransition()
     {
-        if(m_timerState != TimerState.Beat)
+        if(m_timerState != TimerState.Beat && timeRemaining == 0)
         {
             base.OnFinishTransition();
 
@@ -96,7 +96,7 @@ public class TimerDoorFrame : LockedDoorFrame
 
     public override void OnReadyIdle()
     {
-        if(m_timerState != TimerState.Beat)
+        if (m_timerState != TimerState.Running && m_timerState != TimerState.Beat)
         {
             base.OnReadyIdle();
 
