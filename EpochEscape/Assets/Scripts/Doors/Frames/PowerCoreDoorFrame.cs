@@ -13,8 +13,6 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional
 
     protected STATE mCurState;
 
-    protected Player mPlayer;
-
     protected bool mHasUnlocked = false;
     #endregion
 
@@ -41,34 +39,24 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional
 
         mBackSide = backSide.GetComponent<StandardDoorSide>();
         mBackSide.deactivate();
-
-        GameObject GO = GameObject.FindGameObjectWithTag("Player");
-        if (GO != null)
-            mPlayer = GO.GetComponent<Player>();
     }
 
     protected void Update()
     {
-        if (mPlayer == null)
-        {
-            GameObject GO = GameObject.FindGameObjectWithTag("Player");
-            if (GO != null)
-                mPlayer = GO.GetComponent<Player>();
-        }
-        else if (!mHasUnlocked)
+        if (!mHasUnlocked)
         {
             switch (powerCores)
             {
                 case CORES.ONE:
-                    if (mPlayer.currentCores == 1)
+                    if (PlayerManager.GetCores() == 1)
                         unlockDoor();
                     break;
                 case CORES.TWO:
-                    if (mPlayer.currentCores == 2)
+                    if (PlayerManager.GetCores() == 2)
                         unlockDoor();
                     break;
                 case CORES.FULL:
-                    if (mPlayer.currentCores == mPlayer.MAX_CORES)
+                    if (PlayerManager.GetCores() == 3)
                         unlockDoor();
                     break;
             }

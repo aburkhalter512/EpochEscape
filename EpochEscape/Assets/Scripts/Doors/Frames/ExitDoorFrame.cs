@@ -7,7 +7,6 @@ public class ExitDoorFrame : PowerCoreDoorFrame
     #endregion
     
     #region Instance Variables
-    LevelManager mLevelManager;
     #endregion
 
     #region Class Constants
@@ -21,23 +20,11 @@ public class ExitDoorFrame : PowerCoreDoorFrame
     protected void Update()
     {
         if (!mHasUnlocked)
-            if (powerCores == CORES.NONE || mPlayer.currentCores == mPlayer.MAX_CORES)
+            if (powerCores == CORES.NONE || PlayerManager.GetCores() == 3)
                 unlockDoor();
     }
     
     #region Interface Methods
-    public void attachLevelManager(LevelManager levelManager)
-    {
-        mLevelManager = levelManager;
-    }
-
-    public void exitLevel(Player player)
-    {
-        if (player == null)
-            return;
-
-        mLevelManager.exitLevel();
-    }
     #endregion
     
     #region Instance Methods

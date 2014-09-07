@@ -38,21 +38,17 @@ public class PlayerManager : Manager<PlayerManager>
 
                 if (m_player != null)
                     m_isInitialized = true;
+
+                DontDestroyOnLoad(m_player);
             }
         }
     }
 
     #region Private Interfaces
-    private bool _SetPosition(Vector3 position)
+    private void _SetPosition(Vector3 position)
     {
         if (m_isInitialized)
-        {
             m_player.transform.position = new Vector3(position.x, position.y, 0f);
-
-            return true;
-        }
-
-        return false;
     }
 
     private Vector3 _GetPosition()
@@ -63,16 +59,10 @@ public class PlayerManager : Manager<PlayerManager>
         return new Vector3(m_player.transform.position.x, m_player.transform.position.y);
     }
 
-    private bool _SetSpawnPosition(Vector3 spawnPosition)
+    private void _SetSpawnPosition(Vector3 spawnPosition)
     {
         if (m_isInitialized)
-        {
             m_spawnPosition = spawnPosition;
-
-            return true;
-        }
-
-        return false;
     }
 
     private Vector3 _GetSpawnPosition()
@@ -83,16 +73,40 @@ public class PlayerManager : Manager<PlayerManager>
         return m_spawnPosition;
     }
 
-    private bool _Respawn()
+    private void _Respawn()
     {
-        return _SetPosition(m_spawnPosition);
+        if (m_isInitialized)
+        {
+            _SetPosition(m_spawnPosition);
+            _ShowPlayer();
+
+            m_player.Resurrect();
+        }
+    }
+
+    private void _ShowPlayer()
+    {
+        m_player.gameObject.SetActive(true);
+    }
+
+    private void _HidePlayer()
+    {
+        m_player.gameObject.SetActive(false);
+    }
+
+    private int _GetCores()
+    {
+        if (m_isInitialized)
+            return m_player.CurrentCores;
+
+        return 0;
     }
     #endregion
 
     #region Public Interfaces
-    public static bool SetPosition(Vector3 position)
+    public static void SetPosition(Vector3 position)
     {
-        return PlayerManager.GetInstance()._SetPosition(position);
+        PlayerManager.GetInstance()._SetPosition(position);
     }
 
     public static Vector3 GetPosition()
@@ -100,9 +114,9 @@ public class PlayerManager : Manager<PlayerManager>
         return PlayerManager.GetInstance()._GetPosition();
     }
 
-    public static bool SetSpawnPosition(Vector3 spawnPosition)
+    public static void SetSpawnPosition(Vector3 spawnPosition)
     {
-        return PlayerManager.GetInstance()._SetSpawnPosition(spawnPosition);
+        PlayerManager.GetInstance()._SetSpawnPosition(spawnPosition);
     }
 
     public static Vector3 GetSpawnPosition()
@@ -110,9 +124,24 @@ public class PlayerManager : Manager<PlayerManager>
         return PlayerManager.GetInstance()._GetSpawnPosition();
     }
 
-    public static bool Respawn()
+    public static void Respawn()
     {
-        return PlayerManager.GetInstance()._Respawn();
+        PlayerManager.GetInstance()._Respawn();
+    }
+
+    public static void ShowPlayer()
+    {
+        PlayerManager.GetInstance()._ShowPlayer();
+    }
+
+    public static void HidePlayer()
+    {
+        PlayerManager.GetInstance()._HidePlayer();
+    }
+
+    public static int GetCores()
+    {
+        return PlayerManager.GetInstance()._GetCores();
     }
     #endregion
 }

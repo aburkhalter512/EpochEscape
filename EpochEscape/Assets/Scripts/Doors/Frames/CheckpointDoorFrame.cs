@@ -102,13 +102,5 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
 
         LevelManager.SetCheckoint(this);
     }
-
-    /**
-     * See above commet
-     */
-    protected void loadCheckpoint()
-    {
-        didRegisterCheckpoint = true;
-    }
     #endregion
 }

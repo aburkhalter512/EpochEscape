@@ -113,6 +113,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: b05703e50b7f12f49938c196d8df09a8, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: .200000003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b05703e50b7f12f49938c196d8df09a8, type: 2}
   m_RootGameObject: {fileID: 1946471977}
@@ -560,6 +564,21 @@ Prefab:
       propertyPath: powerCores
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead,
+        type: 3}
+    - target: {fileID: 11400004, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
+      propertyPath: activeSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead,
+        type: 3}
+    - target: {fileID: 11400002, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
+      propertyPath: activeSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 38a0f54b41d0b334c99cf65cf2b2f891,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
   m_RootGameObject: {fileID: 1871073504}
@@ -575,7 +594,7 @@ GameObject:
   - 4: {fileID: 1065067693}
   m_Layer: 0
   m_Name: Doors
-  m_TagString: Untagged
+  m_TagString: Doors
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -636,7 +655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea14970da4c190348beac143024d7b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSprite: {fileID: 21300000, guid: 824840221ccab6942914581847a297a4, type: 3}
+  activeSprite: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead, type: 3}
   deactiveSprite: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead, type: 3}
 --- !u!212 &1084478219
 SpriteRenderer:
@@ -688,10 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8211bae8a813a744ba072958b79e590b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entranceDoor: {fileID: 1946471977}
-  exitDoor: {fileID: 1871073504}
-  nextLevel: Managers
-  number: 1337
+  m_nextLevel: MainMenu
 --- !u!4 &1147927890
 Transform:
   m_ObjectHideFlags: 0
@@ -1062,7 +1078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea14970da4c190348beac143024d7b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSprite: {fileID: 21300000, guid: 824840221ccab6942914581847a297a4, type: 3}
+  activeSprite: {fileID: 21300000, guid: 38a0f54b41d0b334c99cf65cf2b2f891, type: 3}
   deactiveSprite: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead, type: 3}
 --- !u!212 &1752278074
 SpriteRenderer:

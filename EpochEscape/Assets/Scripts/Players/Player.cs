@@ -205,8 +205,8 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(-5f, 0f, 0f);
         transform.up = -Vector3.up;
         */
-        
-        GameObject.Find("HUDManager").SetActive(false);
+
+        HUDManager.Hide();
         
         //CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
         
@@ -572,4 +572,9 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+    public void Resurrect()
+    {
+        m_currentState = PlayerState.ALIVE;
+    }
 }
