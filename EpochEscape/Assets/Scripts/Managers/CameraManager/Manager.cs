@@ -23,6 +23,7 @@ public class Manager<T> : MonoBehaviour where T : Component
 			if(m_instance == null)
 			{
 				GameObject obj = new GameObject();
+                obj.name = typeof(T).ToString();
 
 				m_instance = obj.AddComponent<T>();
 			}
@@ -34,5 +35,10 @@ public class Manager<T> : MonoBehaviour where T : Component
     protected static bool IsInstantiated()
     {
         return m_instance != null;
+    }
+
+    public void OnDestroy()
+    {
+        Debug.Log(typeof(T) + " was destroyed.");
     }
 }

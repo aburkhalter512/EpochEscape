@@ -15,7 +15,8 @@ public class CameraManager : Manager<CameraManager>
     private float m_waitTime = 0f;
     private float m_initialCameraSize = 0f;
     private bool m_isTransitioning = false;
-    private Player m_player = null;
+    public Player m_player = null;
+    public int id = 1337;
 
     public override void Awake()
     {
@@ -36,6 +37,8 @@ public class CameraManager : Manager<CameraManager>
         if (m_player == null)
         {
             GameObject player = GameObject.FindWithTag("Player");
+
+            Debug.Log(player);
 
             if (player != null)
             {
@@ -103,6 +106,9 @@ public class CameraManager : Manager<CameraManager>
 
     private IEnumerator ProcessAllTransitions()
     {
+        if (!m_isInitialized)
+            yield break;
+
         Vector3 min = Vector3.zero;
         Vector3 max = Vector3.zero;
 
