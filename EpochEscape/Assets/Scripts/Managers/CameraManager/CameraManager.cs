@@ -16,7 +16,6 @@ public class CameraManager : Manager<CameraManager>
     private float m_initialCameraSize = 0f;
     private bool m_isTransitioning = false;
     private Vector3 m_idlePosition = Vector3.zero;
-    public int id = 1337;
 
     protected override void Initialize()
     {
@@ -32,8 +31,6 @@ public class CameraManager : Manager<CameraManager>
     private void _SetIdlePosition(Vector3 position)
     {
         m_idlePosition = new Vector3(position.x, position.y, transform.position.z);
-            Debug.Log(player);
-
     }
 
     private void _UpdateIdlePosition()
