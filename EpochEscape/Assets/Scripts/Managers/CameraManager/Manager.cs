@@ -38,13 +38,4 @@ public abstract class Manager<T> : MonoBehaviour
     }
 
     protected abstract void Initialize();
-    protected static bool IsInstantiated()
-    {
-        return m_instance != null;
-    }
-
-    public void OnDestroy()
-    {
-        Debug.Log(typeof(T) + " was destroyed.");
-    }
 }
