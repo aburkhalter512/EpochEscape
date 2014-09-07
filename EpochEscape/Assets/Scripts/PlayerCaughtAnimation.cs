@@ -6,6 +6,8 @@ public class PlayerCaughtAnimation : MonoBehaviour
 {
     public void DoneAnimating()
     {
-        GameObject.FindObjectOfType<LevelManager>().loadCheckpoint();
+        LevelManager.LoadCheckpoint();
+
+        Destroy(gameObject);
     }
 }

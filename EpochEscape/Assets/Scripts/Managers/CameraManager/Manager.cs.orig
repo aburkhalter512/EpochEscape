@@ -19,11 +19,18 @@ public abstract class Manager<T> : MonoBehaviour
             Destroy(gameObject);
     }
 
+<<<<<<< HEAD
+			if(m_instance == null)
+			{
+				GameObject obj = new GameObject();
+                obj.name = typeof(T).ToString();
+=======
     protected static T GetInstance()
     {
         if (m_instance == null)
         {
             m_instance = FindObjectOfType(typeof(T)) as T;
+>>>>>>> playerRevamp
 
             if (m_instance == null)
             {
@@ -37,14 +44,12 @@ public abstract class Manager<T> : MonoBehaviour
         return m_instance;
     }
 
-    protected abstract void Initialize();
-    protected static bool IsInstantiated()
-    {
-        return m_instance != null;
-    }
-
+<<<<<<< HEAD
     public void OnDestroy()
     {
         Debug.Log(typeof(T) + " was destroyed.");
     }
+=======
+    protected abstract void Initialize();
+>>>>>>> playerRevamp
 }

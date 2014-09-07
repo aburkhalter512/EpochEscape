@@ -20,9 +20,13 @@ public class LevelManager : Manager<LevelManager>
 
     protected void Start()
     {
+<<<<<<< HEAD
+        //PlacePlayerAtCheckpoint();
+=======
         _FindLevelDoors();
         _SetCheckpoint(m_entranceDoor);
         _LoadCheckpoint();
+>>>>>>> playerRevamp
     }
 
     #region Private Interfaces
