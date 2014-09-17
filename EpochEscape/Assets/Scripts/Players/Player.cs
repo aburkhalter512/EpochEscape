@@ -86,6 +86,13 @@ public class Player : MonoBehaviour
     }
     #endregion
 
+#if UNITY_ANDROID
+    public bool m_up = false;
+    public bool m_down = false;
+    public bool m_left = false;
+    public bool m_right = false;
+#endif
+
     #region Class Variables
     public bool Special = false;
     #endregion
@@ -93,7 +100,7 @@ public class Player : MonoBehaviour
     #region Initialization Methods
     protected void Start()
     {
-        FadeManager.StartAlphaFade (Color.black, true, 1f, 0f);
+        //FadeManager.StartAlphaFade (Color.black, true, 1f, 0f);
 
         m_animator = GetComponent<Animator>();
 
@@ -272,6 +279,13 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.S)) m_isMovingDown = true;
         if(Input.GetKey(KeyCode.A)) m_isMovingLeft = true;
         if(Input.GetKey(KeyCode.D)) m_isMovingRight = true;
+
+#if UNITY_ANDROID
+        m_isMovingForward = m_up;
+        m_isMovingDown = m_down;
+        m_isMovingLeft = m_left;
+        m_isMovingRight = m_right;
+#endif
 
         if(m_isMovingForward && m_isMovingDown)
             m_isMovingForward = m_isMovingDown = false;
@@ -500,6 +514,13 @@ public class Player : MonoBehaviour
     public int CurrentCores
     {
         get { return currentCores; }
+        set
+        {
+            if (value < 0)
+                value = 0;
+
+            currentCores = value;
+        }
     }
 
     public bool isPowerCoreComplete()

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Terminal : InteractiveObject
+public class Terminal : InteractiveObject, IResettable
 {
     #region Interface Variables
     public Sprite activatedSprite;
@@ -11,13 +11,8 @@ public class Terminal : InteractiveObject
     #endregion
 
     #region InstanceVariables
-    List<DynamicWall> mWallActuators;
-    List<LockedDoorFrame> mDoorActuators;
-    List<DoorSide> mDoorSideActuators;
-    List<SecurityCamera> mCameraActuators;
-
-    bool mIsActivated = false;
-    bool mCanInteract = false;
+    protected bool mIsActivated = false;
+    protected bool mCanInteract = false;
 
     SpriteRenderer mSR;
     #endregion
@@ -29,77 +24,18 @@ public class Terminal : InteractiveObject
 
         mSR = GetComponent<SpriteRenderer>();
     }
-
-    protected virtual void Start ()
-    {
-        MonoBehaviour script = null;
-
-        mWallActuators = new List<DynamicWall>();
-        mDoorActuators = new List<LockedDoorFrame>();
-        mDoorSideActuators = new List<DoorSide>();
-        mCameraActuators = new List<SecurityCamera>();
-
-        foreach (GameObject actuator in actuators)
-        {
-            #region Retrieving Dynamic Wall Actuators
-            script = actuator.GetComponent<DynamicWall>();
-
-            if (script != null)
-                mWallActuators.Add(script as DynamicWall);
-            #endregion
-
-            #region Retrieving Locked Door Actuators
-            script = actuator.GetComponent<LockedDoorFrame>();
-            if (script != null)
-                mDoorActuators.Add(script as LockedDoorFrame);
-            #endregion
-
-            #region Retrieving Door Side Actuators
-            script = actuator.GetComponent<DoorSide>();
-            if (script != null)
-                mDoorSideActuators.Add(script as DoorSide);
-            #endregion
-
-            #region Retrieving Camera Actuators
-            script = actuator.GetComponent<SecurityCamera>();
-            if (script != null)
-                mCameraActuators.Add(script as SecurityCamera);
-            #endregion
-        }
-    }
-
-    protected virtual void Update()
-    {
-    }
     
     public override void Interact()
     {
         if (mCanInteract)
         {
-            foreach (DynamicWall actuator in mWallActuators)
-                CameraManager.AddTransition(actuator.gameObject);
-
-            foreach (LockedDoorFrame actuator in mDoorActuators)
-                CameraManager.AddTransition(actuator.gameObject);
-
-            foreach (DoorSide actuator in mDoorSideActuators)
-                CameraManager.AddTransition(actuator.gameObject);
-
-            foreach (SecurityCamera actuator in mCameraActuators)
-                CameraManager.AddTransition(actuator.gameObject);
+            foreach (GameObject actuator in actuators)
+                CameraManager.AddTransition(actuator);
 
             CameraManager.PlayTransitions();
 
-            if (mIsActivated)
-            {
-                mSR.sprite = deactivatedSprited;
-                mIsActivated = false;
-            }
-            else
-            {
-                mSR.sprite = activatedSprite;
-                mIsActivated = true;
-            }
+            mSR.sprite = (mIsActivated ? deactivatedSprited : activatedSprite);
+            mIsActivated = !mIsActivated;
         }
     }
 
@@ -117,5 +53,13 @@ public class Terminal : InteractiveObject
 
         if (player != null)
             mCanInteract = false;
+    }
+
+    public void Reset()
+    {
+        mCanInteract = false;
+        mIsActivated = false;
+        
+        mSR.sprite = deactivatedSprited;
     }
 }

@@ -10,6 +10,8 @@ public class PlayerManager : Manager<PlayerManager>
     protected override void Initialize()
     {
         InstantiatePlayer();
+
+        //_HidePlayer();
     }
 
     private void InstantiatePlayer()
@@ -37,9 +39,11 @@ public class PlayerManager : Manager<PlayerManager>
                 m_player = player.GetComponent<Player>();
 
                 if (m_player != null)
+                {
                     m_isInitialized = true;
 
-                DontDestroyOnLoad(m_player);
+                    DontDestroyOnLoad(m_player);
+                }
             }
         }
     }
@@ -81,6 +85,8 @@ public class PlayerManager : Manager<PlayerManager>
             _ShowPlayer();
 
             m_player.Resurrect();
+
+            CameraManager.SetPosition(PlayerManager.GetPosition());
         }
     }
 
@@ -94,12 +100,30 @@ public class PlayerManager : Manager<PlayerManager>
         m_player.gameObject.SetActive(false);
     }
 
+    private void _AddCore()
+    {
+        if (m_isInitialized)
+            m_player.CurrentCores++;
+    }
+
+    public void _RemoveCore()
+    {
+        if (m_isInitialized && m_player.currentCores > 0)
+            m_player.currentCores--;
+    }
+
     private int _GetCores()
     {
         if (m_isInitialized)
             return m_player.CurrentCores;
 
         return 0;
+    }
+
+    private void _ClearCores()
+    {
+        if (m_isInitialized)
+            m_player.CurrentCores = 0;
     }
     #endregion
 
@@ -139,9 +163,66 @@ public class PlayerManager : Manager<PlayerManager>
         PlayerManager.GetInstance()._HidePlayer();
     }
 
+    public static void AddCore()
+    {
+        PlayerManager.GetInstance()._AddCore();
+    }
+
+    public static void RemoveCore()
+    {
+        PlayerManager.GetInstance()._RemoveCore();
+    }
+
     public static int GetCores()
     {
         return PlayerManager.GetInstance()._GetCores();
     }
+
+    public static void ClearCores()
+    {
+        PlayerManager.GetInstance()._ClearCores();
+    }
+
+#if UNITY_ANDROID
+    private void _MoveUp(bool value)
+    {
+        m_player.m_up = value;
+    }
+
+    private void _MoveDown(bool value)
+    {
+        m_player.m_down = value;
+    }
+
+    private void _MoveLeft(bool value)
+    {
+        m_player.m_left = value;
+    }
+
+    private void _MoveRight(bool value)
+    {
+        m_player.m_right = value;
+    }
+
+    public static void MoveUp(bool value)
+    {
+        PlayerManager.GetInstance()._MoveUp(value);
+    }
+
+    public static void MoveDown(bool value)
+    {
+        PlayerManager.GetInstance()._MoveDown(value);
+    }
+
+    public static void MoveLeft(bool value)
+    {
+        PlayerManager.GetInstance()._MoveLeft(value);
+    }
+
+    public static void MoveRight(bool value)
+    {
+        PlayerManager.GetInstance()._MoveRight(value);
+    }
+#endif
     #endregion
 }

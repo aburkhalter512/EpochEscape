@@ -1,0 +1,181 @@
+{
+	"chambers":[
+		{
+			"name":"Chamber1",
+			"doors":[
+				{
+					"name":"TeleporterDoors",
+					"position":"(-6.4, 3.0, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"LockedDoorCombo",
+					"position":"(-5.0, 3.6, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"initialState":0
+				},
+				{
+					"name":"OneCoreDoorCombo",
+					"position":"(-3.4, 3.6, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"powerCores":1
+				},
+				{
+					"name":"CheckpointDoorCombo",
+					"position":"(1.0, 6.0, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"DirectionalDoorCombo",
+					"position":"(-8.2, 2.0, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"EntranceDoorCombo",
+					"position":"(-9.0, 3.6, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"initialState":0
+				},
+			],
+			"items":{
+			}
+		},
+		{
+			"name":"Chamber2",
+			"doors":[
+				{
+					"name":"TwoCoreDoorCombo",
+					"position":"(2.4, 1.0, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"powerCores":2
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(4.0, 3.2, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(2.0, 3.4, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(8.2, 5.0, 0.0)",
+					"direction":"(0.0, -1.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(6.6, 7.0, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(3.4, 8.4, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"DualTeleporterDoorCombo",
+					"position":"(2.2, 7.0, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"CheckpointDoorCombo",
+					"position":"(0.0, -2.2, 0.0)",
+					"direction":"(0.0, -1.0, 0.0)",
+					"initialState":1
+				},
+			],
+			"items":{
+			}
+		},
+		{
+			"name":"Chamber3",
+			"doors":[
+				{
+					"name":"ExitDoorCombo",
+					"position":"(8.0, -5.8, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"powerCores":3
+				},
+				{
+					"name":"DirectionalDoorCombo",
+					"position":"(1.2, -4.6, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"DirectionalDoorCombo",
+					"position":"(-1.2, -4.6, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"DirectionalDoorCombo",
+					"position":"(1.0, -7.0, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"DirectionalDoorCombo",
+					"position":"(4.8, -8.8, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"DualTeleporterDoorCombo",
+					"position":"(4.8, -7.6, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"DualTeleporterDoorCombo",
+					"position":"(1.6, -8.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"DualTeleporterDoorCombo",
+					"position":"(-2.0, -8.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(5.2, -6.0, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"DualTeleporterDoorCombo",
+					"position":"(0.4, -5.6, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"DualTeleporterDoorCombo",
+					"position":"(4.4, -3.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(2.0, -3.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(-3.2, -4.6, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"HalfTeleporterCombo",
+					"position":"(-2.0, -3.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+			],
+			"items":{
+			}
+		},
+	],
+	"level":{
+		"name":"TeleporterLevel",
+		"numberOfObjects":28
+	},
+}

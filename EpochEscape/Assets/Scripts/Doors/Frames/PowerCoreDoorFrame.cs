@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
-public class PowerCoreDoorFrame : DoorFrame, ITransitional
+public class PowerCoreDoorFrame : DoorFrame, ITransitional, IResettable
 {
     #region Interface Variables
     public CORES powerCores = CORES.FULL;
@@ -93,6 +95,14 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional
     #endregion
     
     #region Instance Methods
+    protected void lockDoor()
+    {
+        mHasUnlocked = false;
+
+        mFrontSide.deactivate();
+        mBackSide.deactivate();
+    }
+
     protected void unlockDoor()
     {
         mHasUnlocked = true;
@@ -115,5 +125,29 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional
     public float GetWaitTime()
     {
         return 0.33f; // Wait for 1/3 of a second after unlocking the door.
+    }
+
+    public void Reset()
+    {
+        lockDoor();
+    }
+
+    public override void Serialize(ref Dictionary<string, object> data)
+    {
+        if (data != null)
+        {
+            base.Serialize(ref data);
+
+            data["powerCores"] = (int)powerCores;
+        }
+    }
+
+    public override void Unserialize(ref Dictionary<string, object> data)
+    {
+        if (data != null)
+        {
+            if (data.ContainsKey("powerCores"))
+                powerCores = (CORES)int.Parse(data["powerCores"].ToString());
+        }
     }
 }

@@ -58,8 +58,6 @@ public class WeightedPlate : MonoBehaviour
 				//Activate all of the connected actuators
 				foreach (GameObject actuator in actuators)
 				{
-					Debug.Log("Triggered");
-
                     if (actuator != null)
                         CameraManager.AddTransition(actuator);
 				}
@@ -93,8 +91,6 @@ public class WeightedPlate : MonoBehaviour
 				//Activate all of the connected actuators
 				foreach (GameObject actuator in actuators)
 				{
-					Debug.Log("Triggered");
-
                     if (actuator != null)
                         CameraManager.AddTransition(actuator);
 				}
