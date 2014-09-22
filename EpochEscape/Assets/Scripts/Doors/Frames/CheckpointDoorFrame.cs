@@ -98,15 +98,9 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
      */
     protected void registerCheckpoint()
     {
-        GameObject.Find("LevelManager").GetComponent<LevelManager>().registerCheckpoint(this, GameObject.FindObjectOfType<Player>());
-    }
+        //GameObject.Find("LevelManager").GetComponent<LevelManager>().registerCheckpoint(this, GameObject.FindObjectOfType<Player>());
 
-    /**
-     * See above commet
-     */
-    protected void loadCheckpoint()
-    {
-        didRegisterCheckpoint = true;
+        LevelManager.SetCheckoint(this);
     }
     #endregion
 }

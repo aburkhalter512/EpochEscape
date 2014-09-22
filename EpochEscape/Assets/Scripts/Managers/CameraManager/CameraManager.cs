@@ -15,41 +15,28 @@ public class CameraManager : Manager<CameraManager>
     private float m_waitTime = 0f;
     private float m_initialCameraSize = 0f;
     private bool m_isTransitioning = false;
-    private Player m_player = null;
+    private Vector3 m_idlePosition = Vector3.zero;
 
-    public override void Awake()
+    protected override void Initialize()
     {
-        base.Awake();
-
         m_isInitialized = InitializeCamera() && InitializeTransitionContainer();
-
-        FindPlayer();
     }
 
     public void Update()
     {
-        FollowPlayer();
+        _SetIdlePosition(PlayerManager.GetPosition());
+        _UpdateIdlePosition();
     }
 
-    private void FindPlayer()
+    private void _SetIdlePosition(Vector3 position)
     {
-        if (m_player == null)
-        {
-            GameObject player = GameObject.FindWithTag("Player");
-
-            if (player != null)
-            {
-                m_player = player.GetComponent<Player>();
-
-                transform.position = new Vector3(m_player.transform.position.x, m_player.transform.position.y, transform.position.z);
-            }
-        }
+        m_idlePosition = new Vector3(position.x, position.y, transform.position.z);
     }
 
-    private void FollowPlayer()
+    private void _UpdateIdlePosition()
     {
-        if (!(m_player == null || m_isTransitioning))
-            transform.position = Vector3.Lerp(transform.position, new Vector3(m_player.transform.position.x, m_player.transform.position.y, transform.position.z), 2f * Time.smoothDeltaTime);
+        if(!m_isTransitioning)
+            transform.position = Vector3.Lerp(transform.position, m_idlePosition, 2f * Time.smoothDeltaTime);
     }
 
     private bool InitializeCamera()
@@ -103,6 +90,9 @@ public class CameraManager : Manager<CameraManager>
 
     private IEnumerator ProcessAllTransitions()
     {
+        if (!m_isInitialized)
+            yield break;
+
         Vector3 min = Vector3.zero;
         Vector3 max = Vector3.zero;
 
@@ -178,7 +168,7 @@ public class CameraManager : Manager<CameraManager>
         float sizeY = Mathf.Abs(max.y - min.y) + (paddingTop + paddingBottom) * PADDING_MULTIPLIER;
 
         Vector3 targetPosition = new Vector3(centerX, centerY, transform.position.z);
-        Vector3 previousPosition = new Vector3(m_player.transform.position.x, m_player.transform.position.y, transform.position.z);
+        Vector3 previousPosition = new Vector3(PlayerManager.GetPosition().x, PlayerManager.GetPosition().y, transform.position.z);
         float targetSize = m_initialCameraSize;
 
         if(m_transitions.Count > 1)
@@ -196,6 +186,12 @@ public class CameraManager : Manager<CameraManager>
         yield return StartCoroutine(TransformCamera(targetPosition, targetSize));
         yield return StartCoroutine(TransformObjects());
         yield return StartCoroutine(TransformCamera(previousPosition, m_initialCameraSize));
+
+        // Crap code
+        foreach(Transition transition in m_transitions)
+            transition.OnReadyIdle();
+
+        m_transitions.Clear();
 
         m_isTransitioning = false;
         m_waitTime = 0f;
@@ -224,7 +220,7 @@ public class CameraManager : Manager<CameraManager>
         foreach (Transition transition in m_transitions)
             transition.OnFinishTransition();
 
-        m_transitions.Clear();
+        //m_transitions.Clear();
 
         yield return new WaitForSeconds(m_waitTime);
     }

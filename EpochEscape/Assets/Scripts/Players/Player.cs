@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     public float BoostTime = 0f;
 
     public PlayerState m_currentState;
-    public Vector3 m_spawnLocation;
+    //public Vector3 m_spawnLocation;
 
     public Inventory inventory;
     public int m_selectedSlot;
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
 
         inventory = new Inventory();
         m_selectedSlot = 0;
-        transform.position = m_spawnLocation;
+        //transform.position = m_spawnLocation;
 
         //m_previousMouseScreenPos = Vector3.zero;
 
@@ -205,8 +205,8 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(-5f, 0f, 0f);
         transform.up = -Vector3.up;
         */
-        
-        GameObject.Find("HUDManager").SetActive(false);
+
+        HUDManager.Hide();
         
         //CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
         
@@ -572,4 +572,9 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+    public void Resurrect()
+    {
+        m_currentState = PlayerState.ALIVE;
+    }
 }

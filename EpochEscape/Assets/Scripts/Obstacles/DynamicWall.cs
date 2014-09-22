@@ -84,6 +84,10 @@ public abstract class DynamicWall : Wall, ITransitional
         currentState = DynamicWall.STATES.TO_CHANGE;
     }
 
+    public void OnReadyIdle()
+    {
+    }
+
     public float GetWaitTime()
     {
         return changeTime;

@@ -102,6 +102,10 @@ public abstract class DoorSide : MonoBehaviour, IDetectable, ITransitional
         toggle();
     }
 
+    public void OnReadyIdle()
+    {
+    }
+
     public float GetWaitTime()
     {
         return 0.33f;

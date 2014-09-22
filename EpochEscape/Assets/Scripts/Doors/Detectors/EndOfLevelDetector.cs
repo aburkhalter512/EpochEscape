@@ -32,7 +32,7 @@ public class EndOfLevelDetector : MonoBehaviour
         Player player = collidee.GetComponent<Player>();
 
         if (player != null)
-            detectable.exitLevel(player);
+            LevelManager.ExitLevel();
     }
     #endregion
 }

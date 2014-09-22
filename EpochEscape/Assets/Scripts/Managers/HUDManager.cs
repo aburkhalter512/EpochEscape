@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HUDManager : MonoBehaviour {
+public class HUDManager : Manager<HUDManager> {
     public Player playerManager;
     public GUISkin EpochSkin;
+
+    protected override void Initialize()
+    {
+        // First time initialization.
+    }
     
     #region scaling
     private const float origWidth = 1600f;
@@ -202,4 +207,28 @@ public class HUDManager : MonoBehaviour {
         }
         #endregion
     }
+
+    #region Private Interfaces
+    private void _Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void _Show()
+    {
+        gameObject.SetActive(true);
+    }
+    #endregion
+
+    #region Public Interfaces
+    public static void Hide()
+    {
+        HUDManager.GetInstance()._Hide();
+    }
+
+    public static void Show()
+    {
+        HUDManager.GetInstance()._Show();
+    }
+    #endregion
 }

@@ -3,6 +3,7 @@ MAC/
 Library/
 obj/
 Temp/
+APK/
 
 *.csproj
 *.sln

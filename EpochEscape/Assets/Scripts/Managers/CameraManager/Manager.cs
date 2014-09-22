@@ -1,38 +1,41 @@
 ﻿using UnityEngine;
 
-public class Manager<T> : MonoBehaviour where T : Component
+public abstract class Manager<T> : MonoBehaviour 
+    where T : Component
 {
-	private static T m_instance = null;
+    private static T m_instance = null;
 
-	public virtual void Awake()
-	{
-		DontDestroyOnLoad(gameObject);
-
-		if(m_instance == null)
-			m_instance = this as T;
-		else
-			Destroy(gameObject);
-	}
-
-	protected static T GetInstance()
-	{
-		if(m_instance == null)
-		{
-			m_instance = FindObjectOfType(typeof(T)) as T;
-
-			if(m_instance == null)
-			{
-				GameObject obj = new GameObject();
-
-				m_instance = obj.AddComponent<T>();
-			}
-		}
-
-		return m_instance;
-	}
-
-    protected static bool IsInstantiated()
+    public void Awake()
     {
-        return m_instance != null;
+        DontDestroyOnLoad(gameObject);
+
+        if (m_instance == null)
+        {
+            m_instance = this as T;
+
+            Initialize();
+        }
+        else
+            Destroy(gameObject);
     }
+
+    protected static T GetInstance()
+    {
+        if (m_instance == null)
+        {
+            m_instance = FindObjectOfType(typeof(T)) as T;
+
+            if (m_instance == null)
+            {
+                GameObject manager = new GameObject();
+                manager.name = typeof(T).ToString();
+
+                m_instance = manager.AddComponent<T>();
+            }
+        }
+
+        return m_instance;
+    }
+
+    protected abstract void Initialize();
 }

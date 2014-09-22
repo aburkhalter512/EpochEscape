@@ -123,12 +123,16 @@ public class LockedDoorFrame : DoorFrame, ITransitional
     #region Instance Methods
     #endregion
 
-    public void OnFinishTransition()
+    public virtual void OnFinishTransition()
     {
         toggleLock();
     }
 
-    public float GetWaitTime()
+    public virtual void OnReadyIdle()
+    {
+    }
+
+    public virtual float GetWaitTime()
     {
         return 0.33f;
     }
