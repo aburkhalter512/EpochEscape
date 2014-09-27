@@ -1,6 +1,5 @@
 {
 	"levels":[
-		"TerrysLevel",
-		"AdamsLevel"
+		"TerrysLevel"
 	]
 }

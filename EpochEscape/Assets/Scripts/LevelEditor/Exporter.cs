@@ -51,7 +51,9 @@ public class Exporter : MonoBehaviour
         {
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("chambers") + ":[");
 
-            foreach (GameObject chamber in LevelManager.GetChambers())
+            GameObject[] chambers = GameObject.FindGameObjectsWithTag("Chamber");
+
+            foreach (GameObject chamber in chambers)
                 ComposeChamber(sw, chamber, tab + 1);
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
@@ -60,15 +62,46 @@ public class Exporter : MonoBehaviour
 
     private void ComposeChamber(StreamWriter sw, GameObject chamber, int tab)
     {
+        Bounds chamberBounds = new Bounds();
+
         if (sw != null)
         {
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "{");
             sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(chamber.name) + ",");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(chamber.transform.position) + ",");
 
+            ComposeChunks(sw, chamber, ref chamberBounds, tab + 1);
             ComposeDoors(sw, chamber, tab + 1);
             ComposeItems(sw, chamber, tab + 1);
 
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(chamberBounds.size.ToString()));
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
+
+    private void ComposeChunks(StreamWriter sw, GameObject parent, ref Bounds parentBounds, int tab)
+    {
+        Transform chunks = parent.transform.FindChild("Chunks");
+
+        if (chunks != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("chunks") + ":[");
+
+            foreach (Transform chunk in chunks)
+            {
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(chunk.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(chunk.transform.localPosition) + ",");
+                
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                parentBounds.Encapsulate(chunk.renderer.bounds);
+
+                m_numberOfObjects++;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
         }
     }
 
@@ -91,8 +124,7 @@ public class Exporter : MonoBehaviour
                 sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
                 data["name"] = door.name;
-                //data["path"] = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabParent(door)).Replace("Assets/Resources/Prefabs/", string.Empty).Replace(".prefab", string.Empty);
-                data["position"] = door.transform.position;
+                data["position"] = door.transform.localPosition;
                 data["direction"] = door.transform.up;
 
                 if (doorSerializer != null)
@@ -158,7 +190,7 @@ public class Exporter : MonoBehaviour
             ComposePotions(sw, items.gameObject, tab + 1);
             ComposeCrates(sw, items.gameObject, tab + 1);
 
-            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "}");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
         }
     }
 
@@ -168,24 +200,19 @@ public class Exporter : MonoBehaviour
 
         if (powerCores != null)
         {
-            ISerializable powerCoreSerializer = null;
-
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("powerCores") + ":[");
 
             foreach (Transform powerCore in powerCores)
             {
-                powerCoreSerializer = powerCore.GetComponent(typeof(ISerializable)) as ISerializable;
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
-                if (powerCoreSerializer != null)
-                {
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(powerCore.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(powerCore.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(powerCore.up.ToString()) + ",");
 
-                    //powerCoreSerializer.Serialize(sw, tab + 1);
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
 
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
-
-                    m_numberOfObjects++;
-                }
+                m_numberOfObjects++;
             }
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");

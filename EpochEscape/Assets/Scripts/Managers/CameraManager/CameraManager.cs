@@ -100,6 +100,7 @@ public class CameraManager : Manager<CameraManager>
         if (!m_isInitialized)
             yield break;
 
+        /*
         Vector3 min = Vector3.zero;
         Vector3 max = Vector3.zero;
 
@@ -203,7 +204,7 @@ public class CameraManager : Manager<CameraManager>
         m_isTransitioning = false;
         m_waitTime = 0f;
 
-        GameManager.getInstance().UnpauseMovement();
+        GameManager.getInstance().UnpauseMovement();*/
     }
 
     private IEnumerator TransformCamera(Vector3 targetPosition, float targetSize)

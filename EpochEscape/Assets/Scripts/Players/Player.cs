@@ -214,6 +214,7 @@ public class Player : MonoBehaviour
         */
 
         HUDManager.Hide();
+        MiniMapManager.Hide();
         
         //CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
         

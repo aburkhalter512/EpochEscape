@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 03c58f5bfc059e24db9433a700167522
+guid: aa6ef81cb16836249b3b71f8b28da1ec
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Chamber3
+    21300000: chunk3
+    21300002: Chunk3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -22,11 +23,11 @@ TextureImporter:
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: 10
-  maxTextureSize: 4096
+  textureFormat: -1
+  maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 1
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0

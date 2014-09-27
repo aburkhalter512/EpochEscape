@@ -32,6 +32,7 @@ public class SceneManager : Manager<SceneManager>
 
     private List<string> m_levels = null;
     private int m_currentLevel = 0;
+    private string m_currentLevelName = string.Empty;
 
     protected override void Initialize()
     {
@@ -153,9 +154,10 @@ public class SceneManager : Manager<SceneManager>
 
         if (levelDict != null && levelDict.Count > 0)
         {
-            string levelName = levelDict["name"] as string;
+            m_currentLevelName = levelDict["name"] as string;
             m_numberOfObjectsToLoad = (int)((long)levelDict["numberOfObjects"]);
 
+            /*
             GameObject level = Resources.Load("Prefabs/Levels/" + levelName) as GameObject;
 
             if (level != null)
@@ -164,7 +166,7 @@ public class SceneManager : Manager<SceneManager>
 
                 if (level != null)
                     level.name = levelName;
-            }
+            }*/
         }
 
         yield break;
@@ -188,22 +190,90 @@ public class SceneManager : Manager<SceneManager>
         if (chamberDict != null)
         {
             string chamberName = chamberDict["name"] as string;
+            string chamberPosition = chamberDict["position"] as string;
+            string chamberSize = chamberDict["size"] as string;
 
-            GameObject chamber = new GameObject();
+            //GameObject chamber = new GameObject();
+
+            Chamber chamber = new Chamber();
 
             if (chamber != null)
             {
-                chamber.name = chamberName;
+                //chamber.name = chamberName;
+                //chamber.transform.position = LevelEditorUtilities.StringToVector3(chamberPosition);
+
+                chamber.SetName(chamberName);
+                chamber.SetPosition(LevelEditorUtilities.StringToVector3(chamberPosition));
+                chamber.SetSize(LevelEditorUtilities.StringToVector2(chamberSize));
 
                 LevelManager.AddChamber(chamber);
 
+                yield return StartCoroutine(ConstructChunks(chamberDict, chamber));
                 yield return StartCoroutine(ConstructDoors(chamberDict, chamber));
                 yield return StartCoroutine(ConstructItems(chamberDict, chamber));
             }
         }
     }
 
-    private IEnumerator ConstructDoors(Dictionary<string, object> chamberDict, GameObject chamber)
+    private IEnumerator ConstructChunks(Dictionary<string, object> chamberDict, Chamber chamber)
+    {
+        if (chamberDict != null)
+        {
+            List<object> chunks = chamberDict["chunks"] as List<object>;
+            Dictionary<string, object> chunkDict = null;
+
+            GameObject chunksContainer = new GameObject();
+
+            if (chunksContainer != null)
+            {
+                chamber.SetChild(chunksContainer);
+
+                chunksContainer.name = "Chunks";
+                chunksContainer.transform.localPosition = Vector3.zero;
+
+                for (int i = 0; i < chunks.Count; i++)
+                {
+                    chunkDict = chunks[i] as Dictionary<string, object>;
+
+                    yield return StartCoroutine(ConstructChunk(chunkDict, chunksContainer));
+                }
+            }
+        }
+    }
+
+    private IEnumerator ConstructChunk(Dictionary<string, object> chunkDict, GameObject parent)
+    {
+        if (chunkDict != null)
+        {
+            string chunkName = chunkDict["name"] as string;
+            string chunkPosition = chunkDict["position"] as string;
+
+            GameObject chunk = new GameObject();
+
+            if (chunk != null)
+            {
+                SpriteRenderer renderer = chunk.AddComponent<SpriteRenderer>();
+
+                if (renderer != null)
+                {
+                    renderer.sprite = Resources.Load<Sprite>("Textures/Levels/" + m_currentLevelName + "/Chamber1Chunks/" + chunkName);
+
+                    chunk.name = chunkName;
+                    chunk.transform.parent = parent.transform;
+                    chunk.transform.localPosition = LevelEditorUtilities.StringToVector3(chunkPosition);
+
+                    m_objectsLoaded++;
+
+                    if (m_slowSimulation)
+                        yield return new WaitForSeconds(m_simulationTime);
+                }
+            }
+        }
+
+        yield break;
+    }
+
+    private IEnumerator ConstructDoors(Dictionary<string, object> chamberDict, Chamber chamber)
     {
         if (chamberDict != null)
         {
@@ -214,8 +284,10 @@ public class SceneManager : Manager<SceneManager>
 
             if (doorsContainer != null)
             {
+                chamber.SetChild(doorsContainer);
+
                 doorsContainer.name = "Doors";
-                doorsContainer.transform.parent = chamber.transform;
+                doorsContainer.transform.localPosition = Vector3.zero;
 
                 for (int i = 0; i < doors.Count; i++)
                 {
@@ -248,7 +320,7 @@ public class SceneManager : Manager<SceneManager>
 
                     door.name = doorName;
                     door.transform.parent = parent.transform;
-                    door.transform.position = LevelEditorUtilities.StringToVector3(position);
+                    door.transform.localPosition = LevelEditorUtilities.StringToVector3(position);
                     door.transform.up = LevelEditorUtilities.StringToVector3(direction);
 
                     if (doorSerializer != null)
@@ -265,7 +337,7 @@ public class SceneManager : Manager<SceneManager>
         yield break;
     }
 
-    private IEnumerator ConstructItems(Dictionary<string, object> chamberDict, GameObject chamber)
+    private IEnumerator ConstructItems(Dictionary<string, object> chamberDict, Chamber chamber)
     {
         if (chamberDict != null)
         {
@@ -275,8 +347,10 @@ public class SceneManager : Manager<SceneManager>
 
             if (itemsContainer != null)
             {
+                chamber.SetChild(itemsContainer);
+
                 itemsContainer.name = "Items";
-                itemsContainer.transform.parent = chamber.transform;
+                itemsContainer.transform.localPosition = Vector3.zero;
                 
                 yield return StartCoroutine(ConstructPowerCores(itemsDict, itemsContainer));
                 yield return StartCoroutine(ConstructCrates(itemsDict, itemsContainer));
@@ -297,6 +371,7 @@ public class SceneManager : Manager<SceneManager>
             {
                 powerCoresContainer.name = "Cores";
                 powerCoresContainer.transform.parent = parent.transform;
+                powerCoresContainer.transform.localPosition = Vector3.zero;
 
                 for (int i = 0; i < powerCores.Count; i++)
                 {
@@ -313,6 +388,8 @@ public class SceneManager : Manager<SceneManager>
         if (powerCoreDict != null)
         {
             string powerCoreName = powerCoreDict["name"] as string;
+            string powerCorePosition = powerCoreDict["position"] as string;
+            string powerCoreDirection = powerCoreDict["direction"] as string;
 
             GameObject powerCore = Resources.Load("Prefabs/Items/" + powerCoreName) as GameObject;
 
@@ -322,14 +399,10 @@ public class SceneManager : Manager<SceneManager>
 
                 if (powerCore != null)
                 {
-                    ISerializable powerCoreSerializer = powerCore.GetComponent(typeof(ISerializable)) as ISerializable;
-
-                    /*
-                    if (powerCoreSerializer != null)
-                        powerCoreSerializer.Unserialize(powerCoreDict);*/
-
                     powerCore.name = powerCoreName;
                     powerCore.transform.parent = parent.transform;
+                    powerCore.transform.localPosition = LevelEditorUtilities.StringToVector3(powerCorePosition);
+                    powerCore.transform.up = LevelEditorUtilities.StringToVector3(powerCoreDirection);
 
                     m_objectsLoaded++;
 
@@ -355,6 +428,7 @@ public class SceneManager : Manager<SceneManager>
             {
                 cratesContainer.name = "Crates";
                 cratesContainer.transform.parent = parent.transform;
+                cratesContainer.transform.localPosition = Vector3.zero;
 
                 for (int i = 0; i < crates.Count; i++)
                 {

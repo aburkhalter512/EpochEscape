@@ -89,7 +89,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   m_Layer: 0
-  m_Name: PressurePlateLevel
+  m_Name: TerrysLevel
   m_TagString: Level
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

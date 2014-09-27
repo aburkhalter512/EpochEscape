@@ -12,7 +12,7 @@ public class LevelManager : Manager<LevelManager>
     private ExitDoorFrame m_exitDoor;
 
     [SerializeField]
-    private List<GameObject> m_chambers = null;
+    private List<Chamber> m_chambers = null;
 
     private int m_currentChamber = 0;
     private CheckpointDoorFrame m_currentCheckpoint = null;
@@ -35,13 +35,32 @@ public class LevelManager : Manager<LevelManager>
     {
         if (checkpoint != null && checkpoint != m_currentCheckpoint)
         {
-            if(m_currentCheckpoint != null)
+            if (m_currentCheckpoint != null)
+            {
+                _DisableMiniMapLayer();
+
                 m_currentChamber++;
+            }
 
             m_currentCheckpoint = checkpoint;
 
+            _EnableMiniMapLayer();
+
             PlayerManager.SetSpawnPosition(checkpoint.respawnLocation.transform.position);
+            MiniMapManager.SetChamber();
         }
+    }
+
+    private void _DisableMiniMapLayer()
+    {
+        if (m_chambers != null && m_currentChamber >= 0 && m_currentChamber < m_chambers.Count)
+            m_chambers[m_currentChamber].DisableMiniMapLayer();
+    }
+
+    private void _EnableMiniMapLayer()
+    {
+        if (m_chambers != null && m_currentChamber >= 0 && m_currentChamber < m_chambers.Count)
+            m_chambers[m_currentChamber].EnableMiniMapLayer();
     }
 
     private void _LoadCheckpoint()
@@ -49,6 +68,7 @@ public class LevelManager : Manager<LevelManager>
         GameManager.getInstance().PauseMovement();
         PlayerManager.Respawn();
         HUDManager.Show();
+        MiniMapManager.Show();
         GameManager.getInstance().UnpauseMovement();
         
         _ResetChamber(m_currentChamber);
@@ -58,29 +78,15 @@ public class LevelManager : Manager<LevelManager>
     {
         PlayerManager.HidePlayer();
         HUDManager.Hide();
+        MiniMapManager.Hide();
         SaveManager.Save();
 
         FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { SceneManager.LoadNextLevel(); });
     }
 
-    private void _ResetChamber(int currentChamber)
-    {
-        if (m_chambers != null && m_chambers.Count > 0)
-        {
-            Component[] resettableComponents = m_chambers[currentChamber].GetComponentsInChildren(typeof(IResettable));
-
-            foreach (Component resettableComponent in resettableComponents)
-            {
-                IResettable resettable = resettableComponent as IResettable;
-
-                if (resettable != null)
-                    resettable.Reset();
-            }
-        }
-    }
-
     private void _RestartLevel()
     {
+        // Possible fade here?
         PlayerManager.HidePlayer();
         PlayerManager.ClearCores();
 
@@ -96,6 +102,12 @@ public class LevelManager : Manager<LevelManager>
         m_currentChamber = 0;
     }
 
+    private void _ResetChamber(int chamberIndex)
+    {
+        if (m_chambers != null && m_chambers.Count > 0 && chamberIndex > 0 && chamberIndex < m_chambers.Count)
+            m_chambers[chamberIndex].Reset();
+    }
+
     private void _FindLevelDoors()
     {
         GameObject entranceDoor = GameObject.Find("EntranceDoorCombo");
@@ -108,33 +120,35 @@ public class LevelManager : Manager<LevelManager>
             m_exitDoor = exitDoor.GetComponent<ExitDoorFrame>();
     }
 
+    /*
     private List<GameObject> _GetChambers()
     {
         return m_chambers;
+    }*/
+
+    private Chamber _GetCurrentChamber()
+    {
+        // Error check here.
+        return m_chambers[m_currentChamber];
     }
 
-    private void _AddChamber(GameObject chamber)
+    private void _AddChamber(Chamber chamber)
     {
         if (m_chambers == null)
-            m_chambers = new List<GameObject>();
+            m_chambers = new List<Chamber>();
 
         if (m_chambers != null)
         {
             m_chambers.Add(chamber);
 
-            Debug.Log(chamber.name + " added.");
+            Debug.Log(chamber.GetName() + " added.");
         }
     }
 
     private void _ClearLevel()
     {
         if (m_chambers != null)
-        {
-            foreach (GameObject chamber in m_chambers)
-                Destroy(chamber);
-
             m_chambers.Clear();
-        }
     }
     #endregion
 
@@ -159,12 +173,18 @@ public class LevelManager : Manager<LevelManager>
         LevelManager.GetInstance()._RestartLevel();
     }
 
-    public static List<GameObject> GetChambers()
+    /*
+    public static List<Chamber> GetChambers()
     {
         return LevelManager.GetInstance()._GetChambers();
+    }*/
+
+    public static Chamber GetCurrentChamber()
+    {
+        return LevelManager.GetInstance()._GetCurrentChamber();
     }
 
-    public static void AddChamber(GameObject chamber)
+    public static void AddChamber(Chamber chamber)
     {
         LevelManager.GetInstance()._AddChamber(chamber);
     }

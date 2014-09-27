@@ -44,6 +44,7 @@ TagManager:
   - WeightedPlate
   - Doors
   - Level
+  - Chamber
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -58,7 +59,7 @@ TagManager:
   User Layer 10: Background Image
   User Layer 11: LevelEditorMenu
   User Layer 12: Loading
-  User Layer 13: 
+  User Layer 13: CurrentChamber
   User Layer 14: 
   User Layer 15: 
   User Layer 16: 

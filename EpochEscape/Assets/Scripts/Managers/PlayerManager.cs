@@ -182,47 +182,5 @@ public class PlayerManager : Manager<PlayerManager>
     {
         PlayerManager.GetInstance()._ClearCores();
     }
-
-#if UNITY_ANDROID
-    private void _MoveUp(bool value)
-    {
-        m_player.m_up = value;
-    }
-
-    private void _MoveDown(bool value)
-    {
-        m_player.m_down = value;
-    }
-
-    private void _MoveLeft(bool value)
-    {
-        m_player.m_left = value;
-    }
-
-    private void _MoveRight(bool value)
-    {
-        m_player.m_right = value;
-    }
-
-    public static void MoveUp(bool value)
-    {
-        PlayerManager.GetInstance()._MoveUp(value);
-    }
-
-    public static void MoveDown(bool value)
-    {
-        PlayerManager.GetInstance()._MoveDown(value);
-    }
-
-    public static void MoveLeft(bool value)
-    {
-        PlayerManager.GetInstance()._MoveLeft(value);
-    }
-
-    public static void MoveRight(bool value)
-    {
-        PlayerManager.GetInstance()._MoveRight(value);
-    }
-#endif
     #endregion
 }

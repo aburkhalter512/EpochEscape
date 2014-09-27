@@ -31,6 +31,30 @@ public class LevelEditorUtilities
         sw.WriteLine(Tab(t) + Escape("z") + ":" + vector.z);
     }
 
+    public static Vector2 StringToVector2(string data)
+    {
+        string[] vectorComponents = null;
+        Vector2 vector = Vector2.zero;
+
+        data = data.Substring(1, data.Length - 2); // Trim paranthesis.
+
+        vectorComponents = data.Split(','); // Get each component.
+
+        // If the number of components is less than 2, then the string is corrupt.
+        if (vectorComponents.Length < 2)
+            return vector;
+
+        // Trim any whitespace.
+        vectorComponents[0] = vectorComponents[0].Trim();
+        vectorComponents[1] = vectorComponents[1].Trim();
+
+        // Parse the results.
+        vector.x = float.Parse(vectorComponents[0]);
+        vector.y = float.Parse(vectorComponents[1]);
+
+        return vector;
+    }
+
     public static Vector3 StringToVector3(string data)
     {
         string[] vectorComponents = null;
