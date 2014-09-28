@@ -115,13 +115,31 @@
 						"direction":"(0.0, 1.0, 0.0)",
 					},
 				],
-				"potions":{
-					"redPotions":[
-					],
-					"greenPotions":[
-					],
-				},
+				"redPotions":[
+					{
+						"name":"RedPotion",
+						"position":"(2.0, 2.4, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+				],
+				"greenPotions":[
+					{
+						"name":"GreenPotion",
+						"position":"(-3.8, -2.4, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+					{
+						"name":"GreenPotion",
+						"position":"(2.0, -2.4, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+				],
 				"crates":[
+					{
+						"name":"Crate",
+						"position":"(2.0, -0.8, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
 				],
 			},
 			"size":"(9.2, 9.2)"
@@ -227,8 +245,6 @@
 						"position":"(2.4, -3.2, 0.0)",
 						"direction":"(0.0, 1.0, 0.0)",
 					},
-				],
-				"crates":[
 				],
 			},
 			"size":"(8.4, 8.4)"
@@ -346,13 +362,36 @@
 						"direction":"(0.0, 1.0, 0.0)",
 					},
 				],
-				"potions":{
-					"redPotions":[
-					],
-					"greenPotions":[
-					],
-				},
+				"redPotions":[
+					{
+						"name":"RedPotion",
+						"position":"(-7.8, -1.2, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+					{
+						"name":"RedPotion",
+						"position":"(-7.4, -1.2, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+					{
+						"name":"RedPotion",
+						"position":"(-7.0, -1.2, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+				],
+				"greenPotions":[
+					{
+						"name":"GreenPotion",
+						"position":"(2.6, 3.8, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+				],
 				"crates":[
+					{
+						"name":"Crate",
+						"position":"(-4.8, -3.6, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
 				],
 			},
 			"size":"(13.6, 9.6)"
@@ -360,6 +399,6 @@
 	],
 	"level":{
 		"name":"TerrysLevel",
-		"numberOfObjects":62
+		"numberOfObjects":71
 	},
 }

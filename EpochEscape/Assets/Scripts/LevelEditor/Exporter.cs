@@ -211,7 +211,8 @@ public class Exporter : MonoBehaviour
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("items") + ":{");
 
             ComposePowerCores(sw, items.gameObject, tab + 1);
-            ComposePotions(sw, items.gameObject, tab + 1);
+            ComposeRedPotions(sw, items.gameObject, tab + 1);
+            ComposeGreenPotions(sw, items.gameObject, tab + 1);
             ComposeCrates(sw, items.gameObject, tab + 1);
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
@@ -243,45 +244,25 @@ public class Exporter : MonoBehaviour
         }
     }
 
-    private void ComposePotions(StreamWriter sw, GameObject parent, int tab)
-    {
-        Transform potions = parent.transform.FindChild("Potions");
-
-        if (potions != null)
-        {
-            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("potions") + ":{");
-
-            ComposeRedPotions(sw, potions.gameObject, tab + 1);
-            ComposeGreenPotions(sw, potions.gameObject, tab + 1);
-
-            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
-        }
-    }
-
     private void ComposeRedPotions(StreamWriter sw, GameObject parent, int tab)
     {
         Transform redPotions = parent.transform.FindChild("RedPotions");
 
         if (redPotions != null)
         {
-            ISerializable redPotionSerializer = null;
-
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("redPotions") + ":[");
 
             foreach (Transform redPotion in redPotions)
             {
-                redPotionSerializer = redPotion.GetComponent(typeof(ISerializable)) as ISerializable;
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
-                if (redPotionSerializer != null)
-                {
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(redPotion.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(redPotion.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(redPotion.up.ToString()) + ",");
 
-                    //redPotionSerializer.Serialize(sw, tab + 1);
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
 
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
-
-                    m_numberOfObjects++;
-                }
+                m_numberOfObjects++;
             }
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
@@ -294,24 +275,19 @@ public class Exporter : MonoBehaviour
 
         if (greenPotions != null)
         {
-            ISerializable greenPotionSerializer = null;
-
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("greenPotions") + ":[");
 
             foreach (Transform greenPotion in greenPotions)
             {
-                greenPotionSerializer = greenPotion.GetComponent(typeof(ISerializable)) as ISerializable;
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
-                if (greenPotionSerializer != null)
-                {
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(greenPotion.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(greenPotion.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(greenPotion.up.ToString()) + ",");
 
-                    //greenPotionSerializer.Serialize(sw, tab + 1);
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
 
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
-
-                    m_numberOfObjects++;
-                }
+                m_numberOfObjects++;
             }
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
@@ -324,24 +300,19 @@ public class Exporter : MonoBehaviour
 
         if (crates != null)
         {
-            ISerializable createSerializer = null;
-
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("crates") + ":[");
 
             foreach (Transform crate in crates)
             {
-                createSerializer = crate.GetComponent(typeof(ISerializable)) as ISerializable;
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
-                if (createSerializer != null)
-                {
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(crate.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(crate.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(crate.up.ToString()) + ",");
 
-                    //createSerializer.Serialize(sw, tab + 1);
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
 
-                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
-
-                    m_numberOfObjects++;
-                }
+                m_numberOfObjects++;
             }
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");

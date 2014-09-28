@@ -59,10 +59,7 @@ public class LevelManager : Manager<LevelManager>
     private void _EnableMiniMapLayer()
     {
         if (m_chambers != null && m_currentChamber >= 0 && m_currentChamber < m_chambers.Count)
-        {
-            Debug.Log("Layer set");
             m_chambers[m_currentChamber].EnableMiniMapLayer();
-        }
     }
 
     private void _LoadCheckpoint()
@@ -143,7 +140,7 @@ public class LevelManager : Manager<LevelManager>
         {
             m_chambers.Add(chamber);
 
-            Debug.Log(chamber.GetName() + " added.");
+            Debug.Log(chamber.GetName() + " created.");
         }
     }
 

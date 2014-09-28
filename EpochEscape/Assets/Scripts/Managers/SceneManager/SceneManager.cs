@@ -1,4 +1,10 @@
-﻿using UnityEngine;
+﻿/* Things to do
+ * 
+ * 1) Discover a recursive solution to the object generation since code is all too similar.
+ * 2) Perform error checking for dictionary keys.
+ */
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -98,7 +104,7 @@ public class SceneManager : Manager<SceneManager>
     {
         GameManager.getInstance().PauseMovement();
 
-        Debug.Log("Attempting to load " + m_levels[m_currentLevel]);
+        Debug.Log("Attempting to load " + m_levels[m_currentLevel] + ".");
 
         TextAsset levelDataText = Resources.Load("Data/Levels/" + m_levels[m_currentLevel]) as TextAsset;
 
@@ -146,6 +152,8 @@ public class SceneManager : Manager<SceneManager>
         }
 
         m_isLoading = false;
+
+        Debug.Log("Finished loading level.");
     }
 
     private IEnumerator ConstructLevel(Dictionary<string, object> levelData)
@@ -242,9 +250,6 @@ public class SceneManager : Manager<SceneManager>
                 {
                     renderer.sprite = Resources.Load<Sprite>("Textures/Levels/" + m_currentLevelName + "/Chamber" + Chamber.GetChamberCount() + "/" + chunkName);
 
-                    if(renderer.sprite == null)
-                        Debug.Log("Textures/Levels/" + m_currentLevelName + "/Chamber" + Chamber.GetChamberCount() + "/" + chunkName);
-
                     chunk.name = chunkName;
                     chunk.transform.parent = parent.transform;
                     chunk.transform.localPosition = LevelEditorUtilities.StringToVector3(chunkPosition);
@@ -291,7 +296,6 @@ public class SceneManager : Manager<SceneManager>
         if (doorDict != null)
         {
             string doorName = doorDict["name"] as string;
-            //string doorPath = doorDict["path"] as string;
             string position = doorDict["position"] as string;
             string direction = doorDict["direction"] as string;
 
@@ -340,6 +344,8 @@ public class SceneManager : Manager<SceneManager>
                 itemsContainer.transform.localPosition = Vector3.zero;
                 
                 yield return StartCoroutine(ConstructPowerCores(itemsDict, itemsContainer));
+                yield return StartCoroutine(ConstructRedPotions(itemsDict, itemsContainer));
+                yield return StartCoroutine(ConstructGreenPotions(itemsDict, itemsContainer));
                 yield return StartCoroutine(ConstructCrates(itemsDict, itemsContainer));
             }
         }
@@ -402,26 +408,149 @@ public class SceneManager : Manager<SceneManager>
         yield break;
     }
 
+    private IEnumerator ConstructRedPotions(Dictionary<string, object> itemsDict, GameObject parent)
+    {
+        if (itemsDict != null)
+        {
+            if (itemsDict.ContainsKey("redPotions"))
+            {
+                List<object> redPotions = itemsDict["redPotions"] as List<object>;
+                Dictionary<string, object> redPotionDict = null;
+
+                GameObject redPotionsContainer = new GameObject();
+
+                if (redPotionsContainer != null)
+                {
+                    redPotionsContainer.name = "RedPotions";
+                    redPotionsContainer.transform.parent = parent.transform;
+                    redPotionsContainer.transform.localPosition = Vector3.zero;
+
+                    for (int i = 0; i < redPotions.Count; i++)
+                    {
+                        redPotionDict = redPotions[i] as Dictionary<string, object>;
+
+                        yield return StartCoroutine(ConstructRedPotion(redPotionDict, redPotionsContainer));
+                    }
+                }
+            }
+        }
+    }
+
+    private IEnumerator ConstructRedPotion(Dictionary<string, object> redPotionDict, GameObject parent)
+    {
+        if (redPotionDict != null)
+        {
+            string redPotionName = redPotionDict["name"] as string;
+            string redPotionPosition = redPotionDict["position"] as string;
+            string redPotionDirection = redPotionDict["direction"] as string;
+
+            GameObject redPotion = Resources.Load("Prefabs/Items/" + redPotionName) as GameObject;
+
+            if (redPotion != null)
+            {
+                redPotion = Instantiate(redPotion) as GameObject;
+
+                if (redPotion != null)
+                {
+                    redPotion.name = redPotionName;
+                    redPotion.transform.parent = parent.transform;
+                    redPotion.transform.localPosition = LevelEditorUtilities.StringToVector3(redPotionPosition);
+                    redPotion.transform.up = LevelEditorUtilities.StringToVector3(redPotionDirection);
+
+                    m_objectsLoaded++;
+
+                    if (m_slowSimulation)
+                        yield return new WaitForSeconds(m_simulationTime);
+                }
+            }
+        }
+
+        yield break;
+    }
+
+    private IEnumerator ConstructGreenPotions(Dictionary<string, object> itemsDict, GameObject parent)
+    {
+        if (itemsDict != null)
+        {
+            if (itemsDict.ContainsKey("greenPotions"))
+            {
+                List<object> greenPotions = itemsDict["greenPotions"] as List<object>;
+                Dictionary<string, object> greenPotionDict = null;
+
+                GameObject greenPotionsContainer = new GameObject();
+
+                if (greenPotionsContainer != null)
+                {
+                    greenPotionsContainer.name = "GreenPotions";
+                    greenPotionsContainer.transform.parent = parent.transform;
+                    greenPotionsContainer.transform.localPosition = Vector3.zero;
+
+                    for (int i = 0; i < greenPotions.Count; i++)
+                    {
+                        greenPotionDict = greenPotions[i] as Dictionary<string, object>;
+
+                        yield return StartCoroutine(ConstructGreenPotion(greenPotionDict, greenPotionsContainer));
+                    }
+                }
+            }
+        }
+    }
+
+    private IEnumerator ConstructGreenPotion(Dictionary<string, object> greenPotionDict, GameObject parent)
+    {
+        if (greenPotionDict != null)
+        {
+            string greenPotionName = greenPotionDict["name"] as string;
+            string greenPotionPosition = greenPotionDict["position"] as string;
+            string greenPotionDirection = greenPotionDict["direction"] as string;
+
+            GameObject greenPotion = Resources.Load("Prefabs/Items/" + greenPotionName) as GameObject;
+
+            if (greenPotion != null)
+            {
+                greenPotion = Instantiate(greenPotion) as GameObject;
+
+                if (greenPotion != null)
+                {
+                    greenPotion.name = greenPotionName;
+                    greenPotion.transform.parent = parent.transform;
+                    greenPotion.transform.localPosition = LevelEditorUtilities.StringToVector3(greenPotionPosition);
+                    greenPotion.transform.up = LevelEditorUtilities.StringToVector3(greenPotionDirection);
+
+                    m_objectsLoaded++;
+
+                    if (m_slowSimulation)
+                        yield return new WaitForSeconds(m_simulationTime);
+                }
+            }
+        }
+
+        yield break;
+    }
+
     private IEnumerator ConstructCrates(Dictionary<string, object> itemsDict, GameObject parent)
     {
         if (itemsDict != null)
         {
-            List<object> crates = itemsDict["crates"] as List<object>;
-            Dictionary<string, object> crateDict = null;
-
-            GameObject cratesContainer = new GameObject();
-
-            if (cratesContainer != null)
+            if (itemsDict.ContainsKey("crates"))
             {
-                cratesContainer.name = "Crates";
-                cratesContainer.transform.parent = parent.transform;
-                cratesContainer.transform.localPosition = Vector3.zero;
+                List<object> crates = itemsDict["crates"] as List<object>;
+                Dictionary<string, object> crateDict = null;
 
-                for (int i = 0; i < crates.Count; i++)
+                GameObject cratesContainer = new GameObject();
+
+                if (cratesContainer != null)
                 {
-                    crateDict = crates[i] as Dictionary<string, object>;
+                    cratesContainer.name = "Crates";
+                    cratesContainer.transform.parent = parent.transform;
+                    cratesContainer.transform.localPosition = Vector3.zero;
 
-                    yield return StartCoroutine(ConstructCrate(crateDict, cratesContainer));
+                    for (int i = 0; i < crates.Count; i++)
+                    {
+                        crateDict = crates[i] as Dictionary<string, object>;
+
+                        yield return StartCoroutine(ConstructCrate(crateDict, cratesContainer));
+                    }
                 }
             }
         }
@@ -432,6 +561,8 @@ public class SceneManager : Manager<SceneManager>
         if (crateDict != null)
         {
             string crateName = crateDict["name"] as string;
+            string cratePosition = crateDict["position"] as string;
+            string crateDirection = crateDict["direction"] as string;
 
             GameObject crate = Resources.Load("Prefabs/Obstacles/" + crateName) as GameObject;
 
@@ -441,14 +572,10 @@ public class SceneManager : Manager<SceneManager>
 
                 if (crate != null)
                 {
-                    ISerializable crateSerializer = crate.GetComponent(typeof(ISerializable)) as ISerializable;
-
-                    /*
-                    if (crateSerializer != null)
-                        crateSerializer.Unserialize(crateDict);*/
-
                     crate.name = crateName;
                     crate.transform.parent = parent.transform;
+                    crate.transform.localPosition = LevelEditorUtilities.StringToVector3(cratePosition);
+                    crate.transform.up = LevelEditorUtilities.StringToVector3(crateDirection);
 
                     m_objectsLoaded++;
 
