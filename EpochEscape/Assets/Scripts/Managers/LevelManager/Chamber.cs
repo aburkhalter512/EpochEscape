@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Chamber
 {
     private GameObject m_chamberObject;
     private Vector2 m_chamberSize;
 
+    private static int s_chamberCount = 0;
+
     public Chamber()
     {
         m_chamberObject = new GameObject();
         m_chamberSize = Vector2.zero;
+
+        s_chamberCount++;
     }
 
     public void SetName(string name)
@@ -117,5 +120,23 @@ public class Chamber
                     resettable.Reset();
             }
         }
+    }
+
+    public static int GetChamberCount()
+    {
+        return s_chamberCount;
+    }
+
+    public void Dispose()
+    {
+        s_chamberCount--;
+
+        // Just some precautions.
+        if (s_chamberCount < 0)
+            s_chamberCount = 0;
+
+        // Since Chamber doesn't inherit from Mono, then Destroy() cannot be called.
+        // We must implement our own mini garbage collector.
+        GarbageManager.Add(ref m_chamberObject);
     }
 }

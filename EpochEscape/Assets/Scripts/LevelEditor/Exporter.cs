@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public class Exporter : MonoBehaviour
 {
@@ -31,15 +32,10 @@ public class Exporter : MonoBehaviour
 
     private void ComposeLevel(StreamWriter sw, int tab)
     {
-        GameObject level = GameObject.FindWithTag("Level");
-
         if (sw != null)
         {
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("level") + ":{");
-
-            if (level != null)
-                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(level.name) + ",");
-
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(m_levelName) + ",");
             sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("numberOfObjects") + ":" + m_numberOfObjects.ToString());
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
         }
@@ -51,10 +47,20 @@ public class Exporter : MonoBehaviour
         {
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("chambers") + ":[");
 
+            // Get all chambers that are currently tagged.
             GameObject[] chambers = GameObject.FindGameObjectsWithTag("Chamber");
 
-            foreach (GameObject chamber in chambers)
-                ComposeChamber(sw, chamber, tab + 1);
+            // Sort the chambers by name using a delegate.
+            // The order returned by GameObject.FindGameObjectsWithTag() is random.
+            // Efficiency isn't the goal.
+            Array.Sort(chambers, (GameObject chamberA, GameObject chamberB) =>
+            {
+                return chamberA.name.CompareTo(chamberB.name);
+            });
+
+            // Compose each chamber.
+            for (int chamber = 0; chamber < chambers.Length; chamber++)
+                ComposeChamber(sw, chambers[chamber], tab + 1);
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
         }
@@ -62,7 +68,7 @@ public class Exporter : MonoBehaviour
 
     private void ComposeChamber(StreamWriter sw, GameObject chamber, int tab)
     {
-        Bounds chamberBounds = new Bounds();
+        Vector2 chamberSize = Vector2.zero;
 
         if (sw != null)
         {
@@ -70,18 +76,21 @@ public class Exporter : MonoBehaviour
             sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(chamber.name) + ",");
             sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(chamber.transform.position) + ",");
 
-            ComposeChunks(sw, chamber, ref chamberBounds, tab + 1);
+            ComposeChunks(sw, chamber, ref chamberSize, tab + 1);
             ComposeDoors(sw, chamber, tab + 1);
             ComposeItems(sw, chamber, tab + 1);
 
-            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(chamberBounds.size.ToString()));
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(chamberSize.ToString()));
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
         }
     }
 
-    private void ComposeChunks(StreamWriter sw, GameObject parent, ref Bounds parentBounds, int tab)
+    private void ComposeChunks(StreamWriter sw, GameObject parent, ref Vector2 chamberSize, int tab)
     {
         Transform chunks = parent.transform.FindChild("Chunks");
+        int chunksComposed = 0;
+        float previousY = 0f;
+        bool canStopX = false;
 
         if (chunks != null)
         {
@@ -96,7 +105,22 @@ public class Exporter : MonoBehaviour
                 
                 sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
 
-                parentBounds.Encapsulate(chunk.renderer.bounds);
+                if (chunksComposed == 0)
+                {
+                    chamberSize.x += chunk.renderer.bounds.size.x;
+                    chamberSize.y += chunk.renderer.bounds.size.y;
+                }
+                else if (chunk.position.y > previousY && !Utilities.IsApproximately(chunk.position.y, previousY))
+                {
+                    chamberSize.y += chunk.renderer.bounds.size.y;
+
+                    canStopX = true;
+                }
+                else if (!canStopX)
+                    chamberSize.x += chunk.renderer.bounds.size.x;
+
+                chunksComposed++;
+                previousY = chunk.position.y;
 
                 m_numberOfObjects++;
             }

@@ -156,17 +156,6 @@ public class SceneManager : Manager<SceneManager>
         {
             m_currentLevelName = levelDict["name"] as string;
             m_numberOfObjectsToLoad = (int)((long)levelDict["numberOfObjects"]);
-
-            /*
-            GameObject level = Resources.Load("Prefabs/Levels/" + levelName) as GameObject;
-
-            if (level != null)
-            {
-                level = Instantiate(level) as GameObject;
-
-                if (level != null)
-                    level.name = levelName;
-            }*/
         }
 
         yield break;
@@ -193,15 +182,10 @@ public class SceneManager : Manager<SceneManager>
             string chamberPosition = chamberDict["position"] as string;
             string chamberSize = chamberDict["size"] as string;
 
-            //GameObject chamber = new GameObject();
-
             Chamber chamber = new Chamber();
 
             if (chamber != null)
             {
-                //chamber.name = chamberName;
-                //chamber.transform.position = LevelEditorUtilities.StringToVector3(chamberPosition);
-
                 chamber.SetName(chamberName);
                 chamber.SetPosition(LevelEditorUtilities.StringToVector3(chamberPosition));
                 chamber.SetSize(LevelEditorUtilities.StringToVector2(chamberSize));
@@ -256,7 +240,10 @@ public class SceneManager : Manager<SceneManager>
 
                 if (renderer != null)
                 {
-                    renderer.sprite = Resources.Load<Sprite>("Textures/Levels/" + m_currentLevelName + "/Chamber1Chunks/" + chunkName);
+                    renderer.sprite = Resources.Load<Sprite>("Textures/Levels/" + m_currentLevelName + "/Chamber" + Chamber.GetChamberCount() + "/" + chunkName);
+
+                    if(renderer.sprite == null)
+                        Debug.Log("Textures/Levels/" + m_currentLevelName + "/Chamber" + Chamber.GetChamberCount() + "/" + chunkName);
 
                     chunk.name = chunkName;
                     chunk.transform.parent = parent.transform;

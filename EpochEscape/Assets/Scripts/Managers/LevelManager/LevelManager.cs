@@ -11,7 +11,6 @@ public class LevelManager : Manager<LevelManager>
     private EntranceDoorFrame m_entranceDoor;
     private ExitDoorFrame m_exitDoor;
 
-    [SerializeField]
     private List<Chamber> m_chambers = null;
 
     private int m_currentChamber = 0;
@@ -60,7 +59,10 @@ public class LevelManager : Manager<LevelManager>
     private void _EnableMiniMapLayer()
     {
         if (m_chambers != null && m_currentChamber >= 0 && m_currentChamber < m_chambers.Count)
+        {
+            Debug.Log("Layer set");
             m_chambers[m_currentChamber].EnableMiniMapLayer();
+        }
     }
 
     private void _LoadCheckpoint()
@@ -77,11 +79,15 @@ public class LevelManager : Manager<LevelManager>
     private void _ExitLevel()
     {
         PlayerManager.HidePlayer();
+        PlayerManager.ClearCores();
         HUDManager.Hide();
         MiniMapManager.Hide();
         SaveManager.Save();
 
         FadeManager.StartAlphaFade(Color.black, false, 2f, 0f, () => { SceneManager.LoadNextLevel(); });
+
+        m_currentCheckpoint = null;
+        m_currentChamber = 0;
     }
 
     private void _RestartLevel()
@@ -120,16 +126,12 @@ public class LevelManager : Manager<LevelManager>
             m_exitDoor = exitDoor.GetComponent<ExitDoorFrame>();
     }
 
-    /*
-    private List<GameObject> _GetChambers()
-    {
-        return m_chambers;
-    }*/
-
     private Chamber _GetCurrentChamber()
     {
-        // Error check here.
-        return m_chambers[m_currentChamber];
+        if(m_chambers != null && m_currentChamber >= 0 && m_currentChamber < m_chambers.Count)
+            return m_chambers[m_currentChamber];
+
+        return null;
     }
 
     private void _AddChamber(Chamber chamber)
@@ -148,7 +150,12 @@ public class LevelManager : Manager<LevelManager>
     private void _ClearLevel()
     {
         if (m_chambers != null)
+        {
+            foreach (Chamber chamber in m_chambers)
+                chamber.Dispose();
+
             m_chambers.Clear();
+        }
     }
     #endregion
 
@@ -172,12 +179,6 @@ public class LevelManager : Manager<LevelManager>
     {
         LevelManager.GetInstance()._RestartLevel();
     }
-
-    /*
-    public static List<Chamber> GetChambers()
-    {
-        return LevelManager.GetInstance()._GetChambers();
-    }*/
 
     public static Chamber GetCurrentChamber()
     {

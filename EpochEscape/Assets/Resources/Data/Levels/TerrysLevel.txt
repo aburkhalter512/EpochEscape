@@ -124,11 +124,242 @@
 				"crates":[
 				],
 			},
-			"size":"(9.2, 9.2, 0.2)"
+			"size":"(9.2, 9.2)"
+		},
+		{
+			"name":"Chamber2",
+			"position":"(10.8, 0.0, 0.0)",
+			"chunks":[
+				{
+					"name":"Chunk0",
+					"position":"(-1.0, -1.0, 0.0)",
+				},
+				{
+					"name":"Chunk1",
+					"position":"(3.0, -1.0, 0.0)",
+				},
+				{
+					"name":"Chunk2",
+					"position":"(4.0, -1.0, 0.0)",
+				},
+				{
+					"name":"Chunk3",
+					"position":"(-1.0, 3.0, 0.0)",
+				},
+				{
+					"name":"Chunk4",
+					"position":"(3.0, 3.0, 0.0)",
+				},
+				{
+					"name":"Chunk5",
+					"position":"(4.0, 3.0, 0.0)",
+				},
+				{
+					"name":"Chunk6",
+					"position":"(-1.0, 4.0, 0.0)",
+				},
+				{
+					"name":"Chunk7",
+					"position":"(3.0, 4.0, 0.0)",
+				},
+				{
+					"name":"Chunk8",
+					"position":"(4.0, 4.0, 0.0)",
+				},
+			],
+			"doors":[
+				{
+					"name":"LockedDoorCombo",
+					"position":"(-3.4, -0.8, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":0
+				},
+				{
+					"name":"LockedDoorCombo",
+					"position":"(-3.0, 0.8, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"LockedDoorCombo",
+					"position":"(0.8, -3.0, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"initialState":0
+				},
+				{
+					"name":"TwoCoreDoorCombo",
+					"position":"(4.0, 0.0, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"powerCores":2
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(-0.8, -3.2, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(1.4, 0.8, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(-0.8, 3.0, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"DirectionalDoorCombo",
+					"position":"(0.8, 3.0, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"CheckpointDoorCombo",
+					"position":"(-4.0, 0.0, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"initialState":1
+				},
+			],
+			"items":{
+				"powerCores":[
+					{
+						"name":"Core2",
+						"position":"(2.4, -3.2, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+				],
+				"crates":[
+				],
+			},
+			"size":"(8.4, 8.4)"
+		},
+		{
+			"name":"Chamber3",
+			"position":"(23.8, 1.2, 0.0)",
+			"chunks":[
+				{
+					"name":"Chunk0",
+					"position":"(-0.4, -1.6, 0.0)",
+				},
+				{
+					"name":"Chunk1",
+					"position":"(6.4, -1.6, 0.0)",
+				},
+				{
+					"name":"Chunk2",
+					"position":"(-0.4, 3.2, 0.0)",
+				},
+				{
+					"name":"Chunk3",
+					"position":"(6.4, 3.2, 0.0)",
+				},
+			],
+			"doors":[
+				{
+					"name":"ExitDoorCombo",
+					"position":"(6.6, 3.8, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"powerCores":3
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(-5.8, -0.6, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(-2.6, -1.2, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(-1.6, -2.2, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(0.6, -2.2, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(3.2, -3.0, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(1.4, 0.8, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(-2.2, 2.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"name":"StandardDoorCombo",
+					"position":"(-1.6, 1.8, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"name":"LockedDoorCombo",
+					"position":"(-4.8, -1.8, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":0
+				},
+				{
+					"name":"DirectionalDoorCombo",
+					"position":"(5.8, 0.2, 0.0)",
+					"direction":"(0.0, -1.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"LockedDoorCombo",
+					"position":"(4.6, 0.8, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"initialState":1
+				},
+				{
+					"name":"LockedDoorCombo",
+					"position":"(-1.0, 3.8, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"initialState":0
+				},
+				{
+					"name":"BoxDoorCombo",
+					"position":"(5.8, 1.4, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)",
+					"initialState":0
+				},
+				{
+					"name":"CheckpointDoorCombo",
+					"position":"(-6.6, -1.2, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)",
+					"initialState":1
+				},
+			],
+			"items":{
+				"powerCores":[
+					{
+						"name":"Core3",
+						"position":"(0.4, -1.2, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+					},
+				],
+				"potions":{
+					"redPotions":[
+					],
+					"greenPotions":[
+					],
+				},
+				"crates":[
+				],
+			},
+			"size":"(13.6, 9.6)"
 		},
 	],
 	"level":{
 		"name":"TerrysLevel",
-		"numberOfObjects":23
+		"numberOfObjects":62
 	},
 }

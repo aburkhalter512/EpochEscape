@@ -100,6 +100,14 @@ public class CameraManager : Manager<CameraManager>
         if (!m_isInitialized)
             yield break;
 
+        m_isTransitioning = true;
+
+        foreach (Transition transition in m_transitions)
+            transition.OnFinishTransition();
+
+        m_transitions.Clear();
+        m_isTransitioning = false;
+
         /*
         Vector3 min = Vector3.zero;
         Vector3 max = Vector3.zero;
