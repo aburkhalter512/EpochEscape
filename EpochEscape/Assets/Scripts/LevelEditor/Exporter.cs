@@ -1,9 +1,9 @@
 ﻿/*
  * Usage: Apply the script to the main camera, or an empty game object. The script will output the level data a file.
+ * Note: The algorithms in this script are far from efficient, and the code is overly complicated in areas.
  */
 
 using UnityEngine;
-//using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +52,7 @@ public class Exporter : MonoBehaviour
 
             // Sort the chambers by name using a delegate.
             // The order returned by GameObject.FindGameObjectsWithTag() is random.
-            // Efficiency isn't the goal.
+            // Efficiency here isn't the goal.
             Array.Sort(chambers, (GameObject chamberA, GameObject chamberB) =>
             {
                 return chamberA.name.CompareTo(chamberB.name);
@@ -78,6 +78,8 @@ public class Exporter : MonoBehaviour
 
             ComposeChunks(sw, chamber, ref chamberSize, tab + 1);
             ComposeDoors(sw, chamber, tab + 1);
+            ComposeDynamicWalls(sw, chamber, tab + 1);
+            ComposeTriggers(sw, chamber, tab + 1);
             ComposeItems(sw, chamber, tab + 1);
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(chamberSize.ToString()));
@@ -147,6 +149,7 @@ public class Exporter : MonoBehaviour
 
                 sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(door.name, door.transform.position);
                 data["name"] = door.name;
                 data["position"] = door.transform.localPosition;
                 data["direction"] = door.transform.up;
@@ -180,25 +183,213 @@ public class Exporter : MonoBehaviour
             }
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
-            
-            // ---
+        }
+    }
 
-            Transform teleportDoors = doors.transform.FindChild("TeleporterDoors");
+    private void ComposeDynamicWalls(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform dynamicWalls = parent.transform.FindChild("DynamicWalls");
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        int i = 0;
 
-            if (teleportDoors != null)
+        if (dynamicWalls != null)
+        {
+            ISerializable dynamicWallSerializer = null;
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("dynamicWalls") + ":[");
+
+            foreach (Transform dynamicWall in dynamicWalls)
             {
-                List<GameObject> teleDoors = new List<GameObject>();
+                dynamicWallSerializer = dynamicWall.GetComponent(typeof(ISerializable)) as ISerializable;
 
-                foreach (Transform teleportDoor in teleportDoors)
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(dynamicWall.name, dynamicWall.transform.position);
+                data["name"] = dynamicWall.name;
+                data["position"] = dynamicWall.transform.localPosition;
+                data["direction"] = dynamicWall.transform.up;
+
+                if (dynamicWallSerializer != null)
+                    dynamicWallSerializer.Serialize(ref data);
+
+                foreach (var datum in data)
                 {
-                    CustomDoorFrame teleDoor = teleportDoor.GetComponent<CustomDoorFrame>();
+                    sw.Write(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape(datum.Key) + ":");
 
-                    if (teleDoor != null)
-                        teleDoors.Add(teleDoor.gameObject);
+                    if (datum.Value.GetType() == typeof(int) || datum.Value.GetType() == typeof(float) || datum.Value.GetType() == typeof(bool))
+                        sw.Write(datum.Value.ToString());
+                    else if (datum.Value.GetType() == typeof(Vector3[]))
+                    {
+                        sw.WriteLine("[");
+
+                        foreach (Vector3 vector in datum.Value as Vector3[])
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(vector.ToString()) + ",");
+
+                        sw.Write(LevelEditorUtilities.Tab(tab + 2) + "]");
+                    }
+                    else
+                        sw.Write(LevelEditorUtilities.Escape(datum.Value));
+
+                    i++;
+
+                    if (i != data.Count)
+                        sw.Write(",");
+
+                    sw.WriteLine("");
                 }
 
-                Debug.Log(teleDoors.Count);
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+
+                data.Clear();
+                i = 0;
             }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeTriggers(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform triggers = parent.transform.FindChild("Triggers");
+
+        if (triggers != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("triggers") + ":{");
+
+            ComposeTerminals(sw, triggers.gameObject, tab + 1);
+            ComposePlates(sw, triggers.gameObject, tab + 1);
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
+
+    private void ComposeTerminals(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform terminals = parent.transform.FindChild("Terminals");
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        int i = 0;
+
+        if (terminals != null)
+        {
+            ISerializable terminalSerializer = null;
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("terminals") + ":[");
+
+            foreach (Transform terminal in terminals)
+            {
+                terminalSerializer = terminal.GetComponent(typeof(ISerializable)) as ISerializable;
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(terminal.name, terminal.transform.localPosition);
+                data["name"] = terminal.name;
+                data["position"] = terminal.transform.localPosition;
+                data["direction"] = terminal.transform.up;
+
+                if (terminalSerializer != null)
+                    terminalSerializer.Serialize(ref data);
+
+                foreach (var datum in data)
+                {
+                    sw.Write(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape(datum.Key) + ":");
+
+                    if (datum.Value.GetType() == typeof(int) || datum.Value.GetType() == typeof(float) || datum.Value.GetType() == typeof(bool))
+                        sw.Write(datum.Value.ToString());
+                    else if (datum.Value.GetType() == typeof(GameObject[]))
+                    {
+                        sw.WriteLine("[");
+
+                        foreach (GameObject obj in datum.Value as GameObject[])
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.localPosition)) + ",");
+
+                        sw.Write(LevelEditorUtilities.Tab(tab + 2) + "]");
+                    }
+                    else
+                        sw.Write(LevelEditorUtilities.Escape(datum.Value));
+
+                    i++;
+
+                    if (i != data.Count)
+                        sw.Write(",");
+
+                    sw.WriteLine("");
+                }
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+
+                data.Clear();
+                i = 0;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposePlates(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform plates = parent.transform.FindChild("Plates");
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        int i = 0;
+
+        if (plates != null)
+        {
+            ISerializable plateSerializer = null;
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("plates") + ":[");
+
+            foreach (Transform plate in plates)
+            {
+                plateSerializer = plate.GetComponent(typeof(ISerializable)) as ISerializable;
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(plate.name, plate.transform.localPosition);
+                data["name"] = plate.name;
+                data["position"] = plate.transform.localPosition;
+                data["direction"] = plate.transform.up;
+
+                if (plateSerializer != null)
+                    plateSerializer.Serialize(ref data);
+
+                foreach (var datum in data)
+                {
+                    sw.Write(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape(datum.Key) + ":");
+
+                    if (datum.Value.GetType() == typeof(int) || datum.Value.GetType() == typeof(float) || datum.Value.GetType() == typeof(bool))
+                        sw.Write(datum.Value.ToString());
+                    else if (datum.Value.GetType() == typeof(GameObject[]))
+                    {
+                        sw.WriteLine("[");
+
+                        foreach (GameObject obj in datum.Value as GameObject[])
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.localPosition)) + ",");
+
+                        sw.Write(LevelEditorUtilities.Tab(tab + 2) + "],");
+                    }
+                    else
+                        sw.Write(LevelEditorUtilities.Escape(datum.Value));
+
+                    i++;
+
+                    if (i != data.Count)
+                        sw.Write(",");
+
+                    sw.WriteLine("");
+                }
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+
+                data.Clear();
+                i = 0;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
         }
     }
 

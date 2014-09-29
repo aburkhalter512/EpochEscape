@@ -48,7 +48,7 @@ using System.IO;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public abstract class DoorFrame : MonoBehaviour, IDetectable, ISerializable
+public abstract class DoorFrame : MonoBehaviour, IDetectable
 {
     #region Interface Variables
     public GameObject frontSide;
@@ -141,14 +141,4 @@ public abstract class DoorFrame : MonoBehaviour, IDetectable, ISerializable
     
     #region Instance Methods
     #endregion
-
-    public virtual void Serialize(ref Dictionary<string, object> data)
-    {
-        // Nothing unique to serialize.
-    }
-
-    public virtual void Unserialize(ref Dictionary<string, object> data)
-    {
-        // Nothing unique to deserialize.
-    }
 }

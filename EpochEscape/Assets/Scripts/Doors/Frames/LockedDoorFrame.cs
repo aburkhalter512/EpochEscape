@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 
-public class LockedDoorFrame : DoorFrame, ITransitional, IResettable
+public class LockedDoorFrame : DoorFrame, ITransitional, IResettable, ISerializable
 {
     #region Interface Variables
     public STATE initialState;
@@ -145,17 +145,13 @@ public class LockedDoorFrame : DoorFrame, ITransitional, IResettable
         mCurState = initialState;
     }
 
-    public override void Serialize(ref Dictionary<string, object> data)
+    public void Serialize(ref Dictionary<string, object> data)
     {
         if (data != null)
-        {
-            base.Serialize(ref data);
-
             data["initialState"] = (int)initialState;
-        }
     }
 
-    public override void Unserialize(ref Dictionary<string, object> data)
+    public void Unserialize(ref Dictionary<string, object> data)
     {
         if (data != null)
         {

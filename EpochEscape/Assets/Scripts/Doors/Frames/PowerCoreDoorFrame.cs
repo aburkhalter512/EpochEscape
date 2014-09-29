@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-public class PowerCoreDoorFrame : DoorFrame, ITransitional, IResettable
+public class PowerCoreDoorFrame : DoorFrame, ITransitional, IResettable, ISerializable
 {
     #region Interface Variables
     public CORES powerCores = CORES.FULL;
@@ -132,17 +132,13 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional, IResettable
         lockDoor();
     }
 
-    public override void Serialize(ref Dictionary<string, object> data)
+    public void Serialize(ref Dictionary<string, object> data)
     {
         if (data != null)
-        {
-            base.Serialize(ref data);
-
             data["powerCores"] = (int)powerCores;
-        }
     }
 
-    public override void Unserialize(ref Dictionary<string, object> data)
+    public void Unserialize(ref Dictionary<string, object> data)
     {
         if (data != null)
         {

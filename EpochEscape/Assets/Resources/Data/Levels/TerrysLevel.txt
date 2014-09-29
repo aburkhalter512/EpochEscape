@@ -71,42 +71,124 @@
 			],
 			"doors":[
 				{
+					"id":"58e0b95a36e49019141d1884648b7adc",
 					"name":"EntranceDoorCombo",
 					"position":"(-4.4, 0.0, 0.0)",
 					"direction":"(1.0, 0.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"cfa5d6d24d1d5ccedb3035a47e028152",
 					"name":"LockedDoorCombo",
 					"position":"(1.2, -0.8, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"670c5bbc15b12700ba92f003e9059e1a",
 					"name":"LockedDoorCombo",
 					"position":"(-3.2, 1.0, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"50d65c1bac839841738b2338e4bae9a1",
 					"name":"LockedDoorCombo",
 					"position":"(-3.2, -1.0, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)",
 					"initialState":1
 				},
 				{
+					"id":"0f7293fbd2b61bc1265ab0380a9bff32",
 					"name":"LockedDoorCombo",
 					"position":"(1.2, -2.4, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"67c2c5b951e446465424183acab2cb67",
 					"name":"OneCoreDoorCombo",
 					"position":"(4.4, 0.0, 0.0)",
 					"direction":"(1.0, 0.0, 0.0)",
 					"powerCores":1
 				},
 			],
+			"dynamicWalls":[
+				{
+					"id":"248052a94b66c5eab57b6f84959dbeb7",
+					"name":"SlidingWall16",
+					"position":"(-0.8, -1.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"changeTime":1,
+					"positionPoints":[
+						"(0.0, 0.0, 0.0)",
+						"(0.0, 2.8, 0.0)",
+					]
+				},
+				{
+					"id":"a8a249ef43bb58b29d3811353d883133",
+					"name":"SlidingWall8",
+					"position":"(1.2, 1.0, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"changeTime":1,
+					"positionPoints":[
+						"(0.0, 0.0, 0.0)",
+						"(0.0, 1.2, 0.0)",
+					]
+				},
+			],
+			"triggers":{
+				"terminals":[
+					{
+						"id":"0ef31f8bb0b96f877af4803524079438",
+						"name":"Terminal",
+						"position":"(-2.2, 0.0, 0.0)",
+						"direction":"(1.0, 0.0, 0.0)",
+						"actuators":[
+							"670c5bbc15b12700ba92f003e9059e1a",
+							"50d65c1bac839841738b2338e4bae9a1",
+						]
+					},
+					{
+						"id":"4c4b0d3bee288050b610505464790777",
+						"name":"OneTimeTerminal",
+						"position":"(0.2, 2.8, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"cfa5d6d24d1d5ccedb3035a47e028152",
+						]
+					},
+					{
+						"id":"f36f21ae20794433e17326c6321cb5c9",
+						"name":"OneTimeTerminal",
+						"position":"(0.2, -2.8, 0.0)",
+						"direction":"(0.0, -1.0, 0.0)",
+						"actuators":[
+							"0f7293fbd2b61bc1265ab0380a9bff32",
+						]
+					},
+				],
+				"plates":[
+					{
+						"id":"4e2d3ced43c4daf31b615de693500ee5",
+						"name":"TogglePlate",
+						"position":"(-2.7, 3.7, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"248052a94b66c5eab57b6f84959dbeb7",
+						],
+					},
+					{
+						"id":"82290813f327439bea4b54dd49739b60",
+						"name":"WeightedPlate",
+						"position":"(-2.7, -3.7, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"a8a249ef43bb58b29d3811353d883133",
+						],
+					},
+				],
+			},
 			"items":{
 				"powerCores":[
 					{
@@ -187,51 +269,60 @@
 			],
 			"doors":[
 				{
+					"id":"880bd7c1b9db43339b0f10f1b0487330",
 					"name":"LockedDoorCombo",
 					"position":"(-3.4, -0.8, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"6ab509fcdbac5d7416040f9174c7074a",
 					"name":"LockedDoorCombo",
 					"position":"(-3.0, 0.8, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)",
 					"initialState":1
 				},
 				{
+					"id":"a73cdce381225ff158297d0a088f70e7",
 					"name":"LockedDoorCombo",
 					"position":"(0.8, -3.0, 0.0)",
 					"direction":"(1.0, 0.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"f2cbbf71a79edd2b4ac09aedc3c6294a",
 					"name":"TwoCoreDoorCombo",
 					"position":"(4.0, 0.0, 0.0)",
 					"direction":"(1.0, 0.0, 0.0)",
 					"powerCores":2
 				},
 				{
+					"id":"d2128cf9cd86deea4925e2eb0f099158",
 					"name":"StandardDoorCombo",
 					"position":"(-0.8, -3.2, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)"
 				},
 				{
+					"id":"5a1a8e43b721355a98e86bfb46849e5a",
 					"name":"StandardDoorCombo",
 					"position":"(1.4, 0.8, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)"
 				},
 				{
+					"id":"51952e44925ee9b5b3f96dc1c6db7050",
 					"name":"StandardDoorCombo",
 					"position":"(-0.8, 3.0, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)"
 				},
 				{
+					"id":"5a6c47b38a6144de530f9a54d07e2b97",
 					"name":"DirectionalDoorCombo",
 					"position":"(0.8, 3.0, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)",
 					"initialState":1
 				},
 				{
+					"id":"c97f00ab674d2601074e107f945f6325",
 					"name":"CheckpointDoorCombo",
 					"position":"(-4.0, 0.0, 0.0)",
 					"direction":"(1.0, 0.0, 0.0)",
@@ -272,82 +363,97 @@
 			],
 			"doors":[
 				{
+					"id":"09db677f0d7023f0f4a856c42df6e8b5",
 					"name":"ExitDoorCombo",
 					"position":"(6.6, 3.8, 0.0)",
 					"direction":"(1.0, 0.0, 0.0)",
 					"powerCores":3
 				},
 				{
+					"id":"acc434037a595d448552cbf3200eebd6",
 					"name":"StandardDoorCombo",
 					"position":"(-5.8, -0.6, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)"
 				},
 				{
+					"id":"fe2d826a7ef80976ff5e2b4428c1f292",
 					"name":"StandardDoorCombo",
 					"position":"(-2.6, -1.2, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)"
 				},
 				{
+					"id":"b9f770b9f94145b9a825014e2d3082db",
 					"name":"StandardDoorCombo",
 					"position":"(-1.6, -2.2, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)"
 				},
 				{
+					"id":"36310f0ee5036e5948bea640bee587f7",
 					"name":"StandardDoorCombo",
 					"position":"(0.6, -2.2, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)"
 				},
 				{
+					"id":"c3f7013406ec2154894c6d981ae2869a",
 					"name":"StandardDoorCombo",
 					"position":"(3.2, -3.0, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)"
 				},
 				{
+					"id":"bf65fa7ac820774f017d43b4ae3966d1",
 					"name":"StandardDoorCombo",
 					"position":"(1.4, 0.8, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)"
 				},
 				{
+					"id":"cd8b62a01a670dcf3404ec30a11c2b8f",
 					"name":"StandardDoorCombo",
 					"position":"(-2.2, 2.4, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)"
 				},
 				{
+					"id":"818aa8790c8c374b572027515e4f78b3",
 					"name":"StandardDoorCombo",
 					"position":"(-1.6, 1.8, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)"
 				},
 				{
+					"id":"b5fcef8f856dfed22981619f4f35cf21",
 					"name":"LockedDoorCombo",
 					"position":"(-4.8, -1.8, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"1d4a75cc7f329c510f2780e0c61b61b2",
 					"name":"DirectionalDoorCombo",
 					"position":"(5.8, 0.2, 0.0)",
 					"direction":"(0.0, -1.0, 0.0)",
 					"initialState":1
 				},
 				{
+					"id":"49743960e7ffa3e4c60ac55a238b2c9e",
 					"name":"LockedDoorCombo",
 					"position":"(4.6, 0.8, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)",
 					"initialState":1
 				},
 				{
+					"id":"83abf8d2e7109d55fbba253505a288a8",
 					"name":"LockedDoorCombo",
 					"position":"(-1.0, 3.8, 0.0)",
 					"direction":"(-1.0, 0.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"445d1e38fe7e25a0cbcd11f2f284b0b5",
 					"name":"BoxDoorCombo",
 					"position":"(5.8, 1.4, 0.0)",
 					"direction":"(0.0, 1.0, 0.0)",
 					"initialState":0
 				},
 				{
+					"id":"372a7810cb231cd0b776120a663c00c2",
 					"name":"CheckpointDoorCombo",
 					"position":"(-6.6, -1.2, 0.0)",
 					"direction":"(1.0, 0.0, 0.0)",
@@ -399,6 +505,6 @@
 	],
 	"level":{
 		"name":"TerrysLevel",
-		"numberOfObjects":71
+		"numberOfObjects":78
 	},
 }

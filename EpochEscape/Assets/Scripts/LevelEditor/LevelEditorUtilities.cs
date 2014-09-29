@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.IO;
+using System.Text;
+using System.Collections;
+using System.Security.Cryptography;
 
 public class LevelEditorUtilities
 {
@@ -79,5 +81,25 @@ public class LevelEditorUtilities
         vector.z = float.Parse(vectorComponents[2]);
 
         return vector;
+    }
+
+    public static string GenerateObjectHash(string name, Vector3 position)
+    {
+        int x = Mathf.FloorToInt(position.x * 10);
+        int y = Mathf.FloorToInt(position.y * 10);
+
+        string preHash = name + x.ToString() + y.ToString();
+
+        StringBuilder hash = new StringBuilder();
+
+        using (MD5 md5 = MD5.Create())
+        {
+            byte[] hashData = md5.ComputeHash(Encoding.UTF8.GetBytes(preHash));
+
+            for (int i = 0; i < hashData.Length; i++)
+                hash.Append(hashData[i].ToString("x2"));
+        }
+
+        return hash.ToString();
     }
 }
