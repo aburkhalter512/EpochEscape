@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public LevelManager levelManager;
 
     public float m_interactionDistance = .2f;
+    public int m_interactionMask = 1 << 9;
 
     public bool m_isMoving;
     public bool m_isMovingForward;
@@ -128,7 +129,7 @@ public class Player : MonoBehaviour
         if (mIM.interactButton.getDown()) {
             if (!m_isHoldingBox) {
                 collider2D.enabled = false;
-                RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
+                RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance,m_interactionMask);
                 collider2D.enabled = true;
                 if (hit.collider != null) {
                     if (hit.collider.gameObject.tag == "InteractiveObject") {
