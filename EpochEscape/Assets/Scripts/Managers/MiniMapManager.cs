@@ -66,7 +66,7 @@ public class MiniMapManager : Manager<MiniMapManager>
             Vector2 currentChamberSize = currentChamber.GetSize();
             float offset = 0f;
 
-            if (currentChamberSize.x > currentChamberSize.y)
+            if (currentChamberSize.x / currentChamberSize.y > m_camera.aspect)
             {
                 m_camera.orthographicSize = (currentChamberSize.x / m_camera.aspect) / 2;
 
