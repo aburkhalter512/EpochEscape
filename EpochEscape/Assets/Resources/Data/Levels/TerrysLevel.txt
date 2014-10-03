@@ -224,6 +224,92 @@
 					},
 				],
 			},
+			"wallColliders":[
+				{
+					"position":"(-3.9, -1.0)",
+					"size":"(0.6, 0.4)",
+				},
+				{
+					"position":"(-2.3, -1.0)",
+					"size":"(1.0, 0.4)",
+				},
+				{
+					"position":"(0.0, -4.4)",
+					"size":"(9.2, 0.4)",
+				},
+				{
+					"position":"(0.0, 4.4)",
+					"size":"(9.2, 0.4)",
+				},
+				{
+					"position":"(-2.3, 1.0)",
+					"size":"(1.0, 0.4)",
+				},
+				{
+					"position":"(-3.9, 1.0)",
+					"size":"(0.6, 0.4)",
+				},
+				{
+					"position":"(-4.4, 2.3)",
+					"size":"(0.4, 3.8)",
+				},
+				{
+					"position":"(-2.0, 2.7)",
+					"size":"(0.4, 3.0)",
+				},
+				{
+					"position":"(-2.0, -2.7)",
+					"size":"(0.4, 3.0)",
+				},
+				{
+					"position":"(-4.4, -2.3)",
+					"size":"(0.4, 3.8)",
+				},
+				{
+					"position":"(2.8, 0.0)",
+					"size":"(0.4, 6.0)",
+				},
+				{
+					"position":"(4.4, 2.3)",
+					"size":"(0.4, 3.8)",
+				},
+				{
+					"position":"(4.4, -2.3)",
+					"size":"(0.4, 3.8)",
+				},
+				{
+					"position":"(2.0, 1.6)",
+					"size":"(1.2, 0.4)",
+				},
+				{
+					"position":"(2.0, -1.6)",
+					"size":"(1.2, 0.4)",
+				},
+				{
+					"position":"(1.0, 0.0)",
+					"size":"(3.2, 0.4)",
+				},
+				{
+					"position":"(1.0, 3.2)",
+					"size":"(4.0, 0.4)",
+				},
+				{
+					"position":"(1.0, -3.2)",
+					"size":"(4.0, 0.4)",
+				},
+				{
+					"position":"(1.2, -0.3)",
+					"size":"(0.4, 0.2)",
+				},
+				{
+					"position":"(1.2, -2.9)",
+					"size":"(0.4, 0.2)",
+				},
+				{
+					"position":"(1.2, -1.6)",
+					"size":"(0.4, 0.8)",
+				},
+			],
 			"size":"(9.2, 9.2)"
 		},
 		{
@@ -329,6 +415,115 @@
 					"initialState":1
 				},
 			],
+			"dynamicWalls":[
+				{
+					"id":"40241cb03bdfc065a362d6d32731229b",
+					"name":"SlidingWall8",
+					"position":"(-2.4, -0.2, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"changeTime":1,
+					"positionPoints":[
+						"(0.0, 0.0, 0.0)",
+						"(0.0, -1.2, 0.0)",
+					]
+				},
+				{
+					"id":"d2267f761267c4c9c8b2fbecb763317c",
+					"name":"RotatingWallT6x6x6",
+					"position":"(-0.8, 1.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)"
+				},
+				{
+					"id":"5011422374d681ee816665a28ff2e633",
+					"name":"RotatingWallT6x6x6",
+					"position":"(1.4, -0.8, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"id":"50885f1fe3c34437bd382598d523c5dc",
+					"name":"SlidingWall8",
+					"position":"(2.4, 1.4, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"changeTime":1,
+					"positionPoints":[
+						"(0.0, 0.0, 0.0)",
+						"(0.0, -1.2, 0.0)",
+					]
+				},
+			],
+			"triggers":{
+				"terminals":[
+					{
+						"id":"26e7131dcd0c7abba325d32686120024",
+						"name":"OneTimeTerminal",
+						"position":"(-1.2, -1.6, 0.0)",
+						"direction":"(1.0, 0.0, 0.0)",
+						"actuators":[
+							"a73cdce381225ff158297d0a088f70e7",
+						]
+					},
+					{
+						"id":"be1effc52372a3b0006e3cba44cb44f3",
+						"name":"Terminal",
+						"position":"(3.6, 1.6, 0.0)",
+						"direction":"(1.0, 0.0, 0.0)",
+						"actuators":[
+							"880bd7c1b9db43339b0f10f1b0487330",
+							"6ab509fcdbac5d7416040f9174c7074a",
+						]
+					},
+				],
+				"plates":[
+					{
+						"id":"9aef4065bfa676502b584059548230cc",
+						"name":"TogglePlate",
+						"position":"(-3.0, 0.0, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"40241cb03bdfc065a362d6d32731229b",
+						],
+					},
+					{
+						"id":"e6f2d2c9c1c6de810d4b3d1fe573a169",
+						"name":"TogglePlate",
+						"position":"(-3.3, -3.3, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"d2267f761267c4c9c8b2fbecb763317c",
+						],
+					},
+					{
+						"id":"955c9cb089590d2a140983a6aaa29bbb",
+						"name":"TogglePlate",
+						"position":"(-3.1, 2.9, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"d2267f761267c4c9c8b2fbecb763317c",
+							"5011422374d681ee816665a28ff2e633",
+						],
+					},
+					{
+						"id":"6d03fc85376bbc654e932e153d93a012",
+						"name":"TogglePlate",
+						"position":"(3.3, 3.1, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"5011422374d681ee816665a28ff2e633",
+							"50885f1fe3c34437bd382598d523c5dc",
+						],
+					},
+					{
+						"id":"8fd92b83b24ae740932f335056e46a70",
+						"name":"TogglePlate",
+						"position":"(3.3, -1.5, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"d2267f761267c4c9c8b2fbecb763317c",
+							"5011422374d681ee816665a28ff2e633",
+						],
+					},
+				],
+			},
 			"items":{
 				"powerCores":[
 					{
@@ -338,6 +533,100 @@
 					},
 				],
 			},
+			"wallColliders":[
+				{
+					"position":"(0.8, -2.4)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(0.8, -3.6)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(-2.8, -0.8)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(-2.4, 0.8)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(-3.6, 0.8)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(-0.8, 2.4)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(-0.8, 3.6)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(0.8, 3.6)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(2.0, 0.8)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(0.0, -4.0)",
+					"size":"(8.4, 0.4)",
+				},
+				{
+					"position":"(0.0, 4.0)",
+					"size":"(8.4, 0.4)",
+				},
+				{
+					"position":"(-4.0, 2.1)",
+					"size":"(0.4, 3.4)",
+				},
+				{
+					"position":"(-4.0, -2.1)",
+					"size":"(0.4, 3.4)",
+				},
+				{
+					"position":"(4.0, -2.1)",
+					"size":"(0.4, 3.4)",
+				},
+				{
+					"position":"(4.0, 2.1)",
+					"size":"(0.4, 3.4)",
+				},
+				{
+					"position":"(0.8, 1.6)",
+					"size":"(0.4, 2.0)",
+				},
+				{
+					"position":"(-1.4, -0.8)",
+					"size":"(1.6, 0.4)",
+				},
+				{
+					"position":"(3.0, 2.4)",
+					"size":"(1.6, 0.4)",
+				},
+				{
+					"position":"(3.0, -0.8)",
+					"size":"(1.6, 0.4)",
+				},
+				{
+					"position":"(-1.8, -2.4)",
+					"size":"(1.6, 0.4)",
+				},
+				{
+					"position":"(3.2, 0.8)",
+					"size":"(1.2, 0.4)",
+				},
+				{
+					"position":"(-0.8, -3.7)",
+					"size":"(0.4, 0.2)",
+				},
+				{
+					"position":"(-0.8, -1.9)",
+					"size":"(0.4, 1.8)",
+				},
+			],
 			"size":"(8.4, 8.4)"
 		},
 		{
@@ -460,6 +749,117 @@
 					"initialState":1
 				},
 			],
+			"dynamicWalls":[
+				{
+					"id":"0d449382fbbfbb3b0f683f59eb5c5803",
+					"name":"RotatingWallT8x8x8",
+					"position":"(-0.6, -1.0, 0.0)",
+					"direction":"(0.0, -1.0, 0.0)"
+				},
+				{
+					"id":"850fd418aa8f0be503bf263ae516968f",
+					"name":"RotatingWall8",
+					"position":"(-0.2, -3.6, 0.0)",
+					"direction":"(1.0, 0.0, 0.0)"
+				},
+				{
+					"id":"f685059cc75e84cc9ae0fc7c49b02810",
+					"name":"RotatingWall6",
+					"position":"(2.2, 0.2, 0.0)",
+					"direction":"(0.0, 1.0, 0.0)"
+				},
+				{
+					"id":"46a53cc246d9445b057d9e2cf2214f7c",
+					"name":"RotatingWall6",
+					"position":"(3.0, 1.4, 0.0)",
+					"direction":"(0.0, -1.0, 0.0)"
+				},
+				{
+					"id":"ba51cb8bee1f1b64c8772d20adbfdd8e",
+					"name":"SlidingWall8",
+					"position":"(5.0, 3.6, 0.0)",
+					"direction":"(-1.0, 0.0, 0.0)",
+					"changeTime":1,
+					"positionPoints":[
+						"(0.0, 0.0, 0.0)",
+						"(0.0, -1.2, 0.0)",
+					]
+				},
+			],
+			"triggers":{
+				"terminals":[
+					{
+						"id":"f3388c3e74c4d174125c01c39d915b25",
+						"name":"OneTimeTerminal",
+						"position":"(1.8, -0.9, 0.0)",
+						"direction":"(-1.0, 0.0, 0.0)",
+						"actuators":[
+							"b5fcef8f856dfed22981619f4f35cf21",
+						]
+					},
+					{
+						"id":"1e59bc70c5b192ca9ca0cc57d0932193",
+						"name":"Terminal",
+						"position":"(-0.1, 2.2, 0.0)",
+						"direction":"(0.0, -1.0, 0.0)",
+						"actuators":[
+							"83abf8d2e7109d55fbba253505a288a8",
+							"49743960e7ffa3e4c60ac55a238b2c9e",
+						]
+					},
+					{
+						"id":"0911acffbdf3ec2686b4ffa3e6f1aa0a",
+						"name":"OneTimeTerminal",
+						"position":"(1.8, -1.9, 0.0)",
+						"direction":"(-1.0, 0.0, 0.0)",
+						"actuators":[
+							"7a05a4aa3db8267a4596832b1ab8581d",
+						]
+					},
+				],
+				"plates":[
+					{
+						"id":"afaebb3ffa54ad4a59d5c666f17d4427",
+						"name":"TogglePlate",
+						"position":"(-3.3, 0.1, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"0d449382fbbfbb3b0f683f59eb5c5803",
+						],
+					},
+					{
+						"id":"08b2ebaf0e4a83b85fa359be2eaff69a",
+						"name":"WeightedPlate",
+						"position":"(4.2, 3.9, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"ba51cb8bee1f1b64c8772d20adbfdd8e",
+						],
+					},
+					{
+						"id":"121d4b2b471089f286a2af897c13010a",
+						"name":"TogglePlate",
+						"position":"(-2.3, -3.9, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"850fd418aa8f0be503bf263ae516968f",
+							"f685059cc75e84cc9ae0fc7c49b02810",
+							"46a53cc246d9445b057d9e2cf2214f7c",
+						],
+					},
+					{
+						"id":"e7e1a7a3b130e90fcdc34b45714c50cd",
+						"name":"TogglePlate",
+						"position":"(4.1, -0.7, 0.0)",
+						"direction":"(0.0, 1.0, 0.0)",
+						"actuators":[
+							"850fd418aa8f0be503bf263ae516968f",
+							"f685059cc75e84cc9ae0fc7c49b02810",
+							"46a53cc246d9445b057d9e2cf2214f7c",
+						],
+					},
+				],
+			},
 			"items":{
 				"powerCores":[
 					{
@@ -500,11 +900,197 @@
 					},
 				],
 			},
+			"wallColliders":[
+				{
+					"position":"(-1.0, 4.3)",
+					"size":"(0.4, 0.2)",
+				},
+				{
+					"position":"(6.6, 4.3)",
+					"size":"(0.4, 0.2)",
+				},
+				{
+					"position":"(6.6, -0.5)",
+					"size":"(0.4, 7.8)",
+				},
+				{
+					"position":"(6.3, 1.4)",
+					"size":"(0.2, 0.4)",
+				},
+				{
+					"position":"(6.3, 0.2)",
+					"size":"(0.2, 0.4)",
+				},
+				{
+					"position":"(-0.2, -2.6)",
+					"size":"(0.4, 0.4)",
+				},
+				{
+					"position":"(-2.6, -2.2)",
+					"size":"(1.2, 0.4)",
+				},
+				{
+					"position":"(1.8, 1.4)",
+					"size":"(1.2, 0.4)",
+				},
+				{
+					"position":"(-0.5, -2.2)",
+					"size":"(1.4, 0.4)",
+				},
+				{
+					"position":"(-6.0, -1.8)",
+					"size":"(1.6, 0.4)",
+				},
+				{
+					"position":"(-3.4, -1.8)",
+					"size":"(2.0, 0.4)",
+				},
+				{
+					"position":"(-6.3, -0.6)",
+					"size":"(0.2, 0.4)",
+				},
+				{
+					"position":"(1.1, -2.2)",
+					"size":"(0.2, 0.4)",
+				},
+				{
+					"position":"(-3.9, -0.6)",
+					"size":"(3.0, 0.4)",
+				},
+				{
+					"position":"(-2.4, 1.8)",
+					"size":"(0.8, 0.4)",
+				},
+				{
+					"position":"(0.0, 4.6)",
+					"size":"(13.6, 0.4)",
+				},
+				{
+					"position":"(0.0, -4.6)",
+					"size":"(13.6, 0.4)",
+				},
+				{
+					"position":"(4.5, 1.4)",
+					"size":"(1.8, 0.4)",
+				},
+				{
+					"position":"(4.1, 0.2)",
+					"size":"(2.6, 0.4)",
+				},
+				{
+					"position":"(0.2, 1.8)",
+					"size":"(2.8, 0.4)",
+				},
+				{
+					"position":"(-3.6, 3.0)",
+					"size":"(3.2, 0.4)",
+				},
+				{
+					"position":"(2.0, -3.0)",
+					"size":"(1.6, 0.4)",
+				},
+				{
+					"position":"(4.4, -3.0)",
+					"size":"(1.6, 0.4)",
+				},
+				{
+					"position":"(5.8, 3.0)",
+					"size":"(1.2, 0.4)",
+				},
+				{
+					"position":"(-6.6, 1.8)",
+					"size":"(0.4, 5.2)",
+				},
+				{
+					"position":"(3.4, 3.0)",
+					"size":"(0.4, 2.8)",
+				},
+				{
+					"position":"(-5.0, 1.2)",
+					"size":"(0.4, 3.2)",
+				},
+				{
+					"position":"(-2.6, 0.6)",
+					"size":"(0.4, 2.0)",
+				},
+				{
+					"position":"(-3.0, -3.4)",
+					"size":"(0.4, 2.0)",
+				},
+				{
+					"position":"(-6.6, -3.2)",
+					"size":"(0.4, 2.4)",
+				},
+				{
+					"position":"(-1.0, 2.7)",
+					"size":"(0.4, 1.4)",
+				},
+				{
+					"position":"(5.0, -1.4)",
+					"size":"(0.4, 2.8)",
+				},
+				{
+					"position":"(1.4, -1.2)",
+					"size":"(0.4, 3.2)",
+				},
+			],
 			"size":"(13.6, 9.6)"
+		},
+	],
+	"halls":[
+		{
+			"name":"Hall1",
+			"position":"(5.4, 0.0, 0.0)",
+			"chunks":[
+				{
+					"name":"Chunk0",
+					"position":"(0.0, 0.0, 0.0)",
+				},
+				{
+					"name":"Chunk1",
+					"position":"(1.0, 0.0, 0.0)",
+				},
+			],
+			"wallColliders":[
+				{
+					"position":"(0.2, -0.6)",
+					"size":"(2.0, 0.4)",
+				},
+				{
+					"position":"(0.2, 0.6)",
+					"size":"(2.0, 0.4)",
+				},
+			],
+			"size":"(2.0, 1.6)"
+		},
+		{
+			"name":"Hall2",
+			"position":"(15.8, 0.0, 0.0)",
+			"chunks":[
+				{
+					"name":"Chunk0",
+					"position":"(0.0, 0.0, 0.0)",
+				},
+				{
+					"name":"Chunk1",
+					"position":"(1.0, 0.0, 0.0)",
+				},
+			],
+			"wallColliders":[
+				{
+					"position":"(0.2, -0.6)",
+					"size":"(2.0, 0.4)",
+				},
+				{
+					"position":"(0.2, 0.6)",
+					"size":"(2.0, 0.4)",
+				},
+			],
+			"size":"(2.0, 1.6)"
 		},
 	],
 	"level":{
 		"name":"TerrysLevel",
-		"numberOfObjects":78
+		"numberOfObjects":186
 	},
 }

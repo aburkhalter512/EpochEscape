@@ -118,6 +118,7 @@ public class SceneManager : Manager<SceneManager>
 
             yield return StartCoroutine(ConstructLevel(levelData));
             yield return StartCoroutine(ConstructChambers(levelData));
+            yield return StartCoroutine(ConstructHalls(levelData));
             yield return StartCoroutine(OnFinishLoad());
         }
 
@@ -215,15 +216,59 @@ public class SceneManager : Manager<SceneManager>
                 yield return StartCoroutine(ConstructDynamicWalls(chamberDict, chamber));
                 yield return StartCoroutine(ConstructTriggers(chamberDict, chamber));
                 yield return StartCoroutine(ConstructItems(chamberDict, chamber));
+                yield return StartCoroutine(ConstructWallColliders(chamberDict, chamber));
             }
         }
 
         yield break;
     }
 
-    private IEnumerator ConstructChunks(Dictionary<string, object> chamberDict, Chamber chamber)
+    private IEnumerator ConstructHalls(Dictionary<string, object> levelData)
     {
-        if (chamberDict != null && chamberDict.ContainsKey("chunks") && chamber != null)
+        List<object> halls = levelData["halls"] as List<object>;
+        Dictionary<string, object> hallData = null;
+
+        if (levelData != null)
+        {
+            for (int i = 0; i < halls.Count; i++)
+            {
+                hallData = halls[i] as Dictionary<string, object>;
+
+                if (hallData != null)
+                    yield return StartCoroutine(ConstructHall(hallData));
+            }
+        }
+
+        yield break;
+    }
+
+    private IEnumerator ConstructHall(Dictionary<string, object> hallDict)
+    {
+        if (hallDict != null)
+        {
+            string hallName = hallDict["name"] as string;
+            string hallPosition = hallDict["position"] as string;
+            string hallSize = hallDict["size"] as string;
+
+            Hall hall = new Hall();
+
+            if (hall != null)
+            {
+                hall.SetName(hallName);
+                hall.SetPosition(LevelEditorUtilities.StringToVector3(hallPosition));
+                hall.SetSize(LevelEditorUtilities.StringToVector2(hallSize));
+
+                yield return StartCoroutine(ConstructChunks(hallDict, hall));
+                yield return StartCoroutine(ConstructWallColliders(hallDict, hall));
+            }
+        }
+
+        yield break;
+    }
+
+    private IEnumerator ConstructChunks(Dictionary<string, object> chamberDict, Room room)
+    {
+        if (chamberDict != null && chamberDict.ContainsKey("chunks") && room != null)
         {
             List<object> chunks = chamberDict["chunks"] as List<object>;
             Dictionary<string, object> chunkDict = null;
@@ -232,7 +277,7 @@ public class SceneManager : Manager<SceneManager>
 
             if (chunks != null && chunksContainer != null)
             {
-                chamber.SetChild(chunksContainer);
+                room.SetChild(chunksContainer);
 
                 chunksContainer.name = "Chunks";
                 chunksContainer.transform.localPosition = Vector3.zero;
@@ -242,7 +287,7 @@ public class SceneManager : Manager<SceneManager>
                     chunkDict = chunks[i] as Dictionary<string, object>;
 
                     if(chunkDict != null)
-                        yield return StartCoroutine(ConstructChunk(chunkDict, chunksContainer));
+                        yield return StartCoroutine(ConstructChunk(chunkDict, chunksContainer, room));
                 }
             }
         }
@@ -250,7 +295,7 @@ public class SceneManager : Manager<SceneManager>
         yield break;
     }
 
-    private IEnumerator ConstructChunk(Dictionary<string, object> chunkDict, GameObject parent)
+    private IEnumerator ConstructChunk(Dictionary<string, object> chunkDict, GameObject parent, Room room)
     {
         if (chunkDict != null && parent != null)
         {
@@ -265,7 +310,7 @@ public class SceneManager : Manager<SceneManager>
 
                 if (renderer != null)
                 {
-                    renderer.sprite = Resources.Load<Sprite>("Textures/Levels/" + m_currentLevelName + "/Chamber" + Chamber.GetChamberCount() + "/" + chunkName);
+                    renderer.sprite = Resources.Load<Sprite>("Textures/Levels/" + m_currentLevelName + "/" + room.GetRoomType() + room.GetRoomCount() + "/" + chunkName);
 
                     chunk.name = chunkName;
                     chunk.transform.parent = parent.transform;
@@ -282,9 +327,9 @@ public class SceneManager : Manager<SceneManager>
         yield break;
     }
 
-    private IEnumerator ConstructDoors(Dictionary<string, object> chamberDict, Chamber chamber)
+    private IEnumerator ConstructDoors(Dictionary<string, object> chamberDict, Room room)
     {
-        if (chamberDict != null && chamberDict.ContainsKey("doors") && chamber != null)
+        if (chamberDict != null && chamberDict.ContainsKey("doors") && room != null)
         {
             List<object> doors = chamberDict["doors"] as List<object>;
             Dictionary<string, object> doorDict = null;
@@ -295,7 +340,7 @@ public class SceneManager : Manager<SceneManager>
             {
                 m_doors = new List<GameObject>();
 
-                chamber.SetChild(doorsContainer);
+                room.SetChild(doorsContainer);
 
                 doorsContainer.name = "Doors";
                 doorsContainer.transform.localPosition = Vector3.zero;
@@ -352,9 +397,9 @@ public class SceneManager : Manager<SceneManager>
         yield break;
     }
 
-    private IEnumerator ConstructDynamicWalls(Dictionary<string, object> chamberDict, Chamber chamber)
+    private IEnumerator ConstructDynamicWalls(Dictionary<string, object> chamberDict, Room room)
     {
-        if (chamberDict != null && chamberDict.ContainsKey("dynamicWalls") && chamber != null)
+        if (chamberDict != null && chamberDict.ContainsKey("dynamicWalls") && room != null)
         {
             List<object> dynamicWalls = chamberDict["dynamicWalls"] as List<object>;
             Dictionary<string, object> dynamicWallDict = null;
@@ -365,7 +410,7 @@ public class SceneManager : Manager<SceneManager>
             {
                 m_dynamicWalls = new List<GameObject>();
 
-                chamber.SetChild(dynamicWallsContainer);
+                room.SetChild(dynamicWallsContainer);
 
                 dynamicWallsContainer.name = "DynamicWalls";
                 dynamicWallsContainer.transform.localPosition = Vector3.zero;
@@ -422,9 +467,9 @@ public class SceneManager : Manager<SceneManager>
         yield break;
     }
 
-    private IEnumerator ConstructTriggers(Dictionary<string, object> chamberDict, Chamber chamber)
+    private IEnumerator ConstructTriggers(Dictionary<string, object> chamberDict, Room room)
     {
-        if (chamberDict != null && chamberDict.ContainsKey("triggers") && chamber != null)
+        if (chamberDict != null && chamberDict.ContainsKey("triggers") && room != null)
         {
             Dictionary<string, object> triggersDict = chamberDict["triggers"] as Dictionary<string, object>;
 
@@ -432,7 +477,7 @@ public class SceneManager : Manager<SceneManager>
 
             if (triggersDict != null && triggersContainer != null)
             {
-                chamber.SetChild(triggersContainer);
+                room.SetChild(triggersContainer);
 
                 triggersContainer.name = "Triggers";
                 triggersContainer.transform.localPosition = Vector3.zero;
@@ -577,9 +622,9 @@ public class SceneManager : Manager<SceneManager>
         yield break;
     }
 
-    private IEnumerator ConstructItems(Dictionary<string, object> chamberDict, Chamber chamber)
+    private IEnumerator ConstructItems(Dictionary<string, object> chamberDict, Room room)
     {
-        if (chamberDict != null && chamberDict.ContainsKey("items") && chamber != null)
+        if (chamberDict != null && chamberDict.ContainsKey("items") && room != null)
         {
             Dictionary<string, object> itemsDict = chamberDict["items"] as Dictionary<string, object>;
 
@@ -587,7 +632,7 @@ public class SceneManager : Manager<SceneManager>
 
             if (itemsDict != null && itemsContainer != null)
             {
-                chamber.SetChild(itemsContainer);
+                room.SetChild(itemsContainer);
 
                 itemsContainer.name = "Items";
                 itemsContainer.transform.localPosition = Vector3.zero;
@@ -836,6 +881,62 @@ public class SceneManager : Manager<SceneManager>
                     if (m_slowSimulation)
                         yield return new WaitForSeconds(m_simulationTime);
                 }
+            }
+        }
+
+        yield break;
+    }
+
+    private IEnumerator ConstructWallColliders(Dictionary<string, object> chamberDict, Room room)
+    {
+        if (chamberDict != null && chamberDict.ContainsKey("wallColliders") && room != null)
+        {
+            List<object> wallColliders = chamberDict["wallColliders"] as List<object>;
+            Dictionary<string, object> wallColliderDict = null;
+
+            GameObject wallCollidersContainer = new GameObject();
+
+            if (wallColliders != null && wallCollidersContainer != null)
+            {
+                m_dynamicWalls = new List<GameObject>();
+
+                room.SetChild(wallCollidersContainer);
+
+                wallCollidersContainer.name = "WallColliders";
+                wallCollidersContainer.transform.localPosition = Vector3.zero;
+                wallCollidersContainer.tag = "Wall";
+
+                for (int i = 0; i < wallColliders.Count; i++)
+                {
+                    wallColliderDict = wallColliders[i] as Dictionary<string, object>;
+
+                    if (wallColliderDict != null)
+                        yield return StartCoroutine(ConstructWallCollider(wallColliderDict, wallCollidersContainer));
+                }
+            }
+        }
+
+        yield break;
+    }
+
+    private IEnumerator ConstructWallCollider(Dictionary<string, object> wallColliderDict, GameObject parent)
+    {
+        if (wallColliderDict != null && parent != null)
+        {
+            string wallColliderPosition = wallColliderDict["position"] as string;
+            string wallColliderSize = wallColliderDict["size"] as string;
+
+            BoxCollider2D wallCollider = parent.AddComponent<BoxCollider2D>();
+
+            if (wallCollider != null)
+            {
+                wallCollider.center = LevelEditorUtilities.StringToVector2(wallColliderPosition);
+                wallCollider.size = LevelEditorUtilities.StringToVector2(wallColliderSize);
+
+                m_objectsLoaded++;
+
+                if (m_slowSimulation)
+                    yield return new WaitForSeconds(m_simulationTime);
             }
         }
 

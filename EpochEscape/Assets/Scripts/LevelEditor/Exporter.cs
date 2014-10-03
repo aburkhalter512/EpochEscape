@@ -24,6 +24,7 @@ public class Exporter : MonoBehaviour
 			sw.WriteLine("{");
 
             ComposeChambers(sw, 1);
+            ComposeHalls(sw, 1);
             ComposeLevel(sw, 1);
 			
 			sw.WriteLine("}");
@@ -81,8 +82,52 @@ public class Exporter : MonoBehaviour
             ComposeDynamicWalls(sw, chamber, tab + 1);
             ComposeTriggers(sw, chamber, tab + 1);
             ComposeItems(sw, chamber, tab + 1);
+            ComposeWallColliders(sw, chamber, tab + 1);
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(chamberSize.ToString()));
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
+
+    private void ComposeHalls(StreamWriter sw, int tab)
+    {
+        if (sw != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("halls") + ":[");
+
+            // Get all chambers that are currently tagged.
+            GameObject[] halls = GameObject.FindGameObjectsWithTag("Hall");
+
+            // Sort the chambers by name using a delegate.
+            // The order returned by GameObject.FindGameObjectsWithTag() is random.
+            // Efficiency here isn't the goal.
+            Array.Sort(halls, (GameObject hallA, GameObject hallB) =>
+            {
+                return hallA.name.CompareTo(hallB.name);
+            });
+
+            // Compose each chamber.
+            for (int hall = 0; hall < halls.Length; hall++)
+                ComposeHall(sw, halls[hall], tab + 1);
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeHall(StreamWriter sw, GameObject hall, int tab)
+    {
+        Vector2 hallSize = Vector2.zero;
+
+        if (sw != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "{");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(hall.name) + ",");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(hall.transform.position) + ",");
+
+            ComposeChunks(sw, hall, ref hallSize, tab + 1);
+            ComposeWallColliders(sw, hall, tab + 1);
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(hallSize.ToString()));
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
         }
     }
@@ -283,7 +328,7 @@ public class Exporter : MonoBehaviour
 
                 sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
-                data["id"] = LevelEditorUtilities.GenerateObjectHash(terminal.name, terminal.transform.localPosition);
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(terminal.name, terminal.transform.position);
                 data["name"] = terminal.name;
                 data["position"] = terminal.transform.localPosition;
                 data["direction"] = terminal.transform.up;
@@ -302,7 +347,7 @@ public class Exporter : MonoBehaviour
                         sw.WriteLine("[");
 
                         foreach (GameObject obj in datum.Value as GameObject[])
-                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.localPosition)) + ",");
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.position)) + ",");
 
                         sw.Write(LevelEditorUtilities.Tab(tab + 2) + "]");
                     }
@@ -366,7 +411,7 @@ public class Exporter : MonoBehaviour
                         sw.WriteLine("[");
 
                         foreach (GameObject obj in datum.Value as GameObject[])
-                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.localPosition)) + ",");
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.position)) + ",");
 
                         sw.Write(LevelEditorUtilities.Tab(tab + 2) + "],");
                     }
@@ -504,6 +549,36 @@ public class Exporter : MonoBehaviour
                 sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
 
                 m_numberOfObjects++;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeWallColliders(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform wallColliders = parent.transform.FindChild("WallColliders");
+        BoxCollider2D colliderTemp = null;
+
+        if (wallColliders != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("wallColliders") + ":[");
+
+            foreach (Transform wallCollider in wallColliders)
+            {
+                colliderTemp = wallCollider.GetComponent<BoxCollider2D>();
+
+                if (colliderTemp != null)
+                {
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(new Vector2(wallCollider.localPosition.x, wallCollider.localPosition.y)) + ",");
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(colliderTemp.size) + ",");
+
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                    m_numberOfObjects++;
+                }
             }
 
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
