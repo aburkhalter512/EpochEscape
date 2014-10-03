@@ -105,12 +105,13 @@ public class HUDManager : Manager<HUDManager> {
         GUI.matrix = Matrix4x4.TRS (Vector3.zero, Quaternion.identity, scale);
         
         #region hero icon + detectionbar
-        GUI.BeginGroup(new Rect(iconPos.x,iconPos.y,iconSize.x,iconSize.y));
+        GUI.BeginGroup(new Rect(iconPos.x,iconPos.y,iconSize.x + 200.0f,iconSize.y));
         GUI.DrawTexture(new Rect(0f,115f,iconSize.x,-95f * barFill),detectionBar);
         GUI.DrawTexture(new Rect(0f,0f,iconSize.x,iconSize.y),iconFrame);
         GUI.DrawTexture(new Rect(30f,21f,100f,100f),currMood);
-        if (playerManager.m_hasSpecialItem)
-            GUI.DrawTexture(new Rect(20f,92f,30f,30f),specItem);
+		GUI.DrawTexture(new Rect(20f,120f,30f,30f),specItem);
+		
+		GUI.DrawTexture(new Rect(60f,115f,iconSize.x,-95f * playerManager.inventory.getPercentRemainingCoolDown()),detectionBar);
         GUI.EndGroup();
         #endregion
         
@@ -119,6 +120,7 @@ public class HUDManager : Manager<HUDManager> {
         GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currRed);
         GUI.Label(new Rect(10f,30f,40f,40f), m_potionCount.ToString(),EpochSkin.GetStyle("HudText"));
         GUI.EndGroup();
+        
         GUI.BeginGroup(new Rect(greenPos.x,greenPos.y,potionSize.x,potionSize.y));
         GUI.DrawTexture(new Rect(0f,0f,potionSize.x,potionSize.y),currGreen);
         GUI.Label(new Rect(10f,30f,40f,40f), m_flaskCount.ToString(),EpochSkin.GetStyle("HudText"));

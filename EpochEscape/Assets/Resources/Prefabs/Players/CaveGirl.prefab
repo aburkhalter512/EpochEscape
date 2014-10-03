@@ -294,11 +294,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f61c720f066d45c4597bfc4385db725f, type: 3}
+  m_Script: {fileID: 11500000, guid: bfd8cc5ee97e7a94a928842c5159d5ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   levelManager: {fileID: 0}
   m_interactionDistance: .200000003
+  m_interactionMask: 512
   m_isMoving: 0
   m_isMovingForward: 0
   m_isMovingDown: 0
@@ -333,9 +334,9 @@ MonoBehaviour:
   Boost: 1
   BoostTime: 0
   m_currentState: 0
-  m_spawnLocation: {x: -16, y: -.699999988, z: 0}
   m_selectedSlot: 0
   m_specItems: 0
+  specialItem: {fileID: 100000, guid: 11cb3f08a9c0b3449a2c80a57a8cf921, type: 2}
   MAX_CORES: 3
   m_playSpecialItemAnim: 0
   m_specialItemAnimDuration: .5

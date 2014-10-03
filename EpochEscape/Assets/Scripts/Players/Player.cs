@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using G = GameManager;
 
-public class Player : MonoBehaviour
+public abstract class Player : MonoBehaviour
 {
     #region Inspector Variables
     public LevelManager levelManager;
@@ -40,15 +40,14 @@ public class Player : MonoBehaviour
     public float BoostTime = 0f;
 
     public PlayerState m_currentState;
-    //public Vector3 m_spawnLocation;
 
     public Inventory inventory;
     public int m_selectedSlot;
     public int m_specItems = 0;
+    
+    public GameObject specialItem = null;
 
     public int MAX_CORES = 3;
-
-    //private Vector3 m_previousMouseScreenPos;
 
     Transform m_collectAnimation = null;
     public bool m_playSpecialItemAnim = false;
@@ -92,7 +91,7 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Initialization Methods
-    protected void Start()
+    protected virtual void Start()
     {
         FadeManager.StartAlphaFade (Color.black, true, 1f, 0f);
 
@@ -105,7 +104,6 @@ public class Player : MonoBehaviour
         m_isMovingLeft = false;
         m_isMovingRight = false;
         m_isThrowing = false;
-        m_hasSpecialItem = false;
         m_isDrinking = false;
 
         m_isDetected = false;
@@ -114,14 +112,13 @@ public class Player : MonoBehaviour
         m_currentState = PlayerState.ALIVE;
 
         inventory = new Inventory();
+        inventory.setSpecialCooldown(3.0f);
         m_selectedSlot = 0;
-        //transform.position = m_spawnLocation;
 
-        //m_previousMouseScreenPos = Vector3.zero;
-
-        m_collectAnimation = transform.FindChild("CollectAnimation");
-
-        mIM = InputManager.getInstance();
+		mIM = InputManager.getInstance();
+		
+		m_hasSpecialItem = true;
+		m_specialItemCollectTime = Time.time;
     }
     #endregion
 
@@ -153,7 +150,7 @@ public class Player : MonoBehaviour
     }
 
     #region Update Methods
-    protected void Update()
+    protected virtual void Update()
     {
         if(!G.getInstance ().paused)
             UpdateCurrentState();
@@ -191,25 +188,14 @@ public class Player : MonoBehaviour
         UpdateDirection();
         UpdateMovement();
 
-        UpdateItemCollectionAnim();
         UpdateShield();
     }
 
     private void Dead()
     {
-        //m_currentState = PlayerState.ALIVE;
-        
-        //Application.LoadLevel(Application.loadedLevelName);
         G.getInstance().PauseMovement();
-        
-        /*
-        transform.position = new Vector3(-5f, 0f, 0f);
-        transform.up = -Vector3.up;
-        */
 
         HUDManager.Hide();
-        
-        //CameraBehavior cam = Camera.main.GetComponent<CameraBehavior>();
         
         GameObject playerCaught = Resources.Load("Prefabs/PlayerCaught") as GameObject;
         
@@ -217,46 +203,14 @@ public class Player : MonoBehaviour
         {
             playerCaught = Instantiate(playerCaught) as GameObject;
             playerCaught.transform.position = transform.position;
-            //playerCaught.GetComponent<PlayerCaughtAnimation>().levelManager = levelManager;
         }
-        
-        //cam.m_currentState = CameraBehavior.State.PLAYER_CAUGHT;
     }
     #endregion
 
     #region Update UserControl
     private void UpdateUserControl()
     {
-        UpdateMouse();
         UpdateKeyboard();
-    }
-    
-    private void UpdateMouse()
-    {
-        if(!m_isMoving)
-        {
-            Vector3 mouseScreenPosition = mIM.mouse.inScreen();
-            Vector3 mouseWorldPosition = mIM.mouse.inWorld();
-            Vector3 toMousePosition = mouseWorldPosition - transform.renderer.bounds.center;
-            toMousePosition.z = 0f;
-
-            //m_previousMouseScreenPos = mouseScreenPosition;
-
-            CircleCollider2D playerCollider = GetComponent<CircleCollider2D>();
-
-            if(playerCollider != null && toMousePosition.magnitude > playerCollider.radius)
-            {
-                toMousePosition.Normalize();
-
-                float angle = Utilities.RotateTowards(gameObject, toMousePosition, m_rotationSpeed);
-
-                if(Utilities.IsApproximately(angle, 0f))
-                {
-                    transform.up = toMousePosition;
-                    transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
-                }
-            }
-        }
     }
 
     private void UpdateKeyboard()
@@ -268,17 +222,18 @@ public class Player : MonoBehaviour
         m_isMovingRight = false;
 
         if(m_isThrowing || m_isDrinking || m_isAttacking) return;
+        
+        Vector3 playerMovement = mIM.primaryJoystick.getRaw();
 
-        if(Input.GetKey(KeyCode.W)) m_isMovingForward = true;
-        if(Input.GetKey(KeyCode.S)) m_isMovingDown = true;
-        if(Input.GetKey(KeyCode.A)) m_isMovingLeft = true;
-        if(Input.GetKey(KeyCode.D)) m_isMovingRight = true;
-
-        if(m_isMovingForward && m_isMovingDown)
-            m_isMovingForward = m_isMovingDown = false;
-
-        if(m_isMovingLeft && m_isMovingRight)
-            m_isMovingLeft = m_isMovingRight = false;
+        if(playerMovement.y > 0.0f)
+        	m_isMovingForward = true;
+        else if(playerMovement.y < 0.0f)
+        	m_isMovingDown = true;
+        
+        if(playerMovement.x < 0)
+        	m_isMovingLeft = true;
+        if(playerMovement.x > 0)
+        	m_isMovingRight = true;
 
         if(m_isMovingForward || m_isMovingDown || m_isMovingLeft || m_isMovingRight)
             m_isMoving = true;
@@ -302,18 +257,8 @@ public class Player : MonoBehaviour
             }
         }
         
-        if (mIM.specialActionButton.getDown() && inventory.inventory[Inventory.SPECIAL_SLOT] != null)
-        {
-            if(!m_isShieldActive)
-            {
-                m_isAttacking = true;
-
-                inventory.activateItem(Inventory.SPECIAL_SLOT);
-            }
-
-            if(inventory.inventoryCount[Inventory.SPECIAL_SLOT] <= 0)
-                m_isClubBroken = true; // Cave Girl
-        }
+        if (mIM.specialActionButton.getDown() && inventory.activateSpecialItem())
+            activateSpecialItem();
 
         if(mIM.itemSwitcher.get() > 0)
             ScrollSlotIncrement ();
@@ -361,11 +306,11 @@ public class Player : MonoBehaviour
     {
         m_isAttacking = false;
 
-        if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
+        /*if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
         {
             m_isClubBroken = false;
             m_hasSpecialItem = false;
-        }
+        }*/
     }
 
     private void UpdateMovement()
@@ -456,7 +401,7 @@ public class Player : MonoBehaviour
             m_animator.SetBool("isMovingRight", m_isMovingRight);
             m_animator.SetBool("isAttacking", m_isAttacking);
             m_animator.SetBool("isThrowing", m_isThrowing);
-            m_animator.SetBool("hasSpecialItem", m_hasSpecialItem);
+            m_animator.SetBool("hasSpecialItem", true);
             m_animator.SetBool("isDrinking", m_isDrinking);
             m_animator.SetBool("isHiding", m_isHiding);
             m_animator.SetBool("isClubBroken", m_isClubBroken); // CaveGirl
@@ -468,24 +413,6 @@ public class Player : MonoBehaviour
 
         if(renderer != null)
             renderer.color = new Color(1f, 1f, 1f, (m_isHiding ? 0.6f : 1f));
-    }
-
-    private void UpdateItemCollectionAnim()
-    {
-        if(!m_playSpecialItemAnim) return;
-        
-        if(m_collectAnimation != null)
-        {
-            m_collectAnimation.up = Vector3.up;
-            
-            if(Time.time - m_specialItemCollectTime > m_specialItemAnimDuration)
-            {
-                m_specialItemCollectTime = 0f;
-                m_playSpecialItemAnim = false;
-            }
-            
-            m_collectAnimation.gameObject.SetActive(m_playSpecialItemAnim);
-        }
     }
     #endregion
 
@@ -567,9 +494,6 @@ public class Player : MonoBehaviour
         if(Time.time - m_shieldTime > m_shieldDuration)
         {
             m_isShieldActive = false;
-            
-            if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
-                m_hasSpecialItem = false;
         }
     }
     #endregion
@@ -578,4 +502,6 @@ public class Player : MonoBehaviour
     {
         m_currentState = PlayerState.ALIVE;
     }
+    
+    protected abstract void activateSpecialItem();
 }

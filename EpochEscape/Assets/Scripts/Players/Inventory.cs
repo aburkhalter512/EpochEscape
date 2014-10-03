@@ -3,20 +3,25 @@ using System.Collections;
 
 public class Inventory{
     #region member variables
-    public const int UNIQUE_ITEMS = 4; //only item currently is potion
+    public const int UNIQUE_ITEMS = 3; //only item currently is potion
     public const int MAX_STACK = 10;
     public const int POTION_SLOT = 0;
     public const int FLASK_SLOT = 1;
     public const int DASH_SLOT = 2;
-    public const int SPECIAL_SLOT = 3;
 
     public Item[] inventory = new Item[UNIQUE_ITEMS];
     public int[] inventoryCount = new int[UNIQUE_ITEMS];
     #endregion
+    
+	#region Instance Variables
+	float mSpecialStartHitTime = -1.0f;
+	float mSpecialCooldownTime = 1.0f;
+	bool mIsFirstSpecialHit = true;
+	#endregion
 
 
-    public Inventory(){
-    }
+    public Inventory()
+    { }
 
     public void addItem(Item i){
         switch (i.tag) {
@@ -44,15 +49,6 @@ public class Inventory{
                     inventory[DASH_SLOT].Add(i);
                 }
                 inventoryCount[DASH_SLOT]++;
-                break;
-            case "Special Item":
-                if(inventory[SPECIAL_SLOT] == null){
-                    inventory[SPECIAL_SLOT] = i;
-                }
-                else{
-                    inventory[SPECIAL_SLOT].Add(i);
-                }
-                inventoryCount[SPECIAL_SLOT]++;
                 break;
         }
     }
@@ -128,5 +124,46 @@ public class Inventory{
             inventory[i] = null;
             inventoryCount[i] = 0;
         }
+    }
+    
+    public bool activateSpecialItem()
+    {
+    	if (mIsFirstSpecialHit || Time.realtimeSinceStartup - mSpecialStartHitTime >= mSpecialCooldownTime)
+    	{
+    		mIsFirstSpecialHit = false;
+    	
+    		mSpecialStartHitTime = Time.realtimeSinceStartup;
+    		
+    		return true;
+    	}
+    	
+    	return false;
+    }
+    
+    public void setSpecialCooldown(float cooldown)
+    {
+    	if (cooldown > 0.0f)
+    		mSpecialCooldownTime = cooldown;
+    }
+    
+    public float getSpecialCooldown()
+    {
+    	return mSpecialCooldownTime;
+    }
+    
+    public float getRemainingCoolDown()
+    {
+		if (mIsFirstSpecialHit || Time.realtimeSinceStartup - mSpecialStartHitTime > mSpecialCooldownTime)
+    		return -1.0f;
+    
+    	return Time.realtimeSinceStartup - mSpecialStartHitTime;
+    }
+    
+    public float getPercentRemainingCoolDown()
+	{
+		if (mIsFirstSpecialHit || Time.realtimeSinceStartup - mSpecialStartHitTime > mSpecialCooldownTime)
+			return 0.0f;
+		
+		return (mSpecialCooldownTime - (Time.realtimeSinceStartup - mSpecialStartHitTime)) / mSpecialCooldownTime;
     }
 }

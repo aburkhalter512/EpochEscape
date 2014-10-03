@@ -1205,7 +1205,7 @@ GameObject:
   - 114: {fileID: 44637119}
   - 61: {fileID: 44637118}
   - 61: {fileID: 44637117}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Terminal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3439,7 +3439,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400006, guid: 433abf122c739f9469e4db2eda7c9850, type: 2}
   m_PrefabInternal: {fileID: 52922550}
   m_GameObject: {fileID: 150928604}
-  m_LocalRotation: {x: 0, y: 0, z: -.258819044, w: .965925813}
+  m_LocalRotation: {x: 0, y: 0, z: -.258819073, w: .965925872}
   m_LocalPosition: {x: .443033546, y: -3.73121476, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4572,7 +4572,7 @@ Transform:
   m_PrefabInternal: {fileID: 329059577}
   m_GameObject: {fileID: 201279278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.400000006, z: 0}
+  m_LocalPosition: {x: 0, y: .400000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 568316836}
@@ -10350,7 +10350,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400006, guid: 433abf122c739f9469e4db2eda7c9850, type: 2}
   m_PrefabInternal: {fileID: 69455607}
   m_GameObject: {fileID: 460398488}
-  m_LocalRotation: {x: 0, y: 0, z: -.258819044, w: .965925813}
+  m_LocalRotation: {x: 0, y: 0, z: -.258819073, w: .965925872}
   m_LocalPosition: {x: 7.28889847, y: 7.89684057, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10783,7 +10783,7 @@ Transform:
   - {fileID: 1029599049}
   - {fileID: 1789163978}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!1001 &476954296
 Prefab:
   m_ObjectHideFlags: 0
@@ -11513,7 +11513,7 @@ GameObject:
   - 212: {fileID: 509407006}
   - 114: {fileID: 509407005}
   - 61: {fileID: 509407004}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Crate
   m_TagString: InteractiveObject
   m_Icon: {fileID: 0}
@@ -17100,7 +17100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea14970da4c190348beac143024d7b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSprite: {fileID: 21300000, guid: 824840221ccab6942914581847a297a4, type: 3}
+  activeSprite: {fileID: 21300000, guid: 38a0f54b41d0b334c99cf65cf2b2f891, type: 3}
   deactiveSprite: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead, type: 3}
 --- !u!61 &790228560
 BoxCollider2D:
@@ -17992,7 +17992,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400006, guid: 433abf122c739f9469e4db2eda7c9850, type: 2}
   m_PrefabInternal: {fileID: 548021575}
   m_GameObject: {fileID: 857145426}
-  m_LocalRotation: {x: 0, y: 0, z: -.258819044, w: .965925813}
+  m_LocalRotation: {x: 0, y: 0, z: -.258819073, w: .965925872}
   m_LocalPosition: {x: -5.44834423, y: .812598646, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -24755,7 +24755,7 @@ GameObject:
   - 114: {fileID: 1127490254}
   - 61: {fileID: 1127490253}
   - 61: {fileID: 1127490252}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Terminal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25208,7 +25208,7 @@ GameObject:
   - 114: {fileID: 1168219421}
   - 61: {fileID: 1168219420}
   - 61: {fileID: 1168219419}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Terminal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27992,7 +27992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea14970da4c190348beac143024d7b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeSprite: {fileID: 21300000, guid: 824840221ccab6942914581847a297a4, type: 3}
+  activeSprite: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead, type: 3}
   deactiveSprite: {fileID: 21300000, guid: fc7bd10b6145d19448e9380ddeb13ead, type: 3}
 --- !u!212 &1300687196
 SpriteRenderer:
@@ -28373,12 +28373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8211bae8a813a744ba072958b79e590b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coresToFind: 3
-  coresFound: 0
-  entranceDoor: {fileID: 2095643176}
-  exitDoor: {fileID: 893879059}
-  nextLevel: MainMenu
-  player: {fileID: 0}
+  m_nextLevel: MainMenu
 --- !u!4 &1322154725
 Transform:
   m_ObjectHideFlags: 0
@@ -28743,7 +28738,7 @@ GameObject:
   - 114: {fileID: 1347595312}
   - 61: {fileID: 1347595311}
   - 61: {fileID: 1347595310}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: OneTimeTerminal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29735,7 +29730,7 @@ GameObject:
   - 114: {fileID: 1382957164}
   - 61: {fileID: 1382957163}
   - 61: {fileID: 1382957166}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Terminal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30908,8 +30903,8 @@ Transform:
   m_PrefabParentObject: {fileID: 400008, guid: d62e38778a49c074d9ae0206396230f4, type: 2}
   m_PrefabInternal: {fileID: 522242467}
   m_GameObject: {fileID: 1437536667}
-  m_LocalRotation: {x: 0, y: 0, z: .707106829, w: .707106829}
-  m_LocalPosition: {x: 6.49965143, y: -.57057333, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 893879060}
@@ -33705,7 +33700,7 @@ Transform:
   - {fileID: 1660117740}
   - {fileID: 2118689403}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1606508558
 GameObject:
   m_ObjectHideFlags: 0
@@ -35147,7 +35142,6 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .400000006, y: .400000006}
   m_Center: {x: 0, y: 0}
-  m_RootOrder: 1
 --- !u!1 &1670037814
 GameObject:
   m_ObjectHideFlags: 0
@@ -35827,7 +35821,7 @@ Transform:
   m_PrefabInternal: {fileID: 1207931478}
   m_GameObject: {fileID: 1695313966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.400000006, z: 0}
+  m_LocalPosition: {x: 0, y: .400000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1614693619}

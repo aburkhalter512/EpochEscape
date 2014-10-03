@@ -53,11 +53,11 @@ public class InputManager : UnitySingleton<InputManager>
 
         mouse = Mouse.getInstance();
 
-        actionButton = mouse.button(Mouse.BUTTONS.LEFT);
+        actionButton = new Button(KeyCode.Space);
 
-        specialActionButton = mouse.button(Mouse.BUTTONS.RIGHT);
+        specialActionButton = new Button(KeyCode.A);
 
-        interactButton = new Button(KeyCode.E);
+        interactButton = new Button(KeyCode.Return);
 
         mapButton = new Button(KeyCode.M);
     }
