@@ -97,7 +97,7 @@ public class LaserBehavior : MonoBehaviour
         color = c;
     }
 
-    public void Activate(){
+	public void Activate(){
         on = true;
     }
 }
