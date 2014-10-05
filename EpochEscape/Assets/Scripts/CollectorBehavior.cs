@@ -2,62 +2,38 @@
 using System.Collections;
 
 public class CollectorBehavior : LaserBehavior {
-	public CollectorColors bottom;
-	public CollectorColors left;
-	public CollectorColors right;
-
-	public bool b = false;
-	public bool l = false;
-	public bool r = false;
+	public EdgeCollider2D bottom;
+	public EdgeCollider2D left;
+	public EdgeCollider2D right;
+	public bool hit;
 
 	// Use this for initialization
 	void Start () {
-
 	}
 	void Update(){
-		//ResetCollecting();
-		CollectBottom ();
-		CollectLeft ();
-		CollectRight ();
-	}
-	// Update is called once per frame
-	void FixedUpdate () {
-		base.SetColor (color);
-		if (b || l || r) {
-			base.bounces = 0;
-			base.BuildLaser(start.position);
-			base.DrawLaser ();
-			base.positions.Clear ();
+		if (hit) {
+			if(on){
+				bounces = 0;
+				BuildLaser (start.position);
+				DrawLaser ();
+				positions.Clear ();
+			}
 		}
-		base.color = Color.black;
 	}
 
-	public void CollectBottom(){
-		if (b) {
-			base.color += bottom.color;
-			//bottom.collecting = true;
+	public void resetActivate (Color c){
+		color -= c;
+		if (color.r == 0 && color.g == 0 && color.b == 0) {
+			hit = false;
 		}
-		bottom.color = Color.black;
-		b = false;
 	}
 
-	public void CollectLeft(){
-		if (l) {
-			base.color += left.color;
-			//left.collecting = true;
-		}
-		left.color = Color.black;
-		l = false;
+	public void Activate(Color c){
+		color += c;
+		hit = true;
 	}
 
-	public void CollectRight(){
-		if (r) {
-			base.color += right.color;
-			//right.collecting = true;
-		}
-		right.color = Color.black;
-		r = false;
-	}
+
 
 //	public void ResetCollecting(){
 //		bottom.collecting = false;

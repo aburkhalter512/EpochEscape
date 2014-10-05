@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eddd852a4a74e4bbc95843bc7a4528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 1603522146}
   end: {fileID: 1667848131}
   lineWidth: 2.5
@@ -827,7 +828,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 21200000, guid: 4c3538e2b5554814d8e1e0f5e06c1793, type: 2}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400000, guid: 4c3538e2b5554814d8e1e0f5e06c1793, type: 2}
@@ -1440,7 +1441,7 @@ Transform:
   m_PrefabInternal: {fileID: 898736333}
   m_GameObject: {fileID: 142813058}
   m_LocalRotation: {x: 0, y: 0, z: -.707106888, w: .707106769}
-  m_LocalPosition: {x: 5.59316158, y: 2.94639492, z: 0}
+  m_LocalPosition: {x: 5.5999999, y: 3, z: 0}
   m_LocalScale: {x: 1.50000012, y: 1.50000012, z: 0}
   m_Children:
   - {fileID: 806138325}
@@ -1575,9 +1576,9 @@ MonoBehaviour:
   m_currentState: 1
   m_currentPatrolPoint: 0
   m_patrolPoints:
-  - {x: -.800000012, y: 9, z: 0}
-  - {x: -.800000012, y: 6, z: 0}
-  - {x: 1.79999995, y: 6, z: 0}
+  - {x: 5.5999999, y: 3, z: 0}
+  - {x: 5.5999999, y: 0, z: 0}
+  - {x: 7.5999999, y: 0, z: 0}
   m_stunTime: 0
   m_isDead: 0
 --- !u!212 &142813064
@@ -2396,9 +2397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 1786556602}
-  side: 2
 --- !u!4 &165128563
 Transform:
   m_ObjectHideFlags: 0
@@ -3145,8 +3143,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 208013352}
   - 212: {fileID: 208013353}
+  - 61: {fileID: 208013356}
+  - 68: {fileID: 208013355}
+  - 68: {fileID: 208013354}
+  - 68: {fileID: 208013358}
+  - 68: {fileID: 208013357}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Red Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3188,6 +3191,72 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8cec920001cdbb34ba3c94c4133318c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!68 &208013354
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 260086581}
+  m_GameObject: {fileID: 208013351}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &208013355
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800002, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 260086581}
+  m_GameObject: {fileID: 208013351}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
+--- !u!61 &208013356
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6100000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 260086581}
+  m_GameObject: {fileID: 208013351}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .245761126, y: .339127809}
+  m_Center: {x: .00132404268, y: -.101307452}
+--- !u!68 &208013357
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800004, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 260086581}
+  m_GameObject: {fileID: 208013351}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &208013358
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800006, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 260086581}
+  m_GameObject: {fileID: 208013351}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
 --- !u!1 &215872750
 GameObject:
   m_ObjectHideFlags: 0
@@ -3394,9 +3463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 515822930}
-  side: 2
 --- !u!61 &231509555
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3451,6 +3517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eddd852a4a74e4bbc95843bc7a4528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 790367162}
   end: {fileID: 1840098439}
   lineWidth: 2.5
@@ -3723,8 +3790,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 241610624}
   - 212: {fileID: 241610625}
+  - 61: {fileID: 241610628}
+  - 68: {fileID: 241610627}
+  - 68: {fileID: 241610626}
+  - 68: {fileID: 241610630}
+  - 68: {fileID: 241610629}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Red Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3766,6 +3838,72 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7223210900eec264d81e8184a699dfa5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!68 &241610626
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 579325833}
+  m_GameObject: {fileID: 241610623}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &241610627
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800002, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 579325833}
+  m_GameObject: {fileID: 241610623}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
+--- !u!61 &241610628
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6100000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 579325833}
+  m_GameObject: {fileID: 241610623}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .245761126, y: .339127809}
+  m_Center: {x: .00132404268, y: -.101307452}
+--- !u!68 &241610629
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800004, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 579325833}
+  m_GameObject: {fileID: 241610623}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &241610630
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800006, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 579325833}
+  m_GameObject: {fileID: 241610623}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
 --- !u!1 &243922730
 GameObject:
   m_ObjectHideFlags: 0
@@ -5383,7 +5521,7 @@ GameObject:
   - 212: {fileID: 293245541}
   - 61: {fileID: 293245540}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5815,7 +5953,7 @@ GameObject:
   - 212: {fileID: 321194723}
   - 61: {fileID: 321194722}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5897,7 +6035,7 @@ GameObject:
   - 212: {fileID: 330702233}
   - 61: {fileID: 330702232}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6108,7 +6246,7 @@ Transform:
   m_PrefabInternal: {fileID: 1126051910}
   m_GameObject: {fileID: 343292223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.19316196, y: -12.6536045, z: 0}
+  m_LocalPosition: {x: 2.20000005, y: -12.6499996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1666174816}
@@ -7606,6 +7744,10 @@ Prefab:
       propertyPath: teleportDestination
       value: 
       objectReference: {fileID: 1099370274}
+    - target: {fileID: 11400002, guid: 5710035bf9c5e9840ba055664f5def16, type: 2}
+      propertyPath: backInitialState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5710035bf9c5e9840ba055664f5def16, type: 2}
   m_RootGameObject: {fileID: 2112351888}
@@ -8115,6 +8257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb586efcf30aebb41ac572cee8867a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 301091191}
   end: {fileID: 1389333560}
   lineWidth: 2.5
@@ -8125,9 +8268,7 @@ MonoBehaviour:
   bottom: {fileID: 1634195299}
   left: {fileID: 936345154}
   right: {fileID: 231509554}
-  b: 0
-  l: 0
-  r: 0
+  hit: 0
 --- !u!61 &515822931
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9776,11 +9917,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 4.39316177
+      value: 4.4000001
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.94639492
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.z
@@ -9808,15 +9949,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[0].y
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].x
-      value: -2
+      value: 4.4000001
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].y
-      value: 1.5
+      value: -4.4000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
+      propertyPath: m_patrolPoints.Array.data[0].x
+      value: 4.4000001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
@@ -10317,7 +10462,15 @@ Prefab:
     - target: {fileID: 11400000, guid: cb2172369f92ed34cabbb5d5a8092797, type: 2}
       propertyPath: actuators.Array.data[0]
       value: 
-      objectReference: {fileID: 963246638}
+      objectReference: {fileID: 1400681863}
+    - target: {fileID: 100000, guid: cb2172369f92ed34cabbb5d5a8092797, type: 2}
+      propertyPath: m_TagString
+      value: InteractiveObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: cb2172369f92ed34cabbb5d5a8092797, type: 2}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cb2172369f92ed34cabbb5d5a8092797, type: 2}
   m_RootGameObject: {fileID: 837436423}
@@ -10449,7 +10602,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3fc125cd2fab69649a15353aa7481d91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &692837735
@@ -11043,7 +11196,7 @@ GameObject:
   - 212: {fileID: 729835344}
   - 61: {fileID: 729835343}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11320,7 +11473,7 @@ Transform:
   m_PrefabInternal: {fileID: 1089219684}
   m_GameObject: {fileID: 743303683}
   m_LocalRotation: {x: 0, y: 0, z: -.707106888, w: .707106769}
-  m_LocalPosition: {x: 7.59316158, y: 3.5463953, z: 0}
+  m_LocalPosition: {x: 7.5999999, y: 3.5999999, z: 0}
   m_LocalScale: {x: 1.50000012, y: 1.50000012, z: 0}
   m_Children:
   - {fileID: 796071881}
@@ -11455,9 +11608,9 @@ MonoBehaviour:
   m_currentState: 1
   m_currentPatrolPoint: 0
   m_patrolPoints:
-  - {x: 1.20000005, y: 9.60000038, z: 0}
-  - {x: 3.20000005, y: 9.60000038, z: 0}
-  - {x: 3.20000005, y: 7.19999981, z: 0}
+  - {x: 7.5999999, y: 3.5999999, z: 0}
+  - {x: 9.60000038, y: 3.5999999, z: 0}
+  - {x: 9.60000038, y: 1.29999995, z: 0}
   m_stunTime: 0
   m_isDead: 0
 --- !u!212 &743303689
@@ -11672,6 +11825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eddd852a4a74e4bbc95843bc7a4528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 1185367400}
   end: {fileID: 1964574624}
   lineWidth: 2.5
@@ -11785,8 +11939,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 771396610}
   - 212: {fileID: 771396609}
+  - 61: {fileID: 771396613}
+  - 68: {fileID: 771396612}
+  - 68: {fileID: 771396611}
+  - 68: {fileID: 771396615}
+  - 68: {fileID: 771396614}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Red Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11828,6 +11987,72 @@ Transform:
   - {fileID: 232933940}
   m_Father: {fileID: 2023131498}
   m_RootOrder: 4
+--- !u!68 &771396611
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 103261391}
+  m_GameObject: {fileID: 771396608}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &771396612
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800002, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 103261391}
+  m_GameObject: {fileID: 771396608}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
+--- !u!61 &771396613
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6100000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 103261391}
+  m_GameObject: {fileID: 771396608}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .245761126, y: .339127809}
+  m_Center: {x: .00132404268, y: -.101307452}
+--- !u!68 &771396614
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800004, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 103261391}
+  m_GameObject: {fileID: 771396608}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &771396615
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800006, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 103261391}
+  m_GameObject: {fileID: 771396608}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
 --- !u!1 &772409749
 GameObject:
   m_ObjectHideFlags: 0
@@ -13309,9 +13534,9 @@ GameObject:
   - 212: {fileID: 837436426}
   - 114: {fileID: 837436425}
   - 61: {fileID: 837436424}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Terminal
-  m_TagString: Untagged
+  m_TagString: InteractiveObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13341,7 +13566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actuators:
-  - {fileID: 963246638}
+  - {fileID: 1400681863}
   lockedDoors: []
   interact: 0
 --- !u!212 &837436426
@@ -13743,9 +13968,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 858075313}
-  side: 1
 --- !u!4 &848932909
 Transform:
   m_ObjectHideFlags: 0
@@ -14359,6 +14581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb586efcf30aebb41ac572cee8867a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 635890432}
   end: {fileID: 869568429}
   lineWidth: 2.5
@@ -14369,9 +14592,7 @@ MonoBehaviour:
   bottom: {fileID: 1212728756}
   left: {fileID: 848932908}
   right: {fileID: 978271859}
-  b: 0
-  l: 0
-  r: 0
+  hit: 0
 --- !u!4 &858075314
 Transform:
   m_ObjectHideFlags: 0
@@ -14814,11 +15035,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.59316158
+      value: 5.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.94639492
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.z
@@ -14846,27 +15067,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[2].x
-      value: 1.79999995
+      value: 7.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[2].y
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].x
-      value: -.800000012
+      value: 5.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[0].x
-      value: -.800000012
+      value: 5.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[0].y
-      value: 9
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].y
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalScale.x
@@ -15504,9 +15725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 515822930}
-  side: 1
 --- !u!61 &936345155
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15948,8 +16166,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 963246639}
   - 212: {fileID: 963246640}
+  - 61: {fileID: 963246643}
+  - 68: {fileID: 963246642}
+  - 68: {fileID: 963246641}
+  - 68: {fileID: 963246645}
+  - 68: {fileID: 963246644}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Red Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15991,6 +16214,72 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8cec920001cdbb34ba3c94c4133318c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!68 &963246641
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 44361868}
+  m_GameObject: {fileID: 963246638}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &963246642
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800002, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 44361868}
+  m_GameObject: {fileID: 963246638}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
+--- !u!61 &963246643
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6100000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 44361868}
+  m_GameObject: {fileID: 963246638}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .245761126, y: .339127809}
+  m_Center: {x: .00132404268, y: -.101307452}
+--- !u!68 &963246644
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800004, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 44361868}
+  m_GameObject: {fileID: 963246638}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &963246645
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800006, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 44361868}
+  m_GameObject: {fileID: 963246638}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
 --- !u!1 &978271858
 GameObject:
   m_ObjectHideFlags: 0
@@ -16020,9 +16309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 858075313}
-  side: 2
 --- !u!61 &978271860
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16323,9 +16609,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 1786556602}
-  side: 1
 --- !u!4 &1023609039
 Transform:
   m_ObjectHideFlags: 0
@@ -16362,7 +16645,7 @@ GameObject:
   - 212: {fileID: 1026807267}
   - 61: {fileID: 1026807266}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16830,8 +17113,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 1044298621}
   - 212: {fileID: 1044298622}
+  - 61: {fileID: 1044298625}
+  - 68: {fileID: 1044298624}
+  - 68: {fileID: 1044298623}
+  - 68: {fileID: 1044298627}
+  - 68: {fileID: 1044298626}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Red Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16873,6 +17161,72 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8cec920001cdbb34ba3c94c4133318c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!68 &1044298623
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 1182390978}
+  m_GameObject: {fileID: 1044298620}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &1044298624
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800002, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 1182390978}
+  m_GameObject: {fileID: 1044298620}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
+--- !u!61 &1044298625
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6100000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 1182390978}
+  m_GameObject: {fileID: 1044298620}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .245761126, y: .339127809}
+  m_Center: {x: .00132404268, y: -.101307452}
+--- !u!68 &1044298626
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800004, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 1182390978}
+  m_GameObject: {fileID: 1044298620}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &1044298627
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800006, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 1182390978}
+  m_GameObject: {fileID: 1044298620}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
 --- !u!1 &1061010085
 GameObject:
   m_ObjectHideFlags: 0
@@ -16992,8 +17346,13 @@ GameObject:
   m_Component:
   - 4: {fileID: 1073735563}
   - 212: {fileID: 1073735564}
+  - 61: {fileID: 1073735567}
+  - 68: {fileID: 1073735566}
+  - 68: {fileID: 1073735565}
+  - 68: {fileID: 1073735569}
+  - 68: {fileID: 1073735568}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Red Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17035,6 +17394,72 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8cec920001cdbb34ba3c94c4133318c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!68 &1073735565
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 506362271}
+  m_GameObject: {fileID: 1073735562}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &1073735566
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800002, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 506362271}
+  m_GameObject: {fileID: 1073735562}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
+--- !u!61 &1073735567
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6100000, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 506362271}
+  m_GameObject: {fileID: 1073735562}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: .245761126, y: .339127809}
+  m_Center: {x: .00132404268, y: -.101307452}
+--- !u!68 &1073735568
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800004, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 506362271}
+  m_GameObject: {fileID: 1073735562}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: -.0882066935, y: .0679998994}
+  - {x: -.00648501515, y: .267210782}
+  - {x: -.00852550566, y: .267210662}
+--- !u!68 &1073735569
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6800006, guid: 86ec032419612534796b68d485630d94,
+    type: 2}
+  m_PrefabInternal: {fileID: 506362271}
+  m_GameObject: {fileID: 1073735562}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Points:
+  - {x: .00746618211, y: .265707314}
+  - {x: .0921455622, y: .0667091012}
 --- !u!1001 &1077909137
 Prefab:
   m_ObjectHideFlags: 0
@@ -17234,11 +17659,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 7.59316158
+      value: 7.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.5463953
+      value: 3.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.z
@@ -17266,11 +17691,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[2].x
-      value: 3.20000005
+      value: 9.60000038
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[2].y
-      value: 7.19999981
+      value: 1.29999995
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[3].x
@@ -17434,19 +17859,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[0].x
-      value: 1.20000005
+      value: 7.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[0].y
-      value: 9.60000038
+      value: 3.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].y
-      value: 9.60000038
+      value: 3.5999999
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].x
-      value: 3.20000005
+      value: 9.60000038
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalScale.x
@@ -17579,15 +18004,15 @@ Prefab:
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: door.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1559746044}
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: door.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1559746044}
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: door.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2112351892}
     - target: {fileID: 21200000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: m_Sprite
       value: 
@@ -18234,11 +18659,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: c4f94d0e338e55f468364b3dff425abc, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.19316196
+      value: 2.20000005
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c4f94d0e338e55f468364b3dff425abc, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -12.6536045
+      value: -12.6499996
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c4f94d0e338e55f468364b3dff425abc, type: 2}
       propertyPath: m_LocalPosition.z
@@ -18704,7 +19129,7 @@ GameObject:
   - 212: {fileID: 1152362480}
   - 61: {fileID: 1152362479}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18758,9 +19183,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1559746044}
+  - {fileID: 1559746044}
+  - {fileID: 2112351892}
   doorSideToActivate: 000000000100000000000000
   toActivate: 010001
   colorMatch: {r: 0, g: 0, b: 1, a: 1}
@@ -20326,9 +20751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 858075313}
-  side: 0
 --- !u!4 &1212728757
 Transform:
   m_ObjectHideFlags: 0
@@ -20380,7 +20802,7 @@ Transform:
   m_PrefabInternal: {fileID: 1473262113}
   m_GameObject: {fileID: 1214653481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.3931618, y: -8.05360508, z: 0}
+  m_LocalPosition: {x: 10.3999996, y: -13, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 0}
   m_Children:
   - {fileID: 780716529}
@@ -20515,8 +20937,8 @@ MonoBehaviour:
   m_currentState: 1
   m_currentPatrolPoint: 0
   m_patrolPoints:
-  - {x: 4, y: -2, z: 0}
-  - {x: 4, y: -7, z: 0}
+  - {x: 10.3999996, y: -8, z: 0}
+  - {x: 10.3999996, y: -13, z: 0}
   m_stunTime: 0
   m_isDead: 0
 --- !u!212 &1214653487
@@ -22957,6 +23379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eddd852a4a74e4bbc95843bc7a4528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 1171891292}
   end: {fileID: 145792801}
   lineWidth: 2.5
@@ -23986,11 +24409,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 10.3931618
+      value: 10.3999996
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -8.05360508
+      value: -13
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_LocalPosition.z
@@ -24018,19 +24441,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[0].x
-      value: 4
+      value: 10.3999996
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[0].y
-      value: -2
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].x
-      value: 4
+      value: 10.3999996
       objectReference: {fileID: 0}
     - target: {fileID: 11400004, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
       propertyPath: m_patrolPoints.Array.data[1].y
-      value: -7
+      value: -13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 004fc43ec420a5e47af7c059f7125fc4, type: 2}
@@ -25314,7 +25737,7 @@ MonoBehaviour:
   frontSide: {fileID: 1099370274}
   backSide: {fileID: 628109419}
   frontInitialState: 1
-  backInitialState: 1
+  backInitialState: 2
 --- !u!212 &1559746045
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26387,9 +26810,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 515822930}
-  side: 0
 --- !u!61 &1634195300
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -27436,6 +27856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eddd852a4a74e4bbc95843bc7a4528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 1448298843}
   end: {fileID: 1882526559}
   lineWidth: 2.5
@@ -27639,7 +28060,7 @@ GameObject:
   - 212: {fileID: 1756329567}
   - 61: {fileID: 1756329566}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28161,6 +28582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1eddd852a4a74e4bbc95843bc7a4528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 1815481626}
   end: {fileID: 1657029921}
   lineWidth: 2.5
@@ -28246,6 +28668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb586efcf30aebb41ac572cee8867a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastObject: {fileID: 0}
   start: {fileID: 1504825514}
   end: {fileID: 1600159840}
   lineWidth: 2.5
@@ -28256,9 +28679,7 @@ MonoBehaviour:
   bottom: {fileID: 1798682262}
   left: {fileID: 1023609038}
   right: {fileID: 165128562}
-  b: 0
-  l: 0
-  r: 0
+  hit: 0
 --- !u!4 &1786556603
 Transform:
   m_ObjectHideFlags: 0
@@ -28335,9 +28756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78193453d5539354baa32e34bd2a6cee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  collector: {fileID: 1786556602}
-  side: 0
 --- !u!4 &1798682263
 Transform:
   m_ObjectHideFlags: 0
@@ -31013,7 +31431,7 @@ GameObject:
   - 212: {fileID: 1973211258}
   - 61: {fileID: 1973211257}
   m_Layer: 0
-  m_Name: Laser Switch
+  m_Name: Red Laser Switch
   m_TagString: Laser Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31127,6 +31545,10 @@ Prefab:
       propertyPath: teleportDestination
       value: 
       objectReference: {fileID: 478496888}
+    - target: {fileID: 11400002, guid: 5710035bf9c5e9840ba055664f5def16, type: 2}
+      propertyPath: backInitialState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5710035bf9c5e9840ba055664f5def16, type: 2}
   m_RootGameObject: {fileID: 1559746040}
@@ -32443,7 +32865,7 @@ Transform:
   m_PrefabInternal: {fileID: 642576087}
   m_GameObject: {fileID: 2066140363}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.39316177, y: 2.94639492, z: 0}
+  m_LocalPosition: {x: 4.4000001, y: 3, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 0}
   m_Children:
   - {fileID: 109752188}
@@ -32578,8 +33000,8 @@ MonoBehaviour:
   m_currentState: 1
   m_currentPatrolPoint: 0
   m_patrolPoints:
-  - {x: -2, y: 9, z: 0}
-  - {x: -2, y: 1.5, z: 0}
+  - {x: 4.4000001, y: 3, z: 0}
+  - {x: 4.4000001, y: -4.4000001, z: 0}
   m_stunTime: 0
   m_isDead: 0
 --- !u!212 &2066140369
@@ -33211,7 +33633,7 @@ MonoBehaviour:
   frontSide: {fileID: 478496888}
   backSide: {fileID: 797866086}
   frontInitialState: 1
-  backInitialState: 1
+  backInitialState: 2
 --- !u!212 &2112351893
 SpriteRenderer:
   m_ObjectHideFlags: 0

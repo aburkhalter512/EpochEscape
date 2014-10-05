@@ -65,6 +65,7 @@ public class TeleporterDoorSide : DoorSide, ITransitional
     {
         if (!isActive() || mIsFirstUpdate)
         {
+			Debug.Log ("Activating");
             mSR.sprite = activeSprite;
 
             mIsActive = true;
@@ -76,6 +77,7 @@ public class TeleporterDoorSide : DoorSide, ITransitional
     {
         if (isActive() || mIsFirstUpdate)
         {
+			Debug.Log ("Deactivating");
             mSR.sprite = deactiveSprite;
 
             mIsActive = false;
