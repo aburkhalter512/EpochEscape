@@ -11,7 +11,7 @@ public class LaserBehavior : MonoBehaviour
     public VectorLine vLine;
     public Color color;
     public List<Vector3> positions;
-    public GameObject sensor;
+    //public GameObject sensor;
     public bool on = true;
     protected int bounces = 0;
     
@@ -24,7 +24,7 @@ public class LaserBehavior : MonoBehaviour
     void Update ()
     {
         if(on){
-            bounces = 0;
+            //bounces = 0;
             BuildLaser (start.position);
             DrawLaser ();
             positions.Clear ();
@@ -37,9 +37,9 @@ public class LaserBehavior : MonoBehaviour
         positions.Add (origin);
         Vector3 reflectionPos = origin.normalized;
         while (true) {
-            if (bounces > 20) {
-                break;
-            }
+//            if (bounces > 20) {
+//                break;
+//            }
             RaycastHit2D hit = Physics2D.Raycast (new Vector2 (origin.x, origin.y), (endPos - origin).normalized, 100);
             if (hit.collider == null) {
 				if(lastObject != null){
@@ -56,7 +56,7 @@ public class LaserBehavior : MonoBehaviour
     	}
 	}
 
-	private void detectCollision(RaycastHit2D hit){
+	protected void detectCollision(RaycastHit2D hit){
 		//if object is mirror
 		positions.Add (new Vector3 (hit.point.x, hit.point.y, 0));
 //		if (hit.collider.tag == "Mirror") {
@@ -91,7 +91,7 @@ public class LaserBehavior : MonoBehaviour
 	}
     
 
-	private bool resetLast(GameObject g){
+	protected bool resetLast(GameObject g){
 		if (lastObject == null) {
 			goto endOfReset;
 		}

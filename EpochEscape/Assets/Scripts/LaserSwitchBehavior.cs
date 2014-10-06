@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class LaserSwitchBehavior : MonoBehaviour {
     public List<DoorFrame> door;
     public List<doorSides> doorSideToActivate;
-    public List<bool> toActivate;
+    public List<bool> toActivate; 
     public Color colorMatch;
 
     public enum doorSides{

@@ -6007,8 +6007,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door:
-  - {fileID: 1934906032}
-  doorSideToActivate: 01000000
+  - {fileID: 1338877764}
+  doorSideToActivate: 02000000
   toActivate: 01
   colorMatch: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &321194725
@@ -6089,8 +6089,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door:
-  - {fileID: 308901924}
-  doorSideToActivate: 02000000
+  - {fileID: 1934906032}
+  doorSideToActivate: 01000000
   toActivate: 01
   colorMatch: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &330702235
@@ -7795,10 +7795,10 @@ Prefab:
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: door.Array.data[0]
       value: 
-      objectReference: {fileID: 1934906032}
+      objectReference: {fileID: 1338877764}
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: doorSideToActivate.Array.data[0]
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: toActivate.Array.data[0]
@@ -11126,13 +11126,17 @@ Prefab:
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: door.Array.data[0]
       value: 
-      objectReference: {fileID: 308901924}
+      objectReference: {fileID: 1934906032}
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: toActivate.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: colorMatch.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
+      propertyPath: doorSideToActivate.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -13925,7 +13929,7 @@ Prefab:
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: door.Array.data[0]
       value: 
-      objectReference: {fileID: 1338877764}
+      objectReference: {fileID: 308901924}
     - target: {fileID: 11400000, guid: 29f00f65552d4d34a9afc5364d4e6621, type: 2}
       propertyPath: toActivate.Array.data[0]
       value: 1
@@ -28114,7 +28118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door:
-  - {fileID: 1338877764}
+  - {fileID: 308901924}
   doorSideToActivate: 02000000
   toActivate: 01
   colorMatch: {r: 1, g: 0, b: 0, a: 1}

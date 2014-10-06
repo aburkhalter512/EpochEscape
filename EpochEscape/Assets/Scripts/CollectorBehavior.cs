@@ -12,18 +12,17 @@ public class CollectorBehavior : LaserBehavior {
 	}
 	void Update(){
 		if (hit) {
-			if(on){
-				bounces = 0;
-				BuildLaser (start.position);
-				DrawLaser ();
-				positions.Clear ();
-			}
+			BuildLaser (start.position);
+			DrawLaser ();
+			positions.Clear ();
 		}
 	}
 
 	public void resetActivate (Color c){
 		color -= c;
+
 		if (color.r == 0 && color.g == 0 && color.b == 0) {
+			resetLast (null);
 			hit = false;
 		}
 	}
