@@ -5,12 +5,13 @@ using System.Collections.Generic;
 
 public class LaserBehavior : MonoBehaviour
 {
+	public GameObject lastObject;
     public Transform start, end;
     public float lineWidth;
     public VectorLine vLine;
     public Color color;
     public List<Vector3> positions;
-    public GameObject sensor;
+    //public GameObject sensor;
     public bool on = true;
     protected int bounces = 0;
     
@@ -23,7 +24,7 @@ public class LaserBehavior : MonoBehaviour
     void Update ()
     {
         if(on){
-            bounces = 0;
+            //bounces = 0;
             BuildLaser (start.position);
             DrawLaser ();
             positions.Clear ();
@@ -36,55 +37,81 @@ public class LaserBehavior : MonoBehaviour
         positions.Add (origin);
         Vector3 reflectionPos = origin.normalized;
         while (true) {
-            if (bounces > 20) {
-                break;
-            }
+//            if (bounces > 20) {
+//                break;
+//            }
             RaycastHit2D hit = Physics2D.Raycast (new Vector2 (origin.x, origin.y), (endPos - origin).normalized, 100);
             if (hit.collider == null) {
+				if(lastObject != null){
+					resetLast (null);
+				}
                 positions.Add (endPos);
                 break;
             }
             //if hit something
-            else {
-                //if object is mirror
-                positions.Add (new Vector3 (hit.point.x, hit.point.y, 0));
-                if (hit.collider.tag == "Mirror") {
-                    //reflect against the mirror
-                    reflectionPos = 100 * Vector3.Reflect ((new Vector3 (hit.point.x, hit.point.y, 0) - origin), hit.normal) + new Vector3 (hit.point.x, hit.point.y, 0);
-                    //positions.Add(new Vector3(hit.point.x, hit.point.y, 0));
-                    endPos = reflectionPos;
-                    origin = hit.point;
-                    bounces++;
-                } 
-                //if not mirror
-                else {
-                    //if sensor is not null, then continue with sensor stuff
-                    if (sensor != null) {
-                        //if has a sensor, and is not hitting sensor or mirror
-                        if (hit.collider.tag != "Sensor") {
-                            //set alarm
-                            sensor.GetComponent<SensorBehavior> ().Alarm ();
-                        }
-                    }
+            else{ 
+				detectCollision(hit);
+				break;
+			}
+    	}
+	}
 
-                    if(hit.collider.tag == "Collector"){
-                        CollectorColors c = hit.collider.gameObject.GetComponent <CollectorColors>();
-                        if(c.color == Color.black){
-                            c.color = color;
-                        }
-                        c.Collect();
-                    }
-                    if(hit.collider.tag == "Laser Switch"){
-                        LaserSwitchBehavior ls = hit.collider.gameObject.GetComponent<LaserSwitchBehavior>();
-                        if(ls.colorMatch.r == color.r && ls.colorMatch.g == color.g && ls.colorMatch.b == color.b){
-                            ls.Activate ();
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
+	protected void detectCollision(RaycastHit2D hit){
+		//if object is mirror
+		positions.Add (new Vector3 (hit.point.x, hit.point.y, 0));
+//		if (hit.collider.tag == "Mirror") {
+//			if(lastObject != null){	
+//				resetLast(hit.collider.gameObject);
+//			}
+//			lastObject = hit.collider.gameObject;
+//			//reflect against the mirror
+//			reflectionPos = 100 * Vector3.Reflect ((new Vector3 (hit.point.x, hit.point.y, 0) - origin), hit.normal) + new Vector3 (hit.point.x, hit.point.y, 0);
+//			endPos = reflectionPos;
+//			origin = hit.point;
+//			bounces++;
+//		} 
+		//if Collector
+		//else 
+		if(hit.collider.name == "Collector"){
+			CollectorBehavior cb = hit.collider.gameObject.GetComponent<CollectorBehavior>();
+			if(resetLast (cb.gameObject)){
+				cb.Activate (color);
+			}
+		}
+		//if Laser Switch
+		else if(hit.collider.tag == "Laser Switch"){
+			LaserSwitchBehavior ls = hit.collider.gameObject.GetComponent<LaserSwitchBehavior>();
+			if(resetLast (ls.gameObject)){
+				ls.Activate (color);
+			}
+		}
+		else{
+			resetLast (hit.collider.gameObject);
+		}
+	}
+    
+
+	protected bool resetLast(GameObject g){
+		if (lastObject == null) {
+			goto endOfReset;
+		}
+		else if(g == null){
+			goto reset;
+		}
+		else if (g.GetInstanceID () == lastObject.GetInstanceID ()) {
+			return false;
+		}
+		reset:
+		if(lastObject.name == "Collector") {
+			lastObject.SendMessage ("resetActivate", color, SendMessageOptions.DontRequireReceiver); 
+		}
+		else if(lastObject.tag == "Laser Switch"){
+			lastObject.SendMessage ("resetActivate", SendMessageOptions.DontRequireReceiver);
+		}
+		endOfReset:
+		lastObject = g;
+		return true;
+	}
     
     public void DrawLaser ()
     {
@@ -97,7 +124,7 @@ public class LaserBehavior : MonoBehaviour
         color = c;
     }
 
-    public void Activate(){
+	public void Activate(){
         on = true;
     }
 }
