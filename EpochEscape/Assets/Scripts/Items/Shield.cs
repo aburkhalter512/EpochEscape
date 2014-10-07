@@ -10,14 +10,14 @@ public class Shield : Item {
 
 	public override void PickUp(Player player)
 	{
-		PickUpSound.Play ();
+		/*PickUpSound.Play ();
 		player.m_hasSpecialItem = true;
 		player.m_specialItemCollectTime = Time.time;
-		player.m_playSpecialItemAnim = true;
+		player.m_playSpecialItemAnim = true;*/
 	}
 
 	public override void Activate(){
-		ActivateSound.Play ();
+		/*ActivateSound.Play ();
 
 		GameObject playerObject = GameObject.FindWithTag("Player");
 
@@ -31,6 +31,6 @@ public class Shield : Item {
 				player.m_isShieldActive = true;
 				player.m_shieldTime = Time.time;
 			}
-		}
+		}*/
 	}
 }

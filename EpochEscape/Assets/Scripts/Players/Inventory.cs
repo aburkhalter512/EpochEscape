@@ -22,6 +22,11 @@ public class Inventory{
 
     public Inventory()
     { }
+    
+    public int getSize()
+    {
+    	return UNIQUE_ITEMS;
+    }
 
     public void addItem(Item i){
         switch (i.tag) {

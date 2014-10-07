@@ -102,11 +102,6 @@ public class OrganicDoorSide : DoorSide
     #region Instance Methods
 
     protected virtual void OnTriggerEnter2D(Collider2D collidee)
-    {
-        Player player = collidee.GetComponent<Player>();
-
-        if (player != null)
-            player.inventory.clear();
-    }
+    { }
     #endregion
 }

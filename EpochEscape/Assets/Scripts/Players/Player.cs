@@ -9,71 +9,79 @@ public abstract class Player : MonoBehaviour
 
     public float m_interactionDistance = .2f;
     public int m_interactionMask = 1 << 9;
-
-    public bool m_isMoving;
-    public bool m_isMovingForward;
-    public bool m_isMovingDown;
-    public bool m_isMovingLeft;
-    public bool m_isMovingRight;
-    private bool m_isThrowing;
-    public bool m_isAttacking;
-    public bool m_hasSpecialItem;
-    private bool m_isDrinking;
-    private float m_directionAngle;
+    
+    float m_directionAngle;
 
     public AudioClip[] grateFoot;
-    public AudioClip[] solidFoot;
-    public int m_floorType; // 0 = solid, 1 = grate
-    private int m_footCounter;
-
-    public bool m_isDetected;
+	public AudioClip[] solidFoot;
+	public int m_floorType; // 0 = solid, 1 = grate
+	
+	public bool m_isDetected;
     public bool m_isHiding;
     public bool m_isWithinEarshot;
 
-    public float m_rotationSpeed = 15f;
-    public float m_detectionLevel = 0f;
-    public float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
-    public float m_detectionFade = 1.5f;
-    public float m_detectionMax = 0f;
-    public float m_detectionThres = 15f;
+	public float m_detectionLevel = 0f;
+	public float m_detectionMax = 0f;
+	
     public float Boost = 1f;
     public float BoostTime = 0f;
 
-    public PlayerState m_currentState;
-
     public Inventory inventory;
     public int m_selectedSlot;
-    public int m_specItems = 0;
-    
-    public GameObject specialItem = null;
-
-    public int MAX_CORES = 3;
-
-    Transform m_collectAnimation = null;
-    public bool m_playSpecialItemAnim = false;
-    public float m_specialItemAnimDuration; // seconds
-    public float m_specialItemCollectTime = 0f;
 
     public bool m_isHoldingBox = false;
     public GameObject k_boxPrefab;
     #endregion
 
     #region Instance Variables
-    private Animator m_animator;
+	#region Components
+	Animator m_animator;
+	#endregion
+	
+	#region Movement Variables
+	bool m_isMoving;
+	bool m_isMovingForward;
+	bool m_isMovingDown;
+	bool m_isMovingLeft;
+	bool m_isMovingRight;
+	
+	float m_rotationSpeed = 15f;
+	#endregion
+	
+	#region Action Variables (eg throwing, attacking, etc..)
+	bool m_isThrowing;
+	protected bool m_isAttacking;
+	bool m_isDrinking;
+	#endregion
+	
+	#region Audio Variables
+	int m_footCounter;
+	#endregion
+	
+	#region Detection Variables
+	float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
+	float m_detectionFade = 1.5f;
+	float m_detectionThres = 15f;
+	#endregion
+	
+	#region Power Core Variables
+	int currentCores = 0;
+	#endregion
 
-    public int currentCores = 0;
+	PlayerState m_currentState;
 
-    private InputManager mIM = null;
+    InputManager mIM = null;
     #endregion
 
     #region Class Constants
-    public const float SPEED = 2f;
-    public const float MAX_DETECTION_LEVEL = 100.0f;
-    public const int UNIQUE_ITEM_SLOTS = 1;
+    public static readonly float SPEED = 2f;
+    public static readonly float MAX_DETECTION_LEVEL = 100.0f;
+	public static readonly int UNIQUE_ITEM_SLOTS = 1;
+	
+	public static readonly int MAX_CORES = 3;
 
     // Cave Girl variables
     private bool m_isAtHitFrame = false;
-    private bool m_isClubBroken = false;
 
     public bool m_isShieldActive = false;
     public float m_shieldDuration = 3f; // seconds
@@ -84,10 +92,6 @@ public abstract class Player : MonoBehaviour
         ALIVE,
         DEAD
     }
-    #endregion
-
-    #region Class Variables
-    public bool Special = false;
     #endregion
 
     #region Initialization Methods
@@ -112,44 +116,12 @@ public abstract class Player : MonoBehaviour
         m_currentState = PlayerState.ALIVE;
 
         inventory = new Inventory();
-        inventory.setSpecialCooldown(3.0f);
         m_selectedSlot = 0;
 
 		mIM = InputManager.getInstance();
-		
-		m_hasSpecialItem = true;
-		m_specialItemCollectTime = Time.time;
     }
     #endregion
 
-    public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
-        if (mIM.interactButton.getDown()) {
-            if (!m_isHoldingBox) {
-                collider2D.enabled = false;
-                RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance,m_interactionMask);
-                collider2D.enabled = true;
-                if (hit.collider != null) {
-                    if (hit.collider.gameObject.tag == "InteractiveObject") {
-                        hit.collider.gameObject.SendMessage("Interact");
-                    }
-                }
-            } else {
-                collider2D.enabled = false;
-                RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
-                collider2D.enabled = true;
-                if (hit.collider != null) {
-                    if (hit.collider.gameObject.GetComponent<PitFloor>() != null) {
-                        hit.collider.gameObject.SendMessage("Interact");
-                    }
-                } else {
-                    HoldableBox box = GetComponentInChildren<HoldableBox>();
-                    box.Place();
-                }
-            }
-        }
-    }
-
-    #region Update Methods
     protected virtual void Update()
     {
         if(!G.getInstance ().paused)
@@ -166,7 +138,6 @@ public abstract class Player : MonoBehaviour
         UpdateAnimator();
     }
 
-    #region State Directions
     private void UpdateCurrentState()
     {
         switch(m_currentState)
@@ -185,7 +156,6 @@ public abstract class Player : MonoBehaviour
     {
         UpdateUserControl();
         UpdateDetection();
-        UpdateDirection();
         UpdateMovement();
 
         UpdateShield();
@@ -205,16 +175,22 @@ public abstract class Player : MonoBehaviour
             playerCaught.transform.position = transform.position;
         }
     }
-    #endregion
 
-    #region Update UserControl
+	#region Interface Methods
+	public int getSelectedSlot()
+	{
+		return m_selectedSlot;
+	}
+	
+	public int getCurrentCores()
+	{
+		return currentCores;
+	}
+	#endregion
+
     private void UpdateUserControl()
     {
-        UpdateKeyboard();
-    }
-
-    private void UpdateKeyboard()
-    {
+		#region Determine the movement direction
         m_isMoving = false;
         m_isMovingForward = false;
         m_isMovingDown = false;
@@ -237,10 +213,12 @@ public abstract class Player : MonoBehaviour
 
         if(m_isMovingForward || m_isMovingDown || m_isMovingLeft || m_isMovingRight)
             m_isMoving = true;
+    	#endregion
 
         SelectSlot();
         Interact ();
 
+		#region Control potions
         // 0th subscript indicates empty flask.
         if(inventory.inventory[m_selectedSlot] != null && !m_isShieldActive)
         {
@@ -255,38 +233,77 @@ public abstract class Player : MonoBehaviour
                 else if(m_selectedSlot == 1)
                     m_isThrowing = true;
             }
-        }
+		}
+		
+		//
+        #endregion
         
         if (mIM.specialActionButton.getDown() && inventory.activateSpecialItem())
             activateSpecialItem();
-
-        if(mIM.itemSwitcher.get() > 0)
-            ScrollSlotIncrement ();
-        if (mIM.itemSwitcher.get() < 0)
-            ScrollSlotDecrement();
-    }
-
-    public void ScrollSlotIncrement(){
-        m_selectedSlot++;
-        if(m_selectedSlot > UNIQUE_ITEM_SLOTS)
-            m_selectedSlot = 0;
-    }
-
-    public void ScrollSlotDecrement(){
-        m_selectedSlot--;
-        if(m_selectedSlot < 0)
-            m_selectedSlot = UNIQUE_ITEM_SLOTS;
-    }
-
-    private void SelectSlot() {
-        if(mIM.itemButtons[0].getDown()){
-            m_selectedSlot = 0;
-        }
-        else if (mIM.itemButtons[1].getDown())
-        {
-            m_selectedSlot = 1;
-        }
-    }
+	}
+	
+	#region User Control Methods
+	public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
+		if (mIM.interactButton.getDown()) {
+			if (!m_isHoldingBox) {
+				collider2D.enabled = false;
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance,m_interactionMask);
+				collider2D.enabled = true;
+				if (hit.collider != null) {
+					if (hit.collider.gameObject.tag == "InteractiveObject") {
+						hit.collider.gameObject.SendMessage("Interact");
+					}
+				}
+			} else {
+				collider2D.enabled = false;
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
+				collider2D.enabled = true;
+				if (hit.collider != null) {
+					if (hit.collider.gameObject.GetComponent<PitFloor>() != null) {
+						hit.collider.gameObject.SendMessage("Interact");
+					}
+				} else {
+					HoldableBox box = GetComponentInChildren<HoldableBox>();
+					box.Place();
+				}
+			}
+		}
+	}
+	
+	#region Potion selection methods
+    private void SelectSlot()
+    {
+    	if (mIM.itemSwitcher.getRaw() == 0.0f)
+    	{
+	    	for (int i = 0; i < inventory.getSize() && i < mIM.itemButtons.Length; i++)
+	    		if (mIM.itemButtons[i].getDown())
+	    		{
+	    			m_selectedSlot = i;
+	    			break;
+	    		}
+		}
+		else
+		{
+			if(mIM.itemSwitcher.get() > 0)
+				ScrollSlotIncrement ();
+			if (mIM.itemSwitcher.get() < 0)
+				ScrollSlotDecrement();
+		}
+	}
+	
+	private void ScrollSlotIncrement(){
+		m_selectedSlot++;
+		if(m_selectedSlot > inventory.getSize())
+			m_selectedSlot = 0;
+	}
+	
+	private void ScrollSlotDecrement(){
+		m_selectedSlot--;
+		if(m_selectedSlot < 0)
+			m_selectedSlot = inventory.getSize() - 1;
+	}
+	#endregion
+	#endregion
 
     public void FinishedThrowing()
     {
@@ -305,71 +322,63 @@ public abstract class Player : MonoBehaviour
     public void FinishedAttacking()
     {
         m_isAttacking = false;
-
-        /*if(inventory.inventory[Inventory.SPECIAL_SLOT] == null)
-        {
-            m_isClubBroken = false;
-            m_hasSpecialItem = false;
-        }*/
     }
 
     private void UpdateMovement()
-    {
-        if (m_isMoving)
-        {
-            float xDirection = Mathf.Cos(m_directionAngle * Mathf.Deg2Rad);
-            float yDirection = Mathf.Sin(m_directionAngle * Mathf.Deg2Rad);
-            Vector3 direction = new Vector3(xDirection, yDirection, 0f);
-
-            transform.position += (direction * SPEED * Time.smoothDeltaTime);
-        }
+	{
+		if(!m_isMoving) return;
+		
+		#region Find Target Angle
+		if(m_isMovingForward)
+		{
+			if(m_isMovingLeft)
+				m_directionAngle = 135f;
+			else if(m_isMovingRight)
+				m_directionAngle = 45f;
+			else
+				m_directionAngle = 90f;
+		}
+		else if(m_isMovingDown)
+		{
+			if(m_isMovingLeft)
+				m_directionAngle = 225f;
+			else if(m_isMovingRight)
+				m_directionAngle = 315f;
+			else
+				m_directionAngle = 270f;
+		}
+		else if(m_isMovingLeft)
+			m_directionAngle = 180f;
+		else if(m_isMovingRight)
+			m_directionAngle = 0f;
+		#endregion
+		
+		#region Update euler angles
+		// Calculate the target vector and normalize it.
+		Vector3 target = new Vector3(Mathf.Cos(m_directionAngle * Mathf.Deg2Rad), Mathf.Sin(m_directionAngle * Mathf.Deg2Rad), 0f);
+		target.Normalize();
+		
+		float currentAngle = Utilities.RotateTowards(gameObject, target, m_rotationSpeed);
+		
+		if(Utilities.IsApproximately(currentAngle, 0f))
+		{
+			// Align the up transformation perfectly with the target vector.
+			transform.up = target;
+			
+			// Reset the y Euler angle in case it changed randomly.
+			transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
+		}
+		#endregion
+		
+		#region Update Postion
+	    float xDirection = Mathf.Cos(m_directionAngle * Mathf.Deg2Rad);
+	    float yDirection = Mathf.Sin(m_directionAngle * Mathf.Deg2Rad);
+	    Vector3 direction = new Vector3(xDirection, yDirection, 0f);
+	
+	    transform.position += (direction * SPEED * Time.smoothDeltaTime);
+	    #endregion
     }
 
-    private void UpdateDirection()
-    {
-        if(!m_isMoving) return;
-        
-        if(m_isMovingForward)
-        {
-            if(m_isMovingLeft)
-                m_directionAngle = 135f;
-            else if(m_isMovingRight)
-                m_directionAngle = 45f;
-            else
-                m_directionAngle = 90f;
-        }
-        else if(m_isMovingDown)
-        {
-            if(m_isMovingLeft)
-                m_directionAngle = 225f;
-            else if(m_isMovingRight)
-                m_directionAngle = 315f;
-            else
-                m_directionAngle = 270f;
-        }
-        else if(m_isMovingLeft)
-            m_directionAngle = 180f;
-        else if(m_isMovingRight)
-            m_directionAngle = 0f;
-        
-        // Calculate the target vector and normalize it.
-        Vector3 target = new Vector3(Mathf.Cos(m_directionAngle * Mathf.Deg2Rad), Mathf.Sin(m_directionAngle * Mathf.Deg2Rad), 0f);
-        target.Normalize();
-        
-        float currentAngle = Utilities.RotateTowards(gameObject, target, m_rotationSpeed);
-        
-        if(Utilities.IsApproximately(currentAngle, 0f))
-        {
-            // Align the up transformation perfectly with the target vector.
-            transform.up = target;
-            
-            // Reset the y Euler angle in case it changed randomly.
-            transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
-        }
-    }
-    #endregion
-
-    #region Update Detection
     private void UpdateDetection() 
     {
         if (m_isDetected) {
@@ -387,7 +396,6 @@ public abstract class Player : MonoBehaviour
                 m_detectionLevel -= m_detectionFade * Time.deltaTime;
         }
     }
-    #endregion
 
     #region Update Animation
     private void UpdateAnimator()
@@ -404,7 +412,6 @@ public abstract class Player : MonoBehaviour
             m_animator.SetBool("hasSpecialItem", true);
             m_animator.SetBool("isDrinking", m_isDrinking);
             m_animator.SetBool("isHiding", m_isHiding);
-            m_animator.SetBool("isClubBroken", m_isClubBroken); // CaveGirl
             m_animator.SetBool("isShieldActive", m_isShieldActive); // Knight
             m_animator.SetBool("isHoldingBox", m_isHoldingBox);
         }
@@ -414,8 +421,6 @@ public abstract class Player : MonoBehaviour
         if(renderer != null)
             renderer.color = new Color(1f, 1f, 1f, (m_isHiding ? 0.6f : 1f));
     }
-    #endregion
-
     #endregion
 
     #region Power Core Interaction

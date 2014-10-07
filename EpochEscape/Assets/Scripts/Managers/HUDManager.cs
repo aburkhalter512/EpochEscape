@@ -24,6 +24,7 @@ public class HUDManager : Manager<HUDManager> {
     public Texture2D scared;
     public Texture2D currMood;
     public Texture2D specItem;
+    public Texture2D cooldownBar;
     private Vector2 iconPos = new Vector2(0f,10f);
     private Vector2 iconSize = new Vector2 (175f, 175f);
     private float barFill;
@@ -38,7 +39,6 @@ public class HUDManager : Manager<HUDManager> {
     public Texture2D currGreen;
     private int m_flaskCount = 0;
     private int m_potionCount = 0;
-    private int m_specCount = 0;
     private Vector2 redPos = new Vector2 (0f,800f);
     private Vector2 greenPos = new Vector2 (93f,800f);
     private Vector2 potionSize = new Vector2 (85.2f,100f);
@@ -63,6 +63,7 @@ public class HUDManager : Manager<HUDManager> {
         EpochSkin = Resources.Load ("Prefabs/GUI/EpochStyle",typeof(GUISkin)) as GUISkin;
         iconFrame = Resources.Load ("Textures/GUI/HUD/IconFrame", typeof(Texture2D)) as Texture2D;
         detectionBar = Resources.Load ("Textures/GUI/HUD/DetectionBar", typeof(Texture2D)) as Texture2D;
+        cooldownBar = Resources.Load<Texture2D>("Textures/GUI/HUD/cooldown");
         redPot = Resources.Load ("Textures/GUI/HUD/RedPot", typeof(Texture2D)) as Texture2D;
         redSelected = Resources.Load("Textures/GUI/HUD/RedSelected",typeof(Texture2D)) as Texture2D;
         greenPot = Resources.Load ("Textures/GUI/HUD/GreenPot", typeof(Texture2D)) as Texture2D;
@@ -111,7 +112,7 @@ public class HUDManager : Manager<HUDManager> {
         GUI.DrawTexture(new Rect(30f,21f,100f,100f),currMood);
 		GUI.DrawTexture(new Rect(20f,120f,30f,30f),specItem);
 		
-		GUI.DrawTexture(new Rect(60f,115f,iconSize.x,-95f * playerManager.inventory.getPercentRemainingCoolDown()),detectionBar);
+		GUI.DrawTexture(new Rect(175f,115f,40f,-100f * playerManager.inventory.getPercentRemainingCoolDown()),cooldownBar);
         GUI.EndGroup();
         #endregion
         
@@ -178,9 +179,7 @@ public class HUDManager : Manager<HUDManager> {
         if (!potionFound)
             m_potionCount = 0;
         
-        m_specCount = playerManager.m_specItems;
-        
-        switch (playerManager.m_selectedSlot) {
+        switch (playerManager.getSelectedSlot()) {
         case 0:
             currRed = redSelected;
             currGreen = greenPot;
@@ -193,7 +192,7 @@ public class HUDManager : Manager<HUDManager> {
         #endregion
         
         #region powercores
-        switch(playerManager.currentCores) {
+        switch(playerManager.getCurrentCores()) {
         case 0:
             currCore = empty;
             break;

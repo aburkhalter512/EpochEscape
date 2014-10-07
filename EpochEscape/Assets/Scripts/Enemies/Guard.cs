@@ -254,17 +254,6 @@ public class Guard : Enemy
         }
     }
 
-    public virtual void Hit()
-    {
-        Player player = (Player)GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        float angle = Vector3.Angle (player.transform.up, transform.position - player.transform.position);
-        float dist = Vector3.Distance (player.transform.position, transform.position);
-        if(angle < 20f && dist < .5f && player.Special){
-            //kill or whatever
-            player.m_specItems--;
-        }
-    }
-
     public void Destroy()
     {
         Destroy(gameObject);

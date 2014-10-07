@@ -10,10 +10,10 @@ public class Club : Item {
 
 	public override void PickUp(Player player)
 	{
-		PickUpSound.Play ();
+		/*PickUpSound.Play ();
 		player.m_hasSpecialItem = true;
 		player.m_specialItemCollectTime = Time.time;
-		player.m_playSpecialItemAnim = true;
+		player.m_playSpecialItemAnim = true;*/
 	}
 
 	public override void Activate(){
