@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System;
 
-public class LockedDoorFrame : DoorFrame, ITransitional
+public class LockedDoorFrame : DoorFrame, ITransitional, IResettable, ISerializable
 {
     #region Interface Variables
     public STATE initialState;
@@ -26,20 +29,8 @@ public class LockedDoorFrame : DoorFrame, ITransitional
     {
         mFrontSide = frontSide.GetComponent<StandardDoorSide>();
         mBackSide = backSide.GetComponent<StandardDoorSide>();
-
-        switch (initialState)
-        {
-            case STATE.LOCKED:
-                mFrontSide.deactivate();
-                mBackSide.deactivate();
-                break;
-            case STATE.UNLOCKED:
-                mFrontSide.activate();
-                mBackSide.activate();
-                break;
-        }
-
-        mCurState = initialState;
+        
+        Reset();
     }
     
     #region Interface Methods
@@ -135,5 +126,37 @@ public class LockedDoorFrame : DoorFrame, ITransitional
     public virtual float GetWaitTime()
     {
         return 0.33f;
+    }
+
+    public void Reset()
+    {
+        switch (initialState)
+        {
+            case STATE.LOCKED:
+                mFrontSide.deactivate();
+                mBackSide.deactivate();
+                break;
+            case STATE.UNLOCKED:
+                mFrontSide.activate();
+                mBackSide.activate();
+                break;
+        }
+
+        mCurState = initialState;
+    }
+
+    public void Serialize(ref Dictionary<string, object> data)
+    {
+        if (data != null)
+            data["initialState"] = (int)initialState;
+    }
+
+    public void Unserialize(ref Dictionary<string, object> data)
+    {
+        if (data != null)
+        {
+            if (data.ContainsKey("initialState"))
+                initialState = (STATE)int.Parse(data["initialState"].ToString());
+        }
     }
 }

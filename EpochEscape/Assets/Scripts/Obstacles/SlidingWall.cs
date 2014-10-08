@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class SlidingWall : DynamicWall
+public class SlidingWall : DynamicWall, ISerializable
 {
     #region Inspector Variables
     public Vector3[] positionPts;
@@ -69,4 +70,38 @@ public class SlidingWall : DynamicWall
 
     }
     #endregion
+
+    public void Serialize(ref Dictionary<string, object> data)
+    {
+        if (data != null)
+        {
+            if (!data.ContainsKey("changeTime"))
+                data["changeTime"] = changeTime;
+
+            if(!data.ContainsKey("positionPoints"))
+                data["positionPoints"] = positionPts;
+        }
+    }
+
+    public void Unserialize(ref Dictionary<string, object> data)
+    {
+        if (data != null)
+        {
+            if(data.ContainsKey("changeTime"))
+                changeTime = (int)((long)data["changeTime"]);
+
+            if (data.ContainsKey("positionPoints"))
+            {
+                List<object> points = data["positionPoints"] as List<object>;
+
+                if (points != null && points.Count > 0)
+                {
+                    positionPts = new Vector3[points.Count];
+
+                    for (int i = 0; i < points.Count; i++)
+                        positionPts[i] = LevelEditorUtilities.StringToVector3(points[i] as string);
+                }
+            }
+        }
+    }
 }

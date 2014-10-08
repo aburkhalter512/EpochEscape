@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activatedSprite: {fileID: 21300000, guid: 23a2b2dc6ab97ae4f932fabddedf8dc1, type: 3}
-  deactivatedSprited: {fileID: 0}
+  deactivatedSprited: {fileID: 21300000, guid: f4d244560c5a8cb42afff35bce113d48, type: 3}
   actuators:
   - {fileID: 0}
 --- !u!212 &21200000

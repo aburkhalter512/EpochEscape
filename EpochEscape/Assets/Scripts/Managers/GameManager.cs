@@ -93,7 +93,7 @@ public class GameManager : UnitySingleton<GameManager>
     #endregion
     #endregion
 
-    SceneManager sceneManager;
+    //SceneManager sceneManager;
 
     void Start()
     {
@@ -191,7 +191,8 @@ public class GameManager : UnitySingleton<GameManager>
         {
             ClickSound.Play();
             UnpauseGame();
-            SceneManager.Load(Application.loadedLevelName);
+
+            LevelManager.RestartLevel();
         }
         PlayHover(4);
         GUILayout.Space(10);

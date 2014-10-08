@@ -97,7 +97,7 @@ public abstract class Player : MonoBehaviour
     #region Initialization Methods
     protected virtual void Start()
     {
-        FadeManager.StartAlphaFade (Color.black, true, 1f, 0f);
+        //FadeManager.StartAlphaFade (Color.black, true, 1f, 0f);
 
         m_animator = GetComponent<Animator>();
 
@@ -166,6 +166,7 @@ public abstract class Player : MonoBehaviour
         G.getInstance().PauseMovement();
 
         HUDManager.Hide();
+        MiniMapManager.Hide();
         
         GameObject playerCaught = Resources.Load("Prefabs/PlayerCaught") as GameObject;
         
@@ -433,6 +434,13 @@ public abstract class Player : MonoBehaviour
     public int CurrentCores
     {
         get { return currentCores; }
+        set
+        {
+            if (value < 0)
+                value = 0;
+
+            currentCores = value;
+        }
     }
 
     public bool isPowerCoreComplete()

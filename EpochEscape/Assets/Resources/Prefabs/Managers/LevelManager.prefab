@@ -39,7 +39,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8211bae8a813a744ba072958b79e590b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_nextLevel: MainMenu
+  m_nextLevel: LongLoad
+  m_chambers: []
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

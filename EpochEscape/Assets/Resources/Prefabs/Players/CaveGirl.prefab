@@ -45,7 +45,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 60: {fileID: 6000000}
-  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Club
   m_TagString: Untagged
@@ -88,8 +87,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16, y: -.699999988, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: .707106829, w: -.707106829}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 0}
   m_Children:
   - {fileID: 400006}
@@ -268,7 +267,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 438f17e690fb8c9418a1b22422153e43, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &9500002
@@ -300,13 +299,6 @@ MonoBehaviour:
   levelManager: {fileID: 0}
   m_interactionDistance: .200000003
   m_interactionMask: 512
-  m_isMoving: 0
-  m_isMovingForward: 0
-  m_isMovingDown: 0
-  m_isMovingLeft: 0
-  m_isMovingRight: 0
-  m_isAttacking: 0
-  m_hasSpecialItem: 0
   grateFoot:
   - {fileID: 8300000, guid: 777279782b60aa944ace808413d46a21, type: 3}
   - {fileID: 8300000, guid: ee4ac856d51d0f145acc573f24223369, type: 3}
@@ -325,40 +317,16 @@ MonoBehaviour:
   m_isDetected: 0
   m_isHiding: 0
   m_isWithinEarshot: 0
-  m_rotationSpeed: 15
   m_detectionLevel: 0
-  m_detectionRate: 50
-  m_detectionFade: 1.5
   m_detectionMax: 0
-  m_detectionThres: 15
   Boost: 1
   BoostTime: 0
-  m_currentState: 0
   m_selectedSlot: 0
-  m_specItems: 0
-  specialItem: {fileID: 100000, guid: 11cb3f08a9c0b3449a2c80a57a8cf921, type: 2}
-  MAX_CORES: 3
-  m_playSpecialItemAnim: 0
-  m_specialItemAnimDuration: .5
-  m_specialItemCollectTime: 0
   m_isHoldingBox: 0
   k_boxPrefab: {fileID: 0}
-  currentCores: 0
   m_isShieldActive: 0
   m_shieldDuration: 3
   m_shieldTime: 0
-  Special: 0
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ab921d7fe3628c4dabaf79581088b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

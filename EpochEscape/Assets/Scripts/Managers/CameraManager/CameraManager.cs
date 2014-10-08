@@ -48,6 +48,8 @@ public class CameraManager : Manager<CameraManager>
 
         m_initialCameraSize = m_camera.orthographicSize;
 
+        //transform.position = new Vector3(PlayerManager.GetPosition().x, PlayerManager.GetPosition().y, transform.position.z);
+
         return true;
     }
 
@@ -86,6 +88,11 @@ public class CameraManager : Manager<CameraManager>
     {
         if (m_isInitialized && m_transitions.Count > 0 && !m_isTransitioning)
             StartCoroutine(ProcessAllTransitions());
+    }
+
+    private void _SetPosition(Vector3 position)
+    {
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
     }
 
     private IEnumerator ProcessAllTransitions()
@@ -224,6 +231,16 @@ public class CameraManager : Manager<CameraManager>
         m_camera.orthographicSize = targetSize;
     }
 
+    private void _Enable()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void _Disable()
+    {
+        gameObject.SetActive(false);
+    }
+
     private IEnumerator TransformObjects()
     {
         foreach (Transition transition in m_transitions)
@@ -242,5 +259,20 @@ public class CameraManager : Manager<CameraManager>
     public static void PlayTransitions()
     {
         CameraManager.GetInstance()._PlayTransitions();
+    }
+
+    public static void Enable()
+    {
+        CameraManager.GetInstance()._Enable();
+    }
+
+    public static void Disable()
+    {
+        CameraManager.GetInstance()._Disable();
+    }
+
+    public static void SetPosition(Vector3 position)
+    {
+        CameraManager.GetInstance()._SetPosition(position);
     }
 }

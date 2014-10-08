@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class WeightedPlate : MonoBehaviour
+public class WeightedPlate : MonoBehaviour, ISerializable
 {
 	#region Inspector Variables
 	public GameObject[] actuators;
@@ -58,8 +59,6 @@ public class WeightedPlate : MonoBehaviour
 				//Activate all of the connected actuators
 				foreach (GameObject actuator in actuators)
 				{
-					Debug.Log("Triggered");
-
                     if (actuator != null)
                         CameraManager.AddTransition(actuator);
 				}
@@ -93,8 +92,6 @@ public class WeightedPlate : MonoBehaviour
 				//Activate all of the connected actuators
 				foreach (GameObject actuator in actuators)
 				{
-					Debug.Log("Triggered");
-
                     if (actuator != null)
                         CameraManager.AddTransition(actuator);
 				}
@@ -184,4 +181,69 @@ public class WeightedPlate : MonoBehaviour
 				p = player.GetComponent<Player>();
 		}
 	}
+
+    public void Serialize(ref Dictionary<string, object> data)
+    {
+        if (data != null && !data.ContainsKey("actuators"))
+            data["actuators"] = actuators;
+    }
+
+    public void Unserialize(ref Dictionary<string, object> data)
+    {
+        if (data != null && data.ContainsKey("actuators"))
+        {
+            List<object> actuatorHashes = data["actuators"] as List<object>;
+
+            if (actuatorHashes != null)
+            {
+                int actuatorCount = 0;
+
+                List<GameObject> doors = SceneManager.GetDoors();
+                List<GameObject> dynamicWalls = SceneManager.GetDynamicWalls();
+
+                if (doors != null)
+                    actuatorCount += doors.Count;
+
+                if (dynamicWalls != null)
+                    actuatorCount += dynamicWalls.Count;
+
+                if (actuatorCount > 0)
+                {
+                    string hashTemp = string.Empty;
+
+                    actuators = new GameObject[actuatorHashes.Count];
+
+                    // Doors
+                    if (doors != null)
+                    {
+                        for (int i = 0; i < actuatorHashes.Count; i++)
+                        {
+                            for (int j = 0; j < doors.Count; j++)
+                            {
+                                hashTemp = LevelEditorUtilities.GenerateObjectHash(doors[j].name, doors[j].transform.position);
+
+                                if (hashTemp == actuatorHashes[i].ToString())
+                                    actuators[i] = doors[j];
+                            }
+                        }
+                    }
+
+                    // Dynamic Walls
+                    if (dynamicWalls != null)
+                    {
+                        for (int i = 0; i < actuatorHashes.Count; i++)
+                        {
+                            for (int j = 0; j < dynamicWalls.Count; j++)
+                            {
+                                hashTemp = LevelEditorUtilities.GenerateObjectHash(dynamicWalls[j].name, dynamicWalls[j].transform.position);
+
+                                if (hashTemp == actuatorHashes[i].ToString())
+                                    actuators[i] = dynamicWalls[j];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

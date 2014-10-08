@@ -1,336 +1,587 @@
 ﻿/*
  * Usage: Apply the script to the main camera, or an empty game object. The script will output the level data a file.
+ * Note: The algorithms in this script are far from efficient, and the code is overly complicated in areas.
  */
 
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public class Exporter : MonoBehaviour
 {
+    public string m_levelName = string.Empty;
+    private int m_numberOfObjects = 0;
+
 	public void Start()
 	{
-		using(StreamWriter sw = new StreamWriter("level1.json"))
+        if (m_levelName == string.Empty)
+            m_levelName = "level";
+
+		using(StreamWriter sw = new StreamWriter("Assets/Resources/Data/Levels/" + m_levelName + ".txt"))
 		{
 			sw.WriteLine("{");
 
-			ComposePlayer(sw);
-			ComposeItems(sw);
-			ComposeGuards(sw);
-			ComposeObstacles(sw);
-			ComposeWalls(sw);
-			ComposeDoors(sw);
-			ComposeFloors(sw);
+            ComposeChambers(sw, 1);
+            ComposeHalls(sw, 1);
+            ComposeLevel(sw, 1);
 			
 			sw.WriteLine("}");
 		}
 	}
 
-	private void ComposePlayer(StreamWriter sw)
-	{
-		GameObject spawnLocation = GameObject.FindWithTag("SpawnLocation");
+    private void ComposeLevel(StreamWriter sw, int tab)
+    {
+        if (sw != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("level") + ":{");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(m_levelName) + ",");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("numberOfObjects") + ":" + m_numberOfObjects.ToString());
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
 
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("player") + ":[");
-		sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-		sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("spawnLocation") + ":{");
-		
-		if(spawnLocation != null)
-			LevelEditorUtilities.PrintVector(sw, spawnLocation.transform.position, 4);
-		else
-			LevelEditorUtilities.PrintVector(sw, Vector3.zero, 4);
-		
-		sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-		sw.WriteLine(LevelEditorUtilities.Tab(2) + "}");
-		sw.WriteLine("\t],");
-	}
+    private void ComposeChambers(StreamWriter sw, int tab)
+    {
+        if (sw != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("chambers") + ":[");
 
-	private void ComposeItems(StreamWriter sw)
-	{
-		GameObject items = GameObject.Find("Items");
-		int itemCount = (items == null ? 0 : items.transform.childCount);
-		
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("items") + ":[");
+            // Get all chambers that are currently tagged.
+            GameObject[] chambers = GameObject.FindGameObjectsWithTag("Chamber");
 
-		if(!(items == null || itemCount == 0))
-		{
-			Transform itemTemp = null;
+            // Sort the chambers by name using a delegate.
+            // The order returned by GameObject.FindGameObjectsWithTag() is random.
+            // Efficiency here isn't the goal.
+            Array.Sort(chambers, (GameObject chamberA, GameObject chamberB) =>
+            {
+                return chamberA.name.CompareTo(chamberB.name);
+            });
 
-			for(int i = 0; i < itemCount; i++)
-			{
-				itemTemp = items.transform.GetChild(i);
+            // Compose each chamber.
+            for (int chamber = 0; chamber < chambers.Length; chamber++)
+                ComposeChamber(sw, chambers[chamber], tab + 1);
 
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(itemTemp.name) + ",");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
 
-				LevelEditorUtilities.PrintVector(sw, itemTemp.position, 4);
+    private void ComposeChamber(StreamWriter sw, GameObject chamber, int tab)
+    {
+        Vector2 chamberSize = Vector2.zero;
 
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, itemTemp.up, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != itemCount - 1 ? "," : ""));
-			}
-		}
+        if (sw != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "{");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(chamber.name) + ",");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(chamber.transform.position) + ",");
 
-		sw.WriteLine("\t],");
-	}
+            ComposeChunks(sw, chamber, ref chamberSize, tab + 1);
+            ComposeDoors(sw, chamber, tab + 1);
+            ComposeDynamicWalls(sw, chamber, tab + 1);
+            ComposeTriggers(sw, chamber, tab + 1);
+            ComposeItems(sw, chamber, tab + 1);
+            ComposeWallColliders(sw, chamber, tab + 1);
 
-	private void ComposeGuards(StreamWriter sw)
-	{
-		GameObject guards = GameObject.Find("Guards");
-		int guardCount = (guards == null ? 0 : guards.transform.childCount);
-		
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("guards") + ":[");
-		
-		if(!(guards == null || guardCount == 0))
-		{
-			// Temporary variables for each guard.
-			Transform guardTemp = null;
-			Guard guardScript = null;
-			Vector3[] patrolPoints = null;
-			
-			for(int i = 0; i < guardCount; i++)
-			{
-				guardTemp = guards.transform.GetChild(i);
-				guardScript = guardTemp.GetComponent<Guard>();
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(guardTemp.name) + ",");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, guardTemp.position, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, guardTemp.up, 4);
-				
-				if(!(guardScript == null || guardTemp.name == "StationaryGuard"))
-				{
-					patrolPoints = guardScript.m_patrolPoints;
-					
-					sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-					sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("patrolPoints") + ":[");
-					
-					for(int j = 0; j < patrolPoints.Length; j++)
-					{
-						sw.WriteLine(LevelEditorUtilities.Tab(4) + "{");
-						
-						LevelEditorUtilities.PrintVector(sw, patrolPoints[j], 5);
-						
-						sw.WriteLine(LevelEditorUtilities.Tab(4) + "}" + (j != patrolPoints.Length - 1 ? "," : ""));
-					}
-					
-					sw.WriteLine(LevelEditorUtilities.Tab(3) + "]");
-				}
-				else
-					sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != guards.transform.childCount - 1 ? "," : ""));
-			}
-		}
-		
-		sw.WriteLine("\t],");
-	}
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(chamberSize.ToString()));
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
 
-	private void ComposeObstacles(StreamWriter sw)
-	{
-		GameObject obstacles = GameObject.Find("Obstacles");
-		int obstacleCount = (obstacles == null ? 0 : obstacles.transform.childCount);
+    private void ComposeHalls(StreamWriter sw, int tab)
+    {
+        if (sw != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("halls") + ":[");
 
-		Transform hidingSpots = obstacles.transform.FindChild("HidingSpots");
-		int hidingSpotCount = (hidingSpots == null ? 0 : hidingSpots.childCount);
-		
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("obstacles") + ":[");
+            // Get all chambers that are currently tagged.
+            GameObject[] halls = GameObject.FindGameObjectsWithTag("Hall");
 
-		if(!(obstacles == null || obstacleCount == 0))
-		{
-			Transform obstacleTemp = null;
+            // Sort the chambers by name using a delegate.
+            // The order returned by GameObject.FindGameObjectsWithTag() is random.
+            // Efficiency here isn't the goal.
+            Array.Sort(halls, (GameObject hallA, GameObject hallB) =>
+            {
+                return hallA.name.CompareTo(hallB.name);
+            });
 
-			if(hidingSpots != null)
-			{
-				obstacleCount--;
-				hidingSpots.parent = null;
-			}
+            // Compose each chamber.
+            for (int hall = 0; hall < halls.Length; hall++)
+                ComposeHall(sw, halls[hall], tab + 1);
 
-			for(int i = 0; i < obstacleCount; i++)
-			{
-				obstacleTemp = obstacles.transform.GetChild(i);
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
 
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(obstacleTemp.name) + ",");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, obstacleTemp.position, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, obstacleTemp.up, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != obstacleCount - 1 ? "," : ""));
-			}
+    private void ComposeHall(StreamWriter sw, GameObject hall, int tab)
+    {
+        Vector2 hallSize = Vector2.zero;
 
-			if(hidingSpots != null)
-				hidingSpots.parent = obstacles.transform;
-		}
+        if (sw != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "{");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(hall.name) + ",");
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(hall.transform.position) + ",");
 
-		sw.WriteLine("\t],");
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("hidingSpots") + ":[");
+            ComposeChunks(sw, hall, ref hallSize, tab + 1);
+            ComposeWallColliders(sw, hall, tab + 1);
 
-		if(!(hidingSpots == null || hidingSpotCount == 0))
-		{
-			Transform hidingSpotTemp = null;
+            sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(hallSize.ToString()));
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
 
-			for(int i = 0; i < hidingSpotCount; i++)
-			{
-				hidingSpotTemp = hidingSpots.GetChild(i);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(hidingSpotTemp.name) + ",");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, hidingSpotTemp.position, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, hidingSpotTemp.up, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != hidingSpotCount - 1 ? "," : ""));
-			}
-		}
+    private void ComposeChunks(StreamWriter sw, GameObject parent, ref Vector2 chamberSize, int tab)
+    {
+        Transform chunks = parent.transform.FindChild("Chunks");
+        int chunksComposed = 0;
+        float previousY = 0f;
+        bool canStopX = false;
 
-		sw.WriteLine("\t],");
-	}
+        if (chunks != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("chunks") + ":[");
 
-	private void ComposeWalls(StreamWriter sw)
-	{
-		GameObject wallsContainer = GameObject.Find("Walls");
-		BoxCollider2D[] walls = null;
-		int wallCount = 0;
+            foreach (Transform chunk in chunks)
+            {
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
-		if(wallsContainer != null)
-		{
-			walls = wallsContainer.GetComponents<BoxCollider2D>();
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(chunk.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(chunk.transform.localPosition) + ",");
+                
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
 
-			if(walls != null)
-				wallCount = walls.Length;
-		}
+                if (chunksComposed == 0)
+                {
+                    chamberSize.x += chunk.renderer.bounds.size.x;
+                    chamberSize.y += chunk.renderer.bounds.size.y;
+                }
+                else if (chunk.position.y > previousY && !Utilities.IsApproximately(chunk.position.y, previousY))
+                {
+                    chamberSize.y += chunk.renderer.bounds.size.y;
 
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("walls") + ":[");
+                    canStopX = true;
+                }
+                else if (!canStopX)
+                    chamberSize.x += chunk.renderer.bounds.size.x;
 
-		if(wallCount != 0)
-		{
-			for(int i = 0; i < wallCount; i++)
-			{
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("size") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, walls[i].size, 4);
+                chunksComposed++;
+                previousY = chunk.position.y;
 
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("center") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, walls[i].center, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != wallCount - 1 ? "," : ""));
-			}
-		}
+                m_numberOfObjects++;
+            }
 
-		sw.WriteLine("\t],");
-	}
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
 
-	private void ComposeDoors(StreamWriter sw)
-	{
-		GameObject doors = GameObject.Find("Doors");
-		int doorCount = (doors == null ? 0 : doors.transform.childCount);
+    private void ComposeDoors(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform doors = parent.transform.FindChild("Doors");
+        Dictionary<string, object> data = new Dictionary<string,object>();
+        int i = 0;
 
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("doors") + ":[");
+        if (doors != null)
+        {
+            ISerializable doorSerializer = null;
 
-		if(!(doors == null || doorCount == 0))
-		{
-			Transform doorTemp = null;
-			
-			for(int i = 0; i < doorCount; i++)
-			{
-				doorTemp = doors.transform.GetChild(i);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(doorTemp.name) + ",");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, doorTemp.position, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("direction") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, doorTemp.up, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != doorCount - 1 ? "," : ""));
-			}
-		}
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("doors") + ":[");
 
-		sw.WriteLine("\t],");
-	}
+            foreach (Transform door in doors)
+            {
+                doorSerializer = door.GetComponent(typeof(ISerializable)) as ISerializable;
 
-	private void ComposeFloors(StreamWriter sw)
-	{
-		GameObject floor = GameObject.Find("FloorColliders");
-		int floorCount = (floor == null ? 0 : floor.transform.childCount);
-		
-		sw.WriteLine("\t" + LevelEditorUtilities.Escape("floors") + ":[");
-		
-		if(!(floor == null || floorCount == 0))
-		{
-			Transform floorTemp = null;
-			BoxCollider2D colliderTemp = null;
-			
-			for(int i = 0; i < floorCount; i++)
-			{
-				floorTemp = floor.transform.GetChild(i);
-				colliderTemp = floorTemp.GetComponent<BoxCollider2D>();
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
 
-				if(colliderTemp == null)
-					continue;
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "{");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(floorTemp.name) + ",");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("position") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, floorTemp.position, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("scale") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, floorTemp.localScale, 4);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + LevelEditorUtilities.Escape("collider") + ":{");
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(door.name, door.transform.position);
+                data["name"] = door.name;
+                data["position"] = door.transform.localPosition;
+                data["direction"] = door.transform.up;
 
-				sw.WriteLine(LevelEditorUtilities.Tab(4) + LevelEditorUtilities.Escape("size") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, colliderTemp.size, 5);
-				
-				sw.WriteLine(LevelEditorUtilities.Tab(4) + "},");
-				sw.WriteLine(LevelEditorUtilities.Tab(4) + LevelEditorUtilities.Escape("center") + ":{");
-				
-				LevelEditorUtilities.PrintVector(sw, colliderTemp.center, 5);
+                if (doorSerializer != null)
+                    doorSerializer.Serialize(ref data);
 
-				sw.WriteLine(LevelEditorUtilities.Tab(4) + "}");
-				sw.WriteLine(LevelEditorUtilities.Tab(3) + "}");
-				sw.WriteLine(LevelEditorUtilities.Tab(2) + "}" + (i != floorCount - 1 ? "," : ""));
-			}
-		}
-		
-		sw.WriteLine("\t]");
-	}
+                foreach (var datum in data)
+                {
+                    sw.Write(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape(datum.Key) + ":");
+
+                    if (datum.Value.GetType() == typeof(int) || datum.Value.GetType() == typeof(float) || datum.Value.GetType() == typeof(bool))
+                        sw.Write(datum.Value.ToString());
+                    else
+                        sw.Write(LevelEditorUtilities.Escape(datum.Value));
+
+                    i++;
+
+                    if (i != data.Count)
+                        sw.Write(",");
+
+                    sw.WriteLine("");
+                }
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+
+                data.Clear();
+                i = 0;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeDynamicWalls(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform dynamicWalls = parent.transform.FindChild("DynamicWalls");
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        int i = 0;
+
+        if (dynamicWalls != null)
+        {
+            ISerializable dynamicWallSerializer = null;
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("dynamicWalls") + ":[");
+
+            foreach (Transform dynamicWall in dynamicWalls)
+            {
+                dynamicWallSerializer = dynamicWall.GetComponent(typeof(ISerializable)) as ISerializable;
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(dynamicWall.name, dynamicWall.transform.position);
+                data["name"] = dynamicWall.name;
+                data["position"] = dynamicWall.transform.localPosition;
+                data["direction"] = dynamicWall.transform.up;
+
+                if (dynamicWallSerializer != null)
+                    dynamicWallSerializer.Serialize(ref data);
+
+                foreach (var datum in data)
+                {
+                    sw.Write(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape(datum.Key) + ":");
+
+                    if (datum.Value.GetType() == typeof(int) || datum.Value.GetType() == typeof(float) || datum.Value.GetType() == typeof(bool))
+                        sw.Write(datum.Value.ToString());
+                    else if (datum.Value.GetType() == typeof(Vector3[]))
+                    {
+                        sw.WriteLine("[");
+
+                        foreach (Vector3 vector in datum.Value as Vector3[])
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(vector.ToString()) + ",");
+
+                        sw.Write(LevelEditorUtilities.Tab(tab + 2) + "]");
+                    }
+                    else
+                        sw.Write(LevelEditorUtilities.Escape(datum.Value));
+
+                    i++;
+
+                    if (i != data.Count)
+                        sw.Write(",");
+
+                    sw.WriteLine("");
+                }
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+
+                data.Clear();
+                i = 0;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeTriggers(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform triggers = parent.transform.FindChild("Triggers");
+
+        if (triggers != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("triggers") + ":{");
+
+            ComposeTerminals(sw, triggers.gameObject, tab + 1);
+            ComposePlates(sw, triggers.gameObject, tab + 1);
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
+
+    private void ComposeTerminals(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform terminals = parent.transform.FindChild("Terminals");
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        int i = 0;
+
+        if (terminals != null)
+        {
+            ISerializable terminalSerializer = null;
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("terminals") + ":[");
+
+            foreach (Transform terminal in terminals)
+            {
+                terminalSerializer = terminal.GetComponent(typeof(ISerializable)) as ISerializable;
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(terminal.name, terminal.transform.position);
+                data["name"] = terminal.name;
+                data["position"] = terminal.transform.localPosition;
+                data["direction"] = terminal.transform.up;
+
+                if (terminalSerializer != null)
+                    terminalSerializer.Serialize(ref data);
+
+                foreach (var datum in data)
+                {
+                    sw.Write(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape(datum.Key) + ":");
+
+                    if (datum.Value.GetType() == typeof(int) || datum.Value.GetType() == typeof(float) || datum.Value.GetType() == typeof(bool))
+                        sw.Write(datum.Value.ToString());
+                    else if (datum.Value.GetType() == typeof(GameObject[]))
+                    {
+                        sw.WriteLine("[");
+
+                        foreach (GameObject obj in datum.Value as GameObject[])
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.position)) + ",");
+
+                        sw.Write(LevelEditorUtilities.Tab(tab + 2) + "]");
+                    }
+                    else
+                        sw.Write(LevelEditorUtilities.Escape(datum.Value));
+
+                    i++;
+
+                    if (i != data.Count)
+                        sw.Write(",");
+
+                    sw.WriteLine("");
+                }
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+
+                data.Clear();
+                i = 0;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposePlates(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform plates = parent.transform.FindChild("Plates");
+        Dictionary<string, object> data = new Dictionary<string, object>();
+        int i = 0;
+
+        if (plates != null)
+        {
+            ISerializable plateSerializer = null;
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("plates") + ":[");
+
+            foreach (Transform plate in plates)
+            {
+                plateSerializer = plate.GetComponent(typeof(ISerializable)) as ISerializable;
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                data["id"] = LevelEditorUtilities.GenerateObjectHash(plate.name, plate.transform.localPosition);
+                data["name"] = plate.name;
+                data["position"] = plate.transform.localPosition;
+                data["direction"] = plate.transform.up;
+
+                if (plateSerializer != null)
+                    plateSerializer.Serialize(ref data);
+
+                foreach (var datum in data)
+                {
+                    sw.Write(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape(datum.Key) + ":");
+
+                    if (datum.Value.GetType() == typeof(int) || datum.Value.GetType() == typeof(float) || datum.Value.GetType() == typeof(bool))
+                        sw.Write(datum.Value.ToString());
+                    else if (datum.Value.GetType() == typeof(GameObject[]))
+                    {
+                        sw.WriteLine("[");
+
+                        foreach (GameObject obj in datum.Value as GameObject[])
+                            sw.WriteLine(LevelEditorUtilities.Tab(tab + 3) + LevelEditorUtilities.Escape(LevelEditorUtilities.GenerateObjectHash(obj.name, obj.transform.position)) + ",");
+
+                        sw.Write(LevelEditorUtilities.Tab(tab + 2) + "],");
+                    }
+                    else
+                        sw.Write(LevelEditorUtilities.Escape(datum.Value));
+
+                    i++;
+
+                    if (i != data.Count)
+                        sw.Write(",");
+
+                    sw.WriteLine("");
+                }
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+
+                data.Clear();
+                i = 0;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeItems(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform items = parent.transform.FindChild("Items");
+
+        if (items != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("items") + ":{");
+
+            ComposePowerCores(sw, items.gameObject, tab + 1);
+            ComposeRedPotions(sw, items.gameObject, tab + 1);
+            ComposeGreenPotions(sw, items.gameObject, tab + 1);
+            ComposeCrates(sw, items.gameObject, tab + 1);
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
+        }
+    }
+
+    private void ComposePowerCores(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform powerCores = parent.transform.FindChild("Cores");
+
+        if (powerCores != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("powerCores") + ":[");
+
+            foreach (Transform powerCore in powerCores)
+            {
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(powerCore.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(powerCore.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(powerCore.up.ToString()) + ",");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeRedPotions(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform redPotions = parent.transform.FindChild("RedPotions");
+
+        if (redPotions != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("redPotions") + ":[");
+
+            foreach (Transform redPotion in redPotions)
+            {
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(redPotion.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(redPotion.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(redPotion.up.ToString()) + ",");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeGreenPotions(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform greenPotions = parent.transform.FindChild("GreenPotions");
+
+        if (greenPotions != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("greenPotions") + ":[");
+
+            foreach (Transform greenPotion in greenPotions)
+            {
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(greenPotion.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(greenPotion.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(greenPotion.up.ToString()) + ",");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeCrates(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform crates = parent.transform.FindChild("Crates");
+
+        if (crates != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("crates") + ":[");
+
+            foreach (Transform crate in crates)
+            {
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("name") + ":" + LevelEditorUtilities.Escape(crate.name) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(crate.localPosition.ToString()) + ",");
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("direction") + ":" + LevelEditorUtilities.Escape(crate.up.ToString()) + ",");
+
+                sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                m_numberOfObjects++;
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
+
+    private void ComposeWallColliders(StreamWriter sw, GameObject parent, int tab)
+    {
+        Transform wallColliders = parent.transform.FindChild("WallColliders");
+        BoxCollider2D colliderTemp = null;
+
+        if (wallColliders != null)
+        {
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + LevelEditorUtilities.Escape("wallColliders") + ":[");
+
+            foreach (Transform wallCollider in wallColliders)
+            {
+                colliderTemp = wallCollider.GetComponent<BoxCollider2D>();
+
+                if (colliderTemp != null)
+                {
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "{");
+
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("position") + ":" + LevelEditorUtilities.Escape(new Vector2(wallCollider.localPosition.x, wallCollider.localPosition.y)) + ",");
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 2) + LevelEditorUtilities.Escape("size") + ":" + LevelEditorUtilities.Escape(colliderTemp.size) + ",");
+
+                    sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + "},");
+
+                    m_numberOfObjects++;
+                }
+            }
+
+            sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
+        }
+    }
 }

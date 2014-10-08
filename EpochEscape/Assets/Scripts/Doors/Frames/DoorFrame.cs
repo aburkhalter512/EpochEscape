@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 /**
  * This class a door frame for Epoch Escape. It contains two door sides along with player
