@@ -100,7 +100,6 @@ public class OrganicDoorSide : DoorSide
     #endregion
 
     #region Instance Methods
-
     protected virtual void OnTriggerEnter2D(Collider2D collidee)
     { }
     #endregion
