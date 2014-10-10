@@ -8,8 +8,6 @@ public class Knight : Player
     protected void Start()
     {
     	base.Start();
-    	
-    	inventory.setSpecialCooldown(7.0f);
     }
 
     //Put all update code here

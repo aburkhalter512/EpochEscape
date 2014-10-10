@@ -4,38 +4,30 @@ using System.Collections.Generic;
 using System.IO;
 using G = GameManager;
 
-public class GreenPotion : Item
+public class GreenPotion : ActiveItem
 {
     #region Inspector Variables
-    public float throwTime = 0.75f;
-    public float initialSpeed = 2f;
-    public Vector3 endScale = new Vector3(0.75f, 0.75f, 0.75f);
-
-    public const float SPEED = 2f;
-    public const float ROTATION_SPEED = 20f; // degrees
-
     public AudioSource m_flaskSmash;
     public AudioSource m_flaskStrike;
     #endregion
 
-    #region Private Variables
-    private Animator m_animator;
-    public bool thrown = false;
-    public bool m_isBroken;
+    #region Instance Variables
+    Animator m_animator;
+    bool mThrown = false;
+    bool m_isBroken;
 
-    Vector3 mOrigin;
-    Vector3 mDestination;
-    float mCurrentSpeed;
-    float deceleration;
-    float startTime;
-    Vector3 mScaleDelta;
+    Player mPlayer;
     #endregion
 
-    #region Class Variables
+    #region Class Constants
+    public const float SPEED = 2f;
+    public const float ROTATION_SPEED = 20f; // degrees
     #endregion
 
-    public void Start()
+    protected void Awake()
     {
+        base.Awake();
+
         gameObject.tag = "EmptyFlask";
 
         m_animator = GetComponent<Animator>();
@@ -46,7 +38,7 @@ public class GreenPotion : Item
     {
         if(!G.getInstance ().paused)
         {
-            if(thrown)
+            if(mThrown)
             {
                 Transform parent = transform.parent;
 
@@ -61,69 +53,79 @@ public class GreenPotion : Item
             UpdateAnimator();
         }
     }
-    
+
+    #region Interface Methods
     public override void PickUp(Player player)
     {
-        PickUpSound.Play ();
+        if (player == null || mThrown)
+            return;
+
+        mPlayer = player;
+
+        PickUpSound.Play();
+
+        if (player.inventory.add(this))
+        {
+            mIsInventory = true;
+
+            if (mSR == null)
+                Debug.Log("fail!");
+            mSR.enabled = false;
+        }
     }
     
     public override void Activate ()
     {
-        Throw ();
+        Throw();
+
         gameObject.renderer.enabled = true;
     }
+    #endregion
 
+    #region Instance Methods
     private void Throw()
     {
+        if (mThrown || !mIsInventory)
+            return;
+
         gameObject.tag = "ItemThrown";
-        
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        
-        if(player != null)
+
+        ActivateSound.Play ();
+        GameObject flaskThrowPosition = GameObject.FindGameObjectWithTag("FlaskThrowPosition");
+
+        Transform parent = transform.parent;
+
+        if(parent != null)
         {
-            ActivateSound.Play ();
-            GameObject flaskThrowPosition = GameObject.FindGameObjectWithTag("FlaskThrowPosition");
-
-            Transform parent = transform.parent;
-
-            if(parent != null)
-            {
-                parent.transform.position = player.transform.position;
+            if(flaskThrowPosition != null)
+                parent.transform.position = flaskThrowPosition.transform.position;
                 
-                // This should not work, but it does.
-                if(flaskThrowPosition != null)
-                    parent.transform.position = flaskThrowPosition.transform.position;
-                
-                parent.transform.up = player.transform.up;
-                transform.up = -player.transform.up;
+            parent.transform.up = mPlayer.transform.up;
+            transform.up = -mPlayer.transform.up;
 
-                thrown = true;
-            }
+            mThrown = true;
         }
     }
 
-    public override void OnTriggerEnter2D(Collider2D other){
-        base.OnTriggerEnter2D (other);
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!mThrown)
+            base.OnTriggerEnter2D (other);
         
-        if (other.gameObject.tag == "Guard" && gameObject.tag == "ItemThrown")
+        if (other.GetComponent<Guard>() != null && mThrown)
         {
             if(!m_isBroken && m_flaskStrike != null)
                 AudioSource.PlayClipAtPoint(m_flaskStrike.clip, transform.position);
 
             m_isBroken = true;
-            thrown = false;
+            mThrown = false;
 
-            Guard guardManager = other.gameObject.GetComponent<Guard>();
-            if (guardManager == null)
-                other.gameObject.GetComponent<StationaryGuard>();
+            Guard guard = other.gameObject.GetComponent<Guard>();
 
-            if (guardManager != null)
-            {
-                guardManager.m_currentState = Guard.State.STUN;
-                guardManager.transform.up = Vector3.up;
+            guard.m_currentState = Guard.State.STUN;
+            guard.transform.up = Vector3.up;
 
-                other.enabled = false;
-            }
+            other.enabled = false;
         }
 
         if((other.gameObject.tag == "Wall" || other.gameObject.tag == "OrganicCurtain")
@@ -133,7 +135,7 @@ public class GreenPotion : Item
                 PlaySmashSound();
 
             m_isBroken = true;
-            thrown = false;
+            mThrown = false;
         }
     }
 
@@ -141,7 +143,7 @@ public class GreenPotion : Item
     {
         if(m_animator != null)
         {
-            m_animator.SetBool("isThrown", thrown);
+            m_animator.SetBool("isThrown", mThrown);
             m_animator.SetBool("isBroken", m_isBroken);
         }
     }
@@ -152,7 +154,7 @@ public class GreenPotion : Item
             AudioSource.PlayClipAtPoint(m_flaskSmash.clip, transform.position);
     }
 
-    public void Destroy()
+    private void Destroy()
     {
         Transform parent = transform.parent;
         
@@ -161,4 +163,5 @@ public class GreenPotion : Item
         else
             Destroy(gameObject);
     }
+    #endregion
 }

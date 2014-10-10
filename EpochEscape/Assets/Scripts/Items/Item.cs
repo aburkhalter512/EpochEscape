@@ -3,36 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-public abstract class Item : MonoBehaviour {
-	public AudioSource PickUpSound;
+public abstract class Item : MonoBehaviour
+{
+    #region Interface Variables
+    public AudioSource PickUpSound;
 	public AudioSource ActivateSound;
+    #endregion
 
-	public Item traversal;
-	public Item next = null;
-	public bool inInventory = false;
+    #region Instance Variables
+    protected SpriteRenderer mSR;
+    #endregion
 
-	public abstract void PickUp(Player player);	
-	public abstract void Activate();
+    protected virtual void Awake()
+    {
+        mSR = GetComponent<SpriteRenderer>();
 
-	public virtual void Add(Item i){
-		traversal = this;
-		while(traversal.next != null)
-			traversal = traversal.next;
-		traversal.next = i;
-	}
+        if (mSR == null)
+            Debug.Log("Fail");
+    }
 
-	public virtual void OnTriggerEnter2D(Collider2D other)
+    #region Interface Methods
+    public abstract void PickUp(Player player);	
+    #endregion
+
+    #region Instance Methods
+    protected virtual void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.gameObject.tag == "Player")
-		{
-			if(other.GetComponent<Player>().inventory.canAdd(this) && !inInventory)
-			{
-				Player player = other.GetComponent<Player>();
-				PickUp(player);
-				player.inventory.addItem(this);
-				inInventory = true;
-				gameObject.renderer.enabled = false;
-			}
-		}
-	}
+        Player player = other.GetComponent<Player>();
+
+		if(player != null)
+            PickUp(player);
+    }
+    #endregion
 }

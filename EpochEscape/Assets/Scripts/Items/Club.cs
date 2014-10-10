@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Club : Item {
+public class Club : ActiveItem {
 
 	// Use this for initialization
 	void Start () {

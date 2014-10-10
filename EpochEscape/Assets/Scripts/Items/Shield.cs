@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shield : Item {
+public class Shield : ActiveItem {
 
 	// Use this for initialization
 	void Start () {

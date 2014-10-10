@@ -1,174 +1,194 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Inventory{
-    #region member variables
-    public const int UNIQUE_ITEMS = 3; //only item currently is potion
-    public const int MAX_STACK = 10;
-    public const int POTION_SLOT = 0;
-    public const int FLASK_SLOT = 1;
-    public const int DASH_SLOT = 2;
-
-    public Item[] inventory = new Item[UNIQUE_ITEMS];
-    public int[] inventoryCount = new int[UNIQUE_ITEMS];
+public class Inventory
+{
+    #region Interface variables
+    public ActiveItemNode[] activeItems = new ActiveItemNode[ACTIVE_ITEM_COUNT];
     #endregion
     
 	#region Instance Variables
-	float mSpecialStartHitTime = -1.0f;
-	float mSpecialCooldownTime = 1.0f;
-	bool mIsFirstSpecialHit = true;
+    int mSpecialStamina = MAX_SPECIAL_STAMINA;
 	#endregion
 
+    #region Class Constants
+    public const int MIN_SPECIAL_STAMINA = 0;
+    public const int MAX_SPECIAL_STAMINA = 3;
+
+    public const int RED_POTION_SLOT = 0;
+    public const int GREEN_POTION_SLOT = 1;
+    public const int ACTIVE_ITEM_COUNT = 2;
+    public static readonly int[] MAX_ACTIVE_ITEMS = new int[]{10, 10};
+
+    public class ActiveItemNode
+    {
+        public ActiveItemNode(ActiveItem activeItem, ActiveItemNode node)
+        {
+            data = activeItem;
+            link = node;
+
+            if (node != null)
+                nodesAttached = node.nodesAttached + 1;
+        }
+
+        public ActiveItemNode link = null;
+
+        public int nodesAttached = 0;
+        public ActiveItem data = null;
+    }
+    #endregion
 
     public Inventory()
     { }
     
     public int getSize()
     {
-    	return UNIQUE_ITEMS;
+        return ACTIVE_ITEM_COUNT;
     }
 
-    public void addItem(Item i){
-        switch (i.tag) {
-            case "Red Potion":
-                if (inventory[POTION_SLOT] == null) {
-                    inventory[POTION_SLOT] = i;
-                } else {
-                    inventory[POTION_SLOT].Add(i);
-                }			
-                inventoryCount[POTION_SLOT]++;
-                break;
-            case "EmptyFlask":
-                if (inventory[FLASK_SLOT] == null) {
-                    inventory[FLASK_SLOT] = i;
-                } else {
-                    inventory[FLASK_SLOT].Add(i);
-                }			
-                inventoryCount[FLASK_SLOT]++;
-                break;
-            case "Dash Potion":
-                if(inventory[DASH_SLOT] == null){
-                    inventory[DASH_SLOT] = i;
-                }
-                else{
-                    inventory[DASH_SLOT].Add(i);
-                }
-                inventoryCount[DASH_SLOT]++;
-                break;
-        }
+    public bool add(ActiveItem item)
+    {
+        if (item == null)
+            return false;
+
+        int slot = hash(item);
+        if (slot == -1) //Does the item exist in the inventory
+            return false;
+
+        if (activeItems[slot] == null)
+            activeItems[slot] = new ActiveItemNode(item, null);
+        else if (activeItems[slot].nodesAttached + 1 < MAX_ACTIVE_ITEMS[slot])
+            activeItems[slot] = new ActiveItemNode(item, activeItems[slot]);
+
+        return true;
     }
 
-    public void activateItem(int slot){
-        //if inventory slot is not empty
-        if(inventory[slot] != null){
-            //activate and adjust inventory count and slot
-            inventory[slot].Activate();
-            inventory[slot] = inventory[slot].next;
-            inventoryCount[slot]--;
-        }
-    }
-    
-    public bool canAdd(Item i){
-        //if the current item is in the inventory
-        if(inInventory (i))
-            //return whether or not there is space for it
-            return hasSpace (i);
-        //if it's not in the inventory check if there is an empty slot for it
-        else
-            return hasEmptySlot ();
-    }
-    
-    public bool hasEmptySlot(){
-        //if inventory has empty slot return true
-        for(int i = 0; i < inventory.Length; i++)
-            if(inventory[i] == null)
-                return true;
-        //otherwise return false
-        return false;
-    }
+    public bool add(PassiveItem item)
+    {
+        if (item == null)
+            return false;
 
-    public bool inInventory(Item i){
-        for(int j = 0; j < inventory.Length; j++){
-            //if there is a slot for this item
-            //if inventory slot is null continue to next slot
-            if(inventory[j] == null)
-                continue;
-            //return true
-            if(inventory[j].gameObject.tag == i.gameObject.tag)
-                return true;
-        }
-        //otherwise return null
-        return false;
-    }
-    
-    public bool hasSpace(Item i){
-        //go through array
-        for(int j = 0; j < inventory.Length; j++){
-            //if there is a slot for this item
-            if(inventory[j] == null)
-                continue;
-            if(inventory[j].gameObject.tag == i.gameObject.tag)
-                //if there is space
-                if(inventoryCount[j] < MAX_STACK)
-                    return true;
-        }
-        //no slot for item
-        return false;
-    }
-
-    public bool InventoryFull(){
-        for(int i = 0; i < inventoryCount.Length; i++)
-            if(inventoryCount[i] > 0)
-                return false;
-        return false;
-    }
-
-    public void clear(){
-        for (int i = 0; i < inventory.Length; i++)
+        if (item as YellowPotion != null)
         {
-            inventory[i] = null;
-            inventoryCount[i] = 0;
+            if (mSpecialStamina >= MAX_SPECIAL_STAMINA)
+                return false;
+
+            mSpecialStamina++;
+
+            return true;
+        }
+        else if (item as BluePotion != null)
+        {
+            //Add oxygen conditionals here
+        }
+
+        return false;
+    }
+
+    public void activateItem(int slot)
+    {
+        //if inventory slot is not empty
+        if(activeItems[slot] != null)
+        {
+            //activate and adjust inventory count and slot
+            activeItems[slot].data.Activate();
+            activeItems[slot] = activeItems[slot].link;
+        }
+    }
+    
+    public bool canAdd(ActiveItem item)
+    {
+        int slot = hash(item);
+
+        if (activeItems[slot] == null) ; //Skip over this case
+        else if (slot == -1 || activeItems[slot].nodesAttached + 1 >= MAX_ACTIVE_ITEMS[slot])
+            return false;
+
+        return true;
+    }
+
+    public bool canAdd(PassiveItem item)
+    {
+        if (item == null)
+            return false;
+
+        if (item as YellowPotion != null)
+        {
+            if (mSpecialStamina >= MAX_SPECIAL_STAMINA)
+                return false;
+
+            return true;
+        }
+        else if (item as BluePotion != null)
+        {
+            //Add oxygen conditionals here
+        }
+
+        return false;
+    }
+
+    public void clear()
+    {
+        ActiveItemNode toDelete;
+        ActiveItemNode next;
+
+        for (int i = 0; i < activeItems.Length; i++)
+        {
+            toDelete = activeItems[i];
+            if (toDelete != null)
+            {
+                if (toDelete.link != null)
+                {
+                    while (toDelete != null)
+                    {
+                        next = toDelete.link;
+
+                        toDelete.link = null;
+                        toDelete.data = null;
+
+                        toDelete = next;
+                    }
+                }
+            }
+
+            activeItems[i] = null;
         }
     }
     
     public bool activateSpecialItem()
     {
-    	if (mIsFirstSpecialHit || Time.realtimeSinceStartup - mSpecialStartHitTime >= mSpecialCooldownTime)
+    	if (mSpecialStamina > 0)
     	{
-    		mIsFirstSpecialHit = false;
-    	
-    		mSpecialStartHitTime = Time.realtimeSinceStartup;
+            mSpecialStamina--;
     		
     		return true;
     	}
     	
     	return false;
     }
-    
-    public void setSpecialCooldown(float cooldown)
+
+    public int hash(ActiveItem item)
     {
-    	if (cooldown > 0.0f)
-    		mSpecialCooldownTime = cooldown;
+        if (item == null)
+            return -1;
+
+        int retVal = -1;
+
+        if (item as RedPotion != null)
+            return RED_POTION_SLOT;
+        else if (item as GreenPotion != null)
+            return GREEN_POTION_SLOT;
+
+        return retVal;
     }
-    
-    public float getSpecialCooldown()
+
+    public int getSpecialStamina()
     {
-    	return mSpecialCooldownTime;
+        return mSpecialStamina;
     }
-    
-    public float getRemainingCoolDown()
+
+    public float getPercentSpecialStamina()
     {
-		if (mIsFirstSpecialHit || Time.realtimeSinceStartup - mSpecialStartHitTime > mSpecialCooldownTime)
-    		return -1.0f;
-    
-    	return Time.realtimeSinceStartup - mSpecialStartHitTime;
-    }
-    
-    public float getPercentRemainingCoolDown()
-	{
-		if (mIsFirstSpecialHit || Time.realtimeSinceStartup - mSpecialStartHitTime > mSpecialCooldownTime)
-			return 0.0f;
-		
-		return (mSpecialCooldownTime - (Time.realtimeSinceStartup - mSpecialStartHitTime)) / mSpecialCooldownTime;
+        return ((float) mSpecialStamina) / MAX_SPECIAL_STAMINA;
     }
 }

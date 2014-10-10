@@ -17,8 +17,6 @@ public class CaveGirl : Player
     protected void Start()
     {
         base.Start();
-        
-        inventory.setSpecialCooldown(5.0f);
     }
 
     //Put all update code here

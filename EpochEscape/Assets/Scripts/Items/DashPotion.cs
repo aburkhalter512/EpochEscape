@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Dash : Item {
+public class Dash : ActiveItem {
 	public float SPEED = 1.5f;
 	// Use this for initialization
 	void Start () {

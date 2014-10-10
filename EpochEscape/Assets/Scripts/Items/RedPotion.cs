@@ -2,21 +2,29 @@ using UnityEngine;
 using System.Collections;
 using G = GameManager;
 
-public class RedPotion : Item {
-	public const float HEAL_AMOUNT = 25f;
+public class RedPotion : ActiveItem
+{
+    #region Class Constants
+    public const float HEAL_AMOUNT = 25f;
+    #endregion
 
-
-	//private Animator m_animator;
-
-	public void Start()
+    protected virtual void Start()
 	{
 		gameObject.tag = "Red Potion";
-		//m_animator = GetComponent<Animator>();
 	}
 
-	public override void PickUp(Player player)
+    #region Interface Methods
+    public override void PickUp(Player player)
 	{
 		PickUpSound.Play ();
+
+        if (player.inventory.add(this))
+        {
+            mIsInventory = true;
+
+            mSR.enabled = false;
+        }
+
 		return;
 	}
 
@@ -31,8 +39,16 @@ public class RedPotion : Item {
 		if (player.m_detectionMax < 0)
 			player.m_detectionMax = 0;
 	}
+    #endregion
 
-	public override void OnTriggerEnter2D(Collider2D other){
-		base.OnTriggerEnter2D (other);
-	}
+    #region Instance Methods
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        Player player = other.GetComponent<Player>();
+
+        if (player != null)
+            if (player.inventory.canAdd(this))
+                base.OnTriggerEnter2D(other);
+    }
+    #endregion
 }

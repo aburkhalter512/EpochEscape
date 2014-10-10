@@ -220,8 +220,7 @@ public abstract class Player : MonoBehaviour
         Interact ();
 
 		#region Control potions
-        // 0th subscript indicates empty flask.
-        if(inventory.inventory[m_selectedSlot] != null && !m_isShieldActive)
+        if(inventory.activeItems[m_selectedSlot] != null && !m_isShieldActive)
         {
             if(mIM.actionButton.getDown())
             {
@@ -235,8 +234,6 @@ public abstract class Player : MonoBehaviour
                     m_isThrowing = true;
             }
 		}
-		
-		//
         #endregion
         
         if (mIM.specialActionButton.getDown() && inventory.activateSpecialItem())

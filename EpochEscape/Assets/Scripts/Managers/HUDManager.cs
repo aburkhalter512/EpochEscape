@@ -112,7 +112,7 @@ public class HUDManager : Manager<HUDManager> {
         GUI.DrawTexture(new Rect(30f,21f,100f,100f),currMood);
 		GUI.DrawTexture(new Rect(20f,120f,30f,30f),specItem);
 		
-		GUI.DrawTexture(new Rect(175f,115f,40f,-100f * playerManager.inventory.getPercentRemainingCoolDown()),cooldownBar);
+		GUI.DrawTexture(new Rect(175f,115f,40f,-100f * playerManager.inventory.getPercentSpecialStamina()), cooldownBar);
         GUI.EndGroup();
         #endregion
         
@@ -161,19 +161,24 @@ public class HUDManager : Manager<HUDManager> {
         #region inventory
         bool flaskFound = false;
         bool potionFound = false;
-        for (int i = 0; i < Inventory.UNIQUE_ITEMS; i++) {
-            Item currItem = playerManager.inventory.inventory[i];
-            if (currItem != null) {
-                if (currItem.gameObject.tag == "EmptyFlask") {
-                    m_flaskCount = playerManager.inventory.inventoryCount[i];
-                    flaskFound = true;
-                }
-                if (currItem.gameObject.tag == "Red Potion") {
-                    m_potionCount = playerManager.inventory.inventoryCount[i];
+        for (int i = 0; i < Inventory.ACTIVE_ITEM_COUNT; i++)
+        {
+            Inventory.ActiveItemNode currItem = playerManager.inventory.activeItems[i];
+            if (currItem != null)
+            {
+                if (currItem.data as RedPotion)
+                {
+                    m_potionCount = playerManager.inventory.activeItems[i].nodesAttached + 1;
                     potionFound = true;
+                }
+                else if (currItem.data as GreenPotion)
+                {
+                    m_flaskCount = playerManager.inventory.activeItems[i].nodesAttached + 1;
+                    flaskFound = true;
                 }
             }
         }
+
         if (!flaskFound)
             m_flaskCount = 0;
         if (!potionFound)
