@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class LaserBehavior : MonoBehaviour
 {
-	public GameObject lastObject;
+	private GameObject lastObject;
     public Transform start, end;
     public float lineWidth;
     public VectorLine vLine;
@@ -106,7 +106,7 @@ public class LaserBehavior : MonoBehaviour
 			lastObject.GetComponent<CollectorBehavior>().resetActivate(color); 
 		}
 		else if(lastObject.tag == "Laser Switch"){
-			lastObject.SendMessage ("resetActivate", SendMessageOptions.DontRequireReceiver);
+			lastObject.GetComponent<LaserSwitchBehavior>().resetActivate();
 		}
 		endOfReset:
 		lastObject = g;

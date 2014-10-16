@@ -34,17 +34,16 @@ public class CollectorBehavior : LaserBehavior {
 		else if (c == rightSprite.color) {
 			rightSprite.color = Color.white;
 		}
-		if(color.r == 0 && color.g == 0 && color.b == 0){
+
+		if (color.r == 0 && color.g == 0 && color.b == 0) {
+			resetLast(null);
+			hit = false;
 			middle.color = Color.white;
 			emitter.color = Color.white;
 		}
 		else{
 			middle.color = color;
 			emitter.color = color;	
-		}
-		if (color.r == 0 && color.g == 0 && color.b == 0) {
-			resetLast(null);
-			hit = false;
 		}
 	}
 
