@@ -27,7 +27,9 @@ public class HoldableBox : InteractiveObject {
     }
 
     public override void Interact() {
-        collider2D.enabled = false;
+		foreach(Collider2D c in GetComponents<Collider2D> ()) {
+			c.enabled = false;
+		}
         m_isInUse = true;
         
         GameObject[] list;
@@ -44,13 +46,17 @@ public class HoldableBox : InteractiveObject {
         {
             p.m_isHoldingBox = true;
             transform.parent = p.transform;
+			transform.eulerAngles = p.transform.eulerAngles;
+			transform.localPosition = new Vector3(0,.15fa,0);
         }
     }
     
     public void Place() { //places the box in front of the player
         //transform.position = p.transform.position;
         transform.localScale = new Vector3(1f,1f,1f);
-        collider2D.enabled = true;
+		foreach(Collider2D c in GetComponents<Collider2D> ()) {
+			c.enabled = true;
+		}
         transform.parent = null;
 		Vector3 vec = p.transform.eulerAngles;
 		vec.z = Mathf.Round(vec.z / 90) * 90;
