@@ -75,7 +75,7 @@ public class LaserBehavior : MonoBehaviour
 		if(hit.collider.name == "Collector"){
 			CollectorBehavior cb = hit.collider.gameObject.GetComponent<CollectorBehavior>();
 			if(resetLast (cb.gameObject)){
-				cb.Activate (color);
+				cb.Activate (color, (EdgeCollider2D)hit.collider);
 			}
 		}
 		//if Laser Switch
@@ -103,7 +103,7 @@ public class LaserBehavior : MonoBehaviour
 		}
 		reset:
 		if(lastObject.name == "Collector") {
-			lastObject.SendMessage ("resetActivate", color, SendMessageOptions.DontRequireReceiver); 
+			lastObject.GetComponent<CollectorBehavior>().resetActivate(color); 
 		}
 		else if(lastObject.tag == "Laser Switch"){
 			lastObject.SendMessage ("resetActivate", SendMessageOptions.DontRequireReceiver);

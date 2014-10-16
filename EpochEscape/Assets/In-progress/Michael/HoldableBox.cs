@@ -47,7 +47,7 @@ public class HoldableBox : InteractiveObject {
             p.m_isHoldingBox = true;
             transform.parent = p.transform;
 			transform.eulerAngles = p.transform.eulerAngles;
-			transform.localPosition = new Vector3(0,.15fa,0);
+			transform.localPosition = new Vector3(0,.15f,0);
         }
     }
     

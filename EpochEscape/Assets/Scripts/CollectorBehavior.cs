@@ -5,6 +5,11 @@ public class CollectorBehavior : LaserBehavior {
 	public EdgeCollider2D bottom;
 	public EdgeCollider2D left;
 	public EdgeCollider2D right;
+	public SpriteRenderer bottomSprite;
+	public SpriteRenderer leftSprite;
+	public SpriteRenderer rightSprite;
+	public SpriteRenderer emitter;
+	public SpriteRenderer middle;
 	public bool hit;
 
 	// Use this for initialization
@@ -20,23 +25,42 @@ public class CollectorBehavior : LaserBehavior {
 
 	public void resetActivate (Color c){
 		color -= c;
-
+		if (c == bottomSprite.color) {
+			bottomSprite.color = Color.white;
+		}
+		else if (c == leftSprite.color) {
+			leftSprite.color = Color.white;
+		}
+		else if (c == rightSprite.color) {
+			rightSprite.color = Color.white;
+		}
+		if(color.r == 0 && color.g == 0 && color.b == 0){
+			middle.color = Color.white;
+			emitter.color = Color.white;
+		}
+		else{
+			middle.color = color;
+			emitter.color = color;	
+		}
 		if (color.r == 0 && color.g == 0 && color.b == 0) {
-			resetLast (null);
+			resetLast(null);
 			hit = false;
 		}
 	}
 
-	public void Activate(Color c){
+	public void Activate(Color c, EdgeCollider2D side){
 		color += c;
 		hit = true;
+		if (side == bottom) {
+			bottomSprite.color = c;
+		}
+		else if(side == left){
+			leftSprite.color = c;
+		}
+		else if(side == right){
+			rightSprite.color = c;
+		}
+		middle.color = color;
+		emitter.color = color;
 	}
-
-
-
-//	public void ResetCollecting(){
-//		bottom.collecting = false;
-//		left.collecting = false;
-//		right.collecting = false;
-//	}
 }
