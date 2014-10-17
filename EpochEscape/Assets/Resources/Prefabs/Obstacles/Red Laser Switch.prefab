@@ -24,8 +24,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.80640841, y: 2.85318208, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: -4.37113883e-08}
+  m_LocalPosition: {x: 4.66434526, y: .0732980892, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -39,8 +39,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .469999999, y: .219999999}
-  m_Center: {x: 0, y: 0}
+  m_Size: {x: .424025178, y: .165531784}
+  m_Center: {x: -3.81503196e-06, y: -.00382996351}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,11 +52,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214ec4accb6033d42b9b9d0fbbcea6d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door:
-  - {fileID: 0}
-  doorSideToActivate: 02000000
-  toActivate: 00
-  colorMatch: {r: 0, g: 0, b: 0, a: 1}
+  door: []
+  doorSideToActivate: 
+  toActivate: 
+  colorMatch: {r: 1, g: 0, b: 0, a: 1}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

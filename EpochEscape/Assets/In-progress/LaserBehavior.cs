@@ -17,6 +17,7 @@ public class LaserBehavior : MonoBehaviour
     
     void Start ()
     {
+		VectorLine.SetCamera ();
         positions = new List<Vector3> ();
     }
     
@@ -115,8 +116,8 @@ public class LaserBehavior : MonoBehaviour
     
     public void DrawLaser ()
     {
-        vLine = VectorLine.SetLine (color, .05f, positions.ToArray ());
-        vLine.lineWidth = lineWidth;
+		vLine = VectorLine.SetLine (color, 0.0001f, positions.ToArray ());
+		vLine.lineWidth = lineWidth;
         vLine.Draw ();
     }
                    
