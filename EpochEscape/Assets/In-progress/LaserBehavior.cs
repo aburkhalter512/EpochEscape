@@ -5,11 +5,12 @@ using System.Collections.Generic;
 
 public class LaserBehavior : MonoBehaviour
 {
-	private GameObject lastObject;
+	protected GameObject lastObject;
     public Transform start, end;
     public float lineWidth;
     public VectorLine vLine;
     public Color color;
+	public bool colorChange;
 	protected Animator anim;
     public List<Vector3> positions;
     //public GameObject sensor;

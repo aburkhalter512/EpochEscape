@@ -297,6 +297,7 @@ MonoBehaviour:
   end: {fileID: 1671682574}
   lineWidth: 2.5
   color: {r: .929411769, g: .109803922, b: .141176477, a: 1}
+  colorChange: 0
   positions: []
   on: 1
 --- !u!1 &212154378
@@ -939,6 +940,7 @@ MonoBehaviour:
   end: {fileID: 1088227233}
   lineWidth: 2.5
   color: {r: 0, g: .68235296, b: .937254906, a: 1}
+  colorChange: 0
   positions: []
   on: 1
 --- !u!61 &480569977
@@ -2010,6 +2012,7 @@ MonoBehaviour:
   end: {fileID: 1910324264}
   lineWidth: 2.5
   color: {r: .333333343, g: .760784328, b: .0745098069, a: 1}
+  colorChange: 0
   positions: []
   on: 1
 --- !u!1 &1420572444
@@ -2137,6 +2140,7 @@ MonoBehaviour:
   end: {fileID: 379112100}
   lineWidth: 2.5
   color: {r: 0, g: 0, b: 0, a: 0}
+  colorChange: 0
   positions: []
   on: 1
   bottom: {fileID: 1420572445}

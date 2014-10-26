@@ -44,7 +44,7 @@ public class CollectorBehavior : LaserBehavior {
 				break;
 			}
 		}
-
+		SetColor (combineColors ());
 		if (colors.Count == 0) {
 			resetLast(null);
 			hit = false;
@@ -52,10 +52,14 @@ public class CollectorBehavior : LaserBehavior {
 			emitter.color = Color.white;
 		}
 		else{
-			middle.color = combineColors ();
-			emitter.color = combineColors ();	
+			middle.color = color;
+			emitter.color = color;	
 		}
-		SetColor (combineColors ());
+		if(lastObject != null && lastObject.tag == "Laser Switch"){
+			LaserSwitchBehavior l = lastObject.GetComponent<LaserSwitchBehavior>();
+			l.resetActivate ();
+			l.Activate (color);
+		}
 	}
 
 	public void Activate(Color c, EdgeCollider2D side){
@@ -70,9 +74,14 @@ public class CollectorBehavior : LaserBehavior {
 		else if(side.Equals(right)){
 			rightSprite.color = c;
 		}
-		middle.color = combineColors ();
-		emitter.color = combineColors ();
 		SetColor (combineColors ());
+		middle.color = color;
+		emitter.color = color;
+		if(lastObject != null && lastObject.tag == "Laser Switch"){
+			LaserSwitchBehavior l = lastObject.GetComponent<LaserSwitchBehavior>();
+			l.resetActivate ();
+			l.Activate (color);
+		}
 	}
 
 	private Color combineColors(){
