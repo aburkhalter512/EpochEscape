@@ -20,14 +20,17 @@ public class HoldableBox : InteractiveObject {
     }
 
     public void Update () {
-        transform.localScale = new Vector3(1f,1f,1f);
+        if (m_isInUse)
+        	transform.localScale = new Vector3(.7f,.7f,.7f);
+        else
+        	transform.localScale = Vector3.one;
 
         if(p == null)
             FindPlayer();
     }
 
     public override void Interact() {
-		foreach(Collider2D c in GetComponents<Collider2D> ()) {
+		foreach(Collider2D c in GetComponents<Collider2D>()) {
 			c.enabled = false;
 		}
         m_isInUse = true;
