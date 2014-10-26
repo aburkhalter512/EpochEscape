@@ -57,7 +57,9 @@ MonoBehaviour:
   - {fileID: 0}
   doorSideToActivate: 0200000002000000
   toActivate: 0100
-  colorMatch: {r: 0, g: 0, b: 1, a: 1}
+  colorMatch:
+  - {r: 0, g: .68235296, b: .937254906, a: 0}
+  toMatch: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -79,7 +81,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: b05358983169a574b9ce69200a87c620, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: .68235296, b: .937254906, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

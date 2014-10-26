@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CollectorBehavior : LaserBehavior {
 	public EdgeCollider2D bottom;
@@ -10,10 +11,12 @@ public class CollectorBehavior : LaserBehavior {
 	public SpriteRenderer rightSprite;
 	public SpriteRenderer emitter;
 	public SpriteRenderer middle;
+	public List<Color> colors;
 	public bool hit;
 
 	// Use this for initialization
 	void Start () {
+		colors = new List<Color> ();
 	}
 	void Update(){
 		if (hit) {
@@ -24,42 +27,59 @@ public class CollectorBehavior : LaserBehavior {
 	}
 
 	public void resetActivate (Color c){
-		color -= c;
-		if (c == bottomSprite.color) {
+		color = Utilities.subtractColors (c, color);
+		if (Utilities.areEqualColors (c, bottomSprite.color)) {
 			bottomSprite.color = Color.white;
 		}
-		else if (c == leftSprite.color) {
+		else if (Utilities.areEqualColors (c, leftSprite.color)){
 			leftSprite.color = Color.white;
 		}
-		else if (c == rightSprite.color) {
+		else if (Utilities.areEqualColors (c, rightSprite.color)) {
 			rightSprite.color = Color.white;
 		}
 
-		if (color.r == 0 && color.g == 0 && color.b == 0) {
+		foreach(Color co in colors){
+			if(Utilities.areEqualColors(c, co)){
+				colors.Remove (c);
+				break;
+			}
+		}
+
+		if (colors.Count == 0) {
 			resetLast(null);
 			hit = false;
 			middle.color = Color.white;
 			emitter.color = Color.white;
 		}
 		else{
-			middle.color = color;
-			emitter.color = color;	
+			middle.color = combineColors ();
+			emitter.color = combineColors ();	
 		}
+		SetColor (combineColors ());
 	}
 
 	public void Activate(Color c, EdgeCollider2D side){
-		color += c;
+		colors.Add (c);
 		hit = true;
-		if (side == bottom) {
+		if (side.Equals(bottom)) {
 			bottomSprite.color = c;
 		}
-		else if(side == left){
+		else if(side.Equals(left)){
 			leftSprite.color = c;
 		}
-		else if(side == right){
+		else if(side.Equals(right)){
 			rightSprite.color = c;
 		}
-		middle.color = color;
-		emitter.color = color;
+		middle.color = combineColors ();
+		emitter.color = combineColors ();
+		SetColor (combineColors ());
+	}
+
+	private Color combineColors(){
+		Color combined = new Color(0,0,0,255);
+		foreach (Color c in colors) {
+			combined = Utilities.addColors (combined, c);
+		}
+		return combined;
 	}
 }

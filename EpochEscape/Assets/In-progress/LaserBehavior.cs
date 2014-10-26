@@ -10,15 +10,18 @@ public class LaserBehavior : MonoBehaviour
     public float lineWidth;
     public VectorLine vLine;
     public Color color;
+	protected Animator anim;
     public List<Vector3> positions;
     //public GameObject sensor;
     public bool on = true;
-    protected int bounces = 0;
+    //protected int bounces = 0;
     
     void Start ()
     {
 		VectorLine.SetCamera ();
         positions = new List<Vector3> ();
+		anim = GetComponent<Animator> ();
+		anim.SetBool ("On", on);
     }
     
     // Update is called once per frame
@@ -127,5 +130,6 @@ public class LaserBehavior : MonoBehaviour
 
 	public void Activate(){
         on = true;
+		anim.SetBool ("On", on);
     }
 }

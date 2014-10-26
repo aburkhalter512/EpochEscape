@@ -64,5 +64,33 @@ public class Utilities
     {
         return Mathf.Abs(a - b) < tolerance;
     }
+
+	public static bool areEqualColors(Color a, Color b){
+		for (int i = 0; i < 3; i++) {
+			if(a[i] != b[i]){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static Color subtractColors(Color a, Color b){
+		Color retCol = new Color(0,0,0,255);
+		for (int i = 0; i < 3; i++) {
+			retCol[i] = a[i] > b[i] ? a[i] - b[i] : b[i] - a[i];
+			if(retCol[i] < 0){
+				retCol[i] = 0;
+			}
+		}
+		return retCol;
+	}
+
+	public static Color addColors(Color a, Color b){
+		Color retCol = new Color (0,0,0,255);
+		for (int i = 0; i < 3; i++) {
+			retCol[i] = a[i] + b[i];
+		}
+		return retCol;
+	}
     #endregion
 }
