@@ -5,7 +5,7 @@ using G = GameManager;
 public class Guard : Enemy
 {
     public const int FIRST_PATROL_POINT = 0;
-    
+
     public enum State
     {
         IDLE,
@@ -38,6 +38,8 @@ public class Guard : Enemy
     protected float m_startStunTime = -1;
 
     private bool m_travellingForward;
+
+	public Item toDrop;
     
     public virtual void Start()
     {
@@ -173,7 +175,17 @@ public class Guard : Enemy
 
         m_currentState = State.DEAD;
         m_isDead = true;
+		dropItem ();
     }
+
+	private void dropItem(){
+		if (toDrop == null) {
+			return;
+		}
+		else{
+			Instantiate (toDrop, this.transform.position, Quaternion.identity);
+		}
+	}
 
     protected virtual void UpdateAnimator()
     {
