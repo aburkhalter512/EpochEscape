@@ -30,6 +30,7 @@ GameObject:
   - 68: {fileID: 6800004}
   - 68: {fileID: 6800000}
   - 68: {fileID: 6800002}
+  - 120: {fileID: 12000000}
   m_Layer: 9
   m_Name: Collector
   m_TagString: InteractiveObject
@@ -167,7 +168,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .173102379, y: .219090223, z: 0}
+  m_LocalPosition: {x: 1.20040989, y: -1.43377137, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400012}
@@ -323,11 +324,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb586efcf30aebb41ac572cee8867a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastObject: {fileID: 0}
   start: {fileID: 400006}
   end: {fileID: 400000}
   lineWidth: 2.5
+  lr: {fileID: 12000000}
   color: {r: 0, g: 0, b: 0, a: 0}
+  colorChange: 0
   positions: []
   on: 1
   bottom: {fileID: 6800002}
@@ -338,6 +340,7 @@ MonoBehaviour:
   rightSprite: {fileID: 21200010}
   emitter: {fileID: 21200012}
   middle: {fileID: 21200008}
+  colors: []
   hit: 0
 --- !u!114 &11400008
 MonoBehaviour:
@@ -350,6 +353,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddefba62d06b4a54abe25f5754e92b51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!120 &12000000
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 2100000, guid: 722f470afdbb065468cb21ffb0e27e10, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    startWidth: 1
+    endWidth: 1
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

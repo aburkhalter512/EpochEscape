@@ -3,12 +3,14 @@ using Vectrosity;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(LineRenderer))]
 public class LaserBehavior : MonoBehaviour
 {
 	protected GameObject lastObject;
     public Transform start, end;
     public float lineWidth;
-    public VectorLine vLine;
+	public LineRenderer lr;
+    //public VectorLine vLine;
     public Color color;
 	public bool colorChange;
 	protected Animator anim;
@@ -19,10 +21,13 @@ public class LaserBehavior : MonoBehaviour
     
     void Start ()
     {
-		VectorLine.SetCamera ();
+		//VectorLine.SetCamera ();
         positions = new List<Vector3> ();
 		anim = GetComponent<Animator> ();
 		anim.SetBool ("On", on);
+		if (lr == null) {
+			lr = GetComponent<LineRenderer>();
+		}
     }
     
     // Update is called once per frame
@@ -118,12 +123,23 @@ public class LaserBehavior : MonoBehaviour
 		return true;
 	}
     
-    public void DrawLaser ()
-    {
-		vLine = VectorLine.SetLine (color, 0.0001f, positions.ToArray ());
-		vLine.lineWidth = lineWidth;
-        vLine.Draw ();
-    }
+//    public void DrawLaser ()
+//    {
+//		vLine = VectorLine.SetLine (color, 0.0001f, positions.ToArray ());
+//		vLine.lineWidth = lineWidth;
+//        vLine.Draw ();
+//    }
+
+	public void DrawLaser(){
+		lr.SetColors (color,color);
+		lr.SetWidth (0.05f, 0.05f);
+		if (positions != null && lr != null) {
+			lr.SetVertexCount (positions.Count);
+			for(int i = 0; i < positions.Count; i++){
+				lr.SetPosition (i, positions[i]);
+			}
+		}
+	}
                    
     public void SetColor(Color c){
         color = c;
