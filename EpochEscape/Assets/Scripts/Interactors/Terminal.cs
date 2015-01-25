@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Terminal : InteractiveObject, IResettable, ISerializable
+public class Terminal : MonoBehaviour, IInteractable, IResettable, ISerializable
 {
     #region Interface Variables
     public Sprite activatedSprite;
@@ -18,14 +18,12 @@ public class Terminal : InteractiveObject, IResettable, ISerializable
     #endregion
 
     // Use this for initialization
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
         mSR = GetComponent<SpriteRenderer>();
     }
     
-    public override void Interact()
+    public virtual void Interact()
     {
         if (mCanInteract)
         {
