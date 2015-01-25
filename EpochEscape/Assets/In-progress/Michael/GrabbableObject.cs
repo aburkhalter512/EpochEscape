@@ -8,10 +8,8 @@ public class GrabbableObject : InteractiveObject {
 	
 	public float k_speed = 0.05f;
 	private bool m_isInUse = false;
-	private direction m_direction;
 	
 	public void Start () {
-		m_direction = direction.Static;
 	}
 	
 	public void Update () {

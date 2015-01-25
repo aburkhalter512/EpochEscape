@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class LevelManager : Manager<LevelManager>
+public class LevelManagerv2 : Manager<LevelManager>
 {
     #region Inspector Variables
     #endregion
@@ -152,44 +152,39 @@ public class LevelManager : Manager<LevelManager>
     #endregion
 
     #region Public Interfaces
-    public static void SetCheckoint(CheckpointDoorFrame checkpoint)
+    public bool SetCheckpoint(Player player, Vector3 checkpointPosition)
     {
-        LevelManager.Get()._SetCheckpoint(checkpoint);
+        return false;
     }
 
-    public static void LoadCheckpoint()
+    public void LoadCheckpoint()
     {
-        LevelManager.Get()._LoadCheckpoint();
+        return;
     }
 
-    public static void ExitLevel()
+    public bool StartLevel()
     {
-        LevelManager.Get()._ExitLevel();
+        return false;
     }
 
-    public static void RestartLevel()
+    public void RestartLevel()
     {
-        LevelManager.Get()._RestartLevel();
+        return;
     }
 
-    public static Chamber GetCurrentChamber()
+    public void EndLevel()
     {
-        return LevelManager.Get()._GetCurrentChamber();
+        return;
     }
 
-    public static void AddChamber(Chamber chamber)
+    public bool LoadLevelObjects(Object levelObject)
     {
-        LevelManager.Get()._AddChamber(chamber);
+        return false;
     }
 
-    public static void Ready()
+    public void ClearLevelObjects()
     {
-        LevelManager.Get()._Ready();
-    }
-
-    public static void ClearLevel()
-    {
-        LevelManager.Get()._ClearLevel();
+        return;
     }
     #endregion
 }

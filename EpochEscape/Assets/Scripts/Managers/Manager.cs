@@ -19,7 +19,7 @@ public abstract class Manager<T> : MonoBehaviour
             Destroy(gameObject);
     }
 
-    protected static T GetInstance()
+    protected static T Get()
     {
         if (m_instance == null)
         {

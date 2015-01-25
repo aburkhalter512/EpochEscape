@@ -38,7 +38,7 @@ public class BrokenLaser : Obstacle
     /*
      * Initializes the broken laser.
      */
-    protected void Start()
+    protected new void Start()
     {
         mIsStarted = false;
         mWasPaused = false;
@@ -52,7 +52,7 @@ public class BrokenLaser : Obstacle
     /*
      * Updates the broken laser's state
      */
-    protected void Update()
+    protected new void Update()
     {
         if (!GameManager.getInstance().paused)
         {

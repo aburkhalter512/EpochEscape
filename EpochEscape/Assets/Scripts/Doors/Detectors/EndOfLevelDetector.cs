@@ -18,12 +18,10 @@ public class EndOfLevelDetector : MonoBehaviour
     #endregion
 
     #region Instance Variables
-    ExitDoorFrame detectable;
     #endregion
 
     protected void Start()
     {
-        detectable = transform.GetComponentInParent<ExitDoorFrame>();
     }
 
     #region Instance Methods

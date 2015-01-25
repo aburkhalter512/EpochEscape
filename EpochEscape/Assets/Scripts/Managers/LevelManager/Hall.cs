@@ -9,7 +9,7 @@ public class Hall : Room
         s_count++;
     }
 
-    public void Dispose()
+    public new void Dispose()
     {
         s_count--;
 

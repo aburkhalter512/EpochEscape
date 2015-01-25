@@ -12,7 +12,7 @@ public class MainMenu : MonoBehaviour
     public GUISkin EpochSkin = null;
     #endregion
     #region Options
-    private string name = "";
+    private string mName;
     #endregion
     #region Audio
     public AudioSource BackSound;
@@ -20,7 +20,6 @@ public class MainMenu : MonoBehaviour
     #endregion
     #region Character Select
     private bool fromLoad = false;
-    private bool characterSelected = false;
     private const int MAX_CHARS = 5;
     private int characterNum = 0;
     private bool caveSelect = false;
@@ -809,8 +808,8 @@ public class MainMenu : MonoBehaviour
         #region Key presses
         if (Event.current.isKey && Event.current.keyCode == KeyCode.Return) {
             ClickSound.Play ();
-            if (name != "")
-                S.SetSaveName (name);
+            if (mName != "")
+                S.SetSaveName (mName);
             else
                 S.SetSaveName (" ");
             S.ResetOnNew ();
@@ -825,15 +824,15 @@ public class MainMenu : MonoBehaviour
                 GUILayout.Label ("Enter A Name", EpochSkin.label);
                 GUILayout.EndHorizontal ();
                 GUI.SetNextControlName ("SaveName");
-                name = GUILayout.TextField (name.Replace ("\n", "").Replace ("\r", ""), 12, EpochSkin.textField);
+                mName = GUILayout.TextField (mName.Replace ("\n", "").Replace ("\r", ""), 12, EpochSkin.textField);
                 GUI.FocusControl ("SaveName");
                 GUILayout.Space (10);
                 GUILayout.BeginHorizontal ();
                     GUILayout.FlexibleSpace ();
                     if (GUILayout.Button ("Enter", EpochSkin.GetStyle ("Small Button"))) {
                         ClickSound.Play ();
-                        if(name != "")
-                            S.SetSaveName (name);
+                        if(mName != "")
+                            S.SetSaveName (mName);
                         else
                             S.SetSaveName (" ");
                         S.ResetOnNew();
@@ -855,7 +854,7 @@ public class MainMenu : MonoBehaviour
         GUILayout.BeginArea (new Rect(775, 695, 110, 50));
         if (GUILayout.Button ("Back", EpochSkin.GetStyle("Small Button"))){
             BackSound.Play ();
-            name = "";
+            mName = "";
             currentPage = prevPage;
         }
         G.getInstance().PlayHover(8);
@@ -912,7 +911,7 @@ public class MainMenu : MonoBehaviour
         currentBackdrop = Backdrops[0];
     }
     private void ResetVariables(){
-        name = "";
+        mName = "";
         characterNum = 0;
         fromLoad = false;
     }

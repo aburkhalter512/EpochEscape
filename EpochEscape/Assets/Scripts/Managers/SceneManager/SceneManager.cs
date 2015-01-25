@@ -522,7 +522,6 @@ public class SceneManager : Manager<SceneManager>
     {
         if (triggerDict != null && parent != null)
         {
-            string terminalID = triggerDict["id"] as string;
             string terminalName = triggerDict["name"] as string;
             string terminalPosition = triggerDict["position"] as string;
             string terminalDirection = triggerDict["direction"] as string;
@@ -588,7 +587,6 @@ public class SceneManager : Manager<SceneManager>
     {
         if (plateDict != null && parent != null)
         {
-            string plateID = plateDict["id"] as string;
             string plateName = plateDict["name"] as string;
             string platePosition = plateDict["position"] as string;
             string plateDirection = plateDict["direction"] as string;
@@ -990,6 +988,7 @@ public class SceneManager : Manager<SceneManager>
         }
     }
 
+    #region Interface Methods
     public static void Load(string levelName)
     {
         // This is only to make the GameManager happy.
@@ -997,16 +996,17 @@ public class SceneManager : Manager<SceneManager>
 
     public static void LoadNextLevel()
     {
-        SceneManager.GetInstance()._LoadNextLevel();
+        SceneManager.Get()._LoadNextLevel();
     }
 
     public static List<GameObject> GetDoors()
     {
-        return SceneManager.GetInstance()._GetDoors();
+        return SceneManager.Get()._GetDoors();
     }
 
     public static List<GameObject> GetDynamicWalls()
     {
-        return SceneManager.GetInstance()._GetDynamicWalls();
+        return SceneManager.Get()._GetDynamicWalls();
     }
+    #endregion
 }

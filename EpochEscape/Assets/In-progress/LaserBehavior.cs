@@ -6,19 +6,21 @@ using System.Collections.Generic;
 [RequireComponent(typeof(LineRenderer))]
 public class LaserBehavior : MonoBehaviour
 {
-	protected GameObject lastObject;
+    #region Interface Variables
     public Transform start, end;
     public float lineWidth;
-	public LineRenderer lr;
-    //public VectorLine vLine;
+    public LineRenderer lr;
     public Color color;
-	public bool colorChange;
-	protected Animator anim;
+    public bool colorChange;
     public List<Vector3> positions;
-    //public GameObject sensor;
     public bool on = true;
-    //protected int bounces = 0;
-    
+    #endregion
+
+    #region Instance Variables
+    protected GameObject lastObject;
+    protected Animator anim;
+    #endregion
+
     void Start ()
     {
 		//VectorLine.SetCamera ();
@@ -45,11 +47,8 @@ public class LaserBehavior : MonoBehaviour
     {
         Vector3 endPos = end.position;
         positions.Add (origin);
-        Vector3 reflectionPos = origin.normalized;
-        while (true) {
-//            if (bounces > 20) {
-//                break;
-//            }
+        while (true)
+        {
             RaycastHit2D hit = Physics2D.Raycast (new Vector2 (origin.x, origin.y), (endPos - origin).normalized, 100);
             if (hit.collider == null) {
 				if(lastObject != null){

@@ -88,7 +88,6 @@ public class GameManager : UnitySingleton<GameManager>
     #endregion
 
     #region Option variables
-    private float optionsCenter = 275f;
     public int graphicsQuality = 4;
     #endregion
     #endregion

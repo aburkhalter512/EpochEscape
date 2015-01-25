@@ -13,7 +13,7 @@ public class CustomDoorFrame : DoorFrame
     DoorSide mBackSide;
     #endregion 
     
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
 

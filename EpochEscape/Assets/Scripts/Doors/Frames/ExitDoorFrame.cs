@@ -12,12 +12,12 @@ public class ExitDoorFrame : PowerCoreDoorFrame
     #region Class Constants
     #endregion
     
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
     }
 
-    protected void Update()
+    protected new void Update()
     {
         if (!mHasUnlocked)
             if (powerCores == CORES.NONE || PlayerManager.GetCores() == 3)

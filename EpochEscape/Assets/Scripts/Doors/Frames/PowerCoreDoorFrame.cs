@@ -19,7 +19,7 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional, IResettable, ISerial
     #endregion
 
     #region Class Constants
-    public enum STATE
+    public new enum STATE
     {
         LOCKED,
         UNLOCKED
@@ -34,7 +34,7 @@ public class PowerCoreDoorFrame : DoorFrame, ITransitional, IResettable, ISerial
     }
     #endregion
     
-    protected void Start()
+    protected new void Start()
     {
         mFrontSide = frontSide.GetComponent<StandardDoorSide>();
         mFrontSide.deactivate();

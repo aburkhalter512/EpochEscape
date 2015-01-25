@@ -22,7 +22,7 @@ public class GarbageManager : Manager<GarbageManager>
 	#region Interface Methods
     public static void Add(ref GameObject obj)
     {
-        GarbageManager.GetInstance()._Add(ref obj);
+        GarbageManager.Get()._Add(ref obj);
     }
 	#endregion
 

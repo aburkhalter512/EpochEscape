@@ -32,7 +32,7 @@ public abstract class DynamicWall : Wall, ITransitional
     /*
      * Initializes the Dynamic Wall
      */
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
 
@@ -43,7 +43,7 @@ public abstract class DynamicWall : Wall, ITransitional
     /*
      * Updates the Dynamic Wall.
      */
-    protected void Update()
+    protected new void Update()
     {
         base.Update();
 

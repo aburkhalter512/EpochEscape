@@ -10,17 +10,17 @@ public class StandardDoorSide : DoorSide
     BoxCollider2D mCollider = null;
     #endregion 
     
-    protected void Awake()
+    protected new void Awake()
     {
         base.Awake();
     }
     
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
     }
     
-    protected void Update()
+    protected new void Update()
     {
         base.Update();
     }

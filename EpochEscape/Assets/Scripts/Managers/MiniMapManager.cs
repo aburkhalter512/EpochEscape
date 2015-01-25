@@ -7,31 +7,28 @@ public class MiniMapManager : Manager<MiniMapManager>
 	#endregion
 
 	#region Instance Variables
-    private bool m_isInitialized = false;
     private Camera m_camera = null;
 	#endregion
 
     protected override void Initialize()
     {
-        m_isInitialized = InitializeCamera();
-
         _Hide();
     }
 
 	#region Interface Methods
     public static void Hide()
     {
-        MiniMapManager.GetInstance()._Hide();
+        MiniMapManager.Get()._Hide();
     }
 
     public static void Show()
     {
-        MiniMapManager.GetInstance()._Show();
+        MiniMapManager.Get()._Show();
     }
 
     public static void SetChamber()
     {
-        MiniMapManager.GetInstance()._SetChamber();
+        MiniMapManager.Get()._SetChamber();
     }
 	#endregion
 

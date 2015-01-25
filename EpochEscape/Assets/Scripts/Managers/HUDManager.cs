@@ -112,7 +112,6 @@ public class HUDManager : Manager<HUDManager> {
         GUI.DrawTexture(new Rect(30f,21f,100f,100f),currMood);
 		GUI.DrawTexture(new Rect(20f,120f,30f,30f),specItem);
 		
-		GUI.DrawTexture(new Rect(175f,115f,40f,-100f * playerManager.inventory.getPercentSpecialStamina()), cooldownBar);
         GUI.EndGroup();
         #endregion
         
@@ -158,44 +157,6 @@ public class HUDManager : Manager<HUDManager> {
         barFill = currDetection / Player.MAX_DETECTION_LEVEL;
         #endregion
         
-        #region inventory
-        bool flaskFound = false;
-        bool potionFound = false;
-        for (int i = 0; i < Inventory.ACTIVE_ITEM_COUNT; i++)
-        {
-            Inventory.ActiveItemNode currItem = playerManager.inventory.activeItems[i];
-            if (currItem != null)
-            {
-                if (currItem.data as RedPotion)
-                {
-                    m_potionCount = playerManager.inventory.activeItems[i].nodesAttached + 1;
-                    potionFound = true;
-                }
-                else if (currItem.data as GreenPotion)
-                {
-                    m_flaskCount = playerManager.inventory.activeItems[i].nodesAttached + 1;
-                    flaskFound = true;
-                }
-            }
-        }
-
-        if (!flaskFound)
-            m_flaskCount = 0;
-        if (!potionFound)
-            m_potionCount = 0;
-        
-        switch (playerManager.getSelectedSlot()) {
-        case 0:
-            currRed = redSelected;
-            currGreen = greenPot;
-            break;
-        case 1:
-            currRed = redPot;
-            currGreen = greenSelected;
-            break;
-        }
-        #endregion
-        
         #region powercores
         switch(playerManager.getCurrentCores()) {
         case 0:
@@ -229,12 +190,12 @@ public class HUDManager : Manager<HUDManager> {
     #region Public Interfaces
     public static void Hide()
     {
-        HUDManager.GetInstance()._Hide();
+        HUDManager.Get()._Hide();
     }
 
     public static void Show()
     {
-        HUDManager.GetInstance()._Show();
+        HUDManager.Get()._Show();
     }
     #endregion
 }

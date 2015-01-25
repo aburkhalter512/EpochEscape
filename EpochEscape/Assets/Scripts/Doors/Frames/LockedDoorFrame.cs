@@ -18,14 +18,14 @@ public class LockedDoorFrame : DoorFrame, ITransitional, IResettable, ISerializa
     #endregion
 
     #region Class Constants
-    public enum STATE
+    public new enum STATE
     {
         LOCKED,
         UNLOCKED
     }
     #endregion
     
-    protected void Start()
+    protected new void Start()
     {
         mFrontSide = frontSide.GetComponent<StandardDoorSide>();
         mBackSide = backSide.GetComponent<StandardDoorSide>();

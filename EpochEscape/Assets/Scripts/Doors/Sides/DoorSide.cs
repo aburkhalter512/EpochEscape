@@ -47,7 +47,6 @@ public abstract class DoorSide : MonoBehaviour, IDetectable, ITransitional
     #endregion
     
     #region Instance Variables
-    bool mIsInit = false;
     protected bool mIsActive = false;
     protected bool mIsFirstUpdate = true;
 
@@ -62,8 +61,6 @@ public abstract class DoorSide : MonoBehaviour, IDetectable, ITransitional
     //side will remain idling.
     protected void Awake()
     {
-        mIsInit = true;
-
         mSR = GetComponent<SpriteRenderer>();
     }
     

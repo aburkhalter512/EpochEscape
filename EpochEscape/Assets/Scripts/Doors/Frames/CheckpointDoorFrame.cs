@@ -61,7 +61,7 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
     bool didRegisterCheckpoint = false;
     #endregion
     
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
     }

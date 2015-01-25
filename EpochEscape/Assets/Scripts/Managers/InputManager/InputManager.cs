@@ -7,7 +7,7 @@ using System.Xml.Linq;
  * for manual customization, thus has skupport for user defined key
  * bindings.
  */
-public class InputManager : UnitySingleton<InputManager>
+public class InputManager : Manager<InputManager>
 {
     #region Inspector Variables
     public KeyCode[] exitCodes = { KeyCode.Escape };
@@ -19,16 +19,12 @@ public class InputManager : UnitySingleton<InputManager>
     public Button interactButton = null;
     public Button mapButton = null;
     public Button[] itemButtons = null;
-    public Axis itemSwitcher = null;
     public Mouse mouse = null;
-    #endregion
-
-    #region Instance Variables
     #endregion
 
     //Put all initialization code here
     //Remember to comment!
-    protected void Start()
+    protected override void Initialize()
     {
         primaryJoystick = new Joystick(
             new Axis(new Button(KeyCode.LeftArrow), new Button(KeyCode.RightArrow)),
@@ -49,9 +45,7 @@ public class InputManager : UnitySingleton<InputManager>
             itemButtons[9] = new Button(KeyCode.Alpha0);
         }
 
-        itemSwitcher = new Axis("Mouse ScrollWheel");
-
-        mouse = Mouse.getInstance();
+        mouse = Mouse.Get();
 
         actionButton = new Button(KeyCode.Space);
 

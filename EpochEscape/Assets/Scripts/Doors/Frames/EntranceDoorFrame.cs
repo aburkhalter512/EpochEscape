@@ -60,7 +60,7 @@ public class EntranceDoorFrame : CheckpointDoorFrame
     bool mIsFirstOpen = true;
     #endregion
     
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
     }

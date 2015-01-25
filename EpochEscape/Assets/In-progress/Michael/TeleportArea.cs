@@ -36,9 +36,7 @@ public class TeleportArea : MonoBehaviour {
 	public void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.tag == "Player") {
 			float left = renderer.bounds.min.x;
-			float right = renderer.bounds.max.x;
 			float top = renderer.bounds.max.y;
-			float bottom = renderer.bounds.min.y;
 			
 			Vector3 playerPos = other.transform.position;
 			

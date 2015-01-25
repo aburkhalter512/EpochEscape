@@ -13,7 +13,6 @@ public class CameraManager : Manager<CameraManager>
 
     private Queue<Transition> m_transitions = null;
     private float m_waitTime = 0f;
-    private float m_initialCameraSize = 0f;
     private bool m_isTransitioning = false;
     private Vector3 m_idlePosition = Vector3.zero;
 
@@ -45,10 +44,6 @@ public class CameraManager : Manager<CameraManager>
 
         if(m_camera == null)
             return false;
-
-        m_initialCameraSize = m_camera.orthographicSize;
-
-        //transform.position = new Vector3(PlayerManager.GetPosition().x, PlayerManager.GetPosition().y, transform.position.z);
 
         return true;
     }
@@ -253,26 +248,26 @@ public class CameraManager : Manager<CameraManager>
 
     public static void AddTransition(GameObject objectToTransition)
     {
-        CameraManager.GetInstance()._AddTransition(objectToTransition);
+        CameraManager.Get()._AddTransition(objectToTransition);
     }
 
     public static void PlayTransitions()
     {
-        CameraManager.GetInstance()._PlayTransitions();
+        CameraManager.Get()._PlayTransitions();
     }
 
     public static void Enable()
     {
-        CameraManager.GetInstance()._Enable();
+        CameraManager.Get()._Enable();
     }
 
     public static void Disable()
     {
-        CameraManager.GetInstance()._Disable();
+        CameraManager.Get()._Disable();
     }
 
     public static void SetPosition(Vector3 position)
     {
-        CameraManager.GetInstance()._SetPosition(position);
+        CameraManager.Get()._SetPosition(position);
     }
 }

@@ -13,12 +13,11 @@ public class TeleporterDoorSide : DoorSide, ITransitional
     TeleporterDoorSide mTeleportDestination;
     Player mPlayerToTeleport;
 
-    bool mWasFrontHit = false;
     bool mWasBackHit = false;
     bool mCanTeleport = false;
     #endregion 
     
-    protected void Awake()
+    protected new void Awake()
     {
         base.Awake();
 
@@ -26,14 +25,14 @@ public class TeleporterDoorSide : DoorSide, ITransitional
             teleportMovementDelay = 1.0f;
     }
     
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
 
         mTeleportDestination = teleportDestination.GetComponent<TeleporterDoorSide>();
     }
     
-    protected void Update()
+    protected new void Update()
     {
         base.Update();
     }
@@ -43,13 +42,10 @@ public class TeleporterDoorSide : DoorSide, ITransitional
     {
         if (!mWasBackHit)
             mCanTeleport = true;
-
-        mWasFrontHit = true;
     }
     public override void triggerFrontExit()
     {
         mCanTeleport = false;
-        mWasFrontHit = false;
     }
 
     public override void triggerBackEnter()
@@ -93,13 +89,13 @@ public class TeleporterDoorSide : DoorSide, ITransitional
             activate();
     }
 
-    public void OnFinishTransition()
+    public new void OnFinishTransition()
     {
         if(!mCanTeleport)
             base.OnFinishTransition();
     }
 
-    public float GetWaitTime()
+    public new float GetWaitTime()
     {
         if(!mCanTeleport)
             return base.GetWaitTime();

@@ -2,23 +2,15 @@ using UnityEngine;
 using System.Collections;
 using G = GameManager;
 
-public abstract class Player : MonoBehaviour
+public class Player : Manager<Player>
 {
-    #region Inspector Variables
-    public LevelManager levelManager;
-
+    #region Interface Variables
     public float m_interactionDistance = .2f;
     public int m_interactionMask = 1 << 9;
-    
-    float m_directionAngle;
 
     public AudioClip[] grateFoot;
 	public AudioClip[] solidFoot;
 	public int m_floorType; // 0 = solid, 1 = grate
-	
-	public bool m_isDetected;
-    public bool m_isHiding;
-    public bool m_isWithinEarshot;
 
 	public float m_detectionLevel = 0f;
 	public float m_detectionMax = 0f;
@@ -26,66 +18,41 @@ public abstract class Player : MonoBehaviour
     public float Boost = 1f;
     public float BoostTime = 0f;
 
-    public Inventory inventory;
-    public int m_selectedSlot;
-
-    public bool m_isHoldingBox = false;
-    public GameObject k_boxPrefab;
+    public bool m_isDetected;
     #endregion
 
     #region Instance Variables
-	#region Components
 	Animator m_animator;
-	#endregion
 	
 	#region Movement Variables
 	bool m_isMoving;
-	bool m_isMovingForward;
-	bool m_isMovingDown;
-	bool m_isMovingLeft;
-	bool m_isMovingRight;
+    Vector2 mMovementDirection = Vector2.zero;
 	
 	float m_rotationSpeed = 15f;
-	#endregion
-	
-	#region Action Variables (eg throwing, attacking, etc..)
-	bool m_isThrowing;
-	protected bool m_isAttacking;
-	bool m_isDrinking;
 	#endregion
 	
 	#region Audio Variables
 	int m_footCounter;
 	#endregion
 	
-	#region Detection Variables
-	float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
-	float m_detectionFade = 1.5f;
-	float m_detectionThres = 15f;
-	#endregion
+	//Detection Variables
+	protected float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
+	protected float m_detectionFade = 1.5f;
+	protected float m_detectionThres = 15f;
 	
-	#region Power Core Variables
-	int currentCores = 0;
-	#endregion
+    //Power Core Variables
+	protected int mCollectedCores = 0;
 
 	PlayerState m_currentState;
 
     InputManager mIM = null;
     #endregion
-
     #region Class Constants
     public static readonly float SPEED = 2f;
     public static readonly float MAX_DETECTION_LEVEL = 100.0f;
 	public static readonly int UNIQUE_ITEM_SLOTS = 1;
 	
 	public static readonly int MAX_CORES = 3;
-
-    // Cave Girl variables
-    private bool m_isAtHitFrame = false;
-
-    public bool m_isShieldActive = false;
-    public float m_shieldDuration = 3f; // seconds
-    public float m_shieldTime = 0f;
 
     public enum PlayerState
     {
@@ -94,46 +61,28 @@ public abstract class Player : MonoBehaviour
     }
     #endregion
 
-    #region Initialization Methods
-    protected virtual void Start()
+    protected override void Initialize()
     {
-        //FadeManager.StartAlphaFade (Color.black, true, 1f, 0f);
-
-        m_animator = GetComponent<Animator>();
-
         m_floorType = 0;
         m_isMoving = false;
-        m_isMovingForward = false;
-        m_isMovingDown = false;
-        m_isMovingLeft = false;
-        m_isMovingRight = false;
-        m_isThrowing = false;
-        m_isDrinking = false;
 
         m_isDetected = false;
-        m_isHiding = false;
-        m_isWithinEarshot = false;
         m_currentState = PlayerState.ALIVE;
-
-        inventory = new Inventory();
-        m_selectedSlot = 0;
-
-		mIM = InputManager.getInstance();
     }
-    #endregion
 
-    protected virtual void Update()
+    protected void Start()
+    {
+        m_animator = GetComponent<Animator>();
+
+        mIM = InputManager.Get();
+    }
+
+    protected void Update()
     {
         if(!G.getInstance ().paused)
             UpdateCurrentState();
         else
-        {
             m_isMoving = false;
-            m_isMovingForward = false;
-            m_isMovingDown = false;
-            m_isMovingLeft = false;
-            m_isMovingRight = false;
-        }
 
         UpdateAnimator();
     }
@@ -152,16 +101,15 @@ public abstract class Player : MonoBehaviour
         }
     }
 
-    private void Alive()
+    #region State Methods
+    protected virtual void Alive()
     {
         UpdateUserControl();
         UpdateDetection();
         UpdateMovement();
-
-        UpdateShield();
     }
 
-    private void Dead()
+    protected virtual void Dead()
     {
         G.getInstance().PauseMovement();
 
@@ -176,210 +124,109 @@ public abstract class Player : MonoBehaviour
             playerCaught.transform.position = transform.position;
         }
     }
+    #endregion
 
-	#region Interface Methods
-	public int getSelectedSlot()
-	{
-		return m_selectedSlot;
-	}
-	
+    #region Interface Methods
+    public void load(Vector3 position, Vector3 rotation)
+    {
+        return;
+    }
+
+    public void addCore()
+    {
+        mCollectedCores++;
+
+        if (mCollectedCores > MAX_CORES)
+            mCollectedCores = MAX_CORES;
+    }
+
+    public void removeCore()
+    {
+        mCollectedCores--;
+
+        if (mCollectedCores < 0)
+            mCollectedCores = 0;
+    }
+
 	public int getCurrentCores()
 	{
-		return currentCores;
+		return mCollectedCores;
 	}
+
+    public void clearCores()
+    {
+        mCollectedCores = 0;
+    }
 	#endregion
 
     private void UpdateUserControl()
     {
 		#region Determine the movement direction
         m_isMoving = false;
-        m_isMovingForward = false;
-        m_isMovingDown = false;
-        m_isMovingLeft = false;
-        m_isMovingRight = false;
-
-        if(m_isThrowing || m_isDrinking || m_isAttacking) return;
         
         Vector3 playerMovement = mIM.primaryJoystick.getRaw();
 
-        if(playerMovement.y > 0.0f)
-        	m_isMovingForward = true;
-        else if(playerMovement.y < 0.0f)
-        	m_isMovingDown = true;
-        
-        if(playerMovement.x < 0)
-        	m_isMovingLeft = true;
-        if(playerMovement.x > 0)
-        	m_isMovingRight = true;
+        //Vertical Movement
+        mMovementDirection = Vector2.zero;
 
-        if(m_isMovingForward || m_isMovingDown || m_isMovingLeft || m_isMovingRight)
+        if (Utilities.IsApproximately(playerMovement.y, 0.0f))
+            mMovementDirection.y = 0.0f;
+        else if (playerMovement.y > 0.0f)
+        {
             m_isMoving = true;
+            mMovementDirection.y = 1.0f;
+        }
+        else if (playerMovement.y < 0.0f)
+        {
+            m_isMoving = true;
+            mMovementDirection.y = -1.0f;
+        }
+
+        //Horizontal Movement
+        if (Utilities.IsApproximately(playerMovement.x, 0.0f))
+            mMovementDirection.x = 0.0f;
+        else if (playerMovement.x > 0.0f)
+        {
+            m_isMoving = true;
+            mMovementDirection.x = 1.0f;
+        }
+        else if (playerMovement.x < 0.0f)
+        {
+            m_isMoving = true;
+            mMovementDirection.x = -1.0f;
+        }
+
+        mMovementDirection.Normalize();
     	#endregion
 
-        SelectSlot();
-        Interact ();
-
-		#region Control potions
-        if(inventory.activeItems[m_selectedSlot] != null && !m_isShieldActive)
-        {
-            if(mIM.actionButton.getDown())
-            {
-                if(m_selectedSlot == 0)
-                {
-                    m_isDrinking = true;
-
-                    inventory.activateItem(m_selectedSlot);
-                }
-                else if(m_selectedSlot == 1)
-                    m_isThrowing = true;
-            }
-		}
-        #endregion
-        
-        if (mIM.specialActionButton.getDown() && inventory.activateSpecialItem())
-            activateSpecialItem();
-	}
-	
-	#region User Control Methods
-	public void Interact() { //REQUIREMENT: DISABLE RAYCAST HITTING TRIGGERS IN EDIT->PROJECT SETTINGS->PHYSICS2D
-		if (mIM.interactButton.getDown()) {
-			if (!m_isHoldingBox) {
-				collider2D.enabled = false;
-				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance,m_interactionMask);
-				collider2D.enabled = true;
-				if (hit.collider != null) {
-					if (hit.collider.gameObject.tag == "InteractiveObject") {
-						hit.collider.gameObject.SendMessage("Interact");
-					}
-				}
-			} else {
-				collider2D.enabled = false;
-				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.up, m_interactionDistance);
-				collider2D.enabled = true;
-				if (hit.collider != null) {
-					if (hit.collider.gameObject.GetComponent<PitFloor>() != null) {
-						hit.collider.gameObject.SendMessage("Interact");
-					}
-				} else {
-					HoldableBox box = GetComponentInChildren<HoldableBox>();
-					box.Place();
-				}
-			}
-		}
-	}
-	
-	#region Potion selection methods
-    private void SelectSlot()
-    {
-    	if (mIM.itemSwitcher.getRaw() == 0.0f)
-    	{
-	    	for (int i = 0; i < inventory.getSize() && i < mIM.itemButtons.Length; i++)
-	    		if (mIM.itemButtons[i].getDown())
-	    		{
-	    			m_selectedSlot = i;
-	    			break;
-	    		}
-		}
-		else
-		{
-			if(mIM.itemSwitcher.get() > 0)
-				ScrollSlotIncrement ();
-			if (mIM.itemSwitcher.get() < 0)
-				ScrollSlotDecrement();
-		}
-	}
-	
-	private void ScrollSlotIncrement(){
-		m_selectedSlot++;
-		if(m_selectedSlot > inventory.getSize())
-			m_selectedSlot = 0;
-	}
-	
-	private void ScrollSlotDecrement(){
-		m_selectedSlot--;
-		if(m_selectedSlot < 0)
-			m_selectedSlot = inventory.getSize() - 1;
-	}
-	#endregion
-	#endregion
-
-    public void FinishedThrowing()
-    {
-        m_isThrowing = false;
-
-        inventory.activateItem(m_selectedSlot);
-    }
-
-    public void FinishedDrinking()
-    {
-        m_isDrinking = false;
-
-        //inventory.activateItem(m_selectedSlot);
-    }
-
-    public void FinishedAttacking()
-    {
-        m_isAttacking = false;
+        //No interacting for right now.
+        //Interact ();
     }
 
     private void UpdateMovement()
 	{
 		if(!m_isMoving) return;
 		
-		#region Find Target Angle
-		if(m_isMovingForward)
-		{
-			if(m_isMovingLeft)
-				m_directionAngle = 135f;
-			else if(m_isMovingRight)
-				m_directionAngle = 45f;
-			else
-				m_directionAngle = 90f;
-		}
-		else if(m_isMovingDown)
-		{
-			if(m_isMovingLeft)
-				m_directionAngle = 225f;
-			else if(m_isMovingRight)
-				m_directionAngle = 315f;
-			else
-				m_directionAngle = 270f;
-		}
-		else if(m_isMovingLeft)
-			m_directionAngle = 180f;
-		else if(m_isMovingRight)
-			m_directionAngle = 0f;
-		#endregion
-		
 		#region Update euler angles
-		// Calculate the target vector and normalize it.
-		Vector3 target = new Vector3(Mathf.Cos(m_directionAngle * Mathf.Deg2Rad), Mathf.Sin(m_directionAngle * Mathf.Deg2Rad), 0f);
-		target.Normalize();
-		
-		float currentAngle = Utilities.RotateTowards(gameObject, target, m_rotationSpeed);
+        float currentAngle = Utilities.RotateTowards(gameObject, mMovementDirection, m_rotationSpeed);
 		
 		if(Utilities.IsApproximately(currentAngle, 0f))
 		{
 			// Align the up transformation perfectly with the target vector.
-			transform.up = target;
+            transform.up = mMovementDirection;
 			
 			// Reset the y Euler angle in case it changed randomly.
 			transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z);
 		}
 		#endregion
 		
-		#region Update Postion
-	    float xDirection = Mathf.Cos(m_directionAngle * Mathf.Deg2Rad);
-	    float yDirection = Mathf.Sin(m_directionAngle * Mathf.Deg2Rad);
-	    Vector3 direction = new Vector3(xDirection, yDirection, 0f);
-	
-	    transform.position += (direction * SPEED * Time.smoothDeltaTime);
-	    #endregion
+	    transform.position += (Utilities.toVector3(mMovementDirection) * SPEED * Time.smoothDeltaTime);
     }
 
     private void UpdateDetection() 
     {
-        if (m_isDetected) {
+        if (m_isDetected)
+        {
             m_detectionLevel += m_detectionRate * Time.deltaTime;
             if (m_detectionLevel >= MAX_DETECTION_LEVEL)
             {
@@ -389,66 +236,23 @@ public abstract class Player : MonoBehaviour
             if (m_detectionLevel > m_detectionMax) {
                 m_detectionMax = m_detectionLevel;
             }
-        } else {
+        }
+        else
+        {
             if (m_detectionLevel > (m_detectionMax - m_detectionThres) && m_detectionLevel > 0)
                 m_detectionLevel -= m_detectionFade * Time.deltaTime;
         }
     }
 
-    #region Update Animation
-    private void UpdateAnimator()
+    protected virtual void UpdateAnimator()
     {
-        if(m_animator != null)
+        m_animator.SetBool("isMoving", m_isMoving);
+    }
+
+    private void PlayFootstep()
+    {
+        switch (m_floorType)
         {
-            m_animator.SetBool("isMoving", m_isMoving);
-            m_animator.SetBool("isMovingForward", m_isMovingForward);
-            m_animator.SetBool("isMovingBackward", m_isMovingDown);
-            m_animator.SetBool("isMovingLeft", m_isMovingLeft);
-            m_animator.SetBool("isMovingRight", m_isMovingRight);
-            m_animator.SetBool("isAttacking", m_isAttacking);
-            m_animator.SetBool("isThrowing", m_isThrowing);
-            m_animator.SetBool("hasSpecialItem", true);
-            m_animator.SetBool("isDrinking", m_isDrinking);
-            m_animator.SetBool("isHiding", m_isHiding);
-            m_animator.SetBool("isShieldActive", m_isShieldActive); // Knight
-            m_animator.SetBool("isHoldingBox", m_isHoldingBox);
-        }
-
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-
-        if(renderer != null)
-            renderer.color = new Color(1f, 1f, 1f, (m_isHiding ? 0.6f : 1f));
-    }
-    #endregion
-
-    #region Power Core Interaction
-    public void addPowerCore()
-    {
-        if (currentCores < MAX_CORES)
-            currentCores++;
-    }
-
-    public int CurrentCores
-    {
-        get { return currentCores; }
-        set
-        {
-            if (value < 0)
-                value = 0;
-
-            currentCores = value;
-        }
-    }
-
-    public bool isPowerCoreComplete()
-    {
-        return currentCores == MAX_CORES;
-    }
-    #endregion
-
-    #region Sound Control
-    public void PlayFootstep() {
-        switch (m_floorType) {
             case 0:
                 audio.clip = solidFoot[m_footCounter];
                 break;
@@ -457,61 +261,14 @@ public abstract class Player : MonoBehaviour
                 break;
         }
         audio.Play ();
-        UpdateFootCounter ();
-    }
 
-    private void UpdateFootCounter(){
         m_footCounter++;
-        if (m_footCounter >= 6)
+        if (m_footCounter >= 6) // 6 needs to be a constant at some point
             m_footCounter = 0;
     }
-
-    public void HitFrameOn()
-    {
-        m_isAtHitFrame = true;
-    }
-
-    public void HitFrameOff()
-    {
-        m_isAtHitFrame = false;
-    }
-
-    // Cave Girl Method
-    public bool IsAtHitFrame
-    {
-        get { return m_isAtHitFrame; }
-    }
-    #endregion
-
-    #region Utilities
-    public bool IsActive()
-    {
-        return m_isThrowing || m_isDrinking || m_isMoving || m_isAttacking;
-    }
-
-    private void ResetVariables(){
-        inventory.clear();
-        currentCores = 0;
-        m_detectionLevel = 0;
-    }
-    #endregion
-
-    #region Miscellaneous
-    private void UpdateShield()
-    {
-        if(!m_isShieldActive) return;
-        
-        if(Time.time - m_shieldTime > m_shieldDuration)
-        {
-            m_isShieldActive = false;
-        }
-    }
-    #endregion
 
     public void Resurrect()
     {
         m_currentState = PlayerState.ALIVE;
     }
-    
-    protected abstract void activateSpecialItem();
 }

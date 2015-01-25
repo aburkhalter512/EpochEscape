@@ -103,19 +103,19 @@ public class PlayerManager : Manager<PlayerManager>
     private void _AddCore()
     {
         if (m_isInitialized)
-            m_player.CurrentCores++;
+            m_player.addCore();
     }
 
     public void _RemoveCore()
     {
-        if (m_isInitialized && m_player.CurrentCores > 0)
-            m_player.CurrentCores--;
+        if (m_isInitialized && m_player.getCurrentCores() > 0)
+            m_player.removeCore();
     }
 
     private int _GetCores()
     {
         if (m_isInitialized)
-            return m_player.CurrentCores;
+            return m_player.getCurrentCores();
 
         return 0;
     }
@@ -123,64 +123,68 @@ public class PlayerManager : Manager<PlayerManager>
     private void _ClearCores()
     {
         if (m_isInitialized)
-            m_player.CurrentCores = 0;
+            m_player.clearCores();
     }
     #endregion
 
     #region Public Interfaces
     public static void SetPosition(Vector3 position)
     {
-        PlayerManager.GetInstance()._SetPosition(position);
+        PlayerManager.Get()._SetPosition(position);
     }
 
     public static Vector3 GetPosition()
     {
-        return PlayerManager.GetInstance()._GetPosition();
+        return PlayerManager.Get()._GetPosition();
     }
 
+    //I don't know if I agree with the position of these three
+    //methods. The LevelManager should manage these methods instead...
+    //In fact, the level manager should keep all checkpoint data
+    //instead of the player
     public static void SetSpawnPosition(Vector3 spawnPosition)
     {
-        PlayerManager.GetInstance()._SetSpawnPosition(spawnPosition);
+        PlayerManager.Get()._SetSpawnPosition(spawnPosition);
     }
 
     public static Vector3 GetSpawnPosition()
     {
-        return PlayerManager.GetInstance()._GetSpawnPosition();
+        return PlayerManager.Get()._GetSpawnPosition();
     }
 
     public static void Respawn()
     {
-        PlayerManager.GetInstance()._Respawn();
+        PlayerManager.Get()._Respawn();
     }
 
     public static void ShowPlayer()
     {
-        PlayerManager.GetInstance()._ShowPlayer();
+        PlayerManager.Get()._ShowPlayer();
     }
 
     public static void HidePlayer()
     {
-        PlayerManager.GetInstance()._HidePlayer();
+        PlayerManager.Get()._HidePlayer();
     }
 
     public static void AddCore()
     {
-        PlayerManager.GetInstance()._AddCore();
+        PlayerManager.Get()._AddCore();
     }
 
     public static void RemoveCore()
     {
-        PlayerManager.GetInstance()._RemoveCore();
+        PlayerManager.Get()._RemoveCore();
     }
 
     public static int GetCores()
     {
-        return PlayerManager.GetInstance()._GetCores();
+        return PlayerManager.Get()._GetCores();
     }
 
     public static void ClearCores()
     {
-        PlayerManager.GetInstance()._ClearCores();
+        PlayerManager.Get()._ClearCores();
     }
     #endregion
 }

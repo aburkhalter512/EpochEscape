@@ -13,12 +13,7 @@ public class RotatingWall : DynamicWall
     #endregion
     
     #region Instance Variables
-    private Vector3 realRotationPt = Vector3.zero;
-    private float baseAngle = 0.0f;
-    private float originalAngle = 0.0f;
     private float destinationAngle = 0.0f;
-
-    private bool mRotationDirection; //False for counter-clockwise, true for clockwise
     
     private float currentRotationChange = 0.0f;
     #endregion
@@ -42,8 +37,6 @@ public class RotatingWall : DynamicWall
     {
         base.Start();
         
-        baseAngle = transform.rotation.eulerAngles.z;
-
         for (int i = 0; i < rotationAngles.Length; i++)
         {
             if (rotationAngles[i] < 0)
@@ -82,17 +75,9 @@ public class RotatingWall : DynamicWall
         float rotationDistance = 0.0f;
 
         if (transform.localEulerAngles.z + (360 - destinationAngle) <= 180.0f)
-        {
-            mRotationDirection = true;
             rotationDistance = -transform.localEulerAngles.z - (360 - destinationAngle);
-        }
         else
-        {
-            mRotationDirection = false;
             rotationDistance = destinationAngle - transform.localEulerAngles.z;
-        }
-        
-        originalAngle = transform.eulerAngles.z;
         
         currentRotationChange = rotationDistance / changeTime;
         

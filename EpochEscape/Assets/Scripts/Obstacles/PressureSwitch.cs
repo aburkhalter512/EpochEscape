@@ -9,7 +9,7 @@ public class PressureSwitch : PressurePlate
     /*
      * Initializes the Pressure Switch
      */
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
     }
@@ -17,7 +17,7 @@ public class PressureSwitch : PressurePlate
     /*
      * Updates the state of the pressure switch
      */
-    protected void Update()
+    protected new void Update()
     {
         base.Update();
 

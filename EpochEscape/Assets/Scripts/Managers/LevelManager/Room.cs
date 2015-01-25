@@ -47,16 +47,12 @@ public abstract class Room
 
     public void SetSize(Vector2 size)
     {
-        if (m_roomSize != null)
-            m_roomSize = size;
+        m_roomSize = size;
     }
 
     public Vector2 GetSize()
     {
-        if (m_roomSize != null)
-            return m_roomSize;
-
-        return Vector2.zero;
+        return m_roomSize;
     }
 
     public void SetChild(GameObject child)

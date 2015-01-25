@@ -85,42 +85,25 @@ public class DetectionArea : MonoBehaviour
 			{
 				detectedPlayer = m_player;
 				
-				if(!m_player.m_isHiding && !m_player.m_isShieldActive)
+				if(!(m_parentRenderer == null || m_player.m_isDetected))
+					ChangeColor(ColorStatus.CAUTION);
+					
+				m_player.m_isDetected = true;
+					
+				if(m_parent != null)
 				{
-					if(!(m_parentRenderer == null || m_player.m_isDetected))
-						ChangeColor(ColorStatus.CAUTION);
-					
-					m_player.m_isDetected = true;
-					
-					if(m_parent != null)
+					if(m_parent.tag == "Guard")
 					{
-						if(m_parent.tag == "Guard")
-						{
-							// Do something with the guard.
-						}
-						else if(m_parent.tag == "SecurityCamera")
-						{
-							if (!audioIsPlaying) {
-								audio.Play ();
-								audioIsPlaying = true;
-							}
-							
-							SecurityCamera securityCamera = m_parent.GetComponent<SecurityCamera>();
-							if (securityCamera != null)
-							{
-								/*
-                                securityCamera.m_previousState = securityCamera.m_currentState;
-                                securityCamera.m_currentState = SecurityCamera.State.ALERT;
-                                */
-							}
+						// Do something with the guard.
+					}
+					else if(m_parent.tag == "SecurityCamera")
+					{
+						if (!audioIsPlaying)
+                        {
+							audio.Play ();
+							audioIsPlaying = true;
 						}
 					}
-				}
-				else
-				{
-					m_player.m_isDetected = false;
-
-					ChangeColor(ColorStatus.NORMAL);
 				}
 			}
 		}
@@ -146,15 +129,6 @@ public class DetectionArea : MonoBehaviour
 					{
 						audio.Stop();
 						audioIsPlaying = false;
-						SecurityCamera securityCamera = m_parent.GetComponent<SecurityCamera>();
-						
-						if(securityCamera != null)
-						{
-							/*
-							securityCamera.m_previousState = securityCamera.m_currentState;
-							securityCamera.m_currentState = SecurityCamera.State.ROTATE_LEFT;
-							*/
-						}
 					}
 				}
 			}

@@ -9,8 +9,8 @@ using System.Collections.Generic;
 public class PopupSwitch : MonoBehaviour
 {
     public List<string> instructions = new List<string>();
-    public bool active = true;
-    public bool delay = false;
+    public bool mActive = true;
+    public bool mDelay = false;
 
     /*
      * Shows the popup message.
@@ -20,7 +20,7 @@ public class PopupSwitch : MonoBehaviour
         GameManager.getInstance ().messages = instructions;
         GameManager.getInstance ().ShowPopupMessage();
         GameManager.getInstance ().popup = true;
-        active = false;
+        mActive = false;
     }
 
     /*
@@ -28,9 +28,9 @@ public class PopupSwitch : MonoBehaviour
      */
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(active && other.gameObject.tag == "Player")
+        if(mActive && other.gameObject.tag == "Player")
         {
-            if (!delay)
+            if (!mDelay)
             {
                 Player p = other.gameObject.GetComponent<Player>();
                 p.audio.Stop ();

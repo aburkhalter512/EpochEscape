@@ -68,7 +68,6 @@ public class LevelEditor : MonoBehaviour
     public static int s_mouseLogicalY = 0;
     
     // Painter
-    private GameObject m_tile = null;
     private SpriteRenderer m_tileRenderer = null;
 
     public static float s_tileRendererX = 0f;
@@ -151,8 +150,6 @@ public class LevelEditor : MonoBehaviour
         
         if(m_moveCamera)
         {
-            Vector3 cameraPosition = Vector3.zero;
-            
             float mouseX = Input.GetAxis("Mouse X");
             float mouseY = Input.GetAxis("Mouse Y");
             
@@ -920,8 +917,6 @@ public class LevelEditor : MonoBehaviour
 
     private void InitializeTile()
     {
-        m_tile = GameObject.Find("FloorLight");
-        
         GameObject tileSize = Resources.Load("Prefabs/LevelEditor/Tiles/Floor/FloorLight") as GameObject;
         
         if(tileSize != null)

@@ -61,7 +61,7 @@ public class DirectionalDoorFrame : LockedDoorFrame
     #region Class Constants
     #endregion
     
-    protected void Start()
+    protected new void Start()
     {
         mFrontSide = frontSide.GetComponent<StandardDoorSide>();
         mBackSide = backSide.GetComponent<StandardDoorSide>();

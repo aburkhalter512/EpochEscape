@@ -9,7 +9,7 @@ using System.Collections;
  * The main purpose of this class is to centralize all mouse functionality,
  * i.e. make it easier to access mouse data.
  */
-public class Mouse : UnitySingleton<Mouse>
+public class Mouse : Manager<Mouse>
 {
     #region Instance Variables
     Vector3 mScreenPosition;
@@ -31,7 +31,7 @@ public class Mouse : UnitySingleton<Mouse>
 
     //Put all initialization code here
     //Remember to comment!
-    protected void Start()
+    protected override void Initialize()
     {
         UpdatePosition();
 
@@ -53,12 +53,11 @@ public class Mouse : UnitySingleton<Mouse>
      */
     protected void UpdatePosition()
     {
-        /*
         mScreenPosition.Set(
             Input.mousePosition.x, 
             Input.mousePosition.y, 
             Camera.main.transform.position.z);
-        mWorldPosition = Camera.main.ScreenToWorldPoint(mScreenPosition);*/
+        mWorldPosition = Camera.main.ScreenToWorldPoint(mScreenPosition);
     }
     #endregion
     
@@ -99,7 +98,7 @@ public class Mouse : UnitySingleton<Mouse>
         Button retVal = null;
 
         if (mLeft == null)
-            Start();
+            Initialize();
 
         switch (mouseButton)
         {

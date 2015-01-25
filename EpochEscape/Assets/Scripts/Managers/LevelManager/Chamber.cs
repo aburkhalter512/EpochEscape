@@ -62,7 +62,7 @@ public class Chamber : Room
         }
     }
 
-    public void Dispose()
+    public new void Dispose()
     {
         s_count--;
 
