@@ -18,7 +18,7 @@ public class PlayerManager : Manager<PlayerManager>
     {
         GameObject player = null;
 
-        switch(GameManager.getInstance().m_currentCharacter)
+        switch(GameManager.Get().m_currentCharacter)
         {
             case GameManager.KNIGHT:
                 player = Resources.Load("Prefabs/Players/Knight") as GameObject;

@@ -74,7 +74,7 @@ public class HUDManager : Manager<HUDManager> {
         piece2 = Resources.Load("Textures/GUI/HUD/PowerCore2",typeof(Texture2D)) as Texture2D;
         piece3 = Resources.Load("Textures/GUI/HUD/PowerCore3",typeof(Texture2D)) as Texture2D;
         
-        switch (GameManager.getInstance ().m_currentCharacter) {
+        switch (GameManager.Get().m_currentCharacter) {
         case 0:
             happy = Resources.Load("Textures/GUI/HUD/CaveGirlHappy",typeof(Texture2D)) as Texture2D;
             worried = Resources.Load("Textures/GUI/HUD/CaveGirlWorried",typeof(Texture2D)) as Texture2D;

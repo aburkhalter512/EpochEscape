@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using S = SaveManager;
 
-public class GameManager : UnitySingleton<GameManager>
+public class GameManager : Manager<GameManager>
 {
     #region Aspect Ratio
     public const float LAYOUT_WIDTH = 1024f;
@@ -92,7 +92,10 @@ public class GameManager : UnitySingleton<GameManager>
     #endregion
     #endregion
 
-    //SceneManager sceneManager;
+    protected override void Initialize()
+    {
+        //Needed for the manager
+    }
 
     void Start()
     {

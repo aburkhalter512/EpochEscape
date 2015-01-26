@@ -104,7 +104,7 @@ public class SceneManager : Manager<SceneManager>
 
     private IEnumerator _Load()
     {
-        GameManager.getInstance().PauseMovement();
+        GameManager.Get().PauseMovement();
 
         Debug.Log("Attempting to load " + m_levels[m_currentLevel] + ".");
 
@@ -122,7 +122,7 @@ public class SceneManager : Manager<SceneManager>
             yield return StartCoroutine(OnFinishLoad());
         }
 
-        GameManager.getInstance().UnpauseMovement();
+        GameManager.Get().UnpauseMovement();
     }
 
     private IEnumerator OnFinishLoad()

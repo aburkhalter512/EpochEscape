@@ -79,7 +79,7 @@ public class Player : Manager<Player>
 
     protected void Update()
     {
-        if(!G.getInstance ().paused)
+        if(!G.Get ().paused)
             UpdateCurrentState();
         else
             m_isMoving = false;
@@ -111,7 +111,7 @@ public class Player : Manager<Player>
 
     protected virtual void Dead()
     {
-        G.getInstance().PauseMovement();
+        G.Get().PauseMovement();
 
         HUDManager.Hide();
         MiniMapManager.Hide();
@@ -254,17 +254,21 @@ public class Player : Manager<Player>
         switch (m_floorType)
         {
             case 0:
-                audio.clip = solidFoot[m_footCounter];
+                if (solidFoot.Length > 0)
+                {
+                    audio.clip = solidFoot[m_footCounter % solidFoot.Length];
+                    m_footCounter = (m_footCounter + 1) % solidFoot.Length;
+                }
                 break;
             case 1:
-                audio.clip = grateFoot[m_footCounter];
+                if (solidFoot.Length > 0)
+                {
+                    audio.clip = grateFoot[m_footCounter % grateFoot.Length];
+                    m_footCounter = (m_footCounter + 1) % grateFoot.Length;
+                }
                 break;
         }
         audio.Play ();
-
-        m_footCounter++;
-        if (m_footCounter >= 6) // 6 needs to be a constant at some point
-            m_footCounter = 0;
     }
 
     public void Resurrect()

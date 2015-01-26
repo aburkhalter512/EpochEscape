@@ -63,11 +63,11 @@ public class LevelManager : Manager<LevelManager>
 
     private void _LoadCheckpoint()
     {
-        GameManager.getInstance().PauseMovement();
+        GameManager.Get().PauseMovement();
         PlayerManager.Respawn();
         HUDManager.Show();
         MiniMapManager.Show();
-        GameManager.getInstance().UnpauseMovement();
+        GameManager.Get().UnpauseMovement();
         
         _ResetChamber(m_currentChamber);
     }

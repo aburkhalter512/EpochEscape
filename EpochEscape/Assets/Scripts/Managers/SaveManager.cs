@@ -2,7 +2,7 @@
 using System.Collections;
 using G = GameManager;
 
-public class SaveManager : UnitySingleton<SaveManager>
+public class SaveManager : Manager<SaveManager>
 {
     #region Inspector Variables
     #endregion
@@ -15,23 +15,10 @@ public class SaveManager : UnitySingleton<SaveManager>
     public static string save4 = "";
     #endregion
 
-    #region Class Constants
-    #endregion
-
-    //Put all initialization code here
-    //Remember to comment!
-//	protected void Start()
-//	{
-//	}
-
-    #region Initialization Methods
-    #endregion
-
-    //Put all update code here
-    //Remember to comment!
-//	protected void Update()
-//	{
-//	}
+    protected override void Initialize()
+    {
+        // Needed for the Manager
+    }
 
     #region Static Methods
         public static void SetSaveName (string name){
@@ -78,7 +65,7 @@ public class SaveManager : UnitySingleton<SaveManager>
     }
 
     public static void ResetOnNew(){
-        G.getInstance().currentLevel = 1;
+        G.Get().currentLevel = 1;
         Save ();
     }
 
@@ -89,8 +76,8 @@ public class SaveManager : UnitySingleton<SaveManager>
     public static void ResetGame(){
         PlayerPrefs.DeleteAll ();
         Load ();
-        G.getInstance().caveUnlocked = true;
-        G.getInstance().knightUnlocked = true;
+        G.Get().caveUnlocked = true;
+        G.Get().knightUnlocked = true;
     }
 
     public static void DeleteSave(){
@@ -122,75 +109,75 @@ public class SaveManager : UnitySingleton<SaveManager>
     public static void Save(){
         switch(saveNum){
         case 0:
-            PlayerPrefs.SetInt("0Current Level", G.getInstance().currentLevel);
-            PlayerPrefs.SetInt ("0Current Char", G.getInstance ().m_currentCharacter);
-            //PlayerPrefs.SetInt ("0tutorial", G.getInstance ().tutorial == true ? 1 : 0);
+            PlayerPrefs.SetInt("0Current Level", G.Get().currentLevel);
+            PlayerPrefs.SetInt ("0Current Char", G.Get ().m_currentCharacter);
+            //PlayerPrefs.SetInt ("0tutorial", G.Get ().tutorial == true ? 1 : 0);
             break;
         case 1:
-            PlayerPrefs.SetInt("1Current Level", G.getInstance().currentLevel);	
-            PlayerPrefs.SetInt ("1Current Char", G.getInstance ().m_currentCharacter);
-            //PlayerPrefs.SetInt ("1tutorial", G.getInstance ().tutorial == true ? 1 : 0);
+            PlayerPrefs.SetInt("1Current Level", G.Get().currentLevel);	
+            PlayerPrefs.SetInt ("1Current Char", G.Get ().m_currentCharacter);
+            //PlayerPrefs.SetInt ("1tutorial", G.Get ().tutorial == true ? 1 : 0);
             break;
         case 2:
-            PlayerPrefs.SetInt("2Current Level", G.getInstance().currentLevel);
-            PlayerPrefs.SetInt ("2Current Char", G.getInstance ().m_currentCharacter);
-            //PlayerPrefs.SetInt ("2tutorial", G.getInstance ().tutorial == true ? 1 : 0);
+            PlayerPrefs.SetInt("2Current Level", G.Get().currentLevel);
+            PlayerPrefs.SetInt ("2Current Char", G.Get ().m_currentCharacter);
+            //PlayerPrefs.SetInt ("2tutorial", G.Get ().tutorial == true ? 1 : 0);
             break;
         case 3:
-            PlayerPrefs.SetInt("3Current Level", G.getInstance().currentLevel);
-            PlayerPrefs.SetInt ("3Current Char", G.getInstance ().m_currentCharacter);
-            //PlayerPrefs.SetInt ("3tutorial", G.getInstance ().tutorial == true ? 1 : 0);
+            PlayerPrefs.SetInt("3Current Level", G.Get().currentLevel);
+            PlayerPrefs.SetInt ("3Current Char", G.Get ().m_currentCharacter);
+            //PlayerPrefs.SetInt ("3tutorial", G.Get ().tutorial == true ? 1 : 0);
             break;
         }
 
-        PlayerPrefs.SetInt ("CaveGirl", G.getInstance().caveUnlocked == true ? 1 : 0);
-        PlayerPrefs.SetInt ("Knight", G.getInstance().knightUnlocked == true ? 1 : 0);
-        PlayerPrefs.SetInt ("Ninja", G.getInstance().ninjaUnlocked == true ? 1 : 0);
-        PlayerPrefs.SetInt ("Astronaut", G.getInstance().astroUnlocked == true ? 1 : 0);
-        PlayerPrefs.SetInt ("Mummy", G.getInstance().mumUnlocked == true ? 1 : 0);
-        PlayerPrefs.SetInt ("Robot", G.getInstance().robUnlocked == true ? 1 : 0);
-        PlayerPrefs.SetInt ("Ninja Memo", G.getInstance().ninjaMemo);
-        PlayerPrefs.SetInt ("Astro Memo", G.getInstance().astroMemo);
-        PlayerPrefs.SetInt ("Mummy Memo", G.getInstance().mumMemo);
-        PlayerPrefs.SetInt ("Robot Memo", G.getInstance().robMemo);
+        PlayerPrefs.SetInt ("CaveGirl", G.Get().caveUnlocked == true ? 1 : 0);
+        PlayerPrefs.SetInt ("Knight", G.Get().knightUnlocked == true ? 1 : 0);
+        PlayerPrefs.SetInt ("Ninja", G.Get().ninjaUnlocked == true ? 1 : 0);
+        PlayerPrefs.SetInt ("Astronaut", G.Get().astroUnlocked == true ? 1 : 0);
+        PlayerPrefs.SetInt ("Mummy", G.Get().mumUnlocked == true ? 1 : 0);
+        PlayerPrefs.SetInt ("Robot", G.Get().robUnlocked == true ? 1 : 0);
+        PlayerPrefs.SetInt ("Ninja Memo", G.Get().ninjaMemo);
+        PlayerPrefs.SetInt ("Astro Memo", G.Get().astroMemo);
+        PlayerPrefs.SetInt ("Mummy Memo", G.Get().mumMemo);
+        PlayerPrefs.SetInt ("Robot Memo", G.Get().robMemo);
     }
 
     public static void LoadGame(){
         switch(saveNum){
         case 0:
-            G.getInstance().currentLevel = PlayerPrefs.GetInt("0Current Level");
-            G.getInstance ().m_currentCharacter = PlayerPrefs.GetInt ("0Current Char");
-            //G.getInstance ().tutorial = PlayerPrefs.GetInt ("0tutorial") == 1 ? true : false;
+            G.Get().currentLevel = PlayerPrefs.GetInt("0Current Level");
+            G.Get ().m_currentCharacter = PlayerPrefs.GetInt ("0Current Char");
+            //G.Get ().tutorial = PlayerPrefs.GetInt ("0tutorial") == 1 ? true : false;
             break;
         case 1:
-            G.getInstance().currentLevel = PlayerPrefs.GetInt("1Current Level");
-            G.getInstance ().m_currentCharacter = PlayerPrefs.GetInt ("1Current Char");
-            //G.getInstance ().tutorial = PlayerPrefs.GetInt ("1tutorial") == 1 ? true : false;
+            G.Get().currentLevel = PlayerPrefs.GetInt("1Current Level");
+            G.Get ().m_currentCharacter = PlayerPrefs.GetInt ("1Current Char");
+            //G.Get ().tutorial = PlayerPrefs.GetInt ("1tutorial") == 1 ? true : false;
             break;
         case 2:
-            G.getInstance().currentLevel = PlayerPrefs.GetInt("2Current Level");
-            G.getInstance ().m_currentCharacter = PlayerPrefs.GetInt ("2Current Char");
-            //G.getInstance ().tutorial = PlayerPrefs.GetInt ("2tutorial") == 1 ? true : false;
+            G.Get().currentLevel = PlayerPrefs.GetInt("2Current Level");
+            G.Get ().m_currentCharacter = PlayerPrefs.GetInt ("2Current Char");
+            //G.Get ().tutorial = PlayerPrefs.GetInt ("2tutorial") == 1 ? true : false;
             break;
         case 3:
-            G.getInstance().currentLevel = PlayerPrefs.GetInt("3Current Level");
-            G.getInstance ().m_currentCharacter = PlayerPrefs.GetInt ("3Current Char");
-            //G.getInstance ().tutorial = PlayerPrefs.GetInt ("3tutorial") == 1 ? true : false;
+            G.Get().currentLevel = PlayerPrefs.GetInt("3Current Level");
+            G.Get ().m_currentCharacter = PlayerPrefs.GetInt ("3Current Char");
+            //G.Get ().tutorial = PlayerPrefs.GetInt ("3tutorial") == 1 ? true : false;
             break;
         }
 
     }
 
     public static void Load(){
-        G.getInstance().caveUnlocked = PlayerPrefs.GetInt ("CaveGirl") == 1 ? true : false;
-        G.getInstance().knightUnlocked = PlayerPrefs.GetInt ("Knight") == 1 ? true : false;
-        G.getInstance().ninjaUnlocked = PlayerPrefs.GetInt ("Ninja") == 1 ? true : false;
-        G.getInstance().mumUnlocked = PlayerPrefs.GetInt ("Mummy") == 1 ? true : false;
-        G.getInstance().robUnlocked = PlayerPrefs.GetInt ("Robot") == 1 ? true : false;
-        G.getInstance().ninjaMemo = PlayerPrefs.GetInt ("Ninja Memo");
-        G.getInstance().astroMemo = PlayerPrefs.GetInt ("Astro Memo");
-        G.getInstance().mumMemo = PlayerPrefs.GetInt ("Mummy Memo");
-        G.getInstance().robMemo = PlayerPrefs.GetInt ("Robot Memo");
+        G.Get().caveUnlocked = PlayerPrefs.GetInt ("CaveGirl") == 1 ? true : false;
+        G.Get().knightUnlocked = PlayerPrefs.GetInt ("Knight") == 1 ? true : false;
+        G.Get().ninjaUnlocked = PlayerPrefs.GetInt ("Ninja") == 1 ? true : false;
+        G.Get().mumUnlocked = PlayerPrefs.GetInt ("Mummy") == 1 ? true : false;
+        G.Get().robUnlocked = PlayerPrefs.GetInt ("Robot") == 1 ? true : false;
+        G.Get().ninjaMemo = PlayerPrefs.GetInt ("Ninja Memo");
+        G.Get().astroMemo = PlayerPrefs.GetInt ("Astro Memo");
+        G.Get().mumMemo = PlayerPrefs.GetInt ("Mummy Memo");
+        G.Get().robMemo = PlayerPrefs.GetInt ("Robot Memo");
 
         save1 = PlayerPrefs.GetString ("Save1");
         if(save1 == "")

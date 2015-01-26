@@ -233,8 +233,8 @@ public class LevelEditorRotatingWall : LevelEditorObject
             if(Input.GetKeyDown(KeyCode.S))
                 SaveImage();
 
-            if(Input.GetKeyDown(KeyCode.Space) && m_rotatingWallScript != null)
-                m_rotatingWallScript.currentState = DynamicWall.STATES.TO_CHANGE;
+            if (Input.GetKeyDown(KeyCode.Space) && m_rotatingWallScript != null)
+                m_rotatingWallScript.activate();
         }
     }
 
@@ -256,7 +256,7 @@ public class LevelEditorRotatingWall : LevelEditorObject
         m_growthAxis = Axis.East;
         m_rotationAxis = Axis.East;
 
-        m_rotatingWallScript.rotationAngles[1] = 0f;
+        m_rotatingWallScript.rotationTargets[1] = RotatingWall.DIRECTION.EAST;
     }
 
     private void GrowAxis()
@@ -545,27 +545,27 @@ public class LevelEditorRotatingWall : LevelEditorObject
             angle = Mathf.Round(angle / 90f) * 90f;
             angle %= 360f;
 
-            if(m_rotatingWallScript != null && m_rotatingWallScript.rotationAngles.Length == 2)
+            if(m_rotatingWallScript != null && m_rotatingWallScript.rotationTargets.Length == 2)
             {
                 if(Utilities.IsApproximately(angle, 0f))
                 {
                     m_rotationAxis = Axis.East;
-                    m_rotatingWallScript.rotationAngles[1] = 0f;
+                    m_rotatingWallScript.rotationTargets[1] = RotatingWall.DIRECTION.EAST;
                 }
                 else if(Utilities.IsApproximately(angle, 90f))
                 {
                     m_rotationAxis = Axis.North;
-                    m_rotatingWallScript.rotationAngles[1] = 90f;
+                    m_rotatingWallScript.rotationTargets[1] = RotatingWall.DIRECTION.NORTH;
                 }
                 else if(Utilities.IsApproximately(angle, 180f))
                 {
                     m_rotationAxis = Axis.West;
-                    m_rotatingWallScript.rotationAngles[1] = 180f;
+                    m_rotatingWallScript.rotationTargets[1] = RotatingWall.DIRECTION.WEST;
                 }
                 else if(Utilities.IsApproximately(angle, 270f))
                 {
                     m_rotationAxis = Axis.South;
-                    m_rotatingWallScript.rotationAngles[1] = 270f;
+                    m_rotatingWallScript.rotationTargets[1] = RotatingWall.DIRECTION.SOUTH;
                 }
             }
         }
