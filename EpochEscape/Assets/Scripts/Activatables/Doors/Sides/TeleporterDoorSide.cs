@@ -104,9 +104,6 @@ public class TeleporterDoorSide : DoorSide, ITransitional
             return;
 
         mPlayerToTeleport.transform.position = mTeleportDestination.getSpawnPosition();
-
-        CameraManager.AddTransition(mTeleportDestination.gameObject);
-        CameraManager.PlayTransitions();
     }
 
     protected IEnumerator pauseMovement()

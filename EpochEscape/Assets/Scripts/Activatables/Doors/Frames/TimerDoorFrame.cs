@@ -66,8 +66,19 @@ public class TimerDoorFrame : LockedDoorFrame
         m_timerState = TimerState.Expired;
         timeRemaining = 0;
 
-        CameraManager.AddTransition(gameObject);
-        CameraManager.PlayTransitions();
+        if (m_timerState != TimerState.Beat && timeRemaining == 0)
+        {
+            base.OnFinishTransition();
+
+            if (m_timerState == TimerState.Ready)
+            {
+                timeRemaining = time;
+
+                m_timerState = TimerState.Paused;
+            }
+            else if (m_timerState == TimerState.Running)
+                timeRemaining = time;
+        }
     }
     #endregion
     

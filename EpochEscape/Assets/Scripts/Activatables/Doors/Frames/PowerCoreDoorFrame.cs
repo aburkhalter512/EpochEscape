@@ -44,15 +44,15 @@ public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
             {
                 case CORES.ONE:
                     if (Player.Get().getCurrentCores() == 1)
-                        unlockDoor();
+                        activate();
                     break;
                 case CORES.TWO:
                     if (Player.Get().getCurrentCores() == 2)
-                        unlockDoor();
+                        activate();
                     break;
                 case CORES.FULL:
                     if (Player.Get().getCurrentCores() == 3)
-                        unlockDoor();
+                        activate();
                     break;
             }
         }
@@ -84,24 +84,6 @@ public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
     public override void deactivate()
     {
         return;
-    }
-    #endregion
-    
-    #region Instance Methods
-    protected void lockDoor()
-    {
-        mHasUnlocked = false;
-
-        mFrontSide.deactivate();
-        mBackSide.deactivate();
-    }
-
-    protected void unlockDoor()
-    {
-        mHasUnlocked = true;
-
-        CameraManager.AddTransition(gameObject);
-        CameraManager.PlayTransitions();
     }
     #endregion
 
