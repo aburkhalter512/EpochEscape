@@ -26,7 +26,7 @@ public class SlidingWall : DynamicWall, ISerializable
         mBasePosition = transform.position;
     }
 
-    #region Update Methods
+    #region Instance Methods
     protected override void toChange()
     {
         audio.Play ();

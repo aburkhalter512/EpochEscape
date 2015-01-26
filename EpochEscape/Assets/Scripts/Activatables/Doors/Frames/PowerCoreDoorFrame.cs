@@ -87,12 +87,6 @@ public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
     }
     #endregion
 
-    public override void OnFinishTransition()
-    {
-        mFrontSide.activate();
-        mBackSide.deactivate();
-    }
-
     public override void Reset()
     {
         mFrontSide.deactivate();

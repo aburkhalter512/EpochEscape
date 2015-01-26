@@ -56,14 +56,7 @@ public class RotatingWall : DynamicWall
         }
     }
     
-    //Put all update code here
-    //Remember to comment!
-    protected new void Update()
-    {
-        base.Update();
-    }
-    
-    #region Update Methods
+    #region Instance Methods
     protected override void toChange()
     {
         audio.Play ();

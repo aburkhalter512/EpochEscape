@@ -39,7 +39,7 @@
  *          A method that either activates or deactivates the door side based on which state it is
  *          currently in. If the door side is activated, it deactivates it, and vice versa.
  */
-public abstract class DoorSide : MonoBehaviour, IActivatable, IDetectable, ITransitional
+public abstract class DoorSide : MonoBehaviour, IActivatable, IDetectable
 {
     #region Interface Variables
     public Sprite activeSprite;
@@ -86,18 +86,4 @@ public abstract class DoorSide : MonoBehaviour, IActivatable, IDetectable, ITran
             activate();
     }
     #endregion
-
-    public void OnFinishTransition()
-    {
-        toggle();
-    }
-
-    public void OnReadyIdle()
-    {
-    }
-
-    public float GetWaitTime()
-    {
-        return 0.33f;
-    }
 }

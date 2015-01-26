@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TeleporterDoorSide : DoorSide, ITransitional
+public class TeleporterDoorSide : DoorSide
 {
     #region Interface Variables
     public GameObject teleportDestination;
@@ -78,20 +78,6 @@ public class TeleporterDoorSide : DoorSide, ITransitional
             mIsActive = false;
             mIsFirstUpdate = false;
         }
-    }
-
-    public new void OnFinishTransition()
-    {
-        if(!mCanTeleport)
-            base.OnFinishTransition();
-    }
-
-    public new float GetWaitTime()
-    {
-        if(!mCanTeleport)
-            return base.GetWaitTime();
-
-        return 0.01f;
     }
     #endregion
 

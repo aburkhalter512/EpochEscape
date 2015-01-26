@@ -50,7 +50,7 @@ using System.IO;
  */
 public abstract class DoorFrame<T, U> : 
     MonoBehaviour, 
-    IActivatable, IDetectable, ITransitional, IResettable, ISerializable 
+    IActivatable, IDetectable, IResettable, ISerializable 
     where T : DoorSide where U : DoorSide
 {
     #region Interface Variables
@@ -159,20 +159,6 @@ public abstract class DoorFrame<T, U> :
                 activate();
                 break;
         }
-    }
-
-    public virtual void OnFinishTransition()
-    {
-        toggle();
-    }
-
-    public virtual void OnReadyIdle()
-    {
-    }
-
-    public virtual float GetWaitTime()
-    {
-        return 0.33f;
     }
 
     public virtual void Reset()

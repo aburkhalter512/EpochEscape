@@ -5,7 +5,7 @@ using System.Collections;
  * This script represents a changing wall, and is thus abstract. This class
  * allows for more different type of changing walls to be added easily.
  */
-public abstract class DynamicWall : MonoBehaviour, IActivatable, ITransitional
+public abstract class DynamicWall : MonoBehaviour, IActivatable
 {
     #region Inspector Variables
     public float changeTime = 1.0f;
@@ -65,19 +65,6 @@ public abstract class DynamicWall : MonoBehaviour, IActivatable, ITransitional
     public void toggle()
     {
         mState = STATE.TO_CHANGE;
-    }
-
-    public void OnFinishTransition()
-    {
-        // Instructs the wall to begin rotating.
-        mState = DynamicWall.STATE.TO_CHANGE;
-    }
-
-    public void OnReadyIdle() { }
-
-    public float GetWaitTime()
-    {
-        return changeTime;
     }
     #endregion
 
