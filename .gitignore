@@ -4,7 +4,7 @@ Library/
 obj/
 Temp/
 APK/
-EpochEscape/ProjectSettings/EditorBuildSettings.asset
+EpochEscape/ProjectSettings/*
 
 *.csproj
 *.sln
