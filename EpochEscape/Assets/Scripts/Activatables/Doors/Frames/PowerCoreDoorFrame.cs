@@ -34,6 +34,8 @@ public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
         initialState = DoorFrame<StandardDoorSide, StandardDoorSide>.STATE.INACTIVE;
 
         base.Start();
+        mFrontSide.deactivate();
+        mBackSide.deactivate();
     }
 
     protected void Update()
@@ -44,15 +46,24 @@ public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
             {
                 case CORES.ONE:
                     if (Player.Get().getCurrentCores() == 1)
-                        activate();
+                    {
+                        mFrontSide.activate();
+                        mBackSide.activate();
+                    }
                     break;
                 case CORES.TWO:
                     if (Player.Get().getCurrentCores() == 2)
-                        activate();
+                    {
+                        mFrontSide.activate();
+                        mBackSide.activate();
+                    }
                     break;
                 case CORES.FULL:
                     if (Player.Get().getCurrentCores() == 3)
-                        activate();
+                    {
+                        mFrontSide.activate();
+                        mBackSide.activate();
+                    }
                     break;
             }
         }

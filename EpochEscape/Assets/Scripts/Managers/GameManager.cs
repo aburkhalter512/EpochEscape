@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using S = SaveManager;
@@ -90,6 +91,10 @@ public class GameManager : Manager<GameManager>
     #region Option variables
     public int graphicsQuality = 4;
     #endregion
+    #endregion
+
+    #region Class Constants
+    public static readonly float DEFAULT_DELAY_TIME = 0.1f; 
     #endregion
 
     protected override void Initialize()
@@ -521,5 +526,29 @@ public class GameManager : Manager<GameManager>
         {
             return Event.current.type == EventType.Repaint && !GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition);
         }
+    #endregion
+
+    #region Interface Methods
+    public void delayFunction(Action method)
+    {
+        StartCoroutine(_delayFunction(method, DEFAULT_DELAY_TIME));
+    }
+
+    public void delayFunction(Action method, float delayTime)
+    {
+        StartCoroutine(_delayFunction(method, delayTime));
+    }
+    #endregion
+
+    #region Instance Methods
+    private IEnumerator _delayFunction(Action method, float delayTime)
+    {
+        PauseMovement();
+
+        method();
+        yield return new WaitForSeconds(delayTime);
+
+        UnpauseMovement();
+    }
     #endregion
 }

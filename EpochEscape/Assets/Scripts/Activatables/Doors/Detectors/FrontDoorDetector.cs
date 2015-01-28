@@ -7,44 +7,36 @@ using System.Collections;
  * a tag specified by 'DetecteeTags[]' then a signal is sent to the door frame via
  * triggerFrontEnter()/triggerFrontExit(). 'DetecteeTags[]' can be modified in the
  * Unity Editor to easily change which tagged gameobjects trigger the collision.
- * 
- * Interface Variables
- *      DetecteeTags: string[]
- *          An array of strings that specifies vaild tags for gameobject collision.
- *          If a gameobject does not have a tag listed in 'DetecteeTags[]' then the
- *          collision is not triggered.
  *          
  * Interface Methods
  *      There are no interface methods.
  */
 public class FrontDoorDetector : MonoBehaviour
 {
-    #region Interface Variables
-    public string[] DetecteeTags;
-    #endregion
-
     #region Instance Variables
-    DoorFrame<DoorSide, DoorSide> detectable;
+    IDetectable detectable;
     #endregion 
 
     protected void Start()
     {
-        detectable = transform.GetComponentInParent<DoorFrame<DoorSide, DoorSide>>();
+        detectable = transform.parent.GetComponent<MonoBehaviour>() as IDetectable;
     }
-    
+
     #region Instance Methods
     protected void OnTriggerEnter2D(Collider2D collidee)
     {
-        foreach (string tag in DetecteeTags)
-            if (collidee.tag == tag)
-                detectable.triggerFrontEnter();
+        Player player = collidee.GetComponent<Player>();
+
+        if (player != null)
+            detectable.triggerFrontEnter();
     }
 
     protected void OnTriggerExit2D(Collider2D collidee)
     {
-        foreach (string tag in DetecteeTags)
-            if (collidee.tag == tag)
-                detectable.triggerFrontExit();
+        Player player = collidee.GetComponent<Player>();
+
+        if (player != null)
+            detectable.triggerFrontExit();
     }
     #endregion
 }

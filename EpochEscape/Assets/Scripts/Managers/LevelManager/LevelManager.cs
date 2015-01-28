@@ -44,7 +44,7 @@ public class LevelManager : Manager<LevelManager>
 
             _EnableMiniMapLayer();
 
-            PlayerManager.SetSpawnPosition(checkpoint.respawnLocation.transform.position);
+            PlayerManager.SetSpawnPosition(checkpoint.getRespawnLocation());
             MiniMapManager.SetChamber();
         }
     }

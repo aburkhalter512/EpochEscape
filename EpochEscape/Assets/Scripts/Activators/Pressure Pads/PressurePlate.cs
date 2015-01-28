@@ -18,6 +18,9 @@ public class PressurePlate : MonoBehaviour, ISerializable
 
     protected SpriteRenderer mSR;
 
+    protected BoxCollider2D mCollider;
+    protected Vector2 mBaseSize;
+
     private STATE previousState;
     #endregion
 
@@ -36,6 +39,8 @@ public class PressurePlate : MonoBehaviour, ISerializable
     protected void Start()
     {
         mSR = gameObject.GetComponent<SpriteRenderer>();
+        mCollider = gameObject.GetComponent<BoxCollider2D>();
+        mBaseSize = mCollider.size;
 
         previousState = STATE.UN_INIT;
         currentState = STATE.ON;
@@ -43,6 +48,9 @@ public class PressurePlate : MonoBehaviour, ISerializable
         mActivatables = new List<IActivatable>();
         foreach (GameObject activatable in activatables)
         {
+            if (activatable == null)
+                continue;
+
             IActivatable actuator = activatable.GetComponent<MonoBehaviour>() as IActivatable;
 
             if (actuator != null)
@@ -71,7 +79,7 @@ public class PressurePlate : MonoBehaviour, ISerializable
         }
     }
 
-    #region Update Methods
+    #region Instance Methods
     /*
      * Turns the pressure plate off
      */
@@ -94,18 +102,35 @@ public class PressurePlate : MonoBehaviour, ISerializable
      */
     virtual protected void OnTriggerEnter2D(Collider2D collidee)
     {
-        if (collidee.tag == "Player")
+        Player player = collidee.GetComponent<Player>();
+
+        if (player != null)
         {
+            mCollider.size *= 2;
+
             audio.Play ();
 
-            //Move the player to the center of the pressure plate
-            collidee.transform.position = transform.position;
+            GameManager.Get().delayFunction(() =>
+                {
+                    //Move the player to the center of the pressure plate
+                    player.transform.position = transform.position;
+                });
 
             //Activate all of the connected actuators
             foreach (IActivatable activatable in mActivatables)
                 activatable.toggle();
 
             currentState = (currentState == STATE.ON ? STATE.OFF : STATE.ON);
+        }
+    }
+
+    virtual protected void OnTriggerExit2D(Collider2D collidee)
+    {
+        Player player = collidee.GetComponent<Player>();
+
+        if (player != null)
+        {
+            mCollider.size = mBaseSize;
         }
     }
     #endregion

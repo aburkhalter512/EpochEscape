@@ -34,8 +34,8 @@ public class PowerCore : MonoBehaviour, IResettable
             m_initialSprite = m_renderer.sprite;
 	}
 
-	#region Update Methods
-    public void OnTriggerEnter2D(Collider2D collider)
+	#region Instance Methods
+    protected void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Player")
         {
@@ -47,7 +47,7 @@ public class PowerCore : MonoBehaviour, IResettable
 
             AudioSource soundToPlay = null;
 
-            PlayerManager.AddCore();
+            Player.Get().addCore();
 
             switch (PlayerManager.GetCores())
             {

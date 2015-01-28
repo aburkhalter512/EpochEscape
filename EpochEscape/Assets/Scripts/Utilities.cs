@@ -65,7 +65,8 @@ public class Utilities
         return Mathf.Abs(a - b) < tolerance;
     }
 
-	public static bool areEqualColors(Color a, Color b){
+    #region Color Utilities
+    public static bool areEqualColors(Color a, Color b){
 		for (int i = 0; i < 3; i++) {
 			if(a[i] != b[i]){
 				return false;
@@ -91,6 +92,7 @@ public class Utilities
 			retCol[i] = a[i] + b[i];
 		}
 		return retCol;
-	}
+    }
+    #endregion
     #endregion
 }

@@ -56,6 +56,14 @@ public class EntranceDoorFrame : CheckpointDoorFrame
     #region Instance Variables
     bool mIsFirstOpen = true;
     #endregion
+
+    protected new void Start()
+    {
+        base.Start();
+
+        mFrontSide.activate();
+        mBackSide.deactivate();
+    }
     
     #region Interface Methods
     public override void triggerFrontEnter()
@@ -63,6 +71,7 @@ public class EntranceDoorFrame : CheckpointDoorFrame
         if (mIsFirstOpen)
         {
             mFrontSide.activate();
+            mBackSide.deactivate();
             mIsFirstOpen = false;
         }
     }
@@ -75,8 +84,13 @@ public class EntranceDoorFrame : CheckpointDoorFrame
      */
     public override void triggerFrontExit()
     {
+        base.triggerFrontExit();
+
         if (mFrontSide.isActive())
+        {
             mFrontSide.deactivate();
+            mBackSide.deactivate();
+        }
 
         return;
     }

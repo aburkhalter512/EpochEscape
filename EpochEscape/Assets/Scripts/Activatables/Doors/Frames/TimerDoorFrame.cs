@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TimerDoorFrame : LockedDoorFrame
+public class TimerDoorFrame : StandardDoorFrame
 {
     #region Interface Variables
     public int time = 1;

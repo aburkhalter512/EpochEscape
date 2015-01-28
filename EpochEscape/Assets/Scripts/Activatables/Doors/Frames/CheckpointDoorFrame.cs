@@ -54,21 +54,22 @@ using System.Collections;
 public class CheckpointDoorFrame : DirectionalDoorFrame
 {
     #region Interface Variables
-    public GameObject respawnLocation;
+    public GameObject spawn;
     #endregion
     
     #region Instance Variables
     bool didRegisterCheckpoint = false;
 
-    Vector3 mRespawnLocation;
+    Vector3 mSpawnLocation;
     #endregion
     
     protected new void Start()
     {
         base.Start();
 
-        mRespawnLocation = respawnLocation.transform.position;
-        GameObject.Destroy(respawnLocation);
+        mSpawnLocation = spawn.transform.position;
+        mBackSide.activate();
+        GameObject.Destroy(spawn);
     }
     
     #region Interface Methods
@@ -78,23 +79,34 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
      *      is triggered the first time the player exits. Current progress is saved and
      *      the save location is moved a location based off of the Checkpoint door frame.
      */
-    public override void triggerFrontEnter()
+    public override void triggerFrontExit()
     {
-        base.triggerFrontEnter();
+        base.triggerFrontExit();
 
         if (!didRegisterCheckpoint)
             registerCheckpoint();
     }
 
+    public override void activate()
+    {
+        return;
+    }
+
+    public override void deactivate()
+    {
+        return;
+    }
+
     public Vector3 getRespawnLocation()
     {
-        return mRespawnLocation;
+        return mSpawnLocation;
     }
     #endregion
     
     #region Instance Methods
     protected void registerCheckpoint()
     {
+        didRegisterCheckpoint = true;
         LevelManager.SetCheckoint(this);
     }
     #endregion

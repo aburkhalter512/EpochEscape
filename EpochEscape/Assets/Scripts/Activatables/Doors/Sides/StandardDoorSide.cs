@@ -44,7 +44,7 @@ public class StandardDoorSide : DoorSide
         {
             mSR.sprite = activeSprite;
 
-            mCollider.enabled = true;
+            mCollider.enabled = false;
 
             mIsActive = true;
             mIsFirstUpdate = false;

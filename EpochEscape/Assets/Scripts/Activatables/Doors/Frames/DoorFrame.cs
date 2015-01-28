@@ -57,20 +57,20 @@ public abstract class DoorFrame<T, U> :
     public GameObject frontSide;
     public GameObject backSide;
 
-    public STATE initialState;
+    public STATE initialState = STATE.IDLE;
     #endregion
     
     #region Instance Variables
     protected T mFrontSide;
     protected U mBackSide;
 
-    protected STATE mState = STATE.IDLE;
+    protected STATE mState;
     #endregion 
 
     #region Class Constants
     public enum STATE
     {
-        IDLE,
+        IDLE = 0,
         ACTIVE,
         INACTIVE
     }
@@ -78,8 +78,11 @@ public abstract class DoorFrame<T, U> :
 
     protected void Start()
     {
-        mFrontSide = GetComponent<T>();
-        mBackSide = GetComponent<U>();
+        mFrontSide = frontSide.GetComponent<T>();
+        mBackSide = backSide.GetComponent<U>();
+
+        mState = initialState;
+        setState(mState);
     }
     
     #region Interface Methods
@@ -155,25 +158,32 @@ public abstract class DoorFrame<T, U> :
             case STATE.ACTIVE:
                 deactivate();
                 break;
+            case STATE.IDLE:
             case STATE.INACTIVE:
                 activate();
                 break;
         }
     }
 
-    public virtual void Reset()
+    public void setState(STATE state)
     {
-        switch (initialState)
+        switch (mState)
         {
-            case STATE.INACTIVE:
+            case STATE.ACTIVE:
                 activate();
                 break;
-            case STATE.ACTIVE:
+            case STATE.IDLE:
+            case STATE.INACTIVE:
                 deactivate();
                 break;
         }
+    }
 
+    public virtual void Reset()
+    {
         mState = initialState;
+
+        toggle();
     }
 
     public virtual void Serialize(ref Dictionary<string, object> data)
@@ -187,7 +197,7 @@ public abstract class DoorFrame<T, U> :
         if (data != null)
         {
             if (data.ContainsKey("initialState"))
-                initialState = (STATE)int.Parse(data["initialState"].ToString());
+                mState = (STATE)int.Parse(data["initialState"].ToString());
         }
     }
     #endregion

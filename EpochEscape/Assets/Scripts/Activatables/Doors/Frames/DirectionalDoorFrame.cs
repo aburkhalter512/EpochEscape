@@ -105,20 +105,14 @@ public class DirectionalDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide
 
     public override void activate()
     {
-        if (mState != STATE.ACTIVE)
-        {
-            mBackSide.activate();
-            mState = STATE.INACTIVE;
-        }
+        mBackSide.activate();
+        mState = STATE.ACTIVE;
     }
 
     public override void deactivate()
     {
-        if (mState != STATE.INACTIVE)
-        {
-            mBackSide.deactivate();
-            mState = STATE.ACTIVE;
-        }
+        mBackSide.deactivate();
+        mState = STATE.INACTIVE;
     }
     #endregion
 }
