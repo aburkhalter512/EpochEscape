@@ -9,9 +9,10 @@ public class SlidingWall : DynamicWall, ISerializable
     #endregion
 
     #region Instance Variables
-    public Vector3[] mTargets;
-    private Vector3 mPositionDelta = Vector3.zero;
-    private Vector3 mBasePosition;
+    protected Vector3[] mTargets;
+
+    protected Vector3 mBasePosition;
+    protected Vector3 mDestinationPosition;
     #endregion
 
     //Put all initialization code here
@@ -20,44 +21,43 @@ public class SlidingWall : DynamicWall, ISerializable
     {
         base.Awake();
 
+        mTargets = new Vector3[targets.Length + 1]; //To remember the original rotation
+        mTargets[0] = transform.position;
         for (int i = 0; i < targets.Length; i++)
-            mTargets[i] = targets[i].transform.position;
-
-        mBasePosition = transform.position;
+        {
+            mTargets[i + 1] = targets[i].transform.position;
+            GameObject.Destroy(targets[i]);
+            targets[i] = null;
+        }
     }
 
     #region Instance Methods
     protected override void toChange()
     {
         audio.Play ();
-        currentIndex = (currentIndex + 1) % mTargets.Length;
+        mCurrentIndex = (mCurrentIndex + 1) % mTargets.Length;
 
-        mPositionDelta = mTargets[currentIndex] + mBasePosition - transform.position;
-        mPositionDelta /= changeTime;
-
-        UpdateSize();
+        mBasePosition = transform.position;
+        mDestinationPosition = mTargets[mCurrentIndex];
+        mCurrentChangeTime = 0.0f;
 
         mState = STATE.CHANGE;
     }
 
     protected override void change()
     {
-        if (Utilities.areClose(mPositionDelta, Vector3.zero))
+        mCurrentChangeTime += Time.smoothDeltaTime;
+
+        if (mCurrentChangeTime >= CHANGE_TIME)
         {
+            transform.position = mDestinationPosition;
+
             mState = STATE.STATIONARY;
 
             return;
         }
 
-        if (Utilities.isBounded(0.0f, mPositionDelta.sqrMagnitude * Time.smoothDeltaTime * Time.smoothDeltaTime,
-                      (transform.position - (mTargets[currentIndex] + mBasePosition)).sqrMagnitude))
-        {
-            transform.position = mTargets[currentIndex] + mBasePosition;
-            mPositionDelta = Vector3.zero;
-        }
-        else
-            transform.position += mPositionDelta * Time.smoothDeltaTime;
-
+        transform.position = Vector3.Lerp(mBasePosition, mDestinationPosition, mCurrentChangeTime / CHANGE_TIME);
     }
     #endregion
 
@@ -65,9 +65,6 @@ public class SlidingWall : DynamicWall, ISerializable
     {
         if (data != null)
         {
-            if (!data.ContainsKey("changeTime"))
-                data["changeTime"] = changeTime;
-
             if(!data.ContainsKey("positionPoints"))
                 data["positionPoints"] = mTargets;
         }
@@ -77,9 +74,6 @@ public class SlidingWall : DynamicWall, ISerializable
     {
         if (data != null)
         {
-            if(data.ContainsKey("changeTime"))
-                changeTime = (int)((long)data["changeTime"]);
-
             if (data.ContainsKey("positionPoints"))
             {
                 List<object> points = data["positionPoints"] as List<object>;

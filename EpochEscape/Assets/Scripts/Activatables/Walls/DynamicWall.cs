@@ -7,20 +7,16 @@ using System.Collections;
  */
 public abstract class DynamicWall : MonoBehaviour, IActivatable
 {
-    #region Inspector Variables
-    public float changeTime = 1.0f;
-    public int currentIndex = 0; //index of rotations
-    #endregion
-
     #region Instance Variables
-    protected Vector2 size = Vector2.zero;
-
-    protected SpriteRenderer sr;
+    protected int mCurrentIndex = 0;
+    protected float mCurrentChangeTime = 0.0f;
 
     protected STATE mState;
     #endregion
 
     #region Class Constants
+    public static readonly float CHANGE_TIME = 1.0f;
+
     public enum STATE
     {
         STATIONARY = 0,
@@ -34,8 +30,7 @@ public abstract class DynamicWall : MonoBehaviour, IActivatable
      */
     protected void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
-        UpdateSize();
+        mState = STATE.STATIONARY;
     }
 
     /*
@@ -64,22 +59,12 @@ public abstract class DynamicWall : MonoBehaviour, IActivatable
     public void deactivate() { }
     public void toggle()
     {
-        mState = STATE.TO_CHANGE;
+        if (mState != STATE.CHANGE)
+            mState = STATE.TO_CHANGE;
     }
     #endregion
 
     #region Instance Methods
-    /*
-     * Updates the bounds of the dynamic wall.
-     */
-    protected void UpdateSize()
-    {
-        if (sr == null)
-            return;
-
-        size = sr.bounds.extents;
-    }
-
     protected abstract void toChange();
     protected abstract void change();
     #endregion

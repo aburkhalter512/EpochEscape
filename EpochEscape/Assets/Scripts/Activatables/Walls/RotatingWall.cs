@@ -10,11 +10,12 @@ public class RotatingWall : DynamicWall
     #endregion
 
     #region Instance Variables
+    protected Vector3 mRotationPoint;
     protected float[] mRotationAngles;
 
-    protected float destinationAngle = 0.0f;
-    
-    protected float currentRotationChange = 0.0f;
+    protected float mBaseAngle = 0.0f;
+    protected float mPrevAngle;
+    protected float mDestinationAngle = 0.0f;
     #endregion
 
     #region Class Constants
@@ -34,23 +35,27 @@ public class RotatingWall : DynamicWall
     {
         base.Awake();
 
-        mRotationAngles = new float[rotationTargets.Length];
+        mRotationPoint = rotationPoint.transform.position;
+        GameObject.Destroy(rotationPoint);
 
-        for (int i = 0; i < mRotationAngles.Length; i++)
+        mRotationAngles = new float[rotationTargets.Length + 1];
+        mRotationAngles[0] = transform.eulerAngles.z;
+
+        for (int i = 0; i < rotationTargets.Length; i++)
         {
             switch (rotationTargets[i])
             {
                 case DIRECTION.EAST:
-                    mRotationAngles[i] = 0.0f;
+                    mRotationAngles[i + 1] = 0.0f;
                     break;
                 case DIRECTION.NORTH:
-                    mRotationAngles[i] = 90.0f;
+                    mRotationAngles[i + 1] = 90.0f;
                     break;
                 case DIRECTION.WEST:
-                    mRotationAngles[i] = 180.0f;
+                    mRotationAngles[i + 1] = 180.0f;
                     break;
                 case DIRECTION.SOUTH:
-                    mRotationAngles[i] = 270.0f;
+                    mRotationAngles[i + 1] = 270.0f;
                     break;
             }
         }
@@ -60,71 +65,49 @@ public class RotatingWall : DynamicWall
     protected override void toChange()
     {
         audio.Play ();
-        currentIndex = (currentIndex + 1) % mRotationAngles.Length;
-        
-        destinationAngle = mRotationAngles[currentIndex];
+        mCurrentChangeTime = 0.0f;
+        mCurrentIndex = (mCurrentIndex + 1) % mRotationAngles.Length;
 
-        if (transform.localEulerAngles.z < 0)
-            transform.localEulerAngles.Set(
-                transform.localEulerAngles.x, 
-                transform.localEulerAngles.y,
-                360 + transform.localEulerAngles.z % 360);
-
-        float rotationDistance = 0.0f;
-
-        if (transform.localEulerAngles.z + (360 - destinationAngle) <= 180.0f)
-            rotationDistance = -transform.localEulerAngles.z - (360 - destinationAngle);
-        else
-            rotationDistance = destinationAngle - transform.localEulerAngles.z;
-        
-        currentRotationChange = rotationDistance / changeTime;
-        
-        UpdateSize();
+        mBaseAngle = transform.eulerAngles.z;
+        mPrevAngle = mBaseAngle;
+        mDestinationAngle = mRotationAngles[mCurrentIndex];
         
         mState = STATE.CHANGE;
     }
     
     protected override void change()
     {
-        if (Mathf.Approximately(currentRotationChange, 0.0f))
+        mCurrentChangeTime += Time.smoothDeltaTime;
+
+        if (mCurrentChangeTime >= CHANGE_TIME)
         {
             mState = STATE.STATIONARY;
-            
-            for(int i = 0; i < transform.childCount; i++)
+            transform.eulerAngles.Set(0, 0, mDestinationAngle);
+
+            for (int i = 0; i < transform.childCount; i++)
             {
-                if(transform.GetChild(i).tag == "SecurityCamera")
+                if (transform.GetChild(i).tag == "SecurityCamera")
                 {
                     SecurityCamera cam = transform.GetChild(i).GetComponent<SecurityCamera>();
-                    
-                    float sn = Mathf.Sin(destinationAngle * Mathf.Deg2Rad);
-                    float cs = Mathf.Cos(destinationAngle * Mathf.Deg2Rad);
-                    
+
+                    float sn = Mathf.Sin(mDestinationAngle * Mathf.Deg2Rad);
+                    float cs = Mathf.Cos(mDestinationAngle * Mathf.Deg2Rad);
+
                     float px = cam.m_resetDirection.x * cs - cam.m_resetDirection.y * sn;
                     float py = cam.m_resetDirection.x * sn + cam.m_resetDirection.y * cs;
-                    
+
                     cam.m_resetDirection = new Vector3(px, py, cam.m_resetDirection.z);
-                    cam.m_resetAngle += destinationAngle;
+                    cam.m_resetAngle += mDestinationAngle;
                 }
             }
-            
+
             return;
         }
-        
-        float realRotationChanged = currentRotationChange * Time.smoothDeltaTime;
-        
-        if (Utilities.isBounded(
-            destinationAngle - realRotationChanged,
-            destinationAngle + realRotationChanged,
-            transform.localEulerAngles.z))
-        {
-            transform.eulerAngles.Set(0, 0, destinationAngle);
-            currentRotationChange = 0.0f;
-        }
-        else
-            transform.RotateAround(
-                rotationPoint.transform.position, 
-                Vector3.forward, 
-                realRotationChanged);
+
+
+        float currentAngle = Mathf.LerpAngle(mBaseAngle, mDestinationAngle, mCurrentChangeTime / CHANGE_TIME);
+        transform.RotateAround(mRotationPoint, Vector3.forward, currentAngle - mPrevAngle);
+        mPrevAngle = Mathf.LerpAngle(mBaseAngle, mDestinationAngle, mCurrentChangeTime / CHANGE_TIME);
     }
     #endregion
 }
