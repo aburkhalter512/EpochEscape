@@ -4,6 +4,7 @@ Library/
 obj/
 Temp/
 APK/
+EpochEscape/ProjectSettings/
 
 *.csproj
 *.sln
