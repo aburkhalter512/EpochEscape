@@ -12,6 +12,7 @@ public class RotatingWall : DynamicWall
     #region Instance Variables
     protected Vector3 mRotationPoint;
     protected float[] mRotationAngles;
+    protected float mRotationRadius;
 
     protected float mBaseAngle = 0.0f;
     protected float mPrevAngle;
@@ -40,6 +41,8 @@ public class RotatingWall : DynamicWall
 
         mRotationAngles = new float[rotationTargets.Length + 1];
         mRotationAngles[0] = transform.eulerAngles.z;
+
+        mRotationRadius = Vector3.Distance(mRotationPoint, transform.position);
 
         for (int i = 0; i < rotationTargets.Length; i++)
         {
@@ -79,33 +82,20 @@ public class RotatingWall : DynamicWall
     {
         mCurrentChangeTime += Time.smoothDeltaTime;
 
+        float currentAngle = 0.0f;
+
         if (mCurrentChangeTime >= CHANGE_TIME)
         {
             mState = STATE.STATIONARY;
-            transform.eulerAngles.Set(0, 0, mDestinationAngle);
-
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                if (transform.GetChild(i).tag == "SecurityCamera")
-                {
-                    SecurityCamera cam = transform.GetChild(i).GetComponent<SecurityCamera>();
-
-                    float sn = Mathf.Sin(mDestinationAngle * Mathf.Deg2Rad);
-                    float cs = Mathf.Cos(mDestinationAngle * Mathf.Deg2Rad);
-
-                    float px = cam.m_resetDirection.x * cs - cam.m_resetDirection.y * sn;
-                    float py = cam.m_resetDirection.x * sn + cam.m_resetDirection.y * cs;
-
-                    cam.m_resetDirection = new Vector3(px, py, cam.m_resetDirection.z);
-                    cam.m_resetAngle += mDestinationAngle;
-                }
-            }
+            currentAngle = mDestinationAngle * Mathf.Deg2Rad;
+            transform.position = new Vector3(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle), 0) * mRotationRadius;
+            transform.position += mRotationPoint;
+            transform.eulerAngles = new Vector3(0, 0, mDestinationAngle);
 
             return;
         }
 
-
-        float currentAngle = Mathf.LerpAngle(mBaseAngle, mDestinationAngle, mCurrentChangeTime / CHANGE_TIME);
+        currentAngle = Mathf.LerpAngle(mBaseAngle, mDestinationAngle, mCurrentChangeTime / CHANGE_TIME);
         transform.RotateAround(mRotationPoint, Vector3.forward, currentAngle - mPrevAngle);
         mPrevAngle = Mathf.LerpAngle(mBaseAngle, mDestinationAngle, mCurrentChangeTime / CHANGE_TIME);
     }
