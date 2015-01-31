@@ -5,20 +5,10 @@ using G = GameManager;
 public class Player : Manager<Player>
 {
     #region Interface Variables
-    public float m_interactionDistance = .2f;
-    public int m_interactionMask = 1 << 9;
-
     public AudioClip[] grateFoot;
 	public AudioClip[] solidFoot;
-	public int m_floorType; // 0 = solid, 1 = grate
 
-	public float m_detectionLevel = 0f;
-	public float m_detectionMax = 0f;
-	
-    public float Boost = 1f;
-    public float BoostTime = 0f;
-
-    public bool m_isDetected;
+	public int m_floorType; // 0 = solid, 1 = gratex
     #endregion
 
     #region Instance Variables
@@ -34,19 +24,26 @@ public class Player : Manager<Player>
 	#region Audio Variables
 	int m_footCounter;
 	#endregion
-	
-	//Detection Variables
-	protected float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
-	protected float m_detectionFade = 1.5f;
-	protected float m_detectionThres = 15f;
-	
-    //Power Core Variables
-	protected int mCollectedCores = 0;
 
-	PlayerState m_currentState;
-
-    InputManager mIM = null;
     #endregion
+
+    #region Instance Variables
+    protected InputManager mIM;
+
+    protected float m_detectionLevel = 0.0f;
+
+    //Detection Variables
+    protected bool m_isDetected;
+    protected float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
+    protected float m_detectionFade = 1.5f;
+    protected float m_detectionThres = 15f;
+
+    //Power Core Variables
+    protected int mCollectedCores = 0;
+
+    PlayerState m_currentState;
+    #endregion
+
     #region Class Constants
     public static readonly float SPEED = 2f;
     public static readonly float MAX_DETECTION_LEVEL = 100.0f;
@@ -157,11 +154,21 @@ public class Player : Manager<Player>
     {
         mCollectedCores = 0;
     }
+
+    // Returns a value between 0 and 1
+    public float getCurrentDetection()
+    {
+        return m_detectionLevel / MAX_DETECTION_LEVEL;
+    }
+
+    public void detect()
+    {
+        m_isDetected = true;
+    }
 	#endregion
 
     private void UpdateUserControl()
     {
-		#region Determine the movement direction
         m_isMoving = false;
         
         Vector3 playerMovement = mIM.primaryJoystick.getRaw();
@@ -197,10 +204,6 @@ public class Player : Manager<Player>
         }
 
         mMovementDirection.Normalize();
-    	#endregion
-
-        //No interacting for right now.
-        //Interact ();
     }
 
     private void UpdateMovement()
@@ -233,15 +236,16 @@ public class Player : Manager<Player>
                 m_currentState = PlayerState.DEAD;
                 m_detectionLevel = 0;
             }
-            if (m_detectionLevel > m_detectionMax) {
-                m_detectionMax = m_detectionLevel;
-            }
         }
-        else
+        else if (m_detectionLevel > MAX_DETECTION_LEVEL / 2)
         {
-            if (m_detectionLevel > (m_detectionMax - m_detectionThres) && m_detectionLevel > 0)
-                m_detectionLevel -= m_detectionFade * Time.deltaTime;
+            m_detectionLevel -= m_detectionRate / 4 * Time.smoothDeltaTime;
+
+            if (m_detectionLevel < MAX_DETECTION_LEVEL / 2)
+                m_detectionLevel = MAX_DETECTION_LEVEL / 2;
         }
+
+        m_isDetected = false;
     }
 
     protected virtual void UpdateAnimator()
@@ -249,7 +253,7 @@ public class Player : Manager<Player>
         m_animator.SetBool("isMoving", m_isMoving);
     }
 
-    private void PlayFootstep()
+    protected void PlayFootstep()
     {
         switch (m_floorType)
         {
