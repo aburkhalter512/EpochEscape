@@ -3,28 +3,27 @@ using System.Collections;
 
 public class DetectionArea : MonoBehaviour
 {
-	public Player detectedPlayer = null;
+    #region Instance Variables
+	protected Player m_player;
+	protected GameObject m_parent;
+	protected SpriteRenderer m_parentRenderer;
 	
-	private Player m_player;
-	private GameObject m_parent;
-	private SpriteRenderer m_parentRenderer;
+	protected bool audioIsPlaying = false;
+    #endregion
 	
-	public bool audioIsPlaying = false;
-	
-	public static Color BLUE = new Color(0.33f, 0.5f, 0.78f, 0.33f);
-	public static Color RED = new Color(1f, 0f, 0.12f, 0.45f);
+    #region Class Constants
+	public static readonly Color BLUE = new Color(0.33f, 0.5f, 0.78f, 0.33f);
+	public static readonly Color RED = new Color(1f, 0f, 0.12f, 0.45f);
 	
 	public enum ColorStatus
 	{
 		NORMAL,
 		CAUTION
 	};
+    #endregion
 	
-	public void Start()
+	protected void Start()
 	{
-		detectedPlayer = null;
-		
-		m_player = null;
 		m_parent = null;
 		
 		if(transform.parent != null)
@@ -37,23 +36,8 @@ public class DetectionArea : MonoBehaviour
 		}
 	}
 	
-	public void Update()
-	{
-		if(m_player == null)
-			CheckForPlayer();
-	}
-	
-	private void CheckForPlayer()
-	{
-		if(m_player != null) return;
-		
-		GameObject player = GameObject.FindWithTag("Player");
-		
-		if(player != null)
-			m_player = player.GetComponent<Player>();
-	}
-	
-	private void ChangeColor(ColorStatus colorStatus)
+    #region Instance Methods
+	protected void ChangeColor(ColorStatus colorStatus)
 	{
 		int parentNumChildren = m_parent.transform.childCount;
 		
@@ -77,26 +61,21 @@ public class DetectionArea : MonoBehaviour
 		}
 	}
 	
-	public void OnTriggerStay2D(Collider2D other)
+	protected void OnTriggerStay2D(Collider2D other)
 	{
-		if(other.gameObject.tag == "Player")
+        Player player = other.GetComponent<Player>();
+
+		if(player != null)
 		{	
-			if(!(m_parent == null || m_player == null))
+			if(!(m_parent == null || player == null))
 			{
-				detectedPlayer = m_player;
-				
-				if(!(m_parentRenderer == null || m_player.m_isDetected))
-					ChangeColor(ColorStatus.CAUTION);
+				ChangeColor(ColorStatus.CAUTION);
 					
-				m_player.m_isDetected = true;
+				player.detect();
 					
 				if(m_parent != null)
 				{
-					if(m_parent.tag == "Guard")
-					{
-						// Do something with the guard.
-					}
-					else if(m_parent.tag == "SecurityCamera")
+					if(m_parent.tag == "SecurityCamera")
 					{
 						if (!audioIsPlaying)
                         {
@@ -109,29 +88,23 @@ public class DetectionArea : MonoBehaviour
 		}
 	}
 	
-	public void OnTriggerExit2D(Collider2D other)
+	protected void OnTriggerExit2D(Collider2D other)
 	{
-		if(other.tag == "Player")
+        Player player = other.GetComponent<Player>();
+
+		if(player != null)
 		{
-			if(m_player != null)
-			{
 				ChangeColor(ColorStatus.NORMAL);
-				
-				m_player.m_isDetected = false;
-				
+
 				if(m_parent != null)
 				{
-					if(m_parent.tag == "Guard")
-					{
-						// Do something with the guard.
-					}
-					else if(m_parent.tag == "SecurityCamera")
+					if(m_parent.tag == "SecurityCamera")
 					{
 						audio.Stop();
 						audioIsPlaying = false;
 					}
 				}
 			}
-		}
-	}
+    }
+    #endregion
 }
