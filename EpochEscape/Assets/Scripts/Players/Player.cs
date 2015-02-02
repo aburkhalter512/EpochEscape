@@ -36,7 +36,7 @@ public class Player : Manager<Player>
     protected bool m_isDetected;
     protected float m_detectionRate = 50f; // rate/second at which character becomes detected by cameras
     protected float m_detectionFade = 1.5f;
-    protected float m_detectionThres = 15f;
+    protected float mDetectionMin = 0.0f;
 
     //Power Core Variables
     protected int mCollectedCores = 0;
@@ -46,10 +46,13 @@ public class Player : Manager<Player>
 
     #region Class Constants
     public static readonly float SPEED = 2f;
+
     public static readonly float MAX_DETECTION_LEVEL = 100.0f;
-	public static readonly int UNIQUE_ITEM_SLOTS = 1;
 	
 	public static readonly int MAX_CORES = 3;
+
+    public static readonly float INTERACTION_DISTANCE = 0.2f;
+    public static readonly int INTERACTION_LAYER_MAX = 1 << 9;
 
     public enum PlayerState
     {
@@ -84,49 +87,24 @@ public class Player : Manager<Player>
         UpdateAnimator();
     }
 
-    private void UpdateCurrentState()
-    {
-        switch(m_currentState)
-        {
-        case PlayerState.ALIVE:
-            Alive();
-            break;
-
-        case PlayerState.DEAD:
-            Dead();
-            break;
-        }
-    }
-
-    #region State Methods
-    protected virtual void Alive()
-    {
-        UpdateUserControl();
-        UpdateDetection();
-        UpdateMovement();
-    }
-
-    protected virtual void Dead()
-    {
-        G.Get().PauseMovement();
-
-        HUDManager.Hide();
-        MiniMapManager.Hide();
-        
-        GameObject playerCaught = Resources.Load("Prefabs/PlayerCaught") as GameObject;
-        
-        if(playerCaught != null)
-        {
-            playerCaught = Instantiate(playerCaught) as GameObject;
-            playerCaught.transform.position = transform.position;
-        }
-    }
-    #endregion
-
     #region Interface Methods
     public void load(Vector3 position, Vector3 rotation)
     {
         return;
+    }
+
+    public void hide()
+    {
+        gameObject.SetActive(false);
+    }
+    public void show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Resurrect()
+    {
+        m_currentState = PlayerState.ALIVE;
     }
 
     public void addCore()
@@ -136,7 +114,6 @@ public class Player : Manager<Player>
         if (mCollectedCores > MAX_CORES)
             mCollectedCores = MAX_CORES;
     }
-
     public void removeCore()
     {
         mCollectedCores--;
@@ -144,12 +121,10 @@ public class Player : Manager<Player>
         if (mCollectedCores < 0)
             mCollectedCores = 0;
     }
-
 	public int getCurrentCores()
 	{
 		return mCollectedCores;
 	}
-
     public void clearCores()
     {
         mCollectedCores = 0;
@@ -160,13 +135,13 @@ public class Player : Manager<Player>
     {
         return m_detectionLevel / MAX_DETECTION_LEVEL;
     }
-
     public void detect()
     {
         m_isDetected = true;
     }
 	#endregion
 
+    #region Instance Methods
     private void UpdateUserControl()
     {
         m_isMoving = false;
@@ -204,8 +179,10 @@ public class Player : Manager<Player>
         }
 
         mMovementDirection.Normalize();
-    }
 
+        if (mIM.interactButton.getDown())
+            interact();
+    }
     private void UpdateMovement()
 	{
 		if(!m_isMoving) return;
@@ -225,35 +202,48 @@ public class Player : Manager<Player>
 		
 	    transform.position += (Utilities.toVector3(mMovementDirection) * SPEED * Time.smoothDeltaTime);
     }
-
     private void UpdateDetection() 
     {
         if (m_isDetected)
         {
             m_detectionLevel += m_detectionRate * Time.deltaTime;
+
             if (m_detectionLevel >= MAX_DETECTION_LEVEL)
             {
                 m_currentState = PlayerState.DEAD;
                 m_detectionLevel = 0;
             }
+            else if (m_detectionLevel / 1.5f > mDetectionMin)
+                mDetectionMin = m_detectionLevel / 1.5f;
         }
-        else if (m_detectionLevel > MAX_DETECTION_LEVEL / 2)
+        else if (m_detectionLevel > mDetectionMin)
         {
-            m_detectionLevel -= m_detectionRate / 4 * Time.smoothDeltaTime;
+            m_detectionLevel -= m_detectionRate / 10 * Time.smoothDeltaTime;
 
-            if (m_detectionLevel < MAX_DETECTION_LEVEL / 2)
-                m_detectionLevel = MAX_DETECTION_LEVEL / 2;
+            if (m_detectionLevel < mDetectionMin)
+                m_detectionLevel = mDetectionMin;
         }
 
         m_isDetected = false;
     }
-
-    protected virtual void UpdateAnimator()
+    private void UpdateAnimator()
     {
         m_animator.SetBool("isMoving", m_isMoving);
     }
+    private void UpdateCurrentState()
+    {
+        switch (m_currentState)
+        {
+            case PlayerState.ALIVE:
+                Alive();
+                break;
 
-    protected void PlayFootstep()
+            case PlayerState.DEAD:
+                Dead();
+                break;
+        }
+    }
+    private void PlayFootstep()
     {
         switch (m_floorType)
         {
@@ -275,8 +265,39 @@ public class Player : Manager<Player>
         audio.Play ();
     }
 
-    public void Resurrect()
+    private void Alive()
     {
-        m_currentState = PlayerState.ALIVE;
+        UpdateUserControl();
+        UpdateDetection();
+        UpdateMovement();
     }
+    private void Dead()
+    {
+        G.Get().PauseMovement();
+
+        HUDManager.Hide();
+        MiniMapManager.Hide();
+
+        GameObject playerCaught = Resources.Load("Prefabs/PlayerCaught") as GameObject;
+
+        if (playerCaught != null)
+        {
+            playerCaught = Instantiate(playerCaught) as GameObject;
+            playerCaught.transform.position = transform.position;
+        }
+    }
+
+    private void interact()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, INTERACTION_DISTANCE, INTERACTION_LAYER_MAX);
+
+        if (hit.collider != null)
+        {
+            IInteractable interactor = hit.collider.GetComponent<MonoBehaviour>() as IInteractable;
+
+            if (interactor != null)
+                interactor.Interact();
+        }
+    }
+    #endregion
 }

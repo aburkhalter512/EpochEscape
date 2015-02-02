@@ -5,7 +5,7 @@ public class PlayerCaughtAnimation : MonoBehaviour
 {
     public void Start()
     {
-        transform.position = PlayerManager.GetPosition();
+        transform.position = Player.Get().transform.position;
     }
 
     public void DoneAnimating()
