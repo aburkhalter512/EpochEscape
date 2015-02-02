@@ -55,14 +55,23 @@ public class EntranceDoorFrame : CheckpointDoorFrame
 {
     #region Instance Variables
     bool mIsFirstOpen = true;
+
+    static EntranceDoorFrame mInstance;
     #endregion
 
     protected new void Start()
     {
-        base.Start();
+        if (mInstance == null)
+        {
+            base.Start();
 
-        mFrontSide.activate();
-        mBackSide.deactivate();
+            mFrontSide.activate();
+            mBackSide.deactivate();
+
+            mInstance = this;
+        }
+        else
+            GameObject.Destroy(gameObject);
     }
     
     #region Interface Methods
@@ -93,6 +102,22 @@ public class EntranceDoorFrame : CheckpointDoorFrame
         }
 
         return;
+    }
+
+    public override void open()
+    {
+        mFrontSide.activate();
+    }
+
+    public static EntranceDoorFrame get()
+    {
+        return mInstance;
+    }
+
+    public static void destroy()
+    {
+        GameObject.Destroy(mInstance.gameObject);
+        mInstance = null;
     }
     #endregion
 }

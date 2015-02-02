@@ -101,6 +101,11 @@ public class CheckpointDoorFrame : DirectionalDoorFrame
     {
         return mSpawnLocation;
     }
+
+    public virtual void open()
+    {
+        mBackSide.activate();
+    }
     #endregion
     
     #region Instance Methods
