@@ -19,6 +19,8 @@ public class PowerCore : MonoBehaviour, IResettable
     private Sprite m_initialSprite = null;
 
     private int m_isCollectedHash = 0;
+
+    private Player mPlayer;
 	#endregion
 
 	public void Start()
@@ -32,6 +34,8 @@ public class PowerCore : MonoBehaviour, IResettable
 
         if (m_renderer != null)
             m_initialSprite = m_renderer.sprite;
+
+        mPlayer = Player.Get();
 	}
 
 	#region Instance Methods
@@ -47,9 +51,9 @@ public class PowerCore : MonoBehaviour, IResettable
 
             AudioSource soundToPlay = null;
 
-            Player.Get().addCore();
+            mPlayer.addCore();
 
-            switch (PlayerManager.GetCores())
+            switch (mPlayer.getCurrentCores())
             {
                 case 1:
                     soundToPlay = m_powerCorePickup1;
@@ -65,7 +69,7 @@ public class PowerCore : MonoBehaviour, IResettable
             }
 
             if (soundToPlay != null)
-                AudioSource.PlayClipAtPoint(soundToPlay.clip, PlayerManager.GetPosition());
+                AudioSource.PlayClipAtPoint(soundToPlay.clip, mPlayer.transform.position);
         }
     }
 
@@ -93,6 +97,6 @@ public class PowerCore : MonoBehaviour, IResettable
         if (m_collider != null)
             m_collider.enabled = true;
 
-        PlayerManager.RemoveCore();
+        mPlayer.removeCore();
     }
 }
