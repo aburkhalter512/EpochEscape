@@ -2,11 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PressurePlate : MonoBehaviour, ISerializable
+public class PressurePlate : Activator, ISerializable
 {
     #region Inspector Variables
-    public GameObject[] activatables;
-
     public Sprite switchOn;
     public Sprite switchOff;
 
@@ -14,8 +12,6 @@ public class PressurePlate : MonoBehaviour, ISerializable
     #endregion
 
     #region Instance Variables
-    protected List<IActivatable> mActivatables;
-
     protected SpriteRenderer mSR;
 
     protected BoxCollider2D mCollider;
@@ -45,17 +41,7 @@ public class PressurePlate : MonoBehaviour, ISerializable
         previousState = STATE.UN_INIT;
         currentState = STATE.ON;
 
-        mActivatables = new List<IActivatable>();
-        foreach (GameObject activatable in activatables)
-        {
-            if (activatable == null)
-                continue;
-
-            IActivatable actuator = activatable.GetComponent<MonoBehaviour>() as IActivatable;
-
-            if (actuator != null)
-                mActivatables.Add(actuator);
-        }
+        populateActivatables();
     }
 
     /*
@@ -116,9 +102,7 @@ public class PressurePlate : MonoBehaviour, ISerializable
                     player.transform.position = transform.position;
                 });
 
-            //Activate all of the connected actuators
-            foreach (IActivatable activatable in mActivatables)
-                activatable.toggle();
+            trigger();
 
             currentState = (currentState == STATE.ON ? STATE.OFF : STATE.ON);
         }
@@ -129,9 +113,7 @@ public class PressurePlate : MonoBehaviour, ISerializable
         Player player = collidee.GetComponent<Player>();
 
         if (player != null)
-        {
             mCollider.size = mBaseSize;
-        }
     }
     #endregion
 

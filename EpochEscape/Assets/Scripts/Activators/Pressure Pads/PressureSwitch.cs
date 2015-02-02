@@ -13,8 +13,6 @@ public class PressureSwitch : PressurePlate
     override protected void OnTriggerEnter2D(Collider2D collidee)
     {
         if(collidee.tag == "Player" && currentState != STATE.OFF)
-        {
             base.OnTriggerEnter2D(collidee);
-        }
     }
 }

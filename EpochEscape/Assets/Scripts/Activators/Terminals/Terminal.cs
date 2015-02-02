@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Terminal : MonoBehaviour, IInteractable, IResettable, ISerializable
+public class Terminal : Activator, IInteractable, IResettable, ISerializable
 {
     #region Interface Variables
     public Sprite activatedSprite;
     public Sprite deactivatedSprited;
-
-    public GameObject[] activatables;
     #endregion
 
     #region InstanceVariables
@@ -15,8 +13,6 @@ public class Terminal : MonoBehaviour, IInteractable, IResettable, ISerializable
     protected bool mCanInteract = false;
 
     SpriteRenderer mSR;
-
-    protected List<IActivatable> mActivatables;
     #endregion
 
     // Use this for initialization
@@ -24,23 +20,14 @@ public class Terminal : MonoBehaviour, IInteractable, IResettable, ISerializable
     {
         mSR = GetComponent<SpriteRenderer>();
 
-        mActivatables = new List<IActivatable>();
-
-        foreach (GameObject activatable in activatables)
-        {
-            IActivatable actuator = activatable.GetComponent<MonoBehaviour>() as IActivatable;
-
-            if (actuator != null)
-                mActivatables.Add(actuator);
-        }
+        populateActivatables();
     }
     
     public virtual void Interact()
     {
         if (mCanInteract)
         {
-            foreach (IActivatable activatable in mActivatables)
-                activatable.toggle();
+            trigger();
 
             mSR.sprite = (mIsActivated ? deactivatedSprited : activatedSprite);
             mIsActivated = !mIsActivated;
