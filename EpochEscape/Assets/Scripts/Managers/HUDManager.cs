@@ -1,23 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HUDManager : Manager<HUDManager> {
-    public GUISkin EpochSkin;
+public class HUDManager : Manager<HUDManager>
+{
+    #region Instance Variables
+    private GUISkin EpochSkin;
 
-    protected override void Initialize()
-    {
-        // First time initialization.
-    }
+    private Texture2D coreJar;
+    private Texture2D empty;
+    private Texture2D piece1;
+    private Texture2D piece2;
+    private Texture2D piece3;
+    private Texture2D currCore;
 
-    #region Instance Methods
+    private Texture2D iconFrame;
+    private Texture2D detectionBar;
+    private Texture2D happy;
+    private Texture2D worried;
+    private Texture2D scared;
+    private Texture2D currMood;
+    private Texture2D specItem;
+    private Texture2D cooldownBar;
+
     private Player mPlayer;
-
-    public Texture2D coreJar;
-    public Texture2D empty;
-    public Texture2D piece1;
-    public Texture2D piece2;
-    public Texture2D piece3;
-    public Texture2D currCore;
     private Vector2 corePos = new Vector2(1479f, 748f);
     private Vector2 jarSize = new Vector2(103f, 152f);
     private Vector2 coreSize = new Vector2(67.7f, 134f);
@@ -25,54 +30,46 @@ public class HUDManager : Manager<HUDManager> {
     private const float origWidth = 1600f;
     private const float origHeight = 900f;
     private Vector3 scale;
-
-    public Texture2D iconFrame;
-    public Texture2D detectionBar;
-    public Texture2D happy;
-    public Texture2D worried;
-    public Texture2D scared;
-    public Texture2D currMood;
-    public Texture2D specItem;
-    public Texture2D cooldownBar;
     private Vector2 iconPos = new Vector2(0f, 10f);
     private Vector2 iconSize = new Vector2(175f, 175f);
     private float barFill;
+
+    private TimerDoorFrame mTimerDoor = null;
     #endregion
-    
-    void Start()
+
+    protected override void Initialize()
     {
         mPlayer = Player.Get();
 
-        EpochSkin = Resources.Load ("Prefabs/GUI/EpochStyle",typeof(GUISkin)) as GUISkin;
-        iconFrame = Resources.Load ("Textures/GUI/HUD/IconFrame", typeof(Texture2D)) as Texture2D;
-        detectionBar = Resources.Load ("Textures/GUI/HUD/DetectionBar", typeof(Texture2D)) as Texture2D;
-        cooldownBar = Resources.Load<Texture2D>("Textures/GUI/HUD/cooldown");
+        EpochSkin = Resources.Load("Prefabs/GUI/EpochStyle", typeof(GUISkin)) as GUISkin;
+        iconFrame = Resources.Load("Textures/GUI/HUD/IconFrame", typeof(Texture2D)) as Texture2D;
+        detectionBar = Resources.Load("Textures/GUI/HUD/DetectionBar", typeof(Texture2D)) as Texture2D;
         coreJar = Resources.Load("Textures/GUI/HUD/PowerCoreJar", typeof(Texture2D)) as Texture2D;
         empty = Resources.Load("Textures/GUI/HUD/PowerCoreEmpty", typeof(Texture2D)) as Texture2D;
         piece1 = Resources.Load("Textures/GUI/HUD/PowerCore1", typeof(Texture2D)) as Texture2D;
-        piece2 = Resources.Load("Textures/GUI/HUD/PowerCore2",typeof(Texture2D)) as Texture2D;
-        piece3 = Resources.Load("Textures/GUI/HUD/PowerCore3",typeof(Texture2D)) as Texture2D;
-        
+        piece2 = Resources.Load("Textures/GUI/HUD/PowerCore2", typeof(Texture2D)) as Texture2D;
+        piece3 = Resources.Load("Textures/GUI/HUD/PowerCore3", typeof(Texture2D)) as Texture2D;
+
         switch (GameManager.Get().m_currentCharacter)
         {
-        case 0:
-            happy = Resources.Load("Textures/GUI/HUD/CaveGirlHappy",typeof(Texture2D)) as Texture2D;
-            worried = Resources.Load("Textures/GUI/HUD/CaveGirlWorried",typeof(Texture2D)) as Texture2D;
-            scared = Resources.Load("Textures/GUI/HUD/CaveGirlScared",typeof(Texture2D)) as Texture2D;
-            specItem = Resources.Load("Textures/GUI/HUD/CaveGirlSpec",typeof(Texture2D)) as Texture2D;
-            break;
-            
-        case 1:
-            happy = Resources.Load ("Textures/GUI/HUD/KnightHappy",typeof(Texture2D)) as Texture2D;
-            worried = Resources.Load ("Textures/GUI/HUD/KnightWorried",typeof(Texture2D)) as Texture2D;
-            scared = Resources.Load ("Textures/GUI/HUD/KnightScared",typeof(Texture2D)) as Texture2D;
-            specItem = Resources.Load ("Textures/GUI/HUD/KnightSpec",typeof(Texture2D)) as Texture2D;
-            break;
+            case 0:
+                happy = Resources.Load("Textures/GUI/HUD/CaveGirlHappy", typeof(Texture2D)) as Texture2D;
+                worried = Resources.Load("Textures/GUI/HUD/CaveGirlWorried", typeof(Texture2D)) as Texture2D;
+                scared = Resources.Load("Textures/GUI/HUD/CaveGirlScared", typeof(Texture2D)) as Texture2D;
+                specItem = Resources.Load("Textures/GUI/HUD/CaveGirlSpec", typeof(Texture2D)) as Texture2D;
+                break;
+
+            case 1:
+                happy = Resources.Load("Textures/GUI/HUD/KnightHappy", typeof(Texture2D)) as Texture2D;
+                worried = Resources.Load("Textures/GUI/HUD/KnightWorried", typeof(Texture2D)) as Texture2D;
+                scared = Resources.Load("Textures/GUI/HUD/KnightScared", typeof(Texture2D)) as Texture2D;
+                specItem = Resources.Load("Textures/GUI/HUD/KnightSpec", typeof(Texture2D)) as Texture2D;
+                break;
         }
-        
+
         currMood = happy;
         currCore = empty;
-        
+
         scale.z = 1f;
         barFill = 0f;
     }
@@ -100,6 +97,8 @@ public class HUDManager : Manager<HUDManager> {
         GUI.DrawTexture(new Rect(0f, 0f, jarSize.x, jarSize.y), coreJar);
         GUI.EndGroup();
         #endregion
+
+        updateTimer();
         
         GUI.matrix = svMat;
     }
@@ -146,6 +145,11 @@ public class HUDManager : Manager<HUDManager> {
     {
         HUDManager.Get()._Show();
     }
+
+    public static void SetTimer(TimerDoorFrame timerDoor)
+    {
+        HUDManager.Get()._SetTimer(timerDoor);
+    }
     #endregion
 
     #region Instance Methods
@@ -157,6 +161,28 @@ public class HUDManager : Manager<HUDManager> {
     private void _Show()
     {
         gameObject.SetActive(true);
+    }
+
+    private void _SetTimer(TimerDoorFrame timerDoor)
+    {
+        mTimerDoor = timerDoor;
+    }
+
+    private void updateTimer()
+    {
+        if (mTimerDoor == null)
+            return;
+
+        if (!mTimerDoor.isTiming())
+        {
+            mTimerDoor = null;
+            return;
+        }
+
+        GUI.Label(
+            new Rect(Screen.width / 2 - 50f, 30f, 100f, 100f), 
+            mTimerDoor.getTimeRemaining().ToString(), 
+            EpochSkin.GetStyle("Timer"));
     }
     #endregion
 }
