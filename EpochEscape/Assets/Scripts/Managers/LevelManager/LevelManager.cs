@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class LevelManager : Manager<LevelManager>
 {
-    #region Inspector Variables
-    #endregion
-
     #region Instance Variables
     private EntranceDoorFrame m_entranceDoor;
 
@@ -14,11 +11,33 @@ public class LevelManager : Manager<LevelManager>
 
     private int m_currentChamber = 0;
     private CheckpointDoorFrame m_currentCheckpoint = null;
+
+    Player mPlayer;
     #endregion
 
     protected override void Initialize()
     {
-        // First time initialization.
+        GameObject player = null;
+
+        switch (GameManager.Get().m_currentCharacter)
+        {
+            case GameManager.KNIGHT:
+                player = Resources.Load("Prefabs/Players/Knight") as GameObject;
+                break;
+
+            case GameManager.CAVEGIRL:
+            default:
+                player = Resources.Load("Prefabs/Players/CaveGirl") as GameObject;
+                break;
+        }
+
+        player = Instantiate(player) as GameObject;
+        mPlayer = player.GetComponent<Player>();
+    }
+
+    protected void Start()
+    {
+        _Ready();
     }
 
     private void _Ready()
@@ -43,8 +62,6 @@ public class LevelManager : Manager<LevelManager>
             m_currentCheckpoint = checkpoint;
 
             _EnableMiniMapLayer();
-
-            PlayerManager.SetSpawnPosition(checkpoint.getRespawnLocation());
             MiniMapManager.SetChamber();
         }
     }
@@ -64,18 +81,25 @@ public class LevelManager : Manager<LevelManager>
     private void _LoadCheckpoint()
     {
         GameManager.Get().PauseMovement();
-        PlayerManager.Respawn();
         HUDManager.Show();
         MiniMapManager.Show();
         GameManager.Get().UnpauseMovement();
+
+        m_currentCheckpoint.open();
+        mPlayer.transform.position = m_currentCheckpoint.getRespawnLocation();
+        mPlayer.show();
+
+        mPlayer.Resurrect();
+
+        CameraManager.SetPosition(mPlayer.transform.position);
         
         _ResetChamber(m_currentChamber);
     }
 
     private void _ExitLevel()
     {
-        PlayerManager.HidePlayer();
-        PlayerManager.ClearCores();
+        mPlayer.hide();
+        mPlayer.clearCores();
         HUDManager.Hide();
         MiniMapManager.Hide();
         SaveManager.Save();
@@ -89,8 +113,8 @@ public class LevelManager : Manager<LevelManager>
     private void _RestartLevel()
     {
         // Possible fade here?
-        PlayerManager.HidePlayer();
-        PlayerManager.ClearCores();
+        mPlayer.hide();
+        mPlayer.clearCores();
 
         _SetCheckpoint(m_entranceDoor);
         _LoadCheckpoint();
@@ -112,10 +136,7 @@ public class LevelManager : Manager<LevelManager>
 
     private void _FindLevelDoors()
     {
-        GameObject entranceDoor = GameObject.Find("EntranceDoorCombo");
-
-        if (entranceDoor != null)
-            m_entranceDoor = entranceDoor.GetComponent<EntranceDoorFrame>();
+        m_entranceDoor = EntranceDoorFrame.get();
     }
 
     private Chamber _GetCurrentChamber()
