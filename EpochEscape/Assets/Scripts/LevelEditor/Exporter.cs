@@ -8,18 +8,32 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Xml;
 
 public class Exporter : MonoBehaviour
 {
     public string m_levelName = string.Empty;
     private int m_numberOfObjects = 0;
+    private XmlDocument xmlDocument = null;
 
 	public void Start()
 	{
         if (m_levelName == string.Empty)
             m_levelName = "level";
 
-		using(StreamWriter sw = new StreamWriter("Assets/Resources/Data/Levels/" + m_levelName + ".txt"))
+        xmlDocument = new XmlDocument();
+        XmlElement levelTag = xmlDocument.CreateElement("level");
+        xmlDocument.AppendChild(levelTag);
+
+        levelTag.SetAttribute("name", m_levelName);
+
+        SerializeLevel(levelTag);
+
+        levelTag.SetAttribute("objectCount", m_numberOfObjects.ToString());
+
+        xmlDocument.Save(m_levelName);
+
+		/*using(StreamWriter sw = new StreamWriter("Assets/Resources/Data/Levels/" + m_levelName + ".txt"))
 		{
 			sw.WriteLine("{");
 
@@ -28,10 +42,10 @@ public class Exporter : MonoBehaviour
             ComposeLevel(sw, 1);
 			
 			sw.WriteLine("}");
-		}
+		}*/
 	}
 
-    private void ComposeLevel(StreamWriter sw, int tab)
+    /*private void ComposeLevel(StreamWriter sw, int tab)
     {
         if (sw != null)
         {
@@ -40,9 +54,99 @@ public class Exporter : MonoBehaviour
             sw.WriteLine(LevelEditorUtilities.Tab(tab + 1) + LevelEditorUtilities.Escape("numberOfObjects") + ":" + m_numberOfObjects.ToString());
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "},");
         }
+    }//*/
+
+    private void SerializeLevel(XmlElement parent)
+    {
+        if (parent == null || xmlDocument == null)
+            return;
+
+        // Get all chambers that are currently tagged.
+        GameObject[] chambers = GameObject.FindGameObjectsWithTag("Chamber");
+
+        // Sort the chambers by name using a delegate.
+        // The order returned by GameObject.FindGameObjectsWithTag() is random.
+        // Efficiency here isn't the goal.
+        Array.Sort(chambers, (GameObject chamberA, GameObject chamberB) =>
+        {
+            return chamberA.name.CompareTo(chamberB.name);
+        });
+
+        foreach (GameObject chamber in chambers)
+        {
+            XmlElement chamberTag = xmlDocument.CreateElement("chamber");
+            chamberTag.SetAttribute("name", chamber.name);
+
+            List<XmlElement> serializedObjects = new List<XmlElement>();
+            m_numberOfObjects = serializeChildren(serializedObjects, chamber.transform);
+        }
     }
 
-    private void ComposeChambers(StreamWriter sw, int tab)
+    private int serializeChildren(List<XmlElement> serializedObjects, Transform parent)
+    {
+        if (parent == null || serializedObjects == null)
+            return 0;
+
+        MonoBehaviour[] convertors = parent.GetComponents<MonoBehaviour>();
+        ISerializable serializable = null;
+        int childrenCount = 0;
+
+        foreach (MonoBehaviour convertor in convertors)
+        {
+            serializable = convertor as ISerializable;
+
+            if (serializable == null)
+                continue;
+
+            serializedObjects.Add(serializable.Serialize(xmlDocument));
+            childrenCount++;
+        }
+
+        foreach (Transform child in parent)
+            childrenCount += serializeChildren(serializedObjects, child);
+
+        return childrenCount;
+    }
+
+    private List<XmlElement> organizeChildren(List<XmlElement> serializedObjects)
+    {
+        List<XmlElement> retVal = new List<XmlElement>();
+
+        XmlElement doors = xmlDocument.CreateElement("doors");
+        XmlElement dynamicWalls = xmlDocument.CreateElement("dynamicWalls");
+        XmlElement actuators = xmlDocument.CreateElement("actuators");
+        XmlElement items = xmlDocument.CreateElement("items");
+
+        foreach (XmlElement element in serializedObjects)
+        {
+            switch (element.Name)
+            {
+                case "door":
+                    doors.AppendChild(element);
+                    break;
+                case "dynamicwall":
+                    dynamicWalls.AppendChild(element);
+                    break;
+                case "actuator":
+                    actuators.AppendChild(element);
+                    break;
+                case "item":
+                    items.AppendChild(element);
+                    break;
+
+            }
+        }
+
+        retVal.Add(doors);
+        retVal.Add(dynamicWalls);
+        retVal.Add(actuators);
+        retVal.Add(items);
+
+        return retVal;
+    }
+
+    //Old exporter code
+    /*private void ComposeChambers(StreamWriter sw, int tab)
     {
         if (sw != null)
         {
@@ -584,4 +688,5 @@ public class Exporter : MonoBehaviour
             sw.WriteLine(LevelEditorUtilities.Tab(tab) + "],");
         }
     }
+    //*/
 }

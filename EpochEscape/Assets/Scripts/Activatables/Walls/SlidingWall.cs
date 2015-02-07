@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 public class SlidingWall : DynamicWall, ISerializable
 {
@@ -29,6 +30,21 @@ public class SlidingWall : DynamicWall, ISerializable
             GameObject.Destroy(targets[i]);
             targets[i] = null;
         }
+    }
+
+    public override XmlElement Serialize(XmlDocument document)
+    {
+        XmlElement wallTag = base.Serialize(document);
+
+        foreach (Vector3 target in mTargets)
+        {
+            XmlElement child = document.CreateElement("target");
+            child.SetAttribute("position", transform.position.ToString());
+
+            wallTag.AppendChild(child);
+        }
+
+        return wallTag;
     }
 
     #region Instance Methods
@@ -60,32 +76,4 @@ public class SlidingWall : DynamicWall, ISerializable
         transform.position = Vector3.Lerp(mBasePosition, mDestinationPosition, mCurrentChangeTime / CHANGE_TIME);
     }
     #endregion
-
-    public void Serialize(ref Dictionary<string, object> data)
-    {
-        if (data != null)
-        {
-            if(!data.ContainsKey("positionPoints"))
-                data["positionPoints"] = mTargets;
-        }
-    }
-
-    public void Unserialize(ref Dictionary<string, object> data)
-    {
-        if (data != null)
-        {
-            if (data.ContainsKey("positionPoints"))
-            {
-                List<object> points = data["positionPoints"] as List<object>;
-
-                if (points != null && points.Count > 0)
-                {
-                    mTargets = new Vector3[points.Count];
-
-                    for (int i = 0; i < points.Count; i++)
-                        mTargets[i] = LevelEditorUtilities.StringToVector3(points[i] as string);
-                }
-            }
-        }
-    }
 }

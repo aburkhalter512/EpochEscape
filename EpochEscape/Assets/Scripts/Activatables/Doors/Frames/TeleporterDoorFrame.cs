@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Xml;
 
 public class TeleporterDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
 {
@@ -85,6 +86,14 @@ public class TeleporterDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
         mState = STATE.INACTIVE;
     }
 
+    public void setTarget(TeleporterDoorFrame target)
+    {
+        if (target == null)
+            return;
+
+        mTeleportTarget = target;
+    }
+
     public Vector3 getSpawnPosition()
     {
         return mSpawn;
@@ -105,6 +114,14 @@ public class TeleporterDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
 
                 player.transform.position = getSpawnPosition();
             });
+    }
+
+    public override XmlElement Serialize(XmlDocument document)
+    {
+        XmlElement doorTag = base.Serialize(document);
+        doorTag.SetAttribute("targetID", mTeleportTarget.getID());
+
+        return doorTag;
     }
     #endregion
 

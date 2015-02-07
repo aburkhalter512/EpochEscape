@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 
 public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
 {
@@ -104,18 +105,11 @@ public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
         mBackSide.deactivate();
     }
 
-    public override void Serialize(ref Dictionary<string, object> data)
+    public override XmlElement Serialize(XmlDocument document)
     {
-        if (data != null)
-            data["powerCores"] = (int)powerCores;
-    }
+        XmlElement doorTag = base.Serialize(document);
+        doorTag.SetAttribute("cores", powerCores.ToString());
 
-    public override void Unserialize(ref Dictionary<string, object> data)
-    {
-        if (data != null)
-        {
-            if (data.ContainsKey("powerCores"))
-                powerCores = (CORES)int.Parse(data["powerCores"].ToString());
-        }
+        return doorTag;
     }
 }

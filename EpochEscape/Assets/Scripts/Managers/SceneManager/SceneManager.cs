@@ -42,11 +42,17 @@ public class SceneManager : Manager<SceneManager>
     private List<GameObject> m_doors = null;
     private List<GameObject> m_dynamicWalls = null;
 
+    private DoorFactory doorFactory;
+
     protected override void Initialize()
     {
-        _CreateLevelList();
-        _CreateLoadingAnimation();
-        _StartLoading();
+        //_CreateLevelList();
+        //_CreateLoadingAnimation();
+        //_StartLoading();
+    }
+
+    /*private void initializeFactories()
+    {
     }
 
     private void _CreateLevelList()
@@ -803,7 +809,7 @@ public class SceneManager : Manager<SceneManager>
 
             GUI.Label(new Rect(0f, 0f, Screen.width, Screen.height - 50f), m_loadingText, m_style);
         }
-    }
+    }*/
 
     #region Interface Methods
     public static void Load(string levelName)
@@ -813,17 +819,21 @@ public class SceneManager : Manager<SceneManager>
 
     public static void LoadNextLevel()
     {
-        SceneManager.Get()._LoadNextLevel();
+        //SceneManager.Get()._LoadNextLevel();
     }
 
     public static List<GameObject> GetDoors()
     {
-        return SceneManager.Get()._GetDoors();
+        //return SceneManager.Get()._GetDoors();
+
+        return null;
     }
 
     public static List<GameObject> GetDynamicWalls()
     {
-        return SceneManager.Get()._GetDynamicWalls();
+        //return SceneManager.Get()._GetDynamicWalls();
+
+        return null;
     }
     #endregion
 }

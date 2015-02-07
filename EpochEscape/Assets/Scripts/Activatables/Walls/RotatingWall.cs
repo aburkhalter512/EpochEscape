@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Xml;
 
 public class RotatingWall : DynamicWall
 {
@@ -62,6 +63,22 @@ public class RotatingWall : DynamicWall
                     break;
             }
         }
+    }
+
+    public override XmlElement Serialize(XmlDocument document)
+    {
+        XmlElement wallTag = base.Serialize(document);
+        wallTag.SetAttribute("rotationpoint", mRotationPoint.ToString());
+
+        foreach (DIRECTION target in rotationTargets)
+        {
+            XmlElement child = document.CreateElement("target");
+            child.SetAttribute("rotation", target.ToString());
+
+            wallTag.AppendChild(child);
+        }
+
+        return wallTag;
     }
     
     #region Instance Methods

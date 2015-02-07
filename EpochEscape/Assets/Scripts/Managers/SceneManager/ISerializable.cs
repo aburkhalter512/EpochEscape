@@ -1,10 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Xml;
 
 public interface ISerializable
 {
-    void Serialize(ref Dictionary<string, object> data);
-    void Unserialize(ref Dictionary<string, object> data);
+    XmlElement Serialize(XmlDocument document);
 }

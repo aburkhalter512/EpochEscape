@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Xml;
 
 public class TimerDoorFrame : StandardDoorFrame
 {
@@ -39,6 +40,14 @@ public class TimerDoorFrame : StandardDoorFrame
     public bool isTiming()
     {
         return mIsTiming;
+    }
+
+    public override System.Xml.XmlElement Serialize(XmlDocument document)
+    {
+        XmlElement doorTag = base.Serialize(document);
+        doorTag.SetAttribute("time", time.ToString());
+
+        return doorTag;
     }
     #endregion
 

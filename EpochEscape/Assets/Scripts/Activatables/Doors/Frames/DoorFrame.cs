@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using System.IO;
+using System.Xml;
 
 /**
  * This class a door frame for Epoch Escape. It contains two door sides along with player
@@ -50,7 +50,7 @@ using System.IO;
  */
 public abstract class DoorFrame<T, U> : 
     MonoBehaviour, 
-    IActivatable, IDetectable, IResettable, ISerializable 
+    IActivatable, IDetectable, IResettable, ISerializable, IIdentifiable 
     where T : DoorSide where U : DoorSide
 {
     #region Interface Variables
@@ -65,6 +65,8 @@ public abstract class DoorFrame<T, U> :
     protected U mBackSide;
 
     protected STATE mState;
+
+    private string mID;
     #endregion 
 
     #region Class Constants
@@ -78,6 +80,9 @@ public abstract class DoorFrame<T, U> :
 
     protected void Start()
     {
+        if (mID != "")
+            mID = Utilities.generateUUID(this);
+
         mFrontSide = frontSide.GetComponent<T>();
         mBackSide = backSide.GetComponent<U>();
 
@@ -186,19 +191,30 @@ public abstract class DoorFrame<T, U> :
         toggle();
     }
 
-    public virtual void Serialize(ref Dictionary<string, object> data)
+    public virtual XmlElement Serialize(XmlDocument document)
     {
-        if (data != null)
-            data["initialState"] = (int)initialState;
+        XmlElement doorTag = document.CreateElement("door");
+        doorTag.SetAttribute("id", mID);
+        doorTag.SetAttribute("type", GetType().ToString());
+        doorTag.SetAttribute("initialState", initialState.ToString());
+
+        doorTag.AppendChild(ComponentSerializer.toXML(transform, document));
+
+        return doorTag;
     }
 
-    public virtual void Unserialize(ref Dictionary<string, object> data)
+    public virtual string getID()
     {
-        if (data != null)
-        {
-            if (data.ContainsKey("initialState"))
-                mState = (STATE)int.Parse(data["initialState"].ToString());
-        }
+        if (mID == "")
+            mID = Utilities.generateUUID(this);
+
+        return mID;
+    }
+
+    public virtual void setID(string id)
+    {
+        if (mID != "")
+            mID = id;
     }
     #endregion
 }

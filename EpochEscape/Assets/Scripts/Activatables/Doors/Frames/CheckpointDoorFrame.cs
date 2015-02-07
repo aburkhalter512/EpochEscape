@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Xml;
 
 /**
  * This class is a checkpoint door frame for Epoch Escape. It resembles a directional door

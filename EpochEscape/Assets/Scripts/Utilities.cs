@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
+using System;
+using System.Text;
 using System.Collections;
+using System.Security.Cryptography;
 
 public class Utilities
 {
@@ -8,9 +11,101 @@ public class Utilities
 
     #region Class Constants
     public const float DEFAULT_TOLERANCE = 0.05f;
+
+    public class Pair<T, U>
+    {
+        public T first;
+        public U second;
+
+        public Pair() { }
+
+        public Pair(T firstVal, U secondVal)
+        {
+            first = firstVal;
+            second = secondVal;
+        }
+
+        public Pair(Pair<T, U> toCopy)
+        {
+            first = toCopy.first;
+            second = toCopy.second;
+        }
+
+        public virtual Pair<T, U> assign(Pair<T, U> toAssign)
+        {
+            return assign(toAssign.first, toAssign.second);
+        }
+
+        public virtual Pair<T, U> assign(T firstVal, U secondVal)
+        {
+            first = firstVal;
+            second = secondVal;
+
+            return this;
+        }
+
+        public virtual bool equals(Pair<T, U> p)
+        {
+            return first.Equals(p.first) && second.Equals(p.second);
+        }
+
+        public override string ToString()
+        {
+            return first.ToString() + ", " + second.ToString();
+        }
+    }
     #endregion
 
     #region Static Methods
+    public static Vector2 StringToVector2(string data)
+    {
+        string[] vectorComponents = null;
+        Vector2 vector = Vector2.zero;
+
+        data = data.Substring(1, data.Length - 2); // Trim paranthesis.
+
+        vectorComponents = data.Split(','); // Get each component.
+
+        // If the number of components is less than 2, then the string is corrupt.
+        if (vectorComponents.Length < 2)
+            return vector;
+
+        // Trim any whitespace.
+        vectorComponents[0] = vectorComponents[0].Trim();
+        vectorComponents[1] = vectorComponents[1].Trim();
+
+        // Parse the results.
+        vector.x = float.Parse(vectorComponents[0]);
+        vector.y = float.Parse(vectorComponents[1]);
+
+        return vector;
+    }
+    public static Vector3 StringToVector3(string data)
+    {
+        string[] vectorComponents = null;
+        Vector3 vector = Vector3.zero;
+
+        data = data.Substring(1, data.Length - 2); // Trim paranthesis.
+
+        vectorComponents = data.Split(','); // Get each component.
+
+        // If the number of components is less than 3, then the string is corrupt.
+        if (vectorComponents.Length < 3)
+            return vector;
+
+        // Trim any whitespace.
+        vectorComponents[0] = vectorComponents[0].Trim();
+        vectorComponents[1] = vectorComponents[1].Trim();
+        vectorComponents[2] = vectorComponents[2].Trim();
+
+        // Parse the results.
+        vector.x = float.Parse(vectorComponents[0]);
+        vector.y = float.Parse(vectorComponents[1]);
+        vector.z = float.Parse(vectorComponents[2]);
+
+        return vector;
+    }
+
     public static Vector3 toVector3(Vector2 v) { return new Vector3(v.x, v.y, 0.0f); }
     public static Vector3 copy(Vector3 v) { return new Vector3(v.x, v.y, v.z); }
     public static Vector2 copy(Vector2 v) { return new Vector2(v.x, v.y); }
@@ -76,5 +171,28 @@ public class Utilities
 		return retCol;
     }
     #endregion
+
+    public static string generateUUID(UnityEngine.Object o)
+    {
+        UnityEngine.Random.seed = Mathf.RoundToInt(Time.realtimeSinceStartup);
+        string preHash = o.GetType().ToString() + UnityEngine.Random.value;
+
+        StringBuilder hash = new StringBuilder();
+
+        using (MD5 md5 = MD5.Create())
+        {
+            byte[] hashData = md5.ComputeHash(Encoding.UTF8.GetBytes(preHash));
+
+            for (int i = 0; i < hashData.Length; i++)
+                hash.Append(hashData[i].ToString("x2"));
+        }
+
+        return hash.ToString();
+    }
+
+    public static T ParseEnum<T>(string toParse)
+    {
+        return (T)Enum.Parse(typeof(T), toParse);
+    }
     #endregion
 }

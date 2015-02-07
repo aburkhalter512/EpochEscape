@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
+using System.Xml;
 
 /*
  * This script represents a changing wall, and is thus abstract. This class
  * allows for more different type of changing walls to be added easily.
  */
-public abstract class DynamicWall : MonoBehaviour, IActivatable
+public abstract class DynamicWall : MonoBehaviour, IActivatable, ISerializable, IIdentifiable
 {
     #region Instance Variables
     protected int mCurrentIndex = 0;
     protected float mCurrentChangeTime = 0.0f;
 
     protected STATE mState;
+
+    private string mID = "";
+
+    private SpriteRenderer mSR;
     #endregion
 
     #region Class Constants
@@ -31,6 +37,9 @@ public abstract class DynamicWall : MonoBehaviour, IActivatable
     protected void Awake()
     {
         mState = STATE.STATIONARY;
+        mSR = GetComponent<SpriteRenderer>();
+
+        getID();
     }
 
     /*
@@ -61,6 +70,39 @@ public abstract class DynamicWall : MonoBehaviour, IActivatable
     {
         if (mState != STATE.CHANGE)
             mState = STATE.TO_CHANGE;
+    }
+
+    public virtual XmlElement Serialize(XmlDocument document)
+    {
+        XmlElement wallTag = document.CreateElement("dynamicwall");
+        wallTag.SetAttribute("type", GetType().ToString());
+
+        //Transform Component
+        wallTag.AppendChild(ComponentSerializer.toXML(transform, document));
+
+        //Sprite Renderer Component
+        wallTag.AppendChild(ComponentSerializer.toXML(mSR, document));
+
+        //All Box Collider 2D Components
+        BoxCollider2D[] colliders = GetComponents<BoxCollider2D>();
+        foreach (BoxCollider2D collider in colliders)
+            wallTag.AppendChild(ComponentSerializer.toXML(collider, document));
+
+        return wallTag;
+    }
+
+    public virtual string getID()
+    {
+        if (mID == "")
+            mID = Utilities.generateUUID(this);
+
+        return mID;
+    }
+
+    public virtual void setID(string id)
+    {
+        if (mID != "")
+            mID = id;
     }
     #endregion
 
