@@ -244,8 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b02eece83c2acf4d8e4e2b024cc74ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectedPlayer: {fileID: 0}
-  audioIsPlaying: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -258,13 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_patrolAngle: 32
-  m_patrolSpeed: 17
-  m_fixateSpeed: 2.5
-  m_previousState: 2
-  m_currentState: 1
-  m_resetDirection: {x: .707106888, y: .707106709, z: 0}
-  m_resetAngle: 315
-  cur: 4
+  cur: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
