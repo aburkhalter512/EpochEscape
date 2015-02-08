@@ -174,7 +174,7 @@ public class Utilities
 
     public static string generateUUID(UnityEngine.Object o)
     {
-        UnityEngine.Random.seed = Mathf.RoundToInt(Time.realtimeSinceStartup);
+        UnityEngine.Random.seed = Mathf.RoundToInt(Time.realtimeSinceStartup * 1000);
         string preHash = o.GetType().ToString() + UnityEngine.Random.value;
 
         StringBuilder hash = new StringBuilder();
