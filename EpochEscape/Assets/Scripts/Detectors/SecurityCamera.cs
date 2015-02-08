@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Xml;
 using G = GameManager;
 
-public class SecurityCamera : MonoBehaviour, IActivatable
+public class SecurityCamera : MonoBehaviour, IActivatable, ISerializable
 {
     #region Interface Variables
     public float m_patrolAngle = DEFAULT_PATROL_ANGLE;
@@ -35,7 +35,7 @@ public class SecurityCamera : MonoBehaviour, IActivatable
     protected Vector3 dir;
     public State cur;
 
-    public void Start()
+    protected void Start()
     {
         mBaseAngle = transform.localEulerAngles.z;
 
@@ -51,12 +51,13 @@ public class SecurityCamera : MonoBehaviour, IActivatable
         m_currentState = State.ROTATING;
     }
     
-    public void Update()
+    protected void Update()
     {
         if (!G.Get().paused)
             UpdateCurrentState();
     }
 
+    #region Interface Variables
     public void deactivate()
     {
         cur = State.IDLE;
@@ -78,7 +79,20 @@ public class SecurityCamera : MonoBehaviour, IActivatable
         else
             activate();
     }
-    
+
+    public XmlElement Serialize(XmlDocument document)
+    {
+        XmlElement element = document.CreateElement("securitycamera");
+        element.SetAttribute("type", GetType().ToString());
+        element.SetAttribute("patrolangle", m_patrolAngle.ToString());
+
+        element.AppendChild(ComponentSerializer.toXML(transform, document));
+
+        return element;
+    }
+    #endregion
+
+    #region Instance Methods
     private void UpdateCurrentState()
     {
         switch(m_currentState)
@@ -113,4 +127,5 @@ public class SecurityCamera : MonoBehaviour, IActivatable
         mCurrentDirection.z = Mathf.LerpAngle(mStartAngle, mDestAngle, mCurrentScanTime / mScanTime);
         transform.localEulerAngles = mCurrentDirection;
     }
+    #endregion
 }
