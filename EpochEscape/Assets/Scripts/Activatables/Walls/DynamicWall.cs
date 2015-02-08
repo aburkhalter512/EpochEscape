@@ -75,6 +75,7 @@ public abstract class DynamicWall : MonoBehaviour, IActivatable, ISerializable, 
     public virtual XmlElement Serialize(XmlDocument document)
     {
         XmlElement wallTag = document.CreateElement("dynamicwall");
+        wallTag.SetAttribute("id", getID());
         wallTag.SetAttribute("type", GetType().ToString());
 
         //Transform Component
