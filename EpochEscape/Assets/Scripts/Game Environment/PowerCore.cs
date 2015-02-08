@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 
-public class PowerCore : MonoBehaviour, IResettable
+public class PowerCore : MonoBehaviour, IResettable, ISerializable
 {
 	#region Inspector Variables
     public AudioSource m_powerCorePickup1 = null;
@@ -38,7 +39,20 @@ public class PowerCore : MonoBehaviour, IResettable
         mPlayer = Player.Get();
 	}
 
-	#region Instance Methods
+    #region Interface Methods
+    public XmlElement Serialize(XmlDocument document)
+    {
+        XmlElement element = document.CreateElement("item");
+        element.SetAttribute("type", GetType().ToString());
+
+        element.AppendChild(ComponentSerializer.toXML(transform, document));
+        element.AppendChild(ComponentSerializer.toXML(m_renderer, document));
+
+        return element;
+    }
+    #endregion
+
+    #region Instance Methods
     protected void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Player")
@@ -73,7 +87,7 @@ public class PowerCore : MonoBehaviour, IResettable
         }
     }
 
-	public void Collect()
+	protected void Collect()
 	{
         if (m_renderer != null)
             m_renderer.enabled = false;
@@ -84,11 +98,10 @@ public class PowerCore : MonoBehaviour, IResettable
         if (m_initialSprite != null)
             m_renderer.sprite = m_initialSprite;
 	}
-	#endregion
 
-    public void Reset()
+    protected void Reset()
     {
-        if(m_renderer != null)
+        if (m_renderer != null)
             m_renderer.enabled = true;
 
         if (m_animator != null)
@@ -99,4 +112,5 @@ public class PowerCore : MonoBehaviour, IResettable
 
         mPlayer.removeCore();
     }
+	#endregion
 }
