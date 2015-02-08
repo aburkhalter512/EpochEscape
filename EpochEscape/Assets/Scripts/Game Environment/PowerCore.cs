@@ -50,6 +50,20 @@ public class PowerCore : MonoBehaviour, IResettable, ISerializable
 
         return element;
     }
+
+    public void Reset()
+    {
+        if (m_renderer != null)
+            m_renderer.enabled = true;
+
+        if (m_animator != null)
+            m_animator.enabled = true;
+
+        if (m_collider != null)
+            m_collider.enabled = true;
+
+        mPlayer.removeCore();
+    }
     #endregion
 
     #region Instance Methods
@@ -98,19 +112,5 @@ public class PowerCore : MonoBehaviour, IResettable, ISerializable
         if (m_initialSprite != null)
             m_renderer.sprite = m_initialSprite;
 	}
-
-    protected void Reset()
-    {
-        if (m_renderer != null)
-            m_renderer.enabled = true;
-
-        if (m_animator != null)
-            m_animator.enabled = true;
-
-        if (m_collider != null)
-            m_collider.enabled = true;
-
-        mPlayer.removeCore();
-    }
 	#endregion
 }
