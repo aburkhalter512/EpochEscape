@@ -4,7 +4,6 @@
  */
 
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
@@ -34,7 +33,10 @@ public class Exporter : MonoBehaviour
 
         levelTag.SetAttribute("objectCount", m_numberOfObjects.ToString());
 
-        xmlDocument.Save(m_levelName);
+        if (!Directory.Exists("Levels"))
+            Directory.CreateDirectory("Levels");
+
+        xmlDocument.Save("Levels\\" + m_levelName + ".xml");
 
         Debug.Log("Finished exporting.");
 
@@ -61,6 +63,7 @@ public class Exporter : MonoBehaviour
         {
             XmlElement chamberTag = xmlDocument.CreateElement("chamber");
             chamberTag.SetAttribute("name", chamber.name);
+            chamberTag.SetAttribute("position", chamber.transform.position.ToString());
 
             List<XmlElement> serializedObjects = new List<XmlElement>();
             m_numberOfObjects = serializeChildren(serializedObjects, chamber.transform);
