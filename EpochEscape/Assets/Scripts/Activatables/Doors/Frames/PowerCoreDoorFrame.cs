@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
+public class PowerCoreDoorFrame : DoorFrame
 {
     #region Interface Variables
     public CORES powerCores = CORES.FULL;
@@ -32,7 +32,7 @@ public class PowerCoreDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
     
     protected new void Start()
     {
-        initialState = DoorFrame<StandardDoorSide, StandardDoorSide>.STATE.INACTIVE;
+        initialState = DoorFrame.STATE.INACTIVE;
 
         base.Start();
         mFrontSide.deactivate();

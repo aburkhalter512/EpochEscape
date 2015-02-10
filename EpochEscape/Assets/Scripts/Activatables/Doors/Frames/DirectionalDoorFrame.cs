@@ -48,7 +48,7 @@ using System.Collections;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public class DirectionalDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
+public class DirectionalDoorFrame : DoorFrame
 {
     #region Instance Variables
     bool mIsFrontHit = false;

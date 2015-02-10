@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Xml;
 
-public class TeleporterDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
+public class TeleporterDoorFrame : DoorFrame
 {
     #region Interface Variables
     public GameObject teleportTarget;
@@ -130,7 +130,7 @@ public class TeleporterDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
     {
         Player player = collidee.GetComponent<Player>();
 
-        if (player != null && mState == STATE.ACTIVE && mCanTeleport)
+        if (player != null && mTeleportTarget != null && mState == STATE.ACTIVE && mCanTeleport)
             mTeleportTarget.teleport(player);
     }
 

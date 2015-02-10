@@ -48,10 +48,9 @@ using System.Xml;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public abstract class DoorFrame<T, U> : 
+public abstract class DoorFrame: 
     MonoBehaviour, 
     IActivatable, IDetectable, IResettable, ISerializable, IIdentifiable 
-    where T : DoorSide where U : DoorSide
 {
     #region Interface Variables
     public GameObject frontSide;
@@ -61,8 +60,8 @@ public abstract class DoorFrame<T, U> :
     #endregion
     
     #region Instance Variables
-    protected T mFrontSide;
-    protected U mBackSide;
+    protected DoorSide mFrontSide;
+    protected DoorSide mBackSide;
 
     protected STATE mState;
 
@@ -83,8 +82,8 @@ public abstract class DoorFrame<T, U> :
         if (mID != "")
             mID = Utilities.generateUUID(this);
 
-        mFrontSide = frontSide.GetComponent<T>();
-        mBackSide = backSide.GetComponent<U>();
+        mFrontSide = frontSide.GetComponent<DoorSide>();
+        mBackSide = backSide.GetComponent<DoorSide>();
 
         mState = initialState;
         setState(mState);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 
-public class StandardDoorFrame : DoorFrame<StandardDoorSide, StandardDoorSide>
+public class StandardDoorFrame : DoorFrame
 {
     #region Interface Methods
     public override void triggerFrontEnter()
