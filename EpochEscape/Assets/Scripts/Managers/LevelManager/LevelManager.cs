@@ -35,11 +35,6 @@ public class LevelManager : Manager<LevelManager>
         mPlayer = player.GetComponent<Player>();
     }
 
-    protected void Start()
-    {
-        _Ready();
-    }
-
     private void _Ready()
     {
         _FindLevelDoors();
