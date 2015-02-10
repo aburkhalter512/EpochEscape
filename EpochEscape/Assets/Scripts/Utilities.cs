@@ -82,6 +82,12 @@ public class Utilities
     }
     public static Vector3 StringToVector3(string data)
     {
+        if (data == "" || data.Length < 8)
+        {
+            Debug.Log("Could not convert [" + data + "] to a Vector3");
+            return Vector3.zero;
+        }
+
         string[] vectorComponents = null;
         Vector3 vector = Vector3.zero;
 
