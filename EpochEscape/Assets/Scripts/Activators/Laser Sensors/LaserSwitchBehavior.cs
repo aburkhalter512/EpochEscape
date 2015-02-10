@@ -7,7 +7,7 @@ public class LaserSwitchBehavior : MonoBehaviour
     #region Interface Variables
     public GameObject[] activatables;
 
-    public List<DoorFrame<DoorSide, DoorSide>> door;
+    public List<DoorFrame> door;
     public List<bool> toActivate; 
     public List<Color> colorMatch;
 	public Color toMatch;
