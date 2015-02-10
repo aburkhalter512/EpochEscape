@@ -35,6 +35,10 @@ public class DynamicWallFactory : Factory<DynamicWall>
     private DynamicWall createRotatingWall(XmlElement element)
     {
         GameObject go = Resources.Load<GameObject>("Prefabs/Activatables/Walls/Rotating Wall");
+        if (go == null)
+            return null;
+
+        go = GameObject.Instantiate(go) as GameObject;
         RotatingWall retVal = go.GetComponent<RotatingWall>();
 
         retVal.rotationPoint = new GameObject();
@@ -66,6 +70,10 @@ public class DynamicWallFactory : Factory<DynamicWall>
     private DynamicWall createSlidingWall(XmlElement element)
     {
         GameObject go = Resources.Load<GameObject>("Prefabs/Activatables/Walls/Sliding Wall");
+        if (go == null)
+            return null;
+
+        go = GameObject.Instantiate(go) as GameObject;
         SlidingWall retVal = go.GetComponent<SlidingWall>();
 
         XmlNode child = element.FirstChild;

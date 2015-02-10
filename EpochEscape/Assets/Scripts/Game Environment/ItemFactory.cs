@@ -28,6 +28,10 @@ public class ItemFactory : Factory<MonoBehaviour>
     private MonoBehaviour createBasicPowerCore(XmlElement element)
     {
         GameObject go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore");
+        if (go == null)
+            return null;
+
+        go = GameObject.Instantiate(go) as GameObject;
         PowerCore retVal = go.GetComponent<PowerCore>();
 
         deserializeComponents(go, element);

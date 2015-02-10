@@ -3,19 +3,19 @@ using System.Xml;
 using System;
 using System.Collections.Generic;
 
-public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
+public class DoorFactory : Factory<DoorFrame>
 {
 	#region Instance Variables
     private List<Utilities.Pair<TeleporterDoorFrame, string>> mToConnect;
 	#endregion
 	
 	#region Interface Methods
-    public override DoorFrame<DoorSide, DoorSide> create(XmlElement element)
+    public override DoorFrame create(XmlElement element)
     {
-        if (element == null || element.Name != "activator")
+        if (element == null || element.Name != "door")
             return null;
 
-        DoorFrame<DoorSide, DoorSide> retVal = null;
+        DoorFrame retVal = null;
 
         switch (element.GetAttribute("type"))
         {
@@ -42,16 +42,16 @@ public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
 	#endregion
 	
 	#region Instance Methods
-    private DoorFrame<DoorSide, DoorSide> createBasicDoor(XmlElement element)
+    private DoorFrame createBasicDoor(XmlElement element)
     {
         UnityEngine.Object convertor = null; //Used for the funky generic conversions
-        DoorFrame<DoorSide, DoorSide> retVal = null;
+        DoorFrame retVal = null;
         GameObject go = null;
 
         switch (element.GetAttribute("type"))
         {
             case "CheckpointDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activators/Doors/CheckpointDoor");
+                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/CheckpointDoor");
                 convertor = go.GetComponent<CheckpointDoorFrame>();
                 break;
             case "DirectionDoorFrame":
@@ -67,24 +67,28 @@ public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
                 convertor = go.GetComponent<StandardDoorFrame>();
                 break;
         }
+        if (go == null)
+            return null;
+
+        go = GameObject.Instantiate(go) as GameObject; //Instantiate the prefab
         
-        retVal = convertor as DoorFrame<DoorSide, DoorSide>;
+        retVal = convertor as DoorFrame;
 
         if (convertor == null || retVal == null)
             return null;
 
         retVal.initialState = 
-            Utilities.ParseEnum<DoorFrame<DoorSide, DoorSide>.STATE>(element.GetAttribute("initialState"));
+            Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 
         deserializeComponents(go, element);
 
         return retVal;
     }
 
-    private DoorFrame<DoorSide, DoorSide> createPowerCoreDoor(XmlElement element)
+    private DoorFrame createPowerCoreDoor(XmlElement element)
     {
         UnityEngine.Object convertor = null; //Used for the funky generic conversions
-        DoorFrame<DoorSide, DoorSide> retVal = null;
+        DoorFrame retVal = null;
         GameObject go = null;
         PowerCoreDoorFrame.CORES coreCount = PowerCoreDoorFrame.CORES.NONE;
 
@@ -119,8 +123,12 @@ public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
                 convertor = go.GetComponent<ExitDoorFrame>();
                 break;
         }
+        if (go == null)
+            return null;
 
-        retVal = convertor as DoorFrame<DoorSide, DoorSide>;
+        go = GameObject.Instantiate(go) as GameObject;
+
+        retVal = convertor as DoorFrame;
 
         if (convertor == null || retVal == null)
             return null;
@@ -131,17 +139,17 @@ public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
         }
 
         retVal.initialState =
-            Utilities.ParseEnum<DoorFrame<DoorSide, DoorSide>.STATE>(element.GetAttribute("initialState"));
+            Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 
         deserializeComponents(go, element);
 
         return retVal;
     }
 
-    private DoorFrame<DoorSide, DoorSide> createTeleporterDoor(XmlElement element)
+    private DoorFrame createTeleporterDoor(XmlElement element)
     {
         UnityEngine.Object convertor = null; //Used for the funky generic conversions
-        DoorFrame<DoorSide, DoorSide> retVal = null;
+        DoorFrame retVal = null;
         GameObject go = null;
 
         switch (element.GetAttribute("type"))
@@ -151,18 +159,20 @@ public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
                 convertor = go.GetComponent<TeleporterDoorFrame>();
                 break;
         }
+        if (go == null)
+            return null;
 
-        retVal = convertor as DoorFrame<DoorSide, DoorSide>;
+        go = GameObject.Instantiate(go) as GameObject;
+
+        retVal = convertor as DoorFrame;
 
         if (convertor == null || retVal == null)
             return null;
 
-        //Devil magic!
-        //Nah... just enum parsing and nested enums
         retVal.setID(element.GetAttribute("id"));
 
         retVal.initialState =
-            Utilities.ParseEnum<DoorFrame<DoorSide, DoorSide>.STATE>(element.GetAttribute("initialState"));
+            Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 
         deserializeComponents(go, element);
 
@@ -173,41 +183,50 @@ public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
         TeleporterDoorFrame teleporterDoor = convertor as TeleporterDoorFrame;
         string targetID = element.GetAttribute("targetID");
 
+        Debug.Log("New run.");
         // Iterate over the list to perform the connecting process
         List<Utilities.Pair<TeleporterDoorFrame, string>> toRemove = new List<Utilities.Pair<TeleporterDoorFrame, string>>();
         Utilities.Pair<TeleporterDoorFrame, string> newConnector =
             new Utilities.Pair<TeleporterDoorFrame, string>(teleporterDoor, targetID);
         mToConnect.Add(newConnector);
+        newConnector = null;
 
-        //Check for any connections that can now be made
         foreach (Utilities.Pair<TeleporterDoorFrame, string> door in mToConnect)
         {
+            Debug.Log("ID: " + door.first.getID() + ", Target: " + door.second);
+            Debug.Log("[DUP] ID: " + door.first.getID() + ", Target: " + door.second);
+            /*Debug.Log("Door.second target ID: " + door.second);
+            Debug.Log("teleporterDoor ID:     " + teleporterDoor.getID());
             if (door.second == teleporterDoor.getID())
             {
+                Debug.Log("old found new");
                 door.first.setTarget(teleporterDoor);
                 toRemove.Add(door);
             }
-
-            else if (targetID == door.first.getID())
+                    
+            Debug.Log("targetID:      " + targetID);
+            Debug.Log("Door.first id: " + door.first.getID());
+            if (targetID == door.first.getID())
             {
+                Debug.Log("new found old");
                 teleporterDoor.setTarget(door.first);
                 toRemove.Add(newConnector);
-            }
+            }*/
         }
 
         // Remove any connected teleporter doors
-        foreach (Utilities.Pair<TeleporterDoorFrame, string> door in toRemove)
+        /*foreach (Utilities.Pair<TeleporterDoorFrame, string> door in toRemove)
             mToConnect.Remove(door);
 
-        toRemove.Clear();
+        toRemove.Clear();*/
 
         return retVal;
     }
 
-    private DoorFrame<DoorSide, DoorSide> createTimerDoorFrame(XmlElement element)
+    private DoorFrame createTimerDoorFrame(XmlElement element)
     {
         UnityEngine.Object convertor = null; //Used for the funky generic conversions
-        DoorFrame<DoorSide, DoorSide> retVal = null;
+        DoorFrame retVal = null;
         GameObject go = null;
 
         switch (element.GetAttribute("type"))
@@ -217,14 +236,18 @@ public class DoorFactory : Factory<DoorFrame<DoorSide, DoorSide>>
                 convertor = go.GetComponent<TimerDoorFrame>();
                 break;
         }
+        if (go == null)
+            return null;
 
-        retVal = convertor as DoorFrame<DoorSide, DoorSide>;
+        go = GameObject.Instantiate(go) as GameObject;
+
+        retVal = convertor as DoorFrame;
 
         if (convertor == null || retVal == null)
             return null;
 
         retVal.initialState =
-            Utilities.ParseEnum<DoorFrame<DoorSide, DoorSide>.STATE>(element.GetAttribute("initialState"));
+            Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 
         deserializeComponents(go, element);
 

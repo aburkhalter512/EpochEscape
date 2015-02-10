@@ -61,6 +61,10 @@ public class ActivatorFactory : Factory<Activator>
                 retVal = go.GetComponent<FloorActivator>();
                 break;
         }
+        if (go == null)
+            return null;
+
+        go = GameObject.Instantiate(go) as GameObject;
 
         if (retVal == null)
             return null;
@@ -89,11 +93,13 @@ public class ActivatorFactory : Factory<Activator>
                         break;
                     case "activatable":
                         string targetID = component.GetAttribute("id");
-                        foreach (IIdentifiable actuator in toConnect)
+                        foreach (IActivatable actuator in toConnect)
                         {
-                            if (targetID == actuator.getID())
+                            IIdentifiable identifier = actuator as IIdentifiable; 
+
+                            if (identifier != null && targetID == identifier.getID())
                             {
-                                target = actuator as IActivatable;
+                                target = actuator;
                                 break;
                             }
                         }
