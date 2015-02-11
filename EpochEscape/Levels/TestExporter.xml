@@ -1,0 +1,110 @@
+<level name="TestExporter" objectCount="24">
+  <chamber name="Chamber1" position="(0.0, 0.0, 0.0)">
+    <doors>
+      <door id="c46375f62a4f72545a72bbb754fb5349" type="TimerDoorFrame" initialState="INACTIVE" time="20">
+        <transform position="(1.0, 2.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="0743f78b41a82a3154072e62c86e7a02" type="StandardDoorFrame" initialState="INACTIVE">
+        <transform position="(1.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="0743f78b41a82a3154072e62c86e7a02" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(2.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="db13a2277ecb7f6beadf29d495e1c8d8" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="c74da24d33935dc31136ee59df975685">
+        <transform position="(3.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="c74da24d33935dc31136ee59df975685" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="db13a2277ecb7f6beadf29d495e1c8d8">
+        <transform position="(4.0, 0.0, 0.0)" rotation="(0.0, 0.0, 180.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="8710229cc5c898a222a3c3fa6031b329" type="DirectionalDoorFrame" initialState="ACTIVE">
+        <transform position="(2.0, 1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="9cf6e817199f7392cedbb6730015398a" type="EntranceDoorFrame" initialState="ACTIVE">
+        <transform position="(4.0, 1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="87416bd29ceeac8e1bd6007fa2db299d" type="PowerCoreDoorFrame" initialState="INACTIVE" cores="ONE">
+        <transform position="(1.0, -1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="51334d671861a3215b24f74372668b83" type="PowerCoreDoorFrame" initialState="INACTIVE" cores="TWO">
+        <transform position="(2.0, -1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="2d67dc89cd8b178622427ab9955e90cd" type="PowerCoreDoorFrame" initialState="INACTIVE" cores="FULL">
+        <transform position="(3.0, -1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="81ec5690a3ac5d9e9b8057893f41996e" type="CheckpointDoorFrame" initialState="ACTIVE">
+        <transform position="(1.0, 1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="dbf8b5f66ab115142f74b47503dfa419" type="DirectionalDoorFrame" initialState="INACTIVE">
+        <transform position="(3.0, 1.0, 0.0)" rotation="(0.0, 0.0, 180.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+    </doors>
+    <dynamicwalls>
+      <dynamicwall id="a8b5da21713aad5ebb6b9284e2b2a931" type="RotatingWall" rotationpoint="(0.0, -4.0, 0.0)" east="0" north="0" west="2" south="0">
+        <transform position="(-0.4, -2.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <spriterenderer sprite="" sortingOrder="1" />
+        <boxcollider2d size="(1.2, 0.4)" center="(0.0, 0.0)" />
+        <target rotation="NORTH" />
+        <target rotation="SOUTH" />
+        <target rotation="WEST" />
+      </dynamicwall>
+      <dynamicwall id="394a0cd14adae3c48e291dee2aff7ded" type="SlidingWall" east="1" north="0" west="2" south="0">
+        <transform position="(0.0, -3.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <spriterenderer sprite="" sortingOrder="1" />
+        <boxcollider2d size="(1.6, 0.4)" center="(0.0, 0.0)" />
+        <target position="(0.0, -3.0, 0.0)" />
+        <target position="(0.0, -3.0, 0.0)" />
+        <target position="(0.0, -3.0, 0.0)" />
+      </dynamicwall>
+    </dynamicwalls>
+    <activators>
+      <activator type="OneTimeTerminal">
+        <transform position="(-1.0, 1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="0743f78b41a82a3154072e62c86e7a02" />
+        <activatable id="0743f78b41a82a3154072e62c86e7a02" />
+        <activatable id="db13a2277ecb7f6beadf29d495e1c8d8" />
+        <activatable id="c74da24d33935dc31136ee59df975685" />
+      </activator>
+      <activator type="PressureSwitch">
+        <transform position="(0.0, 1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="c74da24d33935dc31136ee59df975685" />
+        <activatable id="0743f78b41a82a3154072e62c86e7a02" />
+        <activatable id="dbf8b5f66ab115142f74b47503dfa419" />
+        <activatable id="81ec5690a3ac5d9e9b8057893f41996e" />
+        <activatable id="c46375f62a4f72545a72bbb754fb5349" />
+      </activator>
+      <activator type="PressurePlate">
+        <transform position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="0743f78b41a82a3154072e62c86e7a02" />
+        <activatable id="0743f78b41a82a3154072e62c86e7a02" />
+        <activatable id="db13a2277ecb7f6beadf29d495e1c8d8" />
+        <activatable id="8710229cc5c898a222a3c3fa6031b329" />
+        <activatable id="dbf8b5f66ab115142f74b47503dfa419" />
+        <activatable id="81ec5690a3ac5d9e9b8057893f41996e" />
+      </activator>
+      <activator type="PressurePlate">
+        <transform position="(0.0, -1.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="c74da24d33935dc31136ee59df975685" />
+        <activatable id="db13a2277ecb7f6beadf29d495e1c8d8" />
+      </activator>
+      <activator type="PressurePlate">
+        <transform position="(0.0, -2.0, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="394a0cd14adae3c48e291dee2aff7ded" />
+        <activatable id="a8b5da21713aad5ebb6b9284e2b2a931" />
+      </activator>
+    </activators>
+    <items>
+      <item type="PowerCore">
+        <transform position="(1.0, -1.8, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(2.8, 2.8, 1.0)" />
+        <spriterenderer sprite="Assets/Resources/Textures/Game Environment/Items/Core 1.png" sortingOrder="1" />
+      </item>
+      <item type="PowerCore">
+        <transform position="(1.9, -1.8, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(2.8, 2.8, 1.0)" />
+        <spriterenderer sprite="Assets/Resources/Textures/Game Environment/Items/Core 2.png" sortingOrder="1" />
+      </item>
+      <item type="PowerCore">
+        <transform position="(3.1, -1.8, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(2.8, 2.8, 1.0)" />
+        <spriterenderer sprite="Assets/Resources/Textures/Game Environment/Items/Core 3.png" sortingOrder="1" />
+      </item>
+    </items>
+  </chamber>
+</level>
