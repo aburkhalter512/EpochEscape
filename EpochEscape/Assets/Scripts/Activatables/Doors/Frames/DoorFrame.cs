@@ -79,8 +79,7 @@ public abstract class DoorFrame:
 
     protected void Start()
     {
-        if (mID != "")
-            mID = Utilities.generateUUID(this);
+        getID();
 
         mFrontSide = frontSide.GetComponent<DoorSide>();
         mBackSide = backSide.GetComponent<DoorSide>();
