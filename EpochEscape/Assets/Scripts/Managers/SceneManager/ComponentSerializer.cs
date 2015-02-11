@@ -44,7 +44,7 @@ public class ComponentSerializer
 
     public static XmlElement toXML(BoxCollider2D collider, XmlDocument document)
     {
-        XmlElement element = document.CreateElement("spriterenderer");
+        XmlElement element = document.CreateElement("boxcollider2d");
         element.SetAttribute("size", collider.size.ToString());
         element.SetAttribute("center", collider.center.ToString());
 
@@ -52,7 +52,7 @@ public class ComponentSerializer
     }
     public static void deserialize(BoxCollider2D collider, XmlElement element)
     {
-        if (element.Name != "spriterenderer" || collider == null)
+        if (element.Name != "boxcollider2d" || collider == null)
             return;
 
         collider.size = Utilities.StringToVector2(element.GetAttribute("size"));
