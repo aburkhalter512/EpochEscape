@@ -32,8 +32,6 @@ public class Importer : MonoBehaviour
 
     public void Awake()
     {
-        Debug.Log("Awaking");
-
         initializeFactories();
 
         mActivatables = new List<IActivatable>();
@@ -67,8 +65,6 @@ public class Importer : MonoBehaviour
 
     private void importLevel(XmlDocument document)
     {
-        Debug.Log("Importing level.");
-
         XmlElement rootElem;
         foreach (XmlNode root in document.ChildNodes)
         {
@@ -115,18 +111,18 @@ public class Importer : MonoBehaviour
                         case "doors":
                             StartCoroutine(importDoors(categoryElem));
                             break;
-                        /*case "dynamicwalls":
+                        case "dynamicwalls":
                             StartCoroutine(importDynamicWalls(categoryElem));
                             dynamicWalls = categoryElem;
                             break;
-                        case "activators":
+                        /*scase "activators":
                             StartCoroutine(importActivators(categoryElem));
                             activators = categoryElem;
-                            break;
-                        case "items":
+                            break;//*/
+                        /*case "items":
                             StartCoroutine(importItems(categoryElem));
                             items = categoryElem;
-                            break;*/
+                            break;//*/
                     }
                 }
             }
@@ -144,7 +140,7 @@ public class Importer : MonoBehaviour
 
             mActivatables.Add(mDoorFactory.create(doorElem) as IActivatable);
 
-            yield return new WaitForSeconds(.33f);
+            yield return null;
         }
 
         mImportedDoors = true;
@@ -152,7 +148,6 @@ public class Importer : MonoBehaviour
 
     private IEnumerator importDynamicWalls(XmlElement parent)
     {
-        Debug.Log("Importing dynamic walls...");
         XmlElement wallElem;
         foreach (XmlNode node in parent.ChildNodes)
         {
@@ -166,7 +161,6 @@ public class Importer : MonoBehaviour
         }
 
         mImportedDynWalls = true;
-        Debug.Log("Done importing dynamic walls.");
     }
 
     private IEnumerator importActivators(XmlElement parent)
