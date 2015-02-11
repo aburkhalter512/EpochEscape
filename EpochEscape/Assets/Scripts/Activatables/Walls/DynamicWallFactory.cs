@@ -7,6 +7,9 @@ public class DynamicWallFactory : Factory<DynamicWall>
 {
 	#region Instance Variables
     private List<Utilities.Pair<TeleporterDoorFrame, string>> mToConnect;
+
+    private UnityEngine.Object mSlidingWallPrefab;
+    private UnityEngine.Object mRotatingWallPrefab;
 	#endregion
 	
 	#region Interface Methods
@@ -15,14 +18,16 @@ public class DynamicWallFactory : Factory<DynamicWall>
         if (element == null || element.Name != "dynamicwall")
             return null;
 
+        Debug.Log("Creating a dynamic wall.");
+
         DynamicWall retVal = null;
 
         switch (element.GetAttribute("type"))
         {
-            case "rotatingwall":
+            case "RotatingWall":
                 retVal = createRotatingWall(element);
                 break;
-            case "slidingwall":
+            case "SlidingWall":
                 retVal = createSlidingWall(element);
                 break;
         }
@@ -34,16 +39,17 @@ public class DynamicWallFactory : Factory<DynamicWall>
 	#region Instance Methods
     private DynamicWall createRotatingWall(XmlElement element)
     {
-        GameObject go = Resources.Load<GameObject>("Prefabs/Activatables/Walls/Rotating Wall");
-        if (go == null)
+        if (mRotatingWallPrefab == null)
+            mRotatingWallPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Walls/RotatingWall");
+
+        if (mRotatingWallPrefab == null)
             return null;
 
-        go = GameObject.Instantiate(go) as GameObject;
+        GameObject go = GameObject.Instantiate(mRotatingWallPrefab) as GameObject;
         RotatingWall retVal = go.GetComponent<RotatingWall>();
 
-        retVal.rotationPoint = new GameObject();
-        retVal.rotationPoint.transform.position = 
-            Utilities.StringToVector3(element.GetAttribute("rotationpoint"));
+        retVal.setRotationPoint(
+            Utilities.StringToVector3(element.GetAttribute("rotationpoint")));
 
         XmlNode child = element.FirstChild;
         XmlElement component;
@@ -60,27 +66,35 @@ public class DynamicWallFactory : Factory<DynamicWall>
             if (component.Name == "target")
                 targets.Add(Utilities.ParseEnum<RotatingWall.DIRECTION>(component.GetAttribute("rotation")));
         }
-        retVal.rotationTargets = targets.ToArray();
+        retVal.setRotationTargets(targets.ToArray());
 
         deserializeComponents(go, element);
+        SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+        sr.sprite = DynamicWall.createWallSprite(
+            Convert.ToInt32(element.GetAttribute("east")),
+            Convert.ToInt32(element.GetAttribute("north")),
+            Convert.ToInt32(element.GetAttribute("west")),
+            Convert.ToInt32(element.GetAttribute("south")));
 
         return retVal;
     }
 
     private DynamicWall createSlidingWall(XmlElement element)
     {
-        GameObject go = Resources.Load<GameObject>("Prefabs/Activatables/Walls/Sliding Wall");
-        if (go == null)
+        if (mSlidingWallPrefab == null)
+            mSlidingWallPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Walls/SlidingWall");
+
+        if (mSlidingWallPrefab == null)
             return null;
 
-        go = GameObject.Instantiate(go) as GameObject;
+        GameObject go = GameObject.Instantiate(mSlidingWallPrefab) as GameObject;
         SlidingWall retVal = go.GetComponent<SlidingWall>();
 
         XmlNode child = element.FirstChild;
         XmlElement component;
 
-        List<GameObject> targets = new List<GameObject>();
-        GameObject target;
+        List<Vector3> targets = new List<Vector3>();
+        Vector3 target;
         while (child != null)
         {
             component = child as XmlElement;
@@ -91,14 +105,19 @@ public class DynamicWallFactory : Factory<DynamicWall>
 
             if (component.Name == "target")
             {
-                target = new GameObject();
-                target.transform.position = Utilities.StringToVector3(component.GetAttribute("position"));
+                target = Utilities.StringToVector3(component.GetAttribute("position"));
                 targets.Add(target);
             }
         }
-        retVal.targets = targets.ToArray();
+        retVal.setSlidingTargets(targets.ToArray());
 
         deserializeComponents(go, element);
+        SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+        sr.sprite = DynamicWall.createWallSprite(
+            Convert.ToInt32(element.GetAttribute("east")),
+            Convert.ToInt32(element.GetAttribute("north")),
+            Convert.ToInt32(element.GetAttribute("west")),
+            Convert.ToInt32(element.GetAttribute("south")));
 
         return retVal;
     }

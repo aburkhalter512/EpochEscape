@@ -37,17 +37,56 @@ public class RotatingWall : DynamicWall
     {
         base.Awake();
 
-        mRotationPoint = rotationPoint.transform.position;
-        GameObject.Destroy(rotationPoint);
+        if (rotationPoint != null)
+        {
+            mRotationPoint = rotationPoint.transform.position;
+            GameObject.Destroy(rotationPoint);
+        }
 
-        mRotationAngles = new float[rotationTargets.Length + 1];
+        if (rotationTargets != null)
+        {
+            mRotationAngles = new float[rotationTargets.Length + 1];
+            mRotationAngles[0] = transform.eulerAngles.z;
+
+            mRotationRadius = Vector3.Distance(mRotationPoint, transform.position);
+
+            for (int i = 0; i < rotationTargets.Length; i++)
+            {
+                switch (rotationTargets[i])
+                {
+                    case DIRECTION.EAST:
+                        mRotationAngles[i + 1] = 0.0f;
+                        break;
+                    case DIRECTION.NORTH:
+                        mRotationAngles[i + 1] = 90.0f;
+                        break;
+                    case DIRECTION.WEST:
+                        mRotationAngles[i + 1] = 180.0f;
+                        break;
+                    case DIRECTION.SOUTH:
+                        mRotationAngles[i + 1] = 270.0f;
+                        break;
+                }
+            }
+        }
+    }
+
+    #region Interface Methods
+    public void setRotationPoint(Vector3 absoluteRotationPoint)
+    {
+        mRotationPoint = absoluteRotationPoint;
+    }
+
+    public void setRotationTargets(DIRECTION[] targets)
+    {
+        mRotationAngles = new float[targets.Length + 1];
         mRotationAngles[0] = transform.eulerAngles.z;
 
         mRotationRadius = Vector3.Distance(mRotationPoint, transform.position);
 
-        for (int i = 0; i < rotationTargets.Length; i++)
+        for (int i = 0; i < targets.Length; i++)
         {
-            switch (rotationTargets[i])
+            switch (targets[i])
             {
                 case DIRECTION.EAST:
                     mRotationAngles[i + 1] = 0.0f;
@@ -80,7 +119,8 @@ public class RotatingWall : DynamicWall
 
         return wallTag;
     }
-    
+    #endregion
+
     #region Instance Methods
     protected override void toChange()
     {

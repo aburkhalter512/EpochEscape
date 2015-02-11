@@ -22,14 +22,29 @@ public class SlidingWall : DynamicWall, ISerializable
     {
         base.Awake();
 
-        mTargets = new Vector3[targets.Length + 1]; //To remember the original rotation
-        mTargets[0] = transform.position;
-        for (int i = 0; i < targets.Length; i++)
+        if (targets != null)
         {
-            mTargets[i + 1] = targets[i].transform.position;
-            GameObject.Destroy(targets[i]);
-            targets[i] = null;
+            mTargets = new Vector3[targets.Length + 1]; //+1 To remember the original rotation
+            mTargets[0] = transform.position;
+            for (int i = 0; i < targets.Length; i++)
+            {
+                mTargets[i + 1] = targets[i].transform.position;
+                GameObject.Destroy(targets[i]);
+                targets[i] = null;
+            }
         }
+    }
+
+    #region Interface Methods
+    public void setSlidingTargets(Vector3[] vecTargets)
+    {
+        if (vecTargets == null)
+            return;
+
+        mTargets = new Vector3[vecTargets.Length + 1]; //+1 To remember the original rotation
+        mTargets[0] = transform.position;
+        for (int i = 0; i < vecTargets.Length; i++)
+            mTargets[i + 1] = vecTargets[i];
     }
 
     public override XmlElement Serialize(XmlDocument document)
@@ -46,6 +61,7 @@ public class SlidingWall : DynamicWall, ISerializable
 
         return wallTag;
     }
+    #endregion
 
     #region Instance Methods
     protected override void toChange()
