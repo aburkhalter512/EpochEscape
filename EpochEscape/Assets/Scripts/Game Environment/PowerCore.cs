@@ -22,6 +22,9 @@ public class PowerCore : MonoBehaviour, IResettable, ISerializable
     private int m_isCollectedHash = 0;
 
     private Player mPlayer;
+
+    private int mCoreNumber = 0;
+    private static int mCoreCounter = 0;
 	#endregion
 
 	public void Start()
@@ -37,6 +40,8 @@ public class PowerCore : MonoBehaviour, IResettable, ISerializable
             m_initialSprite = m_renderer.sprite;
 
         mPlayer = Player.Get();
+
+        mCoreNumber = ++mCoreCounter;
 	}
 
     #region Interface Methods
@@ -44,9 +49,9 @@ public class PowerCore : MonoBehaviour, IResettable, ISerializable
     {
         XmlElement element = document.CreateElement("item");
         element.SetAttribute("type", GetType().ToString());
+        element.SetAttribute("core", mCoreNumber.ToString());
 
         element.AppendChild(ComponentSerializer.toXML(transform, document));
-        element.AppendChild(ComponentSerializer.toXML(m_renderer, document));
 
         return element;
     }

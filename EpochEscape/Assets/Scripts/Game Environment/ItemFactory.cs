@@ -11,11 +11,13 @@ public class ItemFactory : Factory<MonoBehaviour>
         if (element == null || element.Name != "item")
             return null;
 
+        Debug.Log("Creating an item");
+
         MonoBehaviour retVal = null;
 
         switch (element.GetAttribute("type"))
         {
-            case "powercore":
+            case "PowerCore":
                 retVal = createBasicPowerCore(element);
                 break;
         }
@@ -27,9 +29,25 @@ public class ItemFactory : Factory<MonoBehaviour>
 	#region Instance Methods
     private MonoBehaviour createBasicPowerCore(XmlElement element)
     {
-        GameObject go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore");
+        GameObject go = null;
+        switch (Convert.ToInt32(element.GetAttribute("core")))
+        {
+            case 1:
+                go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore1");
+                break;
+            case 2:
+                go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore2");
+                break;
+            case 3:
+                go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore3");
+                break;
+        }
+
         if (go == null)
+        {
+            Debug.Log("go is null");
             return null;
+        }
 
         go = GameObject.Instantiate(go) as GameObject;
         PowerCore retVal = go.GetComponent<PowerCore>();
@@ -53,9 +71,6 @@ public class ItemFactory : Factory<MonoBehaviour>
                 {
                     case "transform":
                         ComponentSerializer.deserialize(go.transform, component);
-                        break;
-                    case "spriterenderer":
-                        ComponentSerializer.deserialize(go.GetComponent<SpriteRenderer>(), component);
                         break;
                 }
             }
