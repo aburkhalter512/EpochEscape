@@ -119,7 +119,7 @@ public class Importer : MonoBehaviour
                             StartCoroutine(importActivators(categoryElem));
                             activators = categoryElem;
                             break;//*/
-                        /*case "items":
+                        case "items":
                             StartCoroutine(importItems(categoryElem));
                             items = categoryElem;
                             break;//*/

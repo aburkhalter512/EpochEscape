@@ -28,7 +28,7 @@ public class ComponentSerializer
     public static XmlElement toXML(SpriteRenderer sr, XmlDocument document)
     {
         XmlElement element = document.CreateElement("spriterenderer");
-        element.SetAttribute("sprite", AssetDatabase.GetAssetPath(sr.sprite));
+        element.SetAttribute("sprite", AssetDatabase.GetAssetPath(sr.sprite).Remove(0, 17)); //Removes Asset/Resources/
         element.SetAttribute("sortingOrder", sr.sortingOrder.ToString());
 
         return element;
@@ -38,7 +38,7 @@ public class ComponentSerializer
         if (element.Name != "spriterenderer" || sr == null)
             return;
 
-        sr.sprite = Resources.Load<Sprite>(element.GetAttribute("sprite"));
+        sr.sprite = Resources.Load<Sprite>(element.GetAttribute("sprite")); 
         sr.sortingOrder = Convert.ToInt32(element.GetAttribute("sortingOrder"));
     }
 

@@ -18,8 +18,6 @@ public class DynamicWallFactory : Factory<DynamicWall>
         if (element == null || element.Name != "dynamicwall")
             return null;
 
-        Debug.Log("Creating a dynamic wall.");
-
         DynamicWall retVal = null;
 
         switch (element.GetAttribute("type"))

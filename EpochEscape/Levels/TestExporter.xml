@@ -93,15 +93,15 @@
       </activator>
     </activators>
     <items>
-      <item type="PowerCore">
+      <item type="PowerCore" core="1">
         <transform position="(1.0, -1.8, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(2.8, 2.8, 1.0)" />
         <spriterenderer sprite="Assets/Resources/Textures/Game Environment/Items/Core 1.png" sortingOrder="1" />
       </item>
-      <item type="PowerCore">
+      <item type="PowerCore" core="2">
         <transform position="(1.9, -1.8, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(2.8, 2.8, 1.0)" />
         <spriterenderer sprite="Assets/Resources/Textures/Game Environment/Items/Core 2.png" sortingOrder="1" />
       </item>
-      <item type="PowerCore">
+      <item type="PowerCore" core="3">
         <transform position="(3.1, -1.8, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(2.8, 2.8, 1.0)" />
         <spriterenderer sprite="Assets/Resources/Textures/Game Environment/Items/Core 3.png" sortingOrder="1" />
       </item>
