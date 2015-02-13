@@ -10,9 +10,6 @@ public class ItemFactory : Factory<MonoBehaviour>
     {
         if (element == null || element.Name != "item")
             return null;
-
-        Debug.Log("Creating an item");
-
         MonoBehaviour retVal = null;
 
         switch (element.GetAttribute("type"))
