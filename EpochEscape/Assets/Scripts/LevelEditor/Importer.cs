@@ -30,7 +30,7 @@ public class Importer : MonoBehaviour
     private bool mImportedItems;
     #endregion
 
-    public void Awake()
+    public void Start()
     {
         initializeFactories();
 
@@ -115,14 +115,14 @@ public class Importer : MonoBehaviour
                             StartCoroutine(importDynamicWalls(categoryElem));
                             dynamicWalls = categoryElem;
                             break;
-                        /*scase "activators":
+                        case "activators":
                             StartCoroutine(importActivators(categoryElem));
                             activators = categoryElem;
                             break;//*/
                         case "items":
                             StartCoroutine(importItems(categoryElem));
                             items = categoryElem;
-                            break;//*/
+                            break;
                     }
                 }
             }
@@ -168,11 +168,8 @@ public class Importer : MonoBehaviour
         //Check to see if the activatables have imported yet
         while (!(mImportedDoors && mImportedDynWalls))
         {
-            Debug.Log("Waiting for activatables to import...");
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSeconds(.1f);
         }
-
-        Debug.Log("Activatables imported.");
 
         XmlElement activatorElem;
         foreach (XmlNode node in parent.ChildNodes)
