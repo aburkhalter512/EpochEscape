@@ -5,7 +5,13 @@ using System.Collections.Generic;
 
 public class ItemFactory : Factory<MonoBehaviour>
 {
-	#region Interface Methods
+    #region Instance Variables
+    private GameObject mPowerCore1Prefab;
+    private GameObject mPowerCore2Prefab;
+    private GameObject mPowerCore3Prefab;
+    #endregion
+
+    #region Interface Methods
     public override MonoBehaviour create(XmlElement element)
     {
         if (element == null || element.Name != "item")
@@ -30,13 +36,22 @@ public class ItemFactory : Factory<MonoBehaviour>
         switch (Convert.ToInt32(element.GetAttribute("core")))
         {
             case 1:
-                go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore1");
+                if (mPowerCore1Prefab == null)
+                    mPowerCore1Prefab = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore1");
+
+                go = mPowerCore1Prefab;
                 break;
             case 2:
-                go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore2");
+                if (mPowerCore2Prefab == null)
+                    mPowerCore2Prefab = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore2");
+
+                go = mPowerCore2Prefab;
                 break;
             case 3:
-                go = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore3");
+                if (mPowerCore3Prefab == null)
+                    mPowerCore3Prefab = Resources.Load<GameObject>("Prefabs/Game Environment/Items/PowerCore3");
+
+                go = mPowerCore3Prefab;
                 break;
         }
 
