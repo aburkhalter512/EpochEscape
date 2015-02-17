@@ -7,6 +7,17 @@ public class DoorFactory : Factory<DoorFrame>
 {
 	#region Instance Variables
     private List<Utilities.Pair<TeleporterDoorFrame, string>> mToConnect;
+
+    private GameObject mCheckpointPrefab;
+    private GameObject mDirectionalPrefab;
+    private GameObject mEntrancePrefab;
+    private GameObject mStandardPrefab;
+    private GameObject mExitPrefab;
+    private GameObject mPowerCore1Prefab;
+    private GameObject mPowerCore2Prefab;
+    private GameObject mPowerCore3Prefab;
+    private GameObject mTeleporterPrefab;
+    private GameObject mTimerPrefab;
 	#endregion
 	
 	#region Interface Methods
@@ -50,16 +61,28 @@ public class DoorFactory : Factory<DoorFrame>
         switch (element.GetAttribute("type"))
         {
             case "CheckpointDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/CheckpointDoor");
+                if (mCheckpointPrefab == null)
+                    mCheckpointPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/CheckpointDoor");
+
+                go = mCheckpointPrefab;
                 break;
             case "DirectionalDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/DirectionalDoor");
+                if (mDirectionalPrefab == null)
+                    mDirectionalPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/DirectionalDoor");
+
+                go = mDirectionalPrefab;
                 break;
             case "EntranceDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/EntranceDoor");
+                if (mEntrancePrefab == null)
+                    mEntrancePrefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/EntranceDoor");
+
+                go = mEntrancePrefab;
                 break;
             case "StandardDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/StandardDoor");
+                if (mStandardPrefab == null)
+                    mStandardPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/StandardDoor");
+
+                go = mStandardPrefab;
                 break;
         }
         if (go == null)
@@ -71,6 +94,7 @@ public class DoorFactory : Factory<DoorFrame>
         if (retVal == null)
             return null;
 
+        retVal.setID(element.GetAttribute("id"));
         retVal.initialState = 
             Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 
@@ -96,13 +120,22 @@ public class DoorFactory : Factory<DoorFrame>
                     case PowerCoreDoorFrame.CORES.NONE:
                         break;
                     case PowerCoreDoorFrame.CORES.ONE:
-                        go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/OneCoreDoor");
+                        if (mPowerCore1Prefab == null)
+                            mPowerCore1Prefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/OneCoreDoor");
+
+                        go = mPowerCore1Prefab;
                         break;
                     case PowerCoreDoorFrame.CORES.TWO:
-                        go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/TwoCoreDoor");
+                        if (mPowerCore2Prefab == null)
+                            mPowerCore2Prefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/TwoCoreDoor");
+
+                        go = mPowerCore2Prefab;
                         break;
                     case PowerCoreDoorFrame.CORES.FULL:
-                        go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/FullCoreDoor");
+                        if (mPowerCore3Prefab == null)
+                            mPowerCore3Prefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/FullCoreDoor");
+
+                        go = mPowerCore3Prefab;
                         break;
                 }
 
@@ -110,7 +143,10 @@ public class DoorFactory : Factory<DoorFrame>
                     return null;
                 break;
             case "ExitDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/ExitDoor");
+                if (mExitPrefab == null)
+                    mExitPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/ExitDoor");
+
+                go = mExitPrefab;
                 break;
         }
         if (go == null)
@@ -124,6 +160,7 @@ public class DoorFactory : Factory<DoorFrame>
 
         retVal.powerCores = coreCount;
 
+        retVal.setID(element.GetAttribute("id"));
         retVal.initialState =
             Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 
@@ -140,7 +177,10 @@ public class DoorFactory : Factory<DoorFrame>
         switch (element.GetAttribute("type"))
         {
             case "TeleporterDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/TeleporterDoor");
+                if (mTeleporterPrefab == null)
+                    mTeleporterPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/TeleporterDoor");
+
+                go = mTeleporterPrefab;
                 break;
         }
         if (go == null)
@@ -153,7 +193,6 @@ public class DoorFactory : Factory<DoorFrame>
             return null;
 
         retVal.setID(element.GetAttribute("id"));
-
         retVal.initialState =
             Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 
@@ -205,7 +244,10 @@ public class DoorFactory : Factory<DoorFrame>
         switch (element.GetAttribute("type"))
         {
             case "TimerDoorFrame":
-                go = Resources.Load<GameObject>("Prefabs/Activatables/Doors/TimerDoor");
+                if (mTimerPrefab == null)
+                    mTimerPrefab = Resources.Load<GameObject>("Prefabs/Activatables/Doors/TimerDoor");
+
+                go = mTimerPrefab;
                 break;
         }
         if (go == null)
@@ -219,6 +261,7 @@ public class DoorFactory : Factory<DoorFrame>
         if (convertor == null || retVal == null)
             return null;
 
+        retVal.setID(element.GetAttribute("id"));
         retVal.initialState =
             Utilities.ParseEnum<DoorFrame.STATE>(element.GetAttribute("initialState"));
 

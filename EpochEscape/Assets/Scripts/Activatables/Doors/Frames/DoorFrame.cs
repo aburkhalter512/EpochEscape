@@ -65,7 +65,7 @@ public abstract class DoorFrame:
 
     protected STATE mState;
 
-    private string mID;
+    private string mID = "";
     #endregion 
 
     #region Class Constants
@@ -192,7 +192,7 @@ public abstract class DoorFrame:
     public virtual XmlElement Serialize(XmlDocument document)
     {
         XmlElement doorTag = document.CreateElement("door");
-        doorTag.SetAttribute("id", mID);
+        doorTag.SetAttribute("id", getID());
         doorTag.SetAttribute("type", GetType().ToString());
         doorTag.SetAttribute("initialState", initialState.ToString());
 
@@ -211,8 +211,7 @@ public abstract class DoorFrame:
 
     public virtual void setID(string id)
     {
-        if (mID != "")
-            mID = id;
+        mID = id;
     }
     #endregion
 }
