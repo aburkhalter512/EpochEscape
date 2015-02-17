@@ -46,8 +46,7 @@ public class DynamicWallFactory : Factory<DynamicWall>
         GameObject go = GameObject.Instantiate(mRotatingWallPrefab) as GameObject;
         RotatingWall retVal = go.GetComponent<RotatingWall>();
 
-        retVal.setRotationPoint(
-            Utilities.StringToVector3(element.GetAttribute("rotationpoint")));
+        retVal.setID(element.GetAttribute("id"));
 
         XmlNode child = element.FirstChild;
         XmlElement component;
@@ -67,6 +66,9 @@ public class DynamicWallFactory : Factory<DynamicWall>
         retVal.setRotationTargets(targets.ToArray());
 
         deserializeComponents(go, element);
+        // Rotation point is set after the transform has been set
+        retVal.setRotationPoint(
+            Utilities.StringToVector3(element.GetAttribute("rotationpoint")));
         SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
         sr.sprite = DynamicWall.createWallSprite(
             Convert.ToInt32(element.GetAttribute("east")),
@@ -107,9 +109,12 @@ public class DynamicWallFactory : Factory<DynamicWall>
                 targets.Add(target);
             }
         }
-        retVal.setSlidingTargets(targets.ToArray());
 
+        retVal.setID(element.GetAttribute("id"));
         deserializeComponents(go, element);
+
+        // Targets are set after the transform has been set.
+        retVal.setSlidingTargets(targets.ToArray());
         SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
         sr.sprite = DynamicWall.createWallSprite(
             Convert.ToInt32(element.GetAttribute("east")),

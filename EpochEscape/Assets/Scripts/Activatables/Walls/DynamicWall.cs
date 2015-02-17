@@ -104,7 +104,6 @@ public abstract class DynamicWall : MonoBehaviour, IActivatable, ISerializable, 
 
     public virtual void setID(string id)
     {
-        if (mID != "")
             mID = id;
     }
 

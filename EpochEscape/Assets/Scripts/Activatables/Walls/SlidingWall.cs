@@ -51,10 +51,10 @@ public class SlidingWall : DynamicWall, ISerializable
     {
         XmlElement wallTag = base.Serialize(document);
 
-        foreach (Vector3 target in mTargets)
+        for (int i = 1; i < mTargets.Length; i++) // Start at 1 to skip the base angle
         {
             XmlElement child = document.CreateElement("target");
-            child.SetAttribute("position", transform.position.ToString());
+            child.SetAttribute("position", mTargets[i].ToString());
 
             wallTag.AppendChild(child);
         }

@@ -18,6 +18,8 @@ public class RotatingWall : DynamicWall
     protected float mBaseAngle = 0.0f;
     protected float mPrevAngle;
     protected float mDestinationAngle = 0.0f;
+
+    protected float mAbsoluteRotationRadius = 0.0f;
     #endregion
 
     #region Class Constants
@@ -40,6 +42,8 @@ public class RotatingWall : DynamicWall
         if (rotationPoint != null)
         {
             mRotationPoint = rotationPoint.transform.position;
+            mRotationRadius = Vector3.Distance(mRotationPoint, transform.position);
+
             GameObject.Destroy(rotationPoint);
         }
 
@@ -47,8 +51,6 @@ public class RotatingWall : DynamicWall
         {
             mRotationAngles = new float[rotationTargets.Length + 1];
             mRotationAngles[0] = transform.eulerAngles.z;
-
-            mRotationRadius = Vector3.Distance(mRotationPoint, transform.position);
 
             for (int i = 0; i < rotationTargets.Length; i++)
             {
@@ -75,6 +77,7 @@ public class RotatingWall : DynamicWall
     public void setRotationPoint(Vector3 absoluteRotationPoint)
     {
         mRotationPoint = absoluteRotationPoint;
+        mRotationRadius = Vector3.Distance(mRotationPoint, transform.position);
     }
 
     public void setRotationTargets(DIRECTION[] targets)
@@ -154,7 +157,7 @@ public class RotatingWall : DynamicWall
 
         currentAngle = Mathf.LerpAngle(mBaseAngle, mDestinationAngle, mCurrentChangeTime / CHANGE_TIME);
         transform.RotateAround(mRotationPoint, Vector3.forward, currentAngle - mPrevAngle);
-        mPrevAngle = Mathf.LerpAngle(mBaseAngle, mDestinationAngle, mCurrentChangeTime / CHANGE_TIME);
+        mPrevAngle = currentAngle;
     }
     #endregion
 }
