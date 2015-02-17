@@ -8,8 +8,16 @@ public class ActivatorFactory : Factory<Activator>
 	#region Interface Variables
     public List<IActivatable> toConnect; //ASSUMED TO BE CREATED BY THE FACTORY USER
 	#endregion
-	
-	#region Interface Methods
+
+    #region Instance Variables
+    GameObject mTogglePadPrefab;
+    GameObject mSwitchPadPrefab;
+    GameObject mTerminalPrefab;
+    GameObject mOneTimeTerminalPrefab;
+    GameObject mFloorActivatorPrefab;
+    #endregion
+
+    #region Interface Methods
     public override Activator create(XmlElement element)
     {
         if (element == null || element.Name != "activator")
@@ -41,45 +49,55 @@ public class ActivatorFactory : Factory<Activator>
         switch (element.GetAttribute("type"))
         {
             case "PressurePlate":
-                go = Resources.Load<GameObject>("Prefabs/Activators/Pressure Pads/TogglePad");
-                retVal = go.GetComponent<PressurePlate>();
+                if (mTogglePadPrefab == null)
+                    mTogglePadPrefab = Resources.Load<GameObject>("Prefabs/Activators/Pressure Pads/TogglePad");
+
+                go = mTogglePadPrefab;
                 break;
-            case "PressurePad":
-                go = Resources.Load<GameObject>("Prefabs/Activators/Pressure Pads/SwitchPad");
-                retVal = go.GetComponent<PressureSwitch>();
+            case "PressureSwitch":
+                if (mSwitchPadPrefab == null)
+                    mSwitchPadPrefab = Resources.Load<GameObject>("Prefabs/Activators/Pressure Pads/SwitchPad");
+
+                go = mSwitchPadPrefab;
                 break;
             case "Terminal":
-                go = Resources.Load<GameObject>("Prefabs/Activators/Terminals/Terminal");
-                retVal = go.GetComponent<Terminal>();
+                if (mTerminalPrefab == null)
+                    mTerminalPrefab = Resources.Load<GameObject>("Prefabs/Activators/Terminals/Terminal");
+
+                go = mTerminalPrefab;
                 break;
             case "OneTimeTerminal":
-                go = Resources.Load<GameObject>("Prefabs/Activators/Terminals/OneTimeTerminal");
-                retVal = go.GetComponent<OneTimeTerminal>();
+                if (mOneTimeTerminalPrefab == null)
+                    mOneTimeTerminalPrefab = Resources.Load<GameObject>("Prefabs/Activators/Terminals/OneTimeTerminal");
+
+                go = mOneTimeTerminalPrefab;
                 break;
             case "FloorActivator":
-                go = Resources.Load<GameObject>("Prefabs/Activators/Floor Activator");
-                retVal = go.GetComponent<FloorActivator>();
+                if (mFloorActivatorPrefab == null)
+                    mFloorActivatorPrefab = Resources.Load<GameObject>("Prefabs/Activators/FloorActivator");
+
+                go = mFloorActivatorPrefab;
                 break;
         }
         if (go == null)
             return null;
 
         go = GameObject.Instantiate(go) as GameObject;
+        retVal = go.GetComponent<Activator>();
 
         if (retVal == null)
             return null;
 
-        deserializeComponents(go, element);
+        deserializeComponents(go, element, retVal);
 
         return retVal;
     }
 
-    private void deserializeComponents(GameObject go, XmlElement parent)
+    private void deserializeComponents(GameObject go, XmlElement parent, Activator activator)
     {
         XmlNode child = parent.FirstChild;
         XmlElement component;
 
-        List<IActivatable> targets = new List<IActivatable>();
         IActivatable target = null;
         while (child != null)
         {
@@ -95,7 +113,7 @@ public class ActivatorFactory : Factory<Activator>
                         string targetID = component.GetAttribute("id");
                         foreach (IActivatable actuator in toConnect)
                         {
-                            IIdentifiable identifier = actuator as IIdentifiable; 
+                            IIdentifiable identifier = actuator as IIdentifiable;
 
                             if (identifier != null && targetID == identifier.getID())
                             {
@@ -106,9 +124,11 @@ public class ActivatorFactory : Factory<Activator>
 
                         if (target != null)
                         {
-                            targets.Add(target);
+                            activator.addActivatable(target);
                             target = null;
                         }
+                        else
+                            Debug.Log("target not found!");
                         break;
                 }
             }

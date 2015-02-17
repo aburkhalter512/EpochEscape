@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -15,11 +16,7 @@ public abstract class Activator : MonoBehaviour, ISerializable
 	#region Interface Methods
     public void trigger()
     {
-        foreach (IActivatable actuator in mActivatables)
-        {
-            if (actuator != null)
-                actuator.toggle();
-        }
+        StartCoroutine(triggerCoroutine());
     }
 
     public virtual void addActivatable(IActivatable activatable)
@@ -63,8 +60,6 @@ public abstract class Activator : MonoBehaviour, ISerializable
     {
         if (mActivatables == null)
             mActivatables = new List<IActivatable>();
-        else
-            mActivatables.Clear();
 
         foreach (GameObject activatable in activatables)
         {
@@ -78,6 +73,19 @@ public abstract class Activator : MonoBehaviour, ISerializable
                 if ((actuator as IActivatable) != null)
                     mActivatables.Add(actuator as IActivatable);
             }
+        }
+    }
+
+    private IEnumerator triggerCoroutine()
+    {
+        foreach (IActivatable actuator in mActivatables)
+        {
+            IIdentifiable identifiable = actuator as IIdentifiable;
+
+            if (actuator != null)
+                actuator.toggle();
+
+            yield return null;
         }
     }
 	#endregion
