@@ -28,6 +28,8 @@ public class Player : Manager<Player>
     #endregion
 
     #region Instance Variables
+    protected bool mIsPaused = false;
+
     protected InputManager mIM;
 
     protected float m_detectionLevel = 0.0f;
@@ -139,11 +141,23 @@ public class Player : Manager<Player>
     {
         m_isDetected = true;
     }
+
+    public void pause()
+    {
+        mIsPaused = true;
+    }
+    public void unpause()
+    {
+        mIsPaused = false;
+    }
 	#endregion
 
     #region Instance Methods
     private void UpdateUserControl()
     {
+        if (mIsPaused)
+            return;
+
         m_isMoving = false;
         
         Vector3 playerMovement = mIM.primaryJoystick.getRaw();

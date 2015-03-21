@@ -2,6 +2,7 @@
 using System;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 public class Utilities
@@ -52,6 +53,121 @@ public class Utilities
         public override string ToString()
         {
             return first.ToString() + ", " + second.ToString();
+        }
+    }
+
+    public class IntPair : Pair<int, int>, IComparer<IntPair>
+    {
+        public IntPair()
+        {
+            first = 0;
+            second = 0;
+        }
+
+        public IntPair(int f, int s)
+        {
+            first = f;
+            second = s;
+        }
+
+        public IntPair(IntPair pair)
+        {
+            first = pair.first;
+            second = pair.second;
+        }
+
+        public static IntPair deserialize(string s)
+        {
+            string[] components = s.Split(new [] {','});
+            if (components.Length != 2)
+                return null;
+
+            components[0].Trim();
+            components[1].Trim();
+            return new IntPair(Convert.ToInt32(components[0]), Convert.ToInt32(components[1]));
+        }
+
+        public static IntPair operator +(IntPair p1, IntPair p2)
+        {
+            return new IntPair(p1.first + p2.first, p1.second + p2.second);
+        }
+
+        public static IntPair operator -(IntPair p1, IntPair p2)
+        {
+            return new IntPair(p1.first - p2.first, p1.second - p2.second);
+        }
+
+        public static IntPair operator *(IntPair p1, IntPair p2)
+        {
+            return new IntPair(p1.first * p2.first, p1.second * p2.second);
+        }
+
+        public static IntPair operator /(IntPair p1, IntPair p2)
+        {
+            return new IntPair(p1.first / p2.first, p1.second / p2.second);
+        }
+
+        // Non-destructive translate; Makes a new int pair
+        public static IntPair translate(IntPair pair, int x, int y)
+        {
+            Utilities.IntPair retVal = new IntPair(pair);
+            retVal.first += x;
+            retVal.second += y;
+
+            return retVal;
+        }
+
+        public int Compare(IntPair x, IntPair y)
+        {
+            if (x.first < y.first)
+                return -1;
+            else if (x.first > y.first)
+                return 1;
+
+            if (x.second < y.second)
+                return -1;
+            else if (x.second > y.second)
+                return 1;
+            else
+                return 0;
+        }
+    }
+
+    public class IntPairComparer : IEqualityComparer<IntPair>, IComparer<IntPair>
+    {
+        private static IntPairComparer mInstance;
+
+        public static IntPairComparer Get()
+        {
+            if (mInstance == null)
+                mInstance = new IntPairComparer();
+
+            return mInstance;
+        }
+
+        public int Compare(IntPair x, IntPair y)
+        {
+            if (x.first < y.first)
+                return -1;
+            else if (x.first > y.first)
+                return 1;
+
+            if (x.second < y.second)
+                return -1;
+            else if (x.second > y.second)
+                return 1;
+            else
+                return 0;
+        }
+
+        public bool Equals(IntPair x, IntPair y)
+        {
+            return x.equals(y);
+        }
+
+        public int GetHashCode(IntPair toHash)
+        {
+            return toHash.first * toHash.second;
         }
     }
     #endregion
@@ -199,6 +315,48 @@ public class Utilities
     public static T ParseEnum<T>(string toParse)
     {
         return (T)Enum.Parse(typeof(T), toParse);
+    }
+
+    public static Mesh makeQuadMesh()
+    {
+        return makeQuadMesh(new Vector2(1, 1));
+    }
+
+    public static Mesh makeQuadMesh(Vector2 size)
+    {
+        if (size.x <= 0 || size.y <= 0)
+            return makeQuadMesh();
+
+        Mesh mesh = new Mesh();
+
+        Vector3[] vertices = new Vector3[]
+        {
+            new Vector3(size.x / 2, size.y / 2,  0),
+            new Vector3(size.x / 2, size.y / -2,  0),
+            new Vector3(size.x / -2, size.y / 2, 0),
+            new Vector3(size.x / -2, size.y / -2,  0)
+        };
+
+        Vector2[] uv = new Vector2[]
+        {
+            new Vector2(1, 1),
+            new Vector2(1, 0),
+            new Vector2(0, 1),
+            new Vector2(0, 0),
+        };
+
+        int[] triangles = new int[]
+        {
+            0, 1, 2,
+            2, 1, 3,
+        };
+
+        mesh.vertices = vertices;
+        mesh.uv = uv;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+
+        return mesh;
     }
     #endregion
 }

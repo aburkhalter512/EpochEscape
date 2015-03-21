@@ -1,0 +1,133 @@
+<level levelName="WinterQuarterFinal" objectCount="0">
+  <chamber name="chamber1" position="(0.0, 0.0, 0.0)">
+    <doors>
+      <door id="13c75d45d90f1b2742fc55a059d815eb" type="EntranceDoorFrame" initialState="ACTIVE">
+        <transform position="(-1.10, 2.70, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="331b041ee2660d4e21bd296525108b2c" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="fc41467eea55d7d47772076ccc0436f8">
+        <transform position="(-2.90, -1.50, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="7ae9b740f93037d50260940c24a683fd" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(-2.30, 0.30, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="7cfaecc5bcd0491baa6841823f90e939" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="331b041ee2660d4e21bd296525108b2c">
+        <transform position="(-2.90, 2.10, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="800716be3f9ba1f4d447a33d0384b665" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(-2.30, 1.50, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="8e1778746f59439adb199564351d922b" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(-2.30, -0.90, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="c58468a8fc551e1d97e02ed124a45bf2" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(0.10, -0.90, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="cad459851b3988db47e1856e916235e9" type="DirectionalDoorFrame" initialState="ACTIVE">
+        <transform position="(-2.30, 2.70, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="dccade60ccf646d0d9d9330e56cfe43f" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="">
+        <transform position="(-2.90, -0.30, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="de7f2fd6f1e0fc280875440bbeea19ab" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(0.10, 1.50, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="e194d9e27504f7e9f0e728165ad056c2" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(1.30, 0.30, 0.00)" rotation="(0.00, 0.00, 90.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+      <door id="fc41467eea55d7d47772076ccc0436f8" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="dccade60ccf646d0d9d9330e56cfe43f">
+        <transform position="(-2.90, 0.90, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+      </door>
+    </doors>
+    <activators>
+      <activator id="24d549c3e8a7071f33990084ac018135" type="PressurePlate">
+        <transform position="(0.70, 0.30, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+        <activatable id="de7f2fd6f1e0fc280875440bbeea19ab" />
+        <activatable id="e194d9e27504f7e9f0e728165ad056c2" />
+      </activator>
+      <activator id="2a50056ac247a01f67be0b18fef0b963" type="PressurePlate">
+        <transform position="(-1.10, -0.90, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+        <activatable id="8e1778746f59439adb199564351d922b" />
+        <activatable id="c58468a8fc551e1d97e02ed124a45bf2" />
+      </activator>
+      <activator id="3e44f9d736a6b08315816190cb483c70" type="PressurePlate">
+        <transform position="(0.70, -0.90, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+        <activatable id="c58468a8fc551e1d97e02ed124a45bf2" />
+      </activator>
+      <activator id="9cca1bd0730f614185907d9cd2ec9837" type="PressurePlate">
+        <transform position="(0.70, 1.50, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+        <activatable id="de7f2fd6f1e0fc280875440bbeea19ab" />
+        <activatable id="e194d9e27504f7e9f0e728165ad056c2" />
+      </activator>
+      <activator id="b04995da19141d5d2ff7dc52539f0b7a" type="PressurePlate">
+        <transform position="(-1.10, 0.30, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+        <activatable id="7ae9b740f93037d50260940c24a683fd" />
+      </activator>
+      <activator id="c7c5ecf6ec13d81673c669e9b0db9b56" type="Terminal">
+        <transform position="(-0.50, 2.90, 0.00)" rotation="(0.00, 0.00, 0.00)" localscale="(1.00, 1.00, 1.00)" />
+        <activatable id="800716be3f9ba1f4d447a33d0384b665" />
+        <activatable id="de7f2fd6f1e0fc280875440bbeea19ab" />
+      </activator>
+    </activators>
+  </chamber>
+  <staticwalls>
+    <boxcollider2d size="(0.4, 5.2)" center="(-3.4, 1.0)" />
+    <boxcollider2d size="(0.4, 0.8)" center="(-3.0, -0.8)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-3.0, 3.4)" />
+    <boxcollider2d size="(0.4, 0.8)" center="(-2.6, -0.8)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-2.6, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-2.6, 3.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-2.2, -1.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-2.2, -0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-2.2, 1.0)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-2.2, 2.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-2.2, 3.4)" />
+    <boxcollider2d size="(0.4, 3.2)" center="(-1.8, 0.0)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-1.8, 2.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-1.8, 3.4)" />
+    <boxcollider2d size="(0.4, 4.0)" center="(-1.4, 0.4)" />
+    <boxcollider2d size="(0.4, 0.8)" center="(-1.4, 3.2)" />
+    <boxcollider2d size="(0.4, 4.0)" center="(-1.0, 0.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-1.0, 3.4)" />
+    <boxcollider2d size="(0.4, 3.6)" center="(-0.6, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-0.6, 2.6)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-0.6, 3.4)" />
+    <boxcollider2d size="(0.4, 3.6)" center="(-0.2, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-0.2, 2.6)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(-0.2, 3.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(0.2, -1.4)" />
+    <boxcollider2d size="(0.4, 1.6)" center="(0.2, 0.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(0.2, 2.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(0.2, 3.4)" />
+    <boxcollider2d size="(0.4, 1.6)" center="(0.6, -0.8)" />
+    <boxcollider2d size="(0.4, 0.8)" center="(0.6, 2.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(0.6, 3.4)" />
+    <boxcollider2d size="(0.4, 1.6)" center="(1.0, -0.8)" />
+    <boxcollider2d size="(0.4, 0.8)" center="(1.0, 2.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.0, 3.4)" />
+    <boxcollider2d size="(0.4, 1.6)" center="(1.4, -0.8)" />
+    <boxcollider2d size="(0.4, 1.6)" center="(1.4, 1.6)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.4, 3.4)" />
+    <boxcollider2d size="(0.4, 1.6)" center="(1.8, -0.8)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.8, 2.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.8, 3.4)" />
+    <boxcollider2d size="(0.4, 1.6)" center="(2.2, -0.8)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.2, 2.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.2, 3.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.6, -1.4)" />
+    <boxcollider2d size="(0.4, 0.8)" center="(2.6, -0.4)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.6, 2.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.6, 3.4)" />
+    <boxcollider2d size="(0.4, 5.2)" center="(3.0, 1.0)" />
+  </staticwalls>
+  <chunks chunkSize="512, 512" chunkRealSize="(3.2, 3.2)">
+    <chunk filename="texture_-2_-1.png" logicalPosition="-2, -1" />
+    <chunk filename="texture_-2_0.png" logicalPosition="-2, 0" />
+    <chunk filename="texture_-2_1.png" logicalPosition="-2, 1" />
+    <chunk filename="texture_-1_-1.png" logicalPosition="-1, -1" />
+    <chunk filename="texture_-1_0.png" logicalPosition="-1, 0" />
+    <chunk filename="texture_-1_1.png" logicalPosition="-1, 1" />
+    <chunk filename="texture_0_-1.png" logicalPosition="0, -1" />
+    <chunk filename="texture_0_0.png" logicalPosition="0, 0" />
+    <chunk filename="texture_0_1.png" logicalPosition="0, 1" />
+  </chunks>
+</level>

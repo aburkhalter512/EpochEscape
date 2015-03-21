@@ -1,0 +1,24 @@
+<level levelName="Round2" objectCount="0">
+  <staticwalls>
+    <boxcollider2d size="(0.4, 3.2)" center="(0.2, 1.6)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(0.6, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(0.6, 3.0)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.0, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.0, 3.0)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.4, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.4, 3.0)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.8, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(1.8, 3.0)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.2, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.2, 3.0)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.6, 0.2)" />
+    <boxcollider2d size="(0.4, 0.4)" center="(2.6, 3.0)" />
+    <boxcollider2d size="(0.4, 3.2)" center="(3.0, 1.6)" />
+  </staticwalls>
+  <chunks chunkSize="512, 512" chunkRealSize="(3.2, 3.2)">
+    <chunk filename="texture_-1_-1.png" logicalPosition="-1, -1" />
+    <chunk filename="texture_-1_0.png" logicalPosition="-1, 0" />
+    <chunk filename="texture_0_-1.png" logicalPosition="0, -1" />
+    <chunk filename="texture_0_0.png" logicalPosition="0, 0" />
+  </chunks>
+</level>

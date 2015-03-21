@@ -33,6 +33,7 @@ public class LevelManager : Manager<LevelManager>
 
         player = Instantiate(player) as GameObject;
         mPlayer = player.GetComponent<Player>();
+        mPlayer.hide();
     }
 
     private void _Ready()
@@ -80,8 +81,11 @@ public class LevelManager : Manager<LevelManager>
         MiniMapManager.Show();
         GameManager.Get().UnpauseMovement();
 
-        m_currentCheckpoint.open();
-        mPlayer.transform.position = m_currentCheckpoint.getRespawnLocation();
+        if (m_currentCheckpoint != null)
+        {
+            m_currentCheckpoint.open();
+            mPlayer.transform.position = m_currentCheckpoint.getRespawnLocation();
+        }
         mPlayer.show();
 
         mPlayer.Resurrect();

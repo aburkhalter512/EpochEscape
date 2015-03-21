@@ -1,0 +1,101 @@
+<level levelName="DoorTest" objectCount="0">
+  <chamber name="chamber1" position="(0.0, 0.0, 0.0)">
+    <doors>
+      <door id="19a219abd00675ef3ca632071d471f21" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="eba23723722119d8d88a70db0346237f">
+        <transform position="(0.1, 1.1, 0.0)" rotation="(0.0, 0.0, 90.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="40a3f8902e14e64f30dadf4181418fd5" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(0.1, -0.9, 0.0)" rotation="(0.0, 0.0, 90.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="5cb57658c8de6591849ab99eccd9d71e" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="19a219abd00675ef3ca632071d471f21">
+        <transform position="(-1.9, 1.1, 0.0)" rotation="(0.0, 0.0, 90.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="5d37a07f46d8b638da23b80ede0997cb" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(1.5, 0.1, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="8a1e9c97ff2ca54dd4eb5b9830ffb07e" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(1.5, 1.7, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="8afd7bcc0c519150f2b492e5e030cf35" type="StandardDoorFrame" initialState="ACTIVE">
+        <transform position="(-0.5, 0.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="b45dacd9ead4ab1c92de54328eedaba6" type="EntranceDoorFrame" initialState="ACTIVE">
+        <transform position="(-2.5, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="de6479a095498949a00b0ad2481f99cd" type="DirectionalDoorFrame" initialState="ACTIVE">
+        <transform position="(-2.5, -0.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+      <door id="eba23723722119d8d88a70db0346237f" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="5cb57658c8de6591849ab99eccd9d71e">
+        <transform position="(-1.1, 1.1, 0.0)" rotation="(0.0, 0.0, 90.0)" localscale="(1.0, 1.0, 1.0)" />
+      </door>
+    </doors>
+    <activators>
+      <activator id="7cecdd4eee3a0eecc0204158ecebdc82" type="PressureSwitch">
+        <transform position="(0.9, 0.9, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="8a1e9c97ff2ca54dd4eb5b9830ffb07e" />
+      </activator>
+      <activator id="aff193760ddd0a0f145c9d0048d50ac6" type="PressurePlate">
+        <transform position="(1.5, -0.9, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="5d37a07f46d8b638da23b80ede0997cb" />
+      </activator>
+      <activator id="b95ca0c97e02503c0ff0bbc10d606aed" type="PressureSwitch">
+        <transform position="(2.3, 1.1, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+        <activatable id="8a1e9c97ff2ca54dd4eb5b9830ffb07e" />
+      </activator>
+    </activators>
+  </chamber>
+  <chunks chunkSize="512, 512" chunkRealSize="(3.2, 3.2)">
+    <chunk filename="texture_-2_-1.png" logicalPosition="-2, -1" />
+    <chunk filename="texture_-2_0.png" logicalPosition="-2, 0" />
+    <chunk filename="texture_-1_-1.png" logicalPosition="-1, -1" />
+    <chunk filename="texture_-1_0.png" logicalPosition="-1, 0" />
+    <chunk filename="texture_0_-1.png" logicalPosition="0, -1" />
+    <chunk filename="texture_0_0.png" logicalPosition="0, 0" />
+    <chunk filename="texture_1_-1.png" logicalPosition="1, -1" />
+    <chunk filename="texture_1_0.png" logicalPosition="1, 0" />
+  </chunks>
+    <staticwalls>
+      <boxcollider2d size="(0.4, 3.6)" center="(-3.0, 0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-2.6, -1.4)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-2.6, -0.2)" />
+      <boxcollider2d size="(0.4, 1.2)" center="(-2.6, 1.4)" />
+      <boxcollider2d size="(0.4, 1.6)" center="(-2.2, -0.8)" />
+      <boxcollider2d size="(0.4, 1.2)" center="(-2.2, 1.4)" />
+      <boxcollider2d size="(0.4, 3.6)" center="(-1.8, 0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-1.4, -1.4)" />
+      <boxcollider2d size="(0.4, 2.0)" center="(-1.4, 1.0)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-1.0, -1.4)" />
+      <boxcollider2d size="(0.4, 2.8)" center="(-1.0, 0.6)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-0.6, -1.4)" />
+      <boxcollider2d size="(0.4, 2.0)" center="(-0.6, 0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-0.6, 1.8)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-0.2, -1.4)" />
+      <boxcollider2d size="(0.4, 2.0)" center="(-0.2, 0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(-0.2, 1.8)" />
+      <boxcollider2d size="(0.4, 4.8)" center="(0.2, 0.8)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(0.6, -1.4)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(0.6, 0.2)" />
+      <boxcollider2d size="(0.4, 1.2)" center="(0.6, 1.4)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(0.6, 3.0)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.0, -1.4)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.0, 0.2)" />
+      <boxcollider2d size="(0.4, 1.2)" center="(1.0, 1.4)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.0, 3.0)" />
+      <boxcollider2d size="(0.4, 2.8)" center="(1.4, -0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.4, 1.8)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.4, 3.0)" />
+      <boxcollider2d size="(0.4, 0.8)" center="(1.8, -1.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.8, 0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.8, 1.8)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(1.8, 3.0)" />
+      <boxcollider2d size="(0.4, 0.8)" center="(2.2, -1.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(2.2, 0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(2.2, 1.8)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(2.2, 3.0)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(2.6, -1.4)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(2.6, 0.2)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(2.6, 1.8)" />
+      <boxcollider2d size="(0.4, 0.4)" center="(2.6, 3.0)" />
+      <boxcollider2d size="(0.4, 4.8)" center="(3.0, 0.8)" />
+    </staticwalls>
+</level>
