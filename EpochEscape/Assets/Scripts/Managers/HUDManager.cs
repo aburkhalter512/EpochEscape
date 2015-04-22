@@ -37,6 +37,10 @@ public class HUDManager : Manager<HUDManager>
     private TimerDoorFrame mTimerDoor = null;
     #endregion
 
+    protected override void Awaken()
+    {
+    }
+
     protected override void Initialize()
     {
         mPlayer = Player.Get();

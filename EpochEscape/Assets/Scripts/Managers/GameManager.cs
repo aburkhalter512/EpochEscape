@@ -97,6 +97,10 @@ public class GameManager : Manager<GameManager>
     public static readonly float DEFAULT_DELAY_TIME = 0.1f; 
     #endregion
 
+    protected override void Awaken()
+    {
+    }
+
     protected override void Initialize()
     {
         //Needed for the manager

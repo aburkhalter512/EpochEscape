@@ -15,6 +15,10 @@ public class LevelManager : Manager<LevelManager>
     Player mPlayer;
     #endregion
 
+    protected override void Awaken()
+    {
+    }
+
     protected override void Initialize()
     {
         GameObject player = null;
@@ -90,7 +94,7 @@ public class LevelManager : Manager<LevelManager>
 
         mPlayer.Resurrect();
 
-        CameraManager.SetPosition(mPlayer.transform.position);
+        CameraManager.Get().setPosition(mPlayer.transform.position);
         
         _ResetChamber(m_currentChamber);
     }

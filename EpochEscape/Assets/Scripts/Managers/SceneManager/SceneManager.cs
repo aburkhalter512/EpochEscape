@@ -44,6 +44,10 @@ public class SceneManager : Manager<SceneManager>
 
     private DoorFactory doorFactory;
 
+    protected override void Awaken()
+    {
+    }
+
     protected override void Initialize()
     {
         //_CreateLevelList();

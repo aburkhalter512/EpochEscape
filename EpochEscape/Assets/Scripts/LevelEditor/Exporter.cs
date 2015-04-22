@@ -92,7 +92,10 @@ public class Exporter : MonoBehaviour
             if (serializable == null)
                 continue;
 
-            serializedObjects.Add(serializable.Serialize(xmlDocument));
+            serializable.serialize(xmlDocument, (XmlElement tag) =>
+                {
+                    serializedObjects.Add(tag);
+                });
             childrenCount++;
         }
 

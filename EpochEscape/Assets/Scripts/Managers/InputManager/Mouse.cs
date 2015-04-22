@@ -29,15 +29,18 @@ public class Mouse : Manager<Mouse>
     }
     #endregion
 
+    protected override void Awaken()
+    {
+        mLeft = new Button(BUTTONS.LEFT);
+        mRight = new Button(BUTTONS.RIGHT);
+        mMiddle = new Button(BUTTONS.MIDDLE);
+    }
+
     //Put all initialization code here
     //Remember to comment!
     protected override void Initialize()
     {
         UpdatePosition();
-
-        mLeft = new Button(BUTTONS.LEFT);
-        mRight = new Button(BUTTONS.RIGHT);
-        mMiddle = new Button(BUTTONS.MIDDLE);
     }
 
     //Put all update code here

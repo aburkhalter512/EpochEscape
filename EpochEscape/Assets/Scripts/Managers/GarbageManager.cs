@@ -8,6 +8,11 @@ public class GarbageManager : Manager<GarbageManager>
     private Queue<Object> m_garbage = null;
 	#endregion
 
+    protected override void Awaken()
+    {
+
+    }
+
     protected override void Initialize()
     {
         m_garbage = new Queue<Object>();

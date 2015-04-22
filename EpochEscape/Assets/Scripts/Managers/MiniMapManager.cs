@@ -10,6 +10,10 @@ public class MiniMapManager : Manager<MiniMapManager>
     private Camera m_camera = null;
 	#endregion
 
+    protected override void Awaken()
+    {
+    }
+
     protected override void Initialize()
     {
         _Hide();

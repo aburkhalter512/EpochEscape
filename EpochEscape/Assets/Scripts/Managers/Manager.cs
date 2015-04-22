@@ -5,18 +5,23 @@ public abstract class Manager<T> : MonoBehaviour
 {
     private static T m_instance = null;
 
-    public void Awake()
+    protected void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
         if (m_instance == null)
         {
+            DontDestroyOnLoad(gameObject);
+
             m_instance = this as T;
 
-            Initialize();
+            Awaken();
         }
         else
             Destroy(gameObject);
+    }
+
+    protected void Start()
+    {
+        Initialize();
     }
 
     public static T Get()
@@ -37,5 +42,13 @@ public abstract class Manager<T> : MonoBehaviour
         return m_instance;
     }
 
+    //The following two methods provide full access to the gameobject's original functionality
+    //and the start up order. Gameobject creation/referencing can be done exactly the same in
+    //awaken and initialize as they would be done in Awake/Start.
+
+    //Awaken is called when the singleton awake method is called for the first time
+    protected abstract void Awaken();
+
+    //Initialize is called when the singleton start method is called for the first time
     protected abstract void Initialize();
 }
