@@ -69,7 +69,7 @@ public class SlidingWall : DynamicWall
     #region Instance Methods
     protected override void toChange()
     {
-        audio.Play ();
+        GetComponent<AudioSource>().Play ();
         mCurrentIndex = (mCurrentIndex + 1) % mTargets.Length;
 
         mBasePosition = transform.position;

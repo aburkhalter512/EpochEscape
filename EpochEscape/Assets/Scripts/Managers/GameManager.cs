@@ -103,17 +103,13 @@ public class GameManager : Manager<GameManager>
 
     protected override void Initialize()
     {
-        //Needed for the manager
-    }
-
-    void Start()
-    {
         Application.targetFrameRate = 60;
         LoadFPS();
         LoadOptions();
         S.Load();
         PlayHoverSound = new bool[10];
     }
+
     void Update()
     {
         UpdateKeyboard();

@@ -6,11 +6,11 @@ public class CameraManager : Manager<CameraManager>
 {
 	#region Instance Variables
     private Vector3 m_idlePosition = Vector3.zero;
+
+    private Vector3 _basePos;
 	private CAM_TYPE _type;
 
     private InputManager IM = null;
-
-    bool mIsCameraMoving = false;
 
     Camera m_camera;
 	#endregion
@@ -19,7 +19,7 @@ public class CameraManager : Manager<CameraManager>
     public const float CAMERA_MOVE_SPEED = 0.25f;
     public const float CAMERA_ZOOM_MIN_SIZE = 1.5f;
     public const float CAMERA_ZOOM_MAX_SIZE = 10f;
-    public const float CAMERA_ZOOM_SCALE_FACTOR = 4f;
+    public const float CAMERA_ZOOM_SCALE_FACTOR = 8f;
     #endregion
 	
 	public enum CAM_TYPE
@@ -31,7 +31,7 @@ public class CameraManager : Manager<CameraManager>
 	protected override void Awaken()
 	{
 		_type = CAM_TYPE.GAME;
-        m_camera = this.camera;
+        m_camera = this.GetComponent<Camera>();
 	}
 	
     protected override void Initialize()
@@ -80,19 +80,19 @@ public class CameraManager : Manager<CameraManager>
 	
     private void updateControlledMovement()
     {
-        if (IM.cameraMoveButton.get())
+        if (IM.cameraMoveButton.getDown())
         {
-            mIsCameraMoving = true;
-			
-			Vector3 v = IM.mouse.inWorld();
-			v.z = 0;
-
-			transform.position = v;
-		}
-        else
-        {
-            mIsCameraMoving = false;
+            m_idlePosition = IM.mouse.inWorld();
         }
+        else if (IM.cameraMoveButton.get())
+        {
+            Vector3 v = (IM.mouse.inWorld() - m_idlePosition);
+            v.z = 0;
+
+            transform.position -= v;
+        }
+        else
+            m_idlePosition = Vector3.zero;
         
     }
 
@@ -104,24 +104,23 @@ public class CameraManager : Manager<CameraManager>
         {
 			float zoomDir = Mathf.Sign(intensity);
 			
-            if (IM.cameraZoomLeftModifier.get() || IM.cameraZoomRightModifier.get())
+            /*if (IM.cameraZoomLeftModifier.get() || IM.cameraZoomRightModifier.get())
             {
                 if ((intensity > 0 && m_camera.orthographicSize > CAMERA_ZOOM_MIN_SIZE) || 
 					(intensity < 0 && m_camera.orthographicSize < CAMERA_ZOOM_MAX_SIZE))
                 {
-					
-					float scaleFactor = m_camera.orthographicSize * CAMERA_ZOOM_SCALE_FACTOR;
+                    float scaleFactor = m_camera.orthographicSize * CAMERA_ZOOM_SCALE_FACTOR;
 					Vector3 mouseDelta = (IM.mouse.inWorld() - transform.position) / scaleFactor;
 						
-					Vector3 pos = transform.position + 
-						zoomDir * mouseDelta * Time.smoothDeltaTime;
-					pos.z = 0f;
+					Vector3 pos = IM.mouse.inWorld() - transform.position +
+                        zoomDir * mouseDelta;
+					pos.z = -10f;
 
                     transform.position = pos;
                 }
-            }
+            }*/
 
-            m_camera.orthographicSize = m_camera.orthographicSize + (-zoomDir) * (1 / CAMERA_ZOOM_SCALE_FACTOR);
+            m_camera.orthographicSize = m_camera.orthographicSize + Mathf.Sign(-intensity) * CAMERA_ZOOM_SCALE_FACTOR * Time.smoothDeltaTime;
             m_camera.orthographicSize = Mathf.Clamp(m_camera.orthographicSize, CAMERA_ZOOM_MIN_SIZE, CAMERA_ZOOM_MAX_SIZE);
         }
     }

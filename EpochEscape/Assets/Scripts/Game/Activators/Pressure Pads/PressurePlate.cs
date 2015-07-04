@@ -93,7 +93,7 @@ public class PressurePlate : Activator
         {
             mCollider.size *= 2;
 
-            audio.Play ();
+            GetComponent<AudioSource>().Play ();
 
             GameManager.Get().delayFunction(() =>
                 {

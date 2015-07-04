@@ -74,10 +74,7 @@ public class Player : Manager<Player>
 
         m_isDetected = false;
         m_currentState = PlayerState.ALIVE;
-    }
 
-    protected void Start()
-    {
         m_animator = GetComponent<Animator>();
 
         mIM = InputManager.Get();
@@ -256,19 +253,19 @@ public class Player : Manager<Player>
             case 0:
                 if (solidFoot.Length > 0)
                 {
-                    audio.clip = solidFoot[m_footCounter % solidFoot.Length];
+                    GetComponent<AudioSource>().clip = solidFoot[m_footCounter % solidFoot.Length];
                     m_footCounter = (m_footCounter + 1) % solidFoot.Length;
                 }
                 break;
             case 1:
                 if (solidFoot.Length > 0)
                 {
-                    audio.clip = grateFoot[m_footCounter % grateFoot.Length];
+                    GetComponent<AudioSource>().clip = grateFoot[m_footCounter % grateFoot.Length];
                     m_footCounter = (m_footCounter + 1) % grateFoot.Length;
                 }
                 break;
         }
-        audio.Play ();
+        GetComponent<AudioSource>().Play ();
     }
 
     private void Alive()

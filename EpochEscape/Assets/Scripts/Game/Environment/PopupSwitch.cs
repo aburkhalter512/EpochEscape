@@ -33,13 +33,13 @@ public class PopupSwitch : MonoBehaviour
             if (!mDelay)
             {
                 Player p = other.gameObject.GetComponent<Player>();
-                p.audio.Stop ();
+                p.GetComponent<AudioSource>().Stop ();
                 message ();
             }
             else
             {
                 Player p = other.gameObject.GetComponent<Player>();
-                p.audio.Stop ();
+                p.GetComponent<AudioSource>().Stop ();
                 Invoke ("message",1); //Delay the popup for 1 second.
             }
         }

@@ -46,7 +46,7 @@ public class ComponentSerializer
     {
         XmlElement element = document.CreateElement("boxcollider2d");
         element.SetAttribute("size", collider.size.ToString());
-        element.SetAttribute("center", collider.center.ToString());
+        element.SetAttribute("center", collider.offset.ToString());
 
         return element;
     }
@@ -56,7 +56,7 @@ public class ComponentSerializer
             return;
 
         collider.size = Utilities.StringToVector2(element.GetAttribute("size"));
-        collider.center = Utilities.StringToVector2(element.GetAttribute("center"));
+        collider.offset = Utilities.StringToVector2(element.GetAttribute("center"));
     }
 	#endregion
 }

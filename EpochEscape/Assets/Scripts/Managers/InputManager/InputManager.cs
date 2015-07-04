@@ -1,95 +1,57 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Input;
 
-/*
- * This class is the central location for all key bindings. It is made
- * for manual customization, thus has skupport for user defined key
- * bindings.
- */
-public class InputManager : Manager<InputManager>
+namespace Game
 {
-    #region Inspector Variables
-    public KeyCode[] exitCodes = { KeyCode.Escape };
-
-    //Modifying the following input classes allows custom key bindings to work
-    public Joystick primaryJoystick = null;
-	
-	// Player buttons
-    public Button actionButton = null;
-    public Button specialActionButton = null;
-    public Button interactButton = null;
-	
-	// Map editor buttons
-    public Button primaryPlace = null;
-	
-    public List<Button> toolSelection;
-    public Button toolChanger;
-
-    public Button alternateInput = null;
-    public Button auxillaryInput = null;
-
-    public Button cancelInput = null;
-	
-	// Camera Buttons
-    public Button cameraMoveButton = null;
-    public Joystick cameraJoystick = null;
-    public Axis cameraZoom = null;
-    public Button cameraZoomLeftModifier = null;
-    public Button cameraZoomRightModifier = null;
-
-    public Button editorSaveButton = null;
-	
-    public Mouse mouse = null;
-    #endregion
-
-    protected override void Awaken()
+    /*
+     * This class is the central location for all key bindings. It is made
+     * for manual customization, thus has skupport for user defined key
+     * bindings.
+     */
+    public class InputManager : Manager<InputManager>
     {
-        toolSelection = new List<Button>();
-    }
-	
-    //Put all initialization code here
-    //Remember to comment!
-    protected override void Initialize()
-    {
-        primaryJoystick = new Joystick(
-            new Axis(new Button(KeyCode.LeftArrow), new Button(KeyCode.RightArrow)),
-            new Axis(new Button(KeyCode.DownArrow), new Button(KeyCode.UpArrow)));
+        #region Inspector Variables
+        public KeyCode[] exitCodes = { KeyCode.Escape };
 
-        mouse = Mouse.Get();
+        //Modifying the following input classes allows custom key bindings to work
+        public Joystick primaryJoystick = null;
+        public Joystick secondaryJoystick = null;
 
-        actionButton = new Button(KeyCode.Space);
+        // Player buttons
+        public Button actionButton = null;
+        public Button specialActionButton = null;
+        public Button interactButton = null;
 
-        specialActionButton = new Button(KeyCode.A);
+        public Mouse mouse = null;
 
-        interactButton = new Button(KeyCode.Return);
-		
-		// Map editor buttons
-        toolSelection.Add(new Button(KeyCode.Alpha1));
-        toolSelection.Add(new Button(KeyCode.Alpha2));
-        toolSelection.Add(new Button(KeyCode.Alpha3));
-        toolSelection.Add(new Button(KeyCode.Alpha4));
-        toolSelection.Add(new Button(KeyCode.Alpha5));
-        toolSelection.Add(new Button(KeyCode.Alpha6));
-        toolSelection.Add(new Button(KeyCode.Alpha7));
-        toolSelection.Add(new Button(KeyCode.Alpha8));
-        toolSelection.Add(new Button(KeyCode.Alpha9));
-        toolSelection.Add(new Button(KeyCode.Alpha0));
+        public float repeatSpeed;
+        #endregion
 
-        toolChanger = new Button(KeyCode.T);
+        protected override void Awaken()
+        {
+            repeatSpeed = 0.33f;
 
-        primaryPlace = new Button(Mouse.BUTTONS.LEFT);
+            primaryJoystick = new Joystick(
+                new Axis(new Button(KeyCode.LeftArrow), new Button(KeyCode.RightArrow)),
+                new Axis(new Button(KeyCode.DownArrow), new Button(KeyCode.UpArrow)));
+            secondaryJoystick = new Joystick(
+                new Axis(new Button(KeyCode.A), new Button(KeyCode.D)),
+                new Axis(new Button(KeyCode.S), new Button(KeyCode.W)));
 
-        alternateInput = new Button(KeyCode.LeftAlt);
-        auxillaryInput = new Button(KeyCode.LeftControl);
+            mouse = Mouse.Get();
 
-        cancelInput = new Button(KeyCode.Escape);
-		
-        cameraMoveButton = new Button(mouse.button(Mouse.BUTTONS.RIGHT));
-        cameraJoystick = new Joystick(new Axis("Mouse X"), new Axis("Mouse Y"));
-        cameraZoom = new Axis(new Button(KeyCode.Z), new Button(KeyCode.X));
-        cameraZoomLeftModifier = new Button(KeyCode.LeftAlt);
-        cameraZoomRightModifier = new Button(KeyCode.RightAlt);
+            actionButton = new Button(KeyCode.Space);
 
-        editorSaveButton = new Button(KeyCode.S);
+            specialActionButton = new Button(KeyCode.A);
+
+            interactButton = new Button(KeyCode.Return);
+        }
+
+        //Put all initialization code here
+        //Remember to comment!
+        protected override void Initialize()
+        {
+        }
     }
 }

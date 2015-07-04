@@ -30,7 +30,7 @@ public class TeleporterDoorFrame : DoorFrame
             mTeleportTarget = teleportTarget.GetComponent<TeleporterDoorFrame>();
 
         mCollider = GetComponent<BoxCollider2D>();
-        mBaseOffset = mCollider.center;
+        mBaseOffset = mCollider.offset;
         mBaseSize = mCollider.size;
 
         mSpawn = spawn.transform.position;
@@ -110,7 +110,7 @@ public class TeleporterDoorFrame : DoorFrame
                 mCanTeleport = false;
 
                 mCollider.size = new Vector2(mBaseSize.x, mBaseSize.y * 2);
-                mCollider.center = new Vector2(mBaseOffset.x, mBaseOffset.y + mBaseSize.y / 2);
+                mCollider.offset = new Vector2(mBaseOffset.x, mBaseOffset.y + mBaseSize.y / 2);
 
                 player.transform.position = getSpawnPosition();
             });
@@ -147,7 +147,7 @@ public class TeleporterDoorFrame : DoorFrame
             mCanTeleport = true;
 
             mCollider.size = new Vector2(mBaseSize.x, mBaseSize.y);
-            mCollider.center = new Vector2(mBaseOffset.x, mBaseOffset.y);
+            mCollider.offset = new Vector2(mBaseOffset.x, mBaseOffset.y);
         }
     }
     #endregion

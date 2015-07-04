@@ -131,7 +131,7 @@ public class RotatingWall : DynamicWall
     #region Instance Methods
     protected override void toChange()
     {
-        audio.Play ();
+        GetComponent<AudioSource>().Play ();
         mCurrentChangeTime = 0.0f;
         mCurrentIndex = (mCurrentIndex + 1) % mRotationAngles.Length;
 

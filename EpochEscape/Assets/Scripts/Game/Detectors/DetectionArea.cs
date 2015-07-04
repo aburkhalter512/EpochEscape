@@ -79,7 +79,7 @@ public class DetectionArea : MonoBehaviour
 					{
 						if (!audioIsPlaying)
                         {
-							audio.Play ();
+							GetComponent<AudioSource>().Play ();
 							audioIsPlaying = true;
 						}
 					}
@@ -100,7 +100,7 @@ public class DetectionArea : MonoBehaviour
 				{
 					if(m_parent.tag == "SecurityCamera")
 					{
-						audio.Stop();
+						GetComponent<AudioSource>().Stop();
 						audioIsPlaying = false;
 					}
 				}

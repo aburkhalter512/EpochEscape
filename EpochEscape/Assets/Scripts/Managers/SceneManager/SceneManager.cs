@@ -11,8 +11,8 @@ using MiniJSON;
 
 public class SceneManager : Manager<SceneManager>
 {
-    private GameObject m_loadingAnimation = null;
-    private SpriteRenderer m_loadingAnimationRenderer = null;
+    /*private GameObject m_loadingAnimation = null;
+    private SpriteRenderer m_loadingAnimationRenderer = null;*/
 
     private Color m_defaultAlpha = new Color(1f, 1f, 1f, 1f);
     private Color m_transparent = new Color(1f, 1f, 1f, 0f);
@@ -24,23 +24,18 @@ public class SceneManager : Manager<SceneManager>
     public float m_simulationTime = 1f;
     public GUIStyle m_style = null;
 
-    private int m_objectsLoaded = 0;
+    /*private int m_objectsLoaded = 0;
     private int m_objectsToLoad = 0;
-    private bool m_isLoading = false;
+    private bool m_isLoading = false;*/
     private string m_loadingText = string.Empty;
 
-    private float m_loadingPercentage = 0f;
+    //private float m_loadingPercentage = 0f;
 
     // ---
 
-    private List<string> m_levels = null;
-    private int m_currentLevel = 0;
+    /*private List<string> m_levels = null;
+    private int m_currentLevel = 0;*/
     private string m_currentLevelName = string.Empty;
-
-    // ---
-
-    private List<GameObject> m_doors = null;
-    private List<GameObject> m_dynamicWalls = null;
 
     private DoorFactory doorFactory;
 
