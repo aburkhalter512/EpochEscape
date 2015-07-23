@@ -4,34 +4,37 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
-public class PlaceableSlidingWall : PlaceableDynamicWall
+namespace Editor
 {
-    #region Interface Methods
-    public static GameObject getPrefab()
+    public class PlaceableSlidingWall : PlaceableDynamicWall
     {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/SlidingWall");
-    }
-
-    public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
-    {
-        base.serialize(doc, (XmlElement elem) =>
+        #region Interface Methods
+        public static GameObject getPrefab()
         {
-            callback(elem);
-        });
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/SlidingWall");
+        }
 
-        return null;
-    }
-	#endregion
+        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        {
+            base.serialize(doc, (XmlElement elem) =>
+            {
+                callback(elem);
+            });
 
-    #region Instance Methods
-    protected override string getType()
-    {
-        return "SlidingWall";
-    }
+            return null;
+        }
+        #endregion
 
-    protected override GameObject loadPrefab()
-    {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/SlidingWall");
+        #region Instance Methods
+        protected override string getType()
+        {
+            return "SlidingWall";
+        }
+
+        protected override GameObject loadPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/SlidingWall");
+        }
+        #endregion
     }
-	#endregion
 }

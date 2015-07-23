@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class OneTimeTerminal : Terminal
+namespace Game
 {
-    public override void Interact()
+    public class OneTimeTerminal : Terminal
     {
-        if (!mIsActivated)
-            base.Interact();
+        public override void Interact()
+        {
+            if (!mIsActivated)
+                base.Interact();
+        }
     }
 }

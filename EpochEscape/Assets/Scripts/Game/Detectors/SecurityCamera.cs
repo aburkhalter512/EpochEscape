@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Xml;
-using G = GameManager;
+using G = Game.GameManager;
 
 public class SecurityCamera : MonoBehaviour, IActivatable, ISerializable
 {
@@ -40,8 +40,8 @@ public class SecurityCamera : MonoBehaviour, IActivatable, ISerializable
     {
         mBaseAngle = transform.localEulerAngles.z;
 
-        mStartAngle = Utilities.WrapAngle(mBaseAngle - m_patrolAngle / 2);
-        mDestAngle = Utilities.WrapAngle(mBaseAngle + m_patrolAngle / 2);
+        mStartAngle = Utilities.Math.WrapAngle(mBaseAngle - m_patrolAngle / 2);
+        mDestAngle = Utilities.Math.WrapAngle(mBaseAngle + m_patrolAngle / 2);
 
         mCurrentDirection = new Vector3(0, 0, mStartAngle);
         transform.localEulerAngles = mCurrentDirection;
@@ -87,7 +87,7 @@ public class SecurityCamera : MonoBehaviour, IActivatable, ISerializable
         element.SetAttribute("type", GetType().ToString());
         element.SetAttribute("patrolangle", m_patrolAngle.ToString());
 
-        element.AppendChild(ComponentSerializer.toXML(transform, document));
+        element.AppendChild(Utilities.Serialization.toXML(transform, document));
 
         callback(element);
 

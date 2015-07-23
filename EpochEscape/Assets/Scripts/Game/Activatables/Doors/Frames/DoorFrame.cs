@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Xml;
+using Utilities;
 
 /**
  * This class a door frame for Epoch Escape. It contains two door sides along with player
@@ -49,172 +50,175 @@ using System.Xml;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public abstract class DoorFrame: 
-    MonoBehaviour, 
-    IActivatable, IDetectable, IResettable, ISerializable, IIdentifiable 
+namespace Game
 {
-    #region Interface Variables
-    public GameObject frontSide;
-    public GameObject backSide;
-
-    public STATE initialState = STATE.IDLE;
-    #endregion
-    
-    #region Instance Variables
-    protected DoorSide mFrontSide;
-    protected DoorSide mBackSide;
-
-    protected STATE mState;
-
-    private string mID = "";
-    #endregion 
-
-    #region Class Constants
-    public enum STATE
+    public abstract class DoorFrame :
+        MonoBehaviour,
+        IActivatable, IDetectable, IResettable, ISerializable, IIdentifiable
     {
-        IDLE = 0,
-        ACTIVE,
-        INACTIVE
-    }
-    #endregion
+        #region Interface Variables
+        public GameObject frontSide;
+        public GameObject backSide;
 
-    protected void Start()
-    {
-        getID();
+        public STATE initialState = STATE.IDLE;
+        #endregion
 
-        mFrontSide = frontSide.GetComponent<DoorSide>();
-        mBackSide = backSide.GetComponent<DoorSide>();
+        #region Instance Variables
+        protected DoorSide mFrontSide;
+        protected DoorSide mBackSide;
 
-        mState = initialState;
-        setState(mState);
-    }
-    
-    #region Interface Methods
-    /**
+        protected STATE mState;
+
+        private string mID = "";
+        #endregion
+
+        #region Class Constants
+        public enum STATE
+        {
+            IDLE = 0,
+            ACTIVE,
+            INACTIVE
+        }
+        #endregion
+
+        protected void Start()
+        {
+            getID();
+
+            mFrontSide = frontSide.GetComponent<DoorSide>();
+            mBackSide = backSide.GetComponent<DoorSide>();
+
+            mState = initialState;
+            setState(mState);
+        }
+
+        #region Interface Methods
+        /**
      *  void triggerFrontEnter()
      *      A method that alerts the door that a gameobject has entered the front detection area.
      */
-    public virtual void triggerFrontEnter()
-    {
-        mFrontSide.triggerFrontEnter();
-        mBackSide.triggerBackEnter();
-
-    }
-
-    /**
-     *  void triggerFrontExit()
-     *      A method that alerts the door that a gameobject has exited the front detection area.
-     */
-    public virtual void triggerFrontExit()
-    {
-        mFrontSide.triggerFrontExit();
-        mBackSide.triggerBackExit();
-    }
-
-    /**
-     *  void triggerBackEnter()
-     *      A method that alerts the door that a gameobject has entered the back detection area.
-     */
-    public virtual void triggerBackEnter()
-    {
-        mFrontSide.triggerBackEnter();
-        mBackSide.triggerFrontEnter();
-    }
-
-    /**
-     *  void triggerBackExit()
-     *      A method that alerts the door that a gameobject has exited the back detection area.
-     */
-    public virtual void triggerBackExit()
-    {
-        mFrontSide.triggerBackExit();
-        mBackSide.triggerFrontExit();
-    }
-
-    /**
-     * void activateSides()
-     *      A method that activates both sides of the door.
-     */
-    public virtual void activate()
-    {
-        mState = STATE.ACTIVE;
-
-        mFrontSide.activate();
-        mBackSide.activate();
-    }
-
-    /**
-     * void deactivateSides()
-     *      A method that deactivates both sides of the door.
-     */
-    public virtual void deactivate()
-    {
-        mState = STATE.INACTIVE;
-
-        mFrontSide.deactivate();
-        mBackSide.deactivate();
-    }
-
-    public virtual void toggle()
-    {
-        switch (mState)
+        public virtual void triggerFrontEnter()
         {
-            case STATE.ACTIVE:
-                deactivate();
-                break;
-            case STATE.IDLE:
-            case STATE.INACTIVE:
-                activate();
-                break;
-        }
-    }
+            mFrontSide.triggerFrontEnter();
+            mBackSide.triggerBackEnter();
 
-    public void setState(STATE state)
-    {
-        switch (mState)
+        }
+
+        /**
+         *  void triggerFrontExit()
+         *      A method that alerts the door that a gameobject has exited the front detection area.
+         */
+        public virtual void triggerFrontExit()
         {
-            case STATE.ACTIVE:
-                activate();
-                break;
-            case STATE.IDLE:
-            case STATE.INACTIVE:
-                deactivate();
-                break;
+            mFrontSide.triggerFrontExit();
+            mBackSide.triggerBackExit();
         }
+
+        /**
+         *  void triggerBackEnter()
+         *      A method that alerts the door that a gameobject has entered the back detection area.
+         */
+        public virtual void triggerBackEnter()
+        {
+            mFrontSide.triggerBackEnter();
+            mBackSide.triggerFrontEnter();
+        }
+
+        /**
+         *  void triggerBackExit()
+         *      A method that alerts the door that a gameobject has exited the back detection area.
+         */
+        public virtual void triggerBackExit()
+        {
+            mFrontSide.triggerBackExit();
+            mBackSide.triggerFrontExit();
+        }
+
+        /**
+         * void activateSides()
+         *      A method that activates both sides of the door.
+         */
+        public virtual void activate()
+        {
+            mState = STATE.ACTIVE;
+
+            mFrontSide.activate();
+            mBackSide.activate();
+        }
+
+        /**
+         * void deactivateSides()
+         *      A method that deactivates both sides of the door.
+         */
+        public virtual void deactivate()
+        {
+            mState = STATE.INACTIVE;
+
+            mFrontSide.deactivate();
+            mBackSide.deactivate();
+        }
+
+        public virtual void toggle()
+        {
+            switch (mState)
+            {
+                case STATE.ACTIVE:
+                    deactivate();
+                    break;
+                case STATE.IDLE:
+                case STATE.INACTIVE:
+                    activate();
+                    break;
+            }
+        }
+
+        public void setState(STATE state)
+        {
+            switch (mState)
+            {
+                case STATE.ACTIVE:
+                    activate();
+                    break;
+                case STATE.IDLE:
+                case STATE.INACTIVE:
+                    deactivate();
+                    break;
+            }
+        }
+
+        public virtual void Reset()
+        {
+            mState = initialState;
+
+            toggle();
+        }
+
+        public virtual IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        {
+            XmlElement doorTag = doc.CreateElement("door");
+            doorTag.SetAttribute("id", getID());
+            doorTag.SetAttribute("type", GetType().ToString());
+            doorTag.SetAttribute("initialState", initialState.ToString());
+
+            doorTag.AppendChild(Serialization.toXML(transform, doc));
+
+            callback(doorTag);
+
+            return null;
+        }
+
+        public virtual string getID()
+        {
+            if (mID == "")
+                mID = Serialization.generateUUID(this);
+
+            return mID;
+        }
+
+        public virtual void setID(string id)
+        {
+            mID = id;
+        }
+        #endregion
     }
-
-    public virtual void Reset()
-    {
-        mState = initialState;
-
-        toggle();
-    }
-
-    public virtual IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
-    {
-        XmlElement doorTag = doc.CreateElement("door");
-        doorTag.SetAttribute("id", getID());
-        doorTag.SetAttribute("type", GetType().ToString());
-        doorTag.SetAttribute("initialState", initialState.ToString());
-
-        doorTag.AppendChild(ComponentSerializer.toXML(transform, doc));
-
-        callback(doorTag);
-
-        return null;
-    }
-
-    public virtual string getID()
-    {
-        if (mID == "")
-            mID = Utilities.generateUUID(this);
-
-        return mID;
-    }
-
-    public virtual void setID(string id)
-    {
-        mID = id;
-    }
-    #endregion
 }

@@ -1,28 +1,31 @@
 ﻿using UnityEngine;
 
-public class PlaceablePressurePlate : PlaceableActivator
+namespace Editor
 {
-    #region Instance Variables
-    bool mIsActive = true;
-
-    #endregion
-
-    #region Interface Methods
-    public static GameObject getPrefab()
+    public class PlaceablePressurePlate : PlaceableActivator
     {
-        GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/PressurePlate");
+        #region Instance Variables
+        bool mIsActive = true;
 
-        if (retVal == null)
-            Debug.LogError("_prefab is null!");
+        #endregion
 
-        return retVal;
+        #region Interface Methods
+        public static GameObject getPrefab()
+        {
+            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/PressurePlate");
+
+            if (retVal == null)
+                Debug.LogError("_prefab is null!");
+
+            return retVal;
+        }
+        #endregion
+
+        #region Instance Methods
+        protected override GameObject loadPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/PressurePlate");
+        }
+        #endregion
     }
-	#endregion
-
-    #region Instance Methods
-    protected override GameObject loadPrefab()
-    {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/PressurePlate");
-    }
-	#endregion
 }

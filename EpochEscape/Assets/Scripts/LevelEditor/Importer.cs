@@ -8,405 +8,407 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using MiniJSON;
 
-public class Importer : MonoBehaviour
+namespace Game
 {
-    public string levelName;
-
-    #region Instance Variables
-    private string mLevelPath;
-
-    private DoorFactory mDoorFactory;
-    private DynamicWallFactory mDynamicWallFactory;
-    private ActivatorFactory mActivatorFactory;
-    private ItemFactory mItemFactory;
-
-    private List<IActivatable> mActivatables;
-
-    private List<bool> mImportCoroutines;
-
-    private bool mImportedDoors;
-    private bool mImportedDynWalls;
-    private bool mImportedActivators;
-    private bool mImportedItems;
-
-    private bool mImportedChambers;
-
-    private bool mImportedChunks;
-    private bool mImportedStaticWalls;
-
-    private bool mImportedEnvironment;
-
-    private string mImportDirectory;
-    private string mImportLevelName;
-
-    private Player mPlayer;
-    #endregion
-
-    public void Start()
+    public class Importer : MonoBehaviour
     {
-        mPlayer = Player.Get();
-        mPlayer.pause();
+        public string levelName;
 
-        initializeFactories();
+        #region Instance Variables
+        private string mLevelPath;
 
-        mActivatables = new List<IActivatable>();
+        private DoorFactory mDoorFactory;
+        private DynamicWallFactory mDynamicWallFactory;
+        private ActivatorFactory mActivatorFactory;
+        private ItemFactory mItemFactory;
 
-        string outputDirectory = "Levels/";
-        mImportDirectory = outputDirectory + levelName + "/";
+        private List<IActivatable> mActivatables;
 
-        if (!Directory.Exists(mImportDirectory))
+        private List<bool> mImportCoroutines;
+
+        private bool mImportedDoors;
+        private bool mImportedDynWalls;
+        private bool mImportedActivators;
+        private bool mImportedItems;
+
+        private bool mImportedChambers;
+
+        private bool mImportedChunks;
+        private bool mImportedStaticWalls;
+
+        private bool mImportedEnvironment;
+
+        private string mImportDirectory;
+        private string mImportLevelName;
+
+        private Player mPlayer;
+        #endregion
+
+        public void Start()
         {
-            Debug.Log("The level " + levelName + " does not exist.");
-            return;
-        }
+            mPlayer = Player.Get();
+            mPlayer.pause();
 
-        mImportLevelName = "gamedata.xml";
+            initializeFactories();
 
-        if (!File.Exists(mImportDirectory + mImportLevelName))
-        {
-            Debug.Log(mImportDirectory + mImportLevelName + " does not exist.");
-            return;
-        }
+            mActivatables = new List<IActivatable>();
 
-        XmlDocument document = new XmlDocument();
-        document.Load(mImportDirectory + mImportLevelName);
+            string outputDirectory = "Levels/";
+            mImportDirectory = outputDirectory + levelName + "/";
 
-        mImportedDoors = true;
-        mImportedDynWalls = true;
-        mImportedActivators = true;
-        mImportedItems = true;
-
-        mImportedChambers = false;
-
-        mImportedChunks = true;
-        mImportedStaticWalls = true;
-
-        mImportedEnvironment = false;
-
-        importLevel(document);
-
-        StartCoroutine(waitForReady());
-    }
-
-    private void initializeFactories()
-    {
-        mDoorFactory = new DoorFactory();
-        mDynamicWallFactory = new DynamicWallFactory();
-        mActivatorFactory = new ActivatorFactory();
-        mItemFactory = new ItemFactory();
-    }
-
-    private void importLevel(XmlDocument document)
-    {
-        XmlElement rootElem;
-        foreach (XmlNode root in document.ChildNodes)
-        {
-            rootElem = root as XmlElement;
-
-            if (rootElem == null)
-                continue;
-
-            StartCoroutine(importEnvironment(rootElem.FirstChild));
-            StartCoroutine(importChambers(rootElem.FirstChild));
-        }
-    }
-
-    private IEnumerator importEnvironment(XmlNode environmentNode)
-    {
-        XmlNode nodeIt = environmentNode;
-        XmlElement element;
-
-        while (nodeIt != null)
-        {
-            element = nodeIt as XmlElement;
-            nodeIt = nodeIt.NextSibling;
-
-            if (element == null)
-                continue;
-
-            Debug.Log("environment name: " + element.Name);
-
-            switch (element.Name)
+            if (!Directory.Exists(mImportDirectory))
             {
-                case "staticwalls":
-                    mImportedStaticWalls = false;
-                    StartCoroutine(importStaticWalls(element));
-                    break;
-                case "chunks":
-                    mImportedEnvironment = false;
-                    StartCoroutine(importChunks(element));
-                    break;
+                Debug.Log("The level " + levelName + " does not exist.");
+                return;
             }
-        }
 
-        while (!finishedEnvironment())
-            yield return new WaitForSeconds(.33f);
+            mImportLevelName = "gamedata.xml";
 
-        mImportedEnvironment = true;
+            if (!File.Exists(mImportDirectory + mImportLevelName))
+            {
+                Debug.Log(mImportDirectory + mImportLevelName + " does not exist.");
+                return;
+            }
 
-        yield break;
-    }
+            XmlDocument document = new XmlDocument();
+            document.Load(mImportDirectory + mImportLevelName);
 
-    private bool finishedEnvironment()
-    {
-        return mImportedChunks && mImportedStaticWalls;
-    }
-
-    private IEnumerator importChunks(XmlElement parent)
-    {
-        if (parent == null || parent.Name != "chunks")
-            yield break;
-
-        Debug.Log("Importing chunks...");
-
-        Utilities.IntPair chunkSize = Utilities.IntPair.deserialize(parent.GetAttribute("chunkSize"));
-        Vector2 chunkRealSize = Utilities.StringToVector2(parent.GetAttribute("chunkRealSize"));
-
-        XmlNode nodeIt = parent.FirstChild;
-        XmlElement chunkNode;
-
-        Utilities.IntPair logicalPosition;
-
-        GameObject go;
-
-        while (nodeIt != null)
-        {
-            chunkNode = nodeIt as XmlElement;
-            nodeIt = nodeIt.NextSibling;
-
-            if (chunkNode == null || chunkNode.Name != "chunk")
-                continue;
-
-            logicalPosition = Utilities.IntPair.deserialize(chunkNode.GetAttribute("logicalPosition"));
-
-            byte[] chunkData = File.ReadAllBytes(mImportDirectory + "Chunks/" + chunkNode.GetAttribute("filename"));
-            if (chunkData == null)
-                continue;
-
-            go = new GameObject();
-            logicalPosition = Utilities.IntPair.deserialize(chunkNode.GetAttribute("logicalPosition"));
-
-            Vector3 chunkPos = new Vector3(chunkRealSize.x * logicalPosition.first,
-                chunkRealSize.y * logicalPosition.second,
-                0.0f);
-            chunkPos += Utilities.toVector3(chunkRealSize / 2);
-            chunkPos += new Vector3(-.1f, -.1f, 0);
-            go.transform.position = chunkPos;
-
-            Mesh chunkMesh = Utilities.makeQuadMesh(chunkRealSize);
-
-            MeshFilter mf = go.AddComponent<MeshFilter>();
-            mf.mesh = chunkMesh;
-
-            MeshRenderer mr = go.AddComponent<MeshRenderer>();
-            mr.material.shader = Shader.Find("Self-Illumin/Diffuse");
-
-            Texture2D tex = new Texture2D(chunkSize.first, chunkSize.second);
-            tex.LoadImage(chunkData);
-            tex.Apply();
-            mr.material.mainTexture = tex;
-
-            yield return null;
-        }
-
-        Debug.Log("Done importing chunks");
-
-        mImportedChunks = true;
-    }
-
-    private IEnumerator importStaticWalls(XmlElement parent)
-    {
-        if (parent == null || parent.Name != "staticwalls")
-            yield break;
-
-        GameObject staticWalls = new GameObject();
-        staticWalls.transform.position = new Vector3(-.1f, -.1f, 0);
-
-        Debug.Log("Adding the static walls");
-
-        XmlNode nodeIt = parent.FirstChild;
-        XmlElement colliderElement;
-
-        while (nodeIt != null)
-        {
-            colliderElement = nodeIt as XmlElement;
-            nodeIt = nodeIt.NextSibling;
-
-            if (colliderElement == null || colliderElement.Name != "boxcollider2d")
-                continue;
-
-            BoxCollider2D collider = staticWalls.AddComponent<BoxCollider2D>();
-            ComponentSerializer.deserialize(collider, colliderElement);
-            collider.isTrigger = false;
-        }
-
-        mImportedStaticWalls = true;
-    }
-
-    private IEnumerator importChambers(XmlNode chamberNode)
-    {
-        XmlNode chamberIter = chamberNode;
-        XmlElement chamberElem;
-
-        GameObject chamber;
-
-        while (chamberIter != null)
-        {
-            chamberElem = chamberIter as XmlElement;
-            chamberIter = chamberIter.NextSibling;
-
-            if (chamberElem == null || chamberElem.Name != "chamber")
-                continue;
+            mImportedDoors = true;
+            mImportedDynWalls = true;
+            mImportedActivators = true;
+            mImportedItems = true;
 
             mImportedChambers = false;
 
-            chamber = new GameObject();
-            chamber.transform.position =
-                Utilities.StringToVector3(chamberElem.GetAttribute("position"));
-            chamber.name = chamberElem.GetAttribute("name") + "_imported";
+            mImportedChunks = true;
+            mImportedStaticWalls = true;
 
-            XmlNode categoryIter = chamberElem.FirstChild;
-            XmlElement categoryElem;
+            mImportedEnvironment = false;
 
-            XmlElement doors = null;
-            XmlElement dynamicWalls = null;
-            XmlElement activators = null;
-            XmlElement items = null;
-            while (categoryIter != null)
+            importLevel(document);
+
+            StartCoroutine(waitForReady());
+        }
+
+        private void initializeFactories()
+        {
+            mDoorFactory = new DoorFactory();
+            mDynamicWallFactory = new DynamicWallFactory();
+            mActivatorFactory = new ActivatorFactory();
+            mItemFactory = new ItemFactory();
+        }
+
+        private void importLevel(XmlDocument document)
+        {
+            XmlElement rootElem;
+            foreach (XmlNode root in document.ChildNodes)
             {
-                categoryElem = categoryIter as XmlElement;
-                categoryIter = categoryIter.NextSibling;
+                rootElem = root as XmlElement;
 
-                if (categoryElem == null)
+                if (rootElem == null)
                     continue;
 
-                switch (categoryElem.Name)
+                StartCoroutine(importEnvironment(rootElem.FirstChild));
+                StartCoroutine(importChambers(rootElem.FirstChild));
+            }
+        }
+
+        private IEnumerator importEnvironment(XmlNode environmentNode)
+        {
+            XmlNode nodeIt = environmentNode;
+            XmlElement element;
+
+            while (nodeIt != null)
+            {
+                element = nodeIt as XmlElement;
+                nodeIt = nodeIt.NextSibling;
+
+                if (element == null)
+                    continue;
+
+                Debug.Log("environment name: " + element.Name);
+
+                switch (element.Name)
                 {
-                    case "doors":
-                        mImportedDoors = false;
-                        StartCoroutine(importDoors(categoryElem));
-                        doors = categoryElem;
+                    case "staticwalls":
+                        mImportedStaticWalls = false;
+                        StartCoroutine(importStaticWalls(element));
                         break;
-                    case "dynamicwalls":
-                        mImportedDynWalls = false;
-                        StartCoroutine(importDynamicWalls(categoryElem));
-                        dynamicWalls = categoryElem;
-                        break;
-                    case "activators":
-                        mImportedActivators = false;
-                        StartCoroutine(importActivators(categoryElem));
-                        activators = categoryElem;
-                        break;//*/
-                    case "items":
-                        mImportedItems = false;
-                        StartCoroutine(importItems(categoryElem));
-                        items = categoryElem;
+                    case "chunks":
+                        mImportedEnvironment = false;
+                        StartCoroutine(importChunks(element));
                         break;
                 }
             }
 
-            while (!finishedWithChamber())
+            while (!finishedEnvironment())
                 yield return new WaitForSeconds(.33f);
+
+            mImportedEnvironment = true;
+
+            yield break;
         }
 
-        mImportedChambers = true;
-
-        yield break;
-    }
-
-    private IEnumerator importDoors(XmlElement parent)
-    {
-        XmlElement doorElem;
-        foreach (XmlNode node in parent.ChildNodes)
+        private bool finishedEnvironment()
         {
-            doorElem = node as XmlElement;
-            if (doorElem == null)
-                continue;
-
-            mActivatables.Add(mDoorFactory.create(doorElem) as IActivatable);
-
-            yield return null;
+            return mImportedChunks && mImportedStaticWalls;
         }
 
-        mImportedDoors = true;
-    }
-
-    private IEnumerator importDynamicWalls(XmlElement parent)
-    {
-        XmlElement wallElem;
-        foreach (XmlNode node in parent.ChildNodes)
+        private IEnumerator importChunks(XmlElement parent)
         {
-            wallElem = node as XmlElement;
-            if (wallElem == null)
-                continue;
+            if (parent == null || parent.Name != "chunks")
+                yield break;
 
-            mActivatables.Add(mDynamicWallFactory.create(wallElem) as IActivatable);
+            Debug.Log("Importing chunks...");
 
-            yield return null;
+            Utilities.Vec2Int chunkSize = new Utilities.Vec2Int(parent.GetAttribute("chunkSize"));
+            Vector2 chunkRealSize = Utilities.Serialization.toVector2(parent.GetAttribute("chunkRealSize"));
+
+            XmlNode nodeIt = parent.FirstChild;
+            XmlElement chunkNode;
+
+            Utilities.Vec2Int logicalPosition;
+
+            GameObject go;
+
+            while (nodeIt != null)
+            {
+                chunkNode = nodeIt as XmlElement;
+                nodeIt = nodeIt.NextSibling;
+
+                if (chunkNode == null || chunkNode.Name != "chunk")
+                    continue;
+
+                logicalPosition = new Utilities.Vec2Int(chunkNode.GetAttribute("logicalPosition"));
+
+                byte[] chunkData = File.ReadAllBytes(mImportDirectory + "Chunks/" + chunkNode.GetAttribute("filename"));
+                if (chunkData == null)
+                    continue;
+
+                go = new GameObject();
+                logicalPosition = new Utilities.Vec2Int(chunkNode.GetAttribute("logicalPosition"));
+
+                Vector3 chunkPos = new Vector3(chunkRealSize.x * logicalPosition.x,
+                    chunkRealSize.y * logicalPosition.y,
+                    0.0f);
+                chunkPos += Utilities.Math.toVector3(chunkRealSize / 2);
+                chunkPos += new Vector3(-.1f, -.1f, 0);
+                go.transform.position = chunkPos;
+
+                Mesh chunkMesh = Utilities.Graphics.makeQuadMesh(chunkRealSize);
+
+                MeshFilter mf = go.AddComponent<MeshFilter>();
+                mf.mesh = chunkMesh;
+
+                MeshRenderer mr = go.AddComponent<MeshRenderer>();
+                mr.material.shader = Shader.Find("Self-Illumin/Diffuse");
+
+                Texture2D tex = new Texture2D(chunkSize.x, chunkSize.y);
+                tex.LoadImage(chunkData);
+                tex.Apply();
+                mr.material.mainTexture = tex;
+
+                yield return null;
+            }
+
+            Debug.Log("Done importing chunks");
+
+            mImportedChunks = true;
         }
 
-        mImportedDynWalls = true;
-    }
-
-    private IEnumerator importActivators(XmlElement parent)
-    {
-        //Check to see if the activatables have imported yet
-        while (!(mImportedDoors && mImportedDynWalls))
+        private IEnumerator importStaticWalls(XmlElement parent)
         {
-            yield return new WaitForSeconds(.1f);
+            if (parent == null || parent.Name != "staticwalls")
+                yield break;
+
+            GameObject staticWalls = new GameObject();
+            staticWalls.transform.position = new Vector3(-.1f, -.1f, 0);
+
+            Debug.Log("Adding the static walls");
+
+            XmlNode nodeIt = parent.FirstChild;
+            XmlElement colliderElement;
+
+            while (nodeIt != null)
+            {
+                colliderElement = nodeIt as XmlElement;
+                nodeIt = nodeIt.NextSibling;
+
+                if (colliderElement == null || colliderElement.Name != "boxcollider2d")
+                    continue;
+
+                BoxCollider2D collider = staticWalls.AddComponent<BoxCollider2D>();
+                Utilities.Serialization.deserialize(collider, colliderElement);
+                collider.isTrigger = false;
+            }
+
+            mImportedStaticWalls = true;
         }
 
-        XmlElement activatorElem;
-        foreach (XmlNode node in parent.ChildNodes)
+        private IEnumerator importChambers(XmlNode chamberNode)
         {
-            activatorElem = node as XmlElement;
-            if (activatorElem == null)
-                continue;
+            XmlNode chamberIter = chamberNode;
+            XmlElement chamberElem;
 
-            if (mActivatorFactory.toConnect == null)
-                mActivatorFactory.toConnect = mActivatables;
+            GameObject chamber;
 
-            mActivatorFactory.create(activatorElem);
+            while (chamberIter != null)
+            {
+                chamberElem = chamberIter as XmlElement;
+                chamberIter = chamberIter.NextSibling;
 
-            yield return null;
+                if (chamberElem == null || chamberElem.Name != "chamber")
+                    continue;
+
+                mImportedChambers = false;
+
+                chamber = new GameObject();
+                chamber.transform.position =
+                    Utilities.Serialization.toVector3(chamberElem.GetAttribute("position"));
+                chamber.name = chamberElem.GetAttribute("name") + "_imported";
+
+                XmlNode categoryIter = chamberElem.FirstChild;
+                XmlElement categoryElem;
+
+                XmlElement doors = null;
+                XmlElement dynamicWalls = null;
+                XmlElement activators = null;
+                XmlElement items = null;
+                while (categoryIter != null)
+                {
+                    categoryElem = categoryIter as XmlElement;
+                    categoryIter = categoryIter.NextSibling;
+
+                    if (categoryElem == null)
+                        continue;
+
+                    switch (categoryElem.Name)
+                    {
+                        case "doors":
+                            mImportedDoors = false;
+                            StartCoroutine(importDoors(categoryElem));
+                            doors = categoryElem;
+                            break;
+                        case "dynamicwalls":
+                            mImportedDynWalls = false;
+                            StartCoroutine(importDynamicWalls(categoryElem));
+                            dynamicWalls = categoryElem;
+                            break;
+                        case "activators":
+                            mImportedActivators = false;
+                            StartCoroutine(importActivators(categoryElem));
+                            activators = categoryElem;
+                            break;//*/
+                        case "items":
+                            mImportedItems = false;
+                            StartCoroutine(importItems(categoryElem));
+                            items = categoryElem;
+                            break;
+                    }
+                }
+
+                while (!finishedWithChamber())
+                    yield return new WaitForSeconds(.33f);
+            }
+
+            mImportedChambers = true;
+
+            yield break;
         }
 
-        mImportedActivators = true;
-    }
-
-    private IEnumerator importItems(XmlElement parent)
-    {
-        XmlElement itemElem;
-        foreach (XmlNode node in parent.ChildNodes)
+        private IEnumerator importDoors(XmlElement parent)
         {
-            itemElem = node as XmlElement;
-            if (itemElem == null)
-                continue;
+            XmlElement doorElem;
+            foreach (XmlNode node in parent.ChildNodes)
+            {
+                doorElem = node as XmlElement;
+                if (doorElem == null)
+                    continue;
 
-            mItemFactory.create(itemElem);
+                mActivatables.Add(mDoorFactory.create(doorElem) as IActivatable);
 
-            yield return null;
+                yield return null;
+            }
+
+            mImportedDoors = true;
         }
 
-        mImportedItems = true;
-    }
-
-    private bool finishedWithChamber()
-    {
-        return mImportedDoors && mImportedDynWalls && mImportedActivators && mImportedItems;
-    }
-
-    private IEnumerator waitForReady()
-    {
-        while (!(mImportedEnvironment && mImportedChambers))
+        private IEnumerator importDynamicWalls(XmlElement parent)
         {
-            Debug.Log("Waiting...");
-            yield return new WaitForSeconds(.33f);
+            XmlElement wallElem;
+            foreach (XmlNode node in parent.ChildNodes)
+            {
+                wallElem = node as XmlElement;
+                if (wallElem == null)
+                    continue;
+
+                mActivatables.Add(mDynamicWallFactory.create(wallElem) as IActivatable);
+
+                yield return null;
+            }
+
+            mImportedDynWalls = true;
         }
 
-        LevelManager.Ready();
-        mPlayer.unpause();
+        private IEnumerator importActivators(XmlElement parent)
+        {
+            //Check to see if the activatables have imported yet
+            while (!(mImportedDoors && mImportedDynWalls))
+            {
+                yield return new WaitForSeconds(.1f);
+            }
+
+            XmlElement activatorElem;
+            foreach (XmlNode node in parent.ChildNodes)
+            {
+                activatorElem = node as XmlElement;
+                if (activatorElem == null)
+                    continue;
+
+                if (mActivatorFactory.toConnect == null)
+                    mActivatorFactory.toConnect = mActivatables;
+
+                mActivatorFactory.create(activatorElem);
+
+                yield return null;
+            }
+
+            mImportedActivators = true;
+        }
+
+        private IEnumerator importItems(XmlElement parent)
+        {
+            XmlElement itemElem;
+            foreach (XmlNode node in parent.ChildNodes)
+            {
+                itemElem = node as XmlElement;
+                if (itemElem == null)
+                    continue;
+
+                mItemFactory.create(itemElem);
+
+                yield return null;
+            }
+
+            mImportedItems = true;
+        }
+
+        private bool finishedWithChamber()
+        {
+            return mImportedDoors && mImportedDynWalls && mImportedActivators && mImportedItems;
+        }
+
+        private IEnumerator waitForReady()
+        {
+            while (!(mImportedEnvironment && mImportedChambers))
+            {
+                Debug.Log("Waiting...");
+                yield return new WaitForSeconds(.33f);
+            }
+
+            LevelManager.Ready();
+            mPlayer.unpause();
+        }
     }
 }

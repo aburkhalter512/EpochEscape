@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerCaughtAnimation : MonoBehaviour
+namespace Game
 {
-    public void Start()
+    public class PlayerCaughtAnimation : MonoBehaviour
     {
-        transform.position = Player.Get().transform.position;
-    }
+        public void Start()
+        {
+            transform.position = Player.Get().transform.position;
+        }
 
-    public void DoneAnimating()
-    {
-        LevelManager.LoadCheckpoint();
+        public void DoneAnimating()
+        {
+            LevelManager.LoadCheckpoint();
 
-        Destroy(gameObject);
+            Destroy(gameObject);
+        }
     }
 }

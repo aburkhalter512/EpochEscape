@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class PlaceableStandardDoor : PlaceableSimpleDoor
+namespace Editor
 {
-	#region Interface Methods
-    public static GameObject getPrefab()
+    public class PlaceableStandardDoor : PlaceableSimpleDoor
     {
-        GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/StandardDoor");
+        #region Interface Methods
+        public static GameObject getPrefab()
+        {
+            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/StandardDoor");
 
-        if (retVal == null)
-            Debug.LogError("_prefab is null!");
+            if (retVal == null)
+                Debug.LogError("_prefab is null!");
 
-        return retVal;
+            return retVal;
+        }
+        #endregion
+
+        #region Instance Methods
+        protected override GameObject loadPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/StandardDoor");
+        }
+        #endregion
     }
-	#endregion
-	
-	#region Instance Methods
-    protected override GameObject loadPrefab()
-    {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/StandardDoor");
-    }
-	#endregion
 }

@@ -2,72 +2,75 @@
 using System.Collections;
 using System.Xml;
 
-public class TimerDoorFrame : StandardDoorFrame
+namespace Game
 {
-    #region Interface Variables
-    public int time = 1;
-    #endregion
-
-    #region Instance Variables
-    private int mTimeRemaining = 0;
-    private bool mIsTiming = false;
-    #endregion
-
-    protected new void Start()
+    public class TimerDoorFrame : StandardDoorFrame
     {
-        initialState = STATE.INACTIVE;
+        #region Interface Variables
+        public int time = 1;
+        #endregion
 
-        base.Start();
-    }
+        #region Instance Variables
+        private int mTimeRemaining = 0;
+        private bool mIsTiming = false;
+        #endregion
 
-    #region Interface Methods
-    public override void toggle()
-    {
-        if (mState == STATE.INACTIVE)
-            activate();
-    }
-
-    public override void activate()
-    {
-        StartCoroutine(countDownTimer());
-    }
-
-    public int getTimeRemaining()
-    {
-        return mTimeRemaining;
-    }
-
-    public bool isTiming()
-    {
-        return mIsTiming;
-    }
-
-    public override IEnumerator serialize(XmlDocument document, System.Action<XmlElement> callback)
-    {
-        base.serialize(document, (XmlElement doorTag) =>
+        protected new void Start()
         {
-            doorTag.SetAttribute("time", time.ToString());
+            initialState = STATE.INACTIVE;
 
-            callback(doorTag);
-        });
+            base.Start();
+        }
 
-        return null;
+        #region Interface Methods
+        public override void toggle()
+        {
+            if (mState == STATE.INACTIVE)
+                activate();
+        }
+
+        public override void activate()
+        {
+            StartCoroutine(countDownTimer());
+        }
+
+        public int getTimeRemaining()
+        {
+            return mTimeRemaining;
+        }
+
+        public bool isTiming()
+        {
+            return mIsTiming;
+        }
+
+        public override IEnumerator serialize(XmlDocument document, System.Action<XmlElement> callback)
+        {
+            base.serialize(document, (XmlElement doorTag) =>
+            {
+                doorTag.SetAttribute("time", time.ToString());
+
+                callback(doorTag);
+            });
+
+            return null;
+        }
+        #endregion
+
+        #region Instance Methods
+        private IEnumerator countDownTimer()
+        {
+            base.activate();
+            mIsTiming = true;
+            HUDManager.SetTimer(this);
+
+            for (mTimeRemaining = time; mTimeRemaining >= 0; mTimeRemaining--)
+                yield return new WaitForSeconds(1f);
+
+            deactivate();
+            mTimeRemaining = 0;
+            mIsTiming = false;
+        }
+        #endregion
     }
-    #endregion
-
-    #region Instance Methods
-    private IEnumerator countDownTimer()
-    {
-        base.activate();
-        mIsTiming = true;
-        HUDManager.SetTimer(this);
-
-        for (mTimeRemaining = time; mTimeRemaining >= 0; mTimeRemaining--)
-            yield return new WaitForSeconds(1f);
-
-        deactivate();
-        mTimeRemaining = 0;
-        mIsTiming = false;
-    }
-    #endregion
 }

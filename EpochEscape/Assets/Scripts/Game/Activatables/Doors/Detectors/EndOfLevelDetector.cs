@@ -12,15 +12,18 @@ using System.Collections;
  * Interface Methods
  *      There are no interface methods
  */
-public class EndOfLevelDetector : MonoBehaviour
+namespace Game
 {
-    #region Instance Methods
-    protected void OnTriggerEnter2D(Collider2D collidee)
+    public class EndOfLevelDetector : MonoBehaviour
     {
-        Player player = collidee.GetComponent<Player>();
+        #region Instance Methods
+        protected void OnTriggerEnter2D(Collider2D collidee)
+        {
+            Player player = collidee.GetComponent<Player>();
 
-        if (player != null)
-            LevelManager.ExitLevel();
+            if (player != null)
+                LevelManager.ExitLevel();
+        }
+        #endregion
     }
-    #endregion
 }

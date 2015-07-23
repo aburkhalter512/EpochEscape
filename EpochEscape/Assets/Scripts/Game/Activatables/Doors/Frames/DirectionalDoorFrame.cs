@@ -48,71 +48,74 @@ using System.Collections;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public class DirectionalDoorFrame : DoorFrame
+namespace Game
 {
-    #region Instance Variables
-    bool mIsFrontHit = false;
-    bool mIsBackHit = false;
-    #endregion
+    public class DirectionalDoorFrame : DoorFrame
+    {
+        #region Instance Variables
+        bool mIsFrontHit = false;
+        bool mIsBackHit = false;
+        #endregion
 
-    #region Interface Methods
-    /**
+        #region Interface Methods
+        /**
      *  void triggerFrontEnter()
      *      A method that alerts the door that a gameobject has entered the front detection area.
      */
-    public override void triggerFrontEnter()
-    {
-        mIsFrontHit = true;
-    }
-
-    /**
-     *  void triggerFrontExit()
-     *      A method that alerts the door that a gameobject has exited the front detection area.
-     */
-    public override void triggerFrontExit()
-    {
-        if (!mIsBackHit)
-            mFrontSide.deactivate();
-
-        mIsFrontHit = false;
-    }
-
-    /**
-     *  void triggerBackEnter()
-     *      A method that alerts the door that a gameobject has entered the back detection area.
-     *      This method directly opens the door sides.
-     */
-    public override void triggerBackEnter()
-    {
-        if (mState != STATE.INACTIVE)
+        public override void triggerFrontEnter()
         {
-            mIsBackHit = true;
-            mFrontSide.activate();
+            mIsFrontHit = true;
         }
-    }
 
-    /**
-     *  void triggerBackExit()
-     *      A method that alerts the door that a gameobject has exited the back detection area.
-     */
-    public override void triggerBackExit()
-    {
-        if (!mIsFrontHit)
-            mFrontSide.deactivate();
+        /**
+         *  void triggerFrontExit()
+         *      A method that alerts the door that a gameobject has exited the front detection area.
+         */
+        public override void triggerFrontExit()
+        {
+            if (!mIsBackHit)
+                mFrontSide.deactivate();
 
-        mIsBackHit = false;
-    }
+            mIsFrontHit = false;
+        }
 
-    public override void activate()
-    {
-        mBackSide.activate();
-        mState = STATE.ACTIVE;
-    }
+        /**
+         *  void triggerBackEnter()
+         *      A method that alerts the door that a gameobject has entered the back detection area.
+         *      This method directly opens the door sides.
+         */
+        public override void triggerBackEnter()
+        {
+            if (mState != STATE.INACTIVE)
+            {
+                mIsBackHit = true;
+                mFrontSide.activate();
+            }
+        }
 
-    public override void deactivate()
-    {
-        mBackSide.deactivate();
-        mState = STATE.INACTIVE;
+        /**
+         *  void triggerBackExit()
+         *      A method that alerts the door that a gameobject has exited the back detection area.
+         */
+        public override void triggerBackExit()
+        {
+            if (!mIsFrontHit)
+                mFrontSide.deactivate();
+
+            mIsBackHit = false;
+        }
+
+        public override void activate()
+        {
+            mBackSide.activate();
+            mState = STATE.ACTIVE;
+        }
+
+        public override void deactivate()
+        {
+            mBackSide.deactivate();
+            mState = STATE.INACTIVE;
+        }
+        #endregion
     }
-    #endregion
 }

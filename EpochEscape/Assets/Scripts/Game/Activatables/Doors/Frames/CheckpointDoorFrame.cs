@@ -52,68 +52,71 @@ using System.Xml;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public class CheckpointDoorFrame : DirectionalDoorFrame
+namespace Game
 {
-    #region Interface Variables
-    public GameObject spawn;
-    #endregion
-    
-    #region Instance Variables
-    bool didRegisterCheckpoint = false;
-
-    Vector3 mSpawnLocation;
-    #endregion
-    
-    protected new void Start()
+    public class CheckpointDoorFrame : DirectionalDoorFrame
     {
-        base.Start();
+        #region Interface Variables
+        public GameObject spawn;
+        #endregion
 
-        mSpawnLocation = spawn.transform.position;
-        mBackSide.activate();
-        GameObject.Destroy(spawn);
-    }
-    
-    #region Interface Methods
-    /**
+        #region Instance Variables
+        bool didRegisterCheckpoint = false;
+
+        Vector3 mSpawnLocation;
+        #endregion
+
+        protected new void Start()
+        {
+            base.Start();
+
+            mSpawnLocation = spawn.transform.position;
+            mBackSide.activate();
+            GameObject.Destroy(spawn);
+        }
+
+        #region Interface Methods
+        /**
      * triggerFrontExit()
      *      This method is the same as base.triggerFrontExit() except that a checkpoint
      *      is triggered the first time the player exits. Current progress is saved and
      *      the save location is moved a location based off of the Checkpoint door frame.
      */
-    public override void triggerFrontExit()
-    {
-        base.triggerFrontExit();
+        public override void triggerFrontExit()
+        {
+            base.triggerFrontExit();
 
-        if (!didRegisterCheckpoint)
-            registerCheckpoint();
-    }
+            if (!didRegisterCheckpoint)
+                registerCheckpoint();
+        }
 
-    public override void activate()
-    {
-        return;
-    }
+        public override void activate()
+        {
+            return;
+        }
 
-    public override void deactivate()
-    {
-        return;
-    }
+        public override void deactivate()
+        {
+            return;
+        }
 
-    public Vector3 getRespawnLocation()
-    {
-        return mSpawnLocation;
-    }
+        public Vector3 getRespawnLocation()
+        {
+            return mSpawnLocation;
+        }
 
-    public virtual void open()
-    {
-        mBackSide.activate();
+        public virtual void open()
+        {
+            mBackSide.activate();
+        }
+        #endregion
+
+        #region Instance Methods
+        protected void registerCheckpoint()
+        {
+            didRegisterCheckpoint = true;
+            LevelManager.SetCheckoint(this);
+        }
+        #endregion
     }
-    #endregion
-    
-    #region Instance Methods
-    protected void registerCheckpoint()
-    {
-        didRegisterCheckpoint = true;
-        LevelManager.SetCheckoint(this);
-    }
-    #endregion
 }

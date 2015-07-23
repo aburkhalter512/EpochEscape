@@ -2,60 +2,64 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class LaserSwitchBehavior : MonoBehaviour
+namespace Game
 {
-    #region Interface Variables
-    public GameObject[] activatables;
-
-    public List<DoorFrame> door;
-    public List<bool> toActivate; 
-    public List<Color> colorMatch;
-	public Color toMatch;
-    #endregion
-
-    #region Instance Variables
-    public List<IActivatable> mActivatables;
-    #endregion
-
-    void Start ()
+    public class LaserSwitchBehavior : MonoBehaviour
     {
-		/*foreach (Color c in colorMatch)
-			toMatch = Utilities.addColors (toMatch, c);
+        #region Interface Variables
+        public GameObject[] activatables;
 
-        mActivatables = new List<IActivatable>();
-        foreach (GameObject activatable in activatables)
+        public List<DoorFrame> door;
+        public List<bool> toActivate;
+        public List<Color> colorMatch;
+        public Color toMatch;
+        #endregion
+
+        #region Instance Variables
+        public List<IActivatable> mActivatables;
+        #endregion
+
+        void Start()
         {
-            IActivatable actuator = activatable.GetComponent<MonoBehaviour>() as IActivatable;
+            /*foreach (Color c in colorMatch)
+                toMatch = Utilities.addColors (toMatch, c);
 
-            if (actuator != null)
-                mActivatables.Add(actuator);
-        }*/
-    }
+            mActivatables = new List<IActivatable>();
+            foreach (GameObject activatable in activatables)
+            {
+                IActivatable actuator = activatable.GetComponent<MonoBehaviour>() as IActivatable;
 
-    public void resetActivate()
-    {
-        //loop the doors that this switch is responsible for
-        for(int i = 0; i < door.Count; i++)
-        {
-            //check if activating or deactivating
-            if (toActivate[i])
-                door[i].deactivate();
-            else
-                door[i].activate();
+                if (actuator != null)
+                    mActivatables.Add(actuator);
+            }*/
         }
-    }
 
-    public void Activate(Color color){
-        /*//loop through doors this switch is responsible for
-		if (Utilities.areEqualColors (color, toMatch)) {
-			for (int i = 0; i < door.Count; i++) {
-				//check if activating or deactivating
+        public void resetActivate()
+        {
+            //loop the doors that this switch is responsible for
+            for (int i = 0; i < door.Count; i++)
+            {
+                //check if activating or deactivating
                 if (toActivate[i])
                     door[i].deactivate();
                 else
                     door[i].activate();
-			}
-		}*/
+            }
+        }
+
+        public void Activate(Color color)
+        {
+            /*//loop through doors this switch is responsible for
+            if (Utilities.areEqualColors (color, toMatch)) {
+                for (int i = 0; i < door.Count; i++) {
+                    //check if activating or deactivating
+                    if (toActivate[i])
+                        door[i].deactivate();
+                    else
+                        door[i].activate();
+                }
+            }*/
+        }
     }
 }
 	

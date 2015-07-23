@@ -11,32 +11,35 @@ using System.Collections;
  * Interface Methods
  *      There are no interface methods.
  */
-public class BackDoorDetector : MonoBehaviour
+namespace Game
 {
-    #region Instance Variables
-    IDetectable detectable;
-    #endregion
-
-    protected void Start()
+    public class BackDoorDetector : MonoBehaviour
     {
-        detectable = transform.parent.GetComponent<MonoBehaviour>() as IDetectable;
+        #region Instance Variables
+        IDetectable detectable;
+        #endregion
+
+        protected void Start()
+        {
+            detectable = transform.parent.GetComponent<MonoBehaviour>() as IDetectable;
+        }
+
+        #region Instance Methods
+        protected void OnTriggerEnter2D(Collider2D collidee)
+        {
+            Player player = collidee.GetComponent<Player>();
+
+            if (player != null)
+                detectable.triggerBackEnter();
+        }
+
+        protected void OnTriggerExit2D(Collider2D collidee)
+        {
+            Player player = collidee.GetComponent<Player>();
+
+            if (player != null)
+                detectable.triggerBackExit();
+        }
+        #endregion
     }
-
-    #region Instance Methods
-    protected void OnTriggerEnter2D(Collider2D collidee)
-    {
-        Player player = collidee.GetComponent<Player>();
-
-        if (player != null)
-            detectable.triggerBackEnter();
-    }
-
-    protected void OnTriggerExit2D(Collider2D collidee)
-    {
-        Player player = collidee.GetComponent<Player>();
-
-        if (player != null)
-            detectable.triggerBackExit();
-    }
-    #endregion
 }

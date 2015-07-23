@@ -51,73 +51,76 @@ using System.Collections;
  *      void deactivateSides
  *          A method that deactivates both sides of the door.
  */
-public class EntranceDoorFrame : CheckpointDoorFrame
+namespace Game
 {
-    #region Instance Variables
-    bool mIsFirstOpen = true;
-
-    static EntranceDoorFrame mInstance;
-    #endregion
-
-    protected new void Start()
+    public class EntranceDoorFrame : CheckpointDoorFrame
     {
-        if (mInstance == null)
-        {
-            base.Start();
+        #region Instance Variables
+        bool mIsFirstOpen = true;
 
+        static EntranceDoorFrame mInstance;
+        #endregion
+
+        protected new void Start()
+        {
+            if (mInstance == null)
+            {
+                base.Start();
+
+                mFrontSide.activate();
+                mBackSide.deactivate();
+
+                mInstance = this;
+            }
+            else
+                GameObject.Destroy(gameObject);
+        }
+
+        #region Interface Methods
+        public override void triggerFrontEnter()
+        {
+            if (mIsFirstOpen)
+            {
+                mFrontSide.activate();
+                mBackSide.deactivate();
+                mIsFirstOpen = false;
+            }
+        }
+
+        /**
+         * triggerFrontExit()
+         *      This method is the same as base.triggerFrontExit() except that a checkpoint
+         *      is triggered the first time the player exits. Current progress is saved and
+         *      the save location is moved a location based off of the Checkpoint door frame.
+         */
+        public override void triggerFrontExit()
+        {
+            base.triggerFrontExit();
+
+            if (mFrontSide.isActive())
+            {
+                mFrontSide.deactivate();
+                mBackSide.deactivate();
+            }
+
+            return;
+        }
+
+        public override void open()
+        {
             mFrontSide.activate();
-            mBackSide.deactivate();
-
-            mInstance = this;
         }
-        else
-            GameObject.Destroy(gameObject);
-    }
-    
-    #region Interface Methods
-    public override void triggerFrontEnter()
-    {
-        if (mIsFirstOpen)
+
+        public static EntranceDoorFrame get()
         {
-            mFrontSide.activate();
-            mBackSide.deactivate();
-            mIsFirstOpen = false;
+            return mInstance;
         }
-    }
 
-    /**
-     * triggerFrontExit()
-     *      This method is the same as base.triggerFrontExit() except that a checkpoint
-     *      is triggered the first time the player exits. Current progress is saved and
-     *      the save location is moved a location based off of the Checkpoint door frame.
-     */
-    public override void triggerFrontExit()
-    {
-        base.triggerFrontExit();
-
-        if (mFrontSide.isActive())
+        public static void destroy()
         {
-            mFrontSide.deactivate();
-            mBackSide.deactivate();
+            GameObject.Destroy(mInstance.gameObject);
+            mInstance = null;
         }
-
-        return;
+        #endregion
     }
-
-    public override void open()
-    {
-        mFrontSide.activate();
-    }
-
-    public static EntranceDoorFrame get()
-    {
-        return mInstance;
-    }
-
-    public static void destroy()
-    {
-        GameObject.Destroy(mInstance.gameObject);
-        mInstance = null;
-    }
-    #endregion
 }

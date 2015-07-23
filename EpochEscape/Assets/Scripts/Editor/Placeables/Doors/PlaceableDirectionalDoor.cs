@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class PlaceableDirectionalDoor : PlaceableSimpleDoor
+namespace Editor
 {
-    #region Interface Methods
-    public static GameObject getPrefab()
+    public class PlaceableDirectionalDoor : PlaceableSimpleDoor
     {
-        GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/DirectionalDoor");
+        #region Interface Methods
+        public static GameObject getPrefab()
+        {
+            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/DirectionalDoor");
 
-        if (retVal == null)
-            Debug.LogError("_prefab is null!");
+            if (retVal == null)
+                Debug.LogError("_prefab is null!");
 
-        return retVal;
+            return retVal;
+        }
+        #endregion
+
+        #region Instance Methods
+        protected override GameObject loadPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/DirectionalDoor");
+        }
+        #endregion
     }
-    #endregion
-
-    #region Instance Methods
-    protected override GameObject loadPrefab()
-    {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/DirectionalDoor");
-    }
-    #endregion
 }

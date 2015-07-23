@@ -1,27 +1,30 @@
 ﻿using UnityEngine;
 
-public class FloorActivator : Activator
+namespace Game
 {
-	protected void Awake ()
-	{
-        populateActivatables();
-	}
-	
-	#region Instance Methods
-    protected void OnTriggerEnter2D(Collider2D collidee)
+    public class FloorActivator : Activator
     {
-        Player player = collidee.GetComponent<Player>();
+        protected void Awake()
+        {
+            populateActivatables();
+        }
 
-        if (player != null)
-            trigger();
+        #region Instance Methods
+        protected void OnTriggerEnter2D(Collider2D collidee)
+        {
+            Player player = collidee.GetComponent<Player>();
+
+            if (player != null)
+                trigger();
+        }
+
+        protected void OnTriggerExit2D(Collider2D collidee)
+        {
+            Player player = collidee.GetComponent<Player>();
+
+            if (player != null)
+                trigger();
+        }
+        #endregion
     }
-
-    protected void OnTriggerExit2D(Collider2D collidee)
-    {
-        Player player = collidee.GetComponent<Player>();
-
-        if (player != null)
-            trigger();
-    }
-	#endregion
 }

@@ -124,11 +124,11 @@ namespace Input
                 return false;
 
             if (mIsKey)
-                return Input.GetKey(mKey);
+                return UnityEngine.Input.GetKey(mKey);
             else if (mIsButton)
-                return Input.GetButton(mButton);
+                return UnityEngine.Input.GetButton(mButton);
             else
-                return Input.GetMouseButton(mMouseButton);
+                return UnityEngine.Input.GetMouseButton(mMouseButton);
         }
 
         /*
@@ -143,11 +143,11 @@ namespace Input
                 return false;
 
             if (mIsKey)
-                return Input.GetKeyDown(mKey);
+                return UnityEngine.Input.GetKeyDown(mKey);
             else if (mIsButton)
-                return Input.GetButtonDown(mButton);
+                return UnityEngine.Input.GetButtonDown(mButton);
             else
-                return Input.GetMouseButtonDown(mMouseButton);
+                return UnityEngine.Input.GetMouseButtonDown(mMouseButton);
         }
 
         /*
@@ -162,11 +162,11 @@ namespace Input
                 return false;
 
             if (mIsKey)
-                return Input.GetKeyUp(mKey);
+                return UnityEngine.Input.GetKeyUp(mKey);
             else if (mIsButton)
-                return Input.GetButtonUp(mButton);
+                return UnityEngine.Input.GetButtonUp(mButton);
             else
-                return Input.GetMouseButtonUp(mMouseButton);
+                return UnityEngine.Input.GetMouseButtonUp(mMouseButton);
         }
 
         /*

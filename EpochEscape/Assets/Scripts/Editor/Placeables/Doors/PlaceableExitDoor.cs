@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 
-public class PlaceableExitDoor : MonoBehaviour
+namespace Editor
 {
-	#region Interface Variables
-	#endregion
-	
-	#region Instance Variables
-	#endregion
-	
-	protected void Start ()
-	{
-	
-	}
-	
-	protected void Update ()
-	{
-	
-	}
-	
-	#region Interface Methods
-	#endregion
-	
-	#region Instance Methods
-	#endregion
+    public class PlaceableExitDoor : MonoBehaviour
+    {
+        #region Interface Variables
+        #endregion
+
+        #region Instance Variables
+        #endregion
+
+        protected void Start()
+        {
+
+        }
+
+        protected void Update()
+        {
+
+        }
+
+        #region Interface Methods
+        #endregion
+
+        #region Instance Methods
+        #endregion
+    }
 }

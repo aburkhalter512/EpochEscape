@@ -59,8 +59,8 @@ namespace Input
         protected void UpdatePosition()
         {
             mScreenPosition.Set(
-                Input.mousePosition.x,
-                Input.mousePosition.y,
+                UnityEngine.Input.mousePosition.x,
+                UnityEngine.Input.mousePosition.y,
                 Camera.main.transform.position.z);
             mWorldPosition = Camera.main.ScreenToWorldPoint(mScreenPosition);
         }
@@ -76,7 +76,7 @@ namespace Input
      */
         public Vector3 inScreen()
         {
-            return Utilities.copy(mScreenPosition);
+            return Utilities.Math.copy(mScreenPosition);
         }
 
         /*
@@ -88,7 +88,7 @@ namespace Input
          */
         public Vector3 inWorld()
         {
-            return Utilities.copy(mWorldPosition);
+            return Utilities.Math.copy(mWorldPosition);
         }
 
         /*

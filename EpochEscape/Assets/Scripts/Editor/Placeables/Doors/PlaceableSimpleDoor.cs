@@ -1,59 +1,62 @@
 ﻿using UnityEngine;
 
-public abstract class PlaceableSimpleDoor : PlaceableDoor
+namespace Editor
 {
-	#region Interface Variables
-    public TYPE doorType = TYPE.StandardDoorFrame;
+    public abstract class PlaceableSimpleDoor : PlaceableDoor
+    {
+        #region Interface Variables
+        public TYPE doorType = TYPE.StandardDoorFrame;
 
-    // These enum values are converted directly into strings for the xml; DON'T MODIFY
-    public enum TYPE
-    {
-        StandardDoorFrame,
-        DirectionalDoorFrame,
-        EntranceDoorFrame,
-        PowerCoreDoorFrame,
-        ExitDoorFrame,
-        CheckpointDoorFrame
-    }
-	#endregion
-	
-	#region Interface Methods
-    public override void activate()
-    {
-        switch (doorType)
+        // These enum values are converted directly into strings for the xml; DON'T MODIFY
+        public enum TYPE
         {
-            case TYPE.StandardDoorFrame:
-                mFrontSide.activate();
-                mBackSide.activate();
-                break;
-            case TYPE.DirectionalDoorFrame:
-                mBackSide.activate();
-                break;
+            StandardDoorFrame,
+            DirectionalDoorFrame,
+            EntranceDoorFrame,
+            PowerCoreDoorFrame,
+            ExitDoorFrame,
+            CheckpointDoorFrame
         }
+        #endregion
 
-        mIsActive = true;
-    }
-    public override void deactivate()
-    {
-        switch (doorType)
+        #region Interface Methods
+        public override void activate()
         {
-            case TYPE.StandardDoorFrame:
-                mFrontSide.deactivate();
-                mBackSide.deactivate();
-                break;
-            case TYPE.DirectionalDoorFrame:
-                mBackSide.deactivate();
-                break;
+            switch (doorType)
+            {
+                case TYPE.StandardDoorFrame:
+                    mFrontSide.activate();
+                    mBackSide.activate();
+                    break;
+                case TYPE.DirectionalDoorFrame:
+                    mBackSide.activate();
+                    break;
+            }
+
+            mIsActive = true;
         }
+        public override void deactivate()
+        {
+            switch (doorType)
+            {
+                case TYPE.StandardDoorFrame:
+                    mFrontSide.deactivate();
+                    mBackSide.deactivate();
+                    break;
+                case TYPE.DirectionalDoorFrame:
+                    mBackSide.deactivate();
+                    break;
+            }
 
-        mIsActive = false;
-    }
-	#endregion
+            mIsActive = false;
+        }
+        #endregion
 
-    #region Instance Methods
-    protected override string getType()
-    {
-        return doorType.ToString();
+        #region Instance Methods
+        protected override string getType()
+        {
+            return doorType.ToString();
+        }
+        #endregion
     }
-    #endregion
 }

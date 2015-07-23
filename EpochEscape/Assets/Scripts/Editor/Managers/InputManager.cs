@@ -3,9 +3,11 @@ using Input;
 
 namespace Editor
 {
-    class InputManager : Manager<InputManager>
+    public class InputManager : Manager<InputManager>
     {
         public Joystick primaryJoystick;
+        public Joystick secondaryJoystick;
+        public Hotkey primaryPlace;
 
         public Hotkey objectSelector;
         public Hotkey multiObjectSelector;
@@ -41,15 +43,29 @@ namespace Editor
             primaryJoystick = new Joystick(
                 // Horizontal
                 new Axis(
-                    new Button(KeyCode.LeftArrow), 
-                    new Button(KeyCode.RightArrow)
+                    new Hotkey(new Button(KeyCode.LeftArrow)), 
+                    new Hotkey(new Button(KeyCode.RightArrow))
                 ), 
                 // Vertical
                 new Axis(
-                    new Button(KeyCode.DownArrow), 
-                    new Button(KeyCode.UpArrow)
+                    new Hotkey(new Button(KeyCode.DownArrow)), 
+                    new Hotkey(new Button(KeyCode.UpArrow))
                 )
             );
+            secondaryJoystick = new Joystick(
+                // Horizontal
+                new Axis(
+                    new Hotkey(new Button(KeyCode.LeftArrow), cntlMod),
+                    new Hotkey(new Button(KeyCode.RightArrow), cntlMod)
+                ),
+                // Vertical
+                new Axis(
+                    new Hotkey(new Button(KeyCode.DownArrow), cntlMod),
+                    new Hotkey(new Button(KeyCode.UpArrow), cntlMod)
+                )
+            );
+
+            primaryPlace = new Hotkey(new Button(KeyCode.Return));
 
             objectSelector = new Hotkey(mouse.button(Mouse.BUTTONS.LEFT));
 

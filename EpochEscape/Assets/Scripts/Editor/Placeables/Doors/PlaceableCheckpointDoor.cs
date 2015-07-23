@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class PlaceableCheckpointDoor : PlaceableSimpleDoor
+namespace Editor
 {
-    #region Interface Methods
-    public static GameObject getPrefab()
+    public class PlaceableCheckpointDoor : PlaceableSimpleDoor
     {
-        GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/CheckpointDoor");
+        #region Interface Methods
+        public static GameObject getPrefab()
+        {
+            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/CheckpointDoor");
 
-        if (retVal == null)
-            Debug.LogError("_prefab is null!");
+            if (retVal == null)
+                Debug.LogError("_prefab is null!");
 
-        return retVal;
+            return retVal;
+        }
+        #endregion
+
+        #region Instance Methods
+        protected override GameObject loadPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/CheckpointDoor");
+        }
+        #endregion
     }
-    #endregion
-
-    #region Instance Methods
-    protected override GameObject loadPrefab()
-    {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/CheckpointDoor");
-    }
-    #endregion
 }

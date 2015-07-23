@@ -4,36 +4,39 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
-public class PlaceableRotatingWall : PlaceableDynamicWall
+namespace Editor
 {
-    #region Interface Methods
-    public static GameObject getPrefab()
+    public class PlaceableRotatingWall : PlaceableDynamicWall
     {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/RotatingWall");
-    }
+        #region Interface Methods
+        public static GameObject getPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/RotatingWall");
+        }
 
-    public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
-    {
-        base.serialize(doc, (XmlElement elem) =>
-            {
-                elem.SetAttribute("rotationpoint", mBasePos.ToString());
+        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        {
+            base.serialize(doc, (XmlElement elem) =>
+                {
+                    elem.SetAttribute("rotationpoint", mBasePos.ToString());
 
-                callback(elem);
-            });
+                    callback(elem);
+                });
 
-        return null;
-    }
-	#endregion
-	
-	#region Instance Methods
-    protected override string getType()
-    {
-        return "RotatingWall";
-    }
+            return null;
+        }
+        #endregion
 
-    protected override GameObject loadPrefab()
-    {
-        return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/RotatingWall");
+        #region Instance Methods
+        protected override string getType()
+        {
+            return "RotatingWall";
+        }
+
+        protected override GameObject loadPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/RotatingWall");
+        }
+        #endregion
     }
-	#endregion
 }

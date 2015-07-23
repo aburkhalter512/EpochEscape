@@ -54,7 +54,7 @@ namespace Input
             return areModsGood() && _keys.getDown();
         }
 
-        public bool getUP()
+        public bool getUp()
         {
             return areModsGood() && _keys.getUp();
         }

@@ -39,51 +39,54 @@
  *          A method that either activates or deactivates the door side based on which state it is
  *          currently in. If the door side is activated, it deactivates it, and vice versa.
  */
-public abstract class DoorSide : MonoBehaviour, IActivatable, IDetectable
+namespace Game
 {
-    #region Interface Variables
-    public Sprite activeSprite;
-    public Sprite inactiveSprite;
-    #endregion
-    
-    #region Instance Variables
-    protected bool mIsActive = false;
-    protected bool mIsFirstUpdate = true;
-
-    protected SpriteRenderer mSR = null;
-    #endregion 
-
-    #region Class Constants
-    public static readonly Vector2 SIZE = new Vector2(.8f, .25f);
-    #endregion
-
-    //base.Awake must be called to allow the derived door side to change states, otherwise the door
-    //side will remain idling.
-    protected void Awake()
+    public abstract class DoorSide : MonoBehaviour, IActivatable, IDetectable
     {
-        mSR = GetComponent<SpriteRenderer>();
-    }
-    
-    #region Interface Methods
-    public bool isActive()
-    {
-        return mIsActive;
-    }
+        #region Interface Variables
+        public Sprite activeSprite;
+        public Sprite inactiveSprite;
+        #endregion
 
-    public abstract void triggerFrontEnter();
-    public abstract void triggerFrontExit();
+        #region Instance Variables
+        protected bool mIsActive = false;
+        protected bool mIsFirstUpdate = true;
 
-    public abstract void triggerBackEnter();
-    public abstract void triggerBackExit();
+        protected SpriteRenderer mSR = null;
+        #endregion
 
-    public abstract void deactivate();
-    public abstract void activate();
-    public void toggle()
-    {
-        if (mIsActive)
-            deactivate();
-        else
-            activate();
+        #region Class Constants
+        public static readonly Vector2 SIZE = new Vector2(.8f, .25f);
+        #endregion
+
+        //base.Awake must be called to allow the derived door side to change states, otherwise the door
+        //side will remain idling.
+        protected void Awake()
+        {
+            mSR = GetComponent<SpriteRenderer>();
+        }
+
+        #region Interface Methods
+        public bool isActive()
+        {
+            return mIsActive;
+        }
+
+        public abstract void triggerFrontEnter();
+        public abstract void triggerFrontExit();
+
+        public abstract void triggerBackEnter();
+        public abstract void triggerBackExit();
+
+        public abstract void deactivate();
+        public abstract void activate();
+        public void toggle()
+        {
+            if (mIsActive)
+                deactivate();
+            else
+                activate();
+        }
+        #endregion
     }
-    #endregion
 }

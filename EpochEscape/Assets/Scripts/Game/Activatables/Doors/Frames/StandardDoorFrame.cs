@@ -4,25 +4,28 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 
-public class StandardDoorFrame : DoorFrame
+namespace Game
 {
-    #region Interface Methods
-    public override void triggerFrontEnter()
+    public class StandardDoorFrame : DoorFrame
     {
-        return;
-    }
-    public override void triggerFrontExit()
-    {
-        return;
-    }
+        #region Interface Methods
+        public override void triggerFrontEnter()
+        {
+            return;
+        }
+        public override void triggerFrontExit()
+        {
+            return;
+        }
 
-    public override void triggerBackEnter()
-    {
-        return;
+        public override void triggerBackEnter()
+        {
+            return;
+        }
+        public override void triggerBackExit()
+        {
+            return;
+        }
+        #endregion
     }
-    public override void triggerBackExit()
-    {
-        return;
-    }
-    #endregion
 }
