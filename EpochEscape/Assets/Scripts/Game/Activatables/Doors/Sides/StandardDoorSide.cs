@@ -18,7 +18,7 @@ namespace Game
 
             mCollider = gameObject.AddComponent<BoxCollider2D>();
             mCollider.size = DoorSide.SIZE;
-            mCollider.center = new Vector2(0.0f, -.125f);
+            mCollider.offset = new Vector2(0.0f, -.125f);
         }
 
         #region Interface Methods

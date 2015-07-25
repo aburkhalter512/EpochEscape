@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using G = Game.GameManager;
-using S = Editor.SaveManager;
+using S = MapEditor.SaveManager;
 
 namespace Game
 {

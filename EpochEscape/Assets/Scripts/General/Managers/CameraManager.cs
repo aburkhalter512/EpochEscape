@@ -11,7 +11,7 @@ public class CameraManager : Manager<CameraManager>
     private Vector3 _basePos;
     private CAM_TYPE _type;
 
-    private Editor.InputManager IM = null;
+    private MapEditor.InputManager IM = null;
 
     Camera m_camera;
     #endregion
@@ -37,7 +37,7 @@ public class CameraManager : Manager<CameraManager>
 
     protected override void Initialize()
     {
-        IM = Editor.InputManager.Get();
+        IM = MapEditor.InputManager.Get();
     }
 
     protected void Update()

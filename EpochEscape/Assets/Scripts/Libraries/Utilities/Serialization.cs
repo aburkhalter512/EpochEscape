@@ -197,7 +197,7 @@ namespace Utilities
         {
             XmlElement element = document.CreateElement("boxcollider2d");
             element.SetAttribute("size", collider.size.ToString());
-            element.SetAttribute("center", collider.center.ToString());
+            element.SetAttribute("center", collider.offset.ToString());
 
             return element;
         }
@@ -207,7 +207,7 @@ namespace Utilities
                 return;
 
             collider.size = toVector2(element.GetAttribute("size"));
-            collider.center = toVector2(element.GetAttribute("center"));
+            collider.offset = toVector2(element.GetAttribute("center"));
         }
     }
 }

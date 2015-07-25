@@ -2,13 +2,17 @@
 
 namespace GUI
 {
-    class MainCanvas : Manager<MainCanvas>
+    public class MainCanvas : Manager<MainCanvas>
     {
         private Canvas _canvas;
+        private MainEventSystem _es;
 
         protected override void Awaken()
         {
-            _canvas = GetComponent<Canvas>();
+            _canvas = gameObject.AddComponent<Canvas>();
+            _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+
+            _es = MainEventSystem.Get();
         }
 
         protected override void Initialize()
