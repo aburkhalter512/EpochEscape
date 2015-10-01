@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using Utilities;
 using MapEditor;
+using System;
+using System.Collections;
+using System.Xml;
 
 namespace MapEditor
 {
-    public class Tile
+    public class Tile : ISerializable
     {
         #region Interface Variables
         #endregion
@@ -107,6 +110,15 @@ namespace MapEditor
 
             _object = null;
             _pos = null;
+        }
+
+        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        {
+            XmlElement tile = doc.CreateElement("tile");
+            tile.SetAttribute("position", _pos.ToString());
+            tile.SetAttribute("objectID", _object == null ? "" : _object.getID());
+
+            return null;
         }
         #endregion
 

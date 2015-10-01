@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace MapEditor
 {
-    public class MapEditor : Manager<MapEditor>
+    public class MapEditor : Manager<MapEditor>, ISerializable
     {
-        #region Interface Variables
-        #endregion
-
         #region Instance Variables
         Map _map;
         CameraManager mCameraManager;
@@ -69,6 +69,16 @@ namespace MapEditor
         public bool doneProcessing()
         {
             return _processorQueue.Count == 0 && _map.doneProcessing();
+        }
+
+        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        {
+            _map.serialize(doc, (tiles) =>
+            {
+                callback(tiles);
+            });
+
+            return null;
         }
         #endregion
 

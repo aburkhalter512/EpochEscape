@@ -3,10 +3,11 @@ using Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace MapEditor
 {
-    public class Map
+    public class Map : ISerializable
     {
         #region Interface Variables
         public static readonly Vector2 tileSize = new Vector2(.2f, .2f);
@@ -20,9 +21,9 @@ namespace MapEditor
         #endregion
 
         #region Class constants
-        private class Chunk
+        private class Chunk : ISerializable
         {
-            QuadNode<Tile>[,] _data;
+            public QuadNode<Tile>[,] _data;
 
             public Chunk()
             {
@@ -161,6 +162,7 @@ namespace MapEditor
         public void setTile(Vec2Int globalPosition, Tile tile)
         {
             getQuadNode(globalPosition).data(tile);
+            tile.position(globalPosition);
         }
 
         public Tile getTile(Vector3 worldPosition)
@@ -234,6 +236,40 @@ namespace MapEditor
 
             node.data().clear();
             node.data(null);
+        }
+
+        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        {
+            XmlElement tiles = doc.CreateElement("tiles");
+
+            int tilesToProcess = _chunks.Keys.Count * Chunk.size.x * Chunk.size.y;
+            int yielder = 0;
+            foreach (Vec2Int chunkPos in _chunks.Keys)
+            {
+                for (int i = 0; i < Chunk.size.x; i++)
+                {
+                    for (int j = 0; j < Chunk.size.y; j++)
+                    {
+                        _chunks[chunkPos]._data[i, j].data().serialize(doc, (tile) =>
+                        {
+                            tiles.AppendChild(tile);
+
+                            tilesToProcess--;
+                        });
+
+                        if (yielder++ >= CoroutineManager.yieldCount)
+                        {
+                            yielder = 0;
+                            yield return null;
+                        }
+                    }
+                }
+            }
+
+            while (tilesToProcess > 0)
+                yield return null;
+
+            callback(tiles);
         }
         #endregion
 
