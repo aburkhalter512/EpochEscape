@@ -23,6 +23,17 @@ namespace MapEditor
         }
 
         #region Interface Methods
+        public void destroy()
+        {
+        	foreach (PlaceableActivator activator in mActivators.Values)
+        		GameObject.Destroy(activator);
+
+        	mActivators.Clear();
+        	mActivators = null;
+
+        	mInstance = null;
+    	}
+
         public static ActivatorManager Get()
         {
             if (mInstance == null)

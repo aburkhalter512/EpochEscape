@@ -26,12 +26,13 @@ public class CameraManager : Manager<CameraManager>
     public enum CAM_TYPE
     {
         GAME,
-        EDITOR
+        EDITOR,
+        MAIN_MENU,
     }
 
     protected override void Awaken()
     {
-        _type = CAM_TYPE.GAME;
+        _type = CAM_TYPE.MAIN_MENU;
         m_camera = this.GetComponent<Camera>();
     }
 
@@ -52,6 +53,8 @@ public class CameraManager : Manager<CameraManager>
                 updateControlledMovement();
                 updateZoom();
                 break;
+           	case CAM_TYPE.MAIN_MENU:
+           		break;
 
         }
     }

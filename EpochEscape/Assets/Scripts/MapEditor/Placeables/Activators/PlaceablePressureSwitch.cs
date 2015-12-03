@@ -7,12 +7,7 @@ namespace MapEditor
         #region Interface Methods
         public static GameObject getPrefab()
         {
-            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/PressureSwitch");
-
-            if (retVal == null)
-                Debug.LogError("_prefab is null!");
-
-            return retVal;
+			return ResourceManager.ResourceManager.Get().prefab("Prefabs/MapEditor/Placeables/PressureSwitch");
         }
         #endregion
 

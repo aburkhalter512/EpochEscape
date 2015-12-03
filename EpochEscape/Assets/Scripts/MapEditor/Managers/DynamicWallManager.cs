@@ -22,6 +22,17 @@ namespace MapEditor
         }
 
         #region Interface Methods
+        public void destroy()
+        {
+        	foreach (PlaceableDynamicWall dynWall in mDynWall.Values)
+        		GameObject.Destroy(dynWall.gameObject);
+
+        	mDynWall.Clear();
+        	mDynWall = null;
+
+        	mInstance = null;
+        }
+
         public static DynamicWallManager Get()
         {
             if (mInstance == null)

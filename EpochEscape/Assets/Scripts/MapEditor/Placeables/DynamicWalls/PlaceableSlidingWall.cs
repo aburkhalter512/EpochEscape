@@ -11,7 +11,7 @@ namespace MapEditor
         #region Interface Methods
         public static GameObject getPrefab()
         {
-            return Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/SlidingWall");
+			return ResourceManager.ResourceManager.Get().prefab("Prefabs/MapEditor/Placeables/SlidingWall");
         }
 
         public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)

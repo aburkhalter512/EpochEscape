@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Game
 {
-    public class DynamicWallFactory : Factory<DynamicWall>
+    public class DynamicWallFactory : IFactory<DynamicWall>
     {
         #region Instance Variables
         private List<Utilities.Pair<TeleporterDoorFrame, string>> mToConnect;

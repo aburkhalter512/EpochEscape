@@ -1,135 +1,140 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class TileEraser// : SquarePlacer<TileEraser>
+using Utilities;
+
+namespace MapEditor
 {
-    /*#region Instance Variables
-    SortedList<Utilities.IntPair, Utilities.IntPair> mExisted;
-    List<TileData> mToConnect;
-    List<TileData> mToDelete;
-    #endregion
-
-    protected override void Awaken()
+    public class TileEraser : SquarePlacer<TileEraser>, IActivatable
     {
- 	    base.Awaken();
+        #region Interface Variables
+        #endregion
 
-        registerCoroutine(attachTiles);
-        registerCoroutine(deleteTiles);
+        #region Instance Variables
+        SortedDictionary<Utilities.Vec2Int, bool> mSelection; //bool is a dummy value
 
-        Utilities.IntPairComparer comparer = Utilities.IntPairComparer.Get();
-        mExisted = new SortedList<Utilities.IntPair, Utilities.IntPair>(comparer);
-        mToConnect = new List<TileData>();
-        mToDelete = new List<TileData>();
-    }
+		protected ChunkManager _cm;
 
-    #region Instance Methods
-    protected override void initSelection()
-    {
-        mExisted.Clear();
+        protected GameObject cursor;
 
-        Utilities.IntPair pos = new Utilities.IntPair(mTileCursor.getLogicalCursor());
-        TileData tile = mTF.findTile(pos);
+        protected bool _isControlEnabled;
+        #endregion
 
-        if (tile != null && !tile.isWall())
+        protected override void Awaken()
         {
-            mTF.removeTile(pos);
-            tile.quadNode.getData().clear();
-            tile.quadNode.detachAll();
+        	_step = 2;
 
-            mExisted.Add(pos, pos);
+            base.Awaken();
+
+            mSelection = new SortedDictionary<Utilities.Vec2Int, bool>(Utilities.Vec2IntComparer.Get());
+
+			cursor = new GameObject();
+
+			_isControlEnabled = true;
+            deactivate();
         }
 
-        mBasePos = new Utilities.IntPair(pos);
-        mOldCursor = new Utilities.IntPair(pos);
-    }
-
-    protected override void finalizeSelection()
-    {
-        if (mIM.cancelInput.get())
+        protected override void Initialize()
         {
-            foreach (Utilities.IntPair nodePos in mExisted.Values)
-            {
-                QuadMatrix<TileData>.Node node = new QuadMatrix<TileData>.Node(nodePos.first, nodePos.second);
+            base.Initialize();
 
-                TileCreator.createTile(node);
-                mTF.attachSurroundingTiles(node.getData());
+            _cm = ChunkManager.Get();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            if (mIsActivated)
+                updatePosition();
+        }
+
+        #region Interface Methods
+        public override void activate()
+        {
+            base.activate();
+
+            cursor.SetActive(true);
+
+            updatePosition();
+        }
+        public override void deactivate()
+        {
+            base.deactivate();
+
+            cursor.SetActive(false);
+		}
+
+        public virtual void enableControls()
+        {
+			_isControlEnabled = true;
+        }
+        public virtual void disableControls()
+        {
+			_isControlEnabled = false;
+        }
+        public override bool isActive ()
+		{
+			return base.isActive() && _isControlEnabled;
+		}
+        #endregion
+
+        #region Instance Methods
+        private void updatePosition()
+        {
+            transform.position = _map.toTilePos(mIM.mouse.inWorld());
+        }
+
+        protected override void initSelection()
+        {
+            mSelection.Clear();
+
+			Utilities.Vec2Int pos = _map.toLogicalTilePos(mIM.mouse.inWorld());
+            Tile tile = _map.getExistingTile(pos);
+
+            mBasePos = new Utilities.Vec2Int(pos);
+            mOldCursor = new Utilities.Vec2Int(pos);
+
+            // Does the tile already exist?
+            if (tile == null || tile.hasObject())
+                return;
+
+            mSelection.Add(tile.position(), false);
+
+            _map.deleteTile(tile.position());
+        }
+        protected override void finalizeSelection()
+        {
+            if (mIM.exit.get())
+            {
+                foreach (Vec2Int pos in mSelection.Keys)
+                {
+					_map.getTile(pos);
+                }
+            }
+            mSelection.Clear();
+        }
+
+        protected override void selectionGrow(Utilities.Vec2Int tilePos)
+        {
+            Tile tile = _map.getExistingTile(tilePos);
+
+            // Does the tile already exist?
+            if (tile == null || tile.hasObject())
+                return;
+
+            mSelection.Add(tile.position(), false);
+
+            _map.deleteTile(tile.position());
+        }
+        protected override void selectionShrink(Utilities.Vec2Int tilePos)
+        {
+            if (mSelection.Remove(tilePos))
+            {
+            	Tile tile = _map.getTile(tilePos);
+            	QuadNodeProcessors.createTile(tile.node(), tilePos);
             }
         }
-
-        mExisted.Clear();
+        #endregion
     }
-
-    protected override void selectionShrink(Utilities.IntPair tilePos)
-    {
-        TileData tile = mTF.findTile(tilePos);
-
-        // Does the tile already exist?
-        if (tile != null)
-            return;
-
-        if (!mExisted.Remove(tilePos))
-            return;
-
-        QuadMatrix<TileData>.Node node = new QuadMatrix<TileData>.Node(tilePos.first, tilePos.second);
-        TileCreator.createTile(node);
-
-        mToConnect.Add(node.getData());
-    }
-
-    protected override void selectionGrow(Utilities.IntPair tilePos)
-    {
-        TileData tile = mTF.findTile(tilePos);
-
-        // Does the tile already exist?
-        if (tile == null || tile.isWall())
-            return;
-
-        Utilities.IntPair searcher;
-
-        if (mExisted.TryGetValue(tilePos, out searcher))
-            return;
-
-        mExisted.Add(tile.getPosition(), tile.getPosition());
-        mToDelete.Add(tile);
-    }
-
-    protected IEnumerator attachTiles()
-    {
-        int counter = 0;
-
-        foreach (TileData tile in mToConnect)
-        {
-            mTF.attachSurroundingTiles(tile, false);
-
-            if (counter++ >= processCountYield)
-            {
-                counter = 0;
-                yield return null;
-            }
-        }
-
-        mToConnect.Clear();
-    }
-
-    protected IEnumerator deleteTiles()
-    {
-        int counter = 0;
-
-        foreach (TileData tile in mToDelete)
-        {
-            mTF.removeTile(tile.getPosition());
-            tile.clear();
-            tile.quadNode.detachAll();
-
-            if (counter++ >= processCountYield)
-            {
-                counter = 0;
-                yield return null;
-            }
-        }
-
-        mToDelete.Clear();
-    }
-	#endregion*/
 }

@@ -1,0 +1,477 @@
+<level levelName="" objectCount="0">
+  <staticwalls>
+    <staticwall id="6954cc0e9f43e4520d8c8d7d9313fde0">
+      <transform position="(-1.5, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="3253ae7510085a461f4e08028ff35f40">
+      <transform position="(-1.5, -1.1, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="3253ae7510085a461f4e08028ff35f40">
+      <transform position="(-1.5, -0.7, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="3253ae7510085a461f4e08028ff35f40">
+      <transform position="(-1.5, -0.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="3253ae7510085a461f4e08028ff35f40">
+      <transform position="(-1.5, 0.1, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="3253ae7510085a461f4e08028ff35f40">
+      <transform position="(-1.5, 0.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="3253ae7510085a461f4e08028ff35f40">
+      <transform position="(-1.5, 0.9, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="3253ae7510085a461f4e08028ff35f40">
+      <transform position="(-1.5, 1.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(-1.1, 1.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(-0.7, 1.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(-0.3, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(-0.3, 1.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(0.1, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(0.1, 1.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(0.5, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(0.9, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(1.3, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(1.3, -1.1, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(1.3, -0.7, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(1.3, -0.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(1.3, 0.1, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="e4b2239dd4ddf0e106feb77b2667054b">
+      <transform position="(1.3, 0.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="4e7742eaa9e10afbe542bbb02ad5d9df">
+      <transform position="(1.3, 0.9, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+    <staticwall id="4e7742eaa9e10afbe542bbb02ad5d9df">
+      <transform position="(1.3, 1.3, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </staticwall>
+  </staticwalls>
+  <doors>
+    <door id="6475d0bdbff840fd2ef7fe2dbc24cd48" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="8774e0d407ef08d4b2974fbd1c2bb872">
+      <transform position="(-0.9, -1.5, 0.0)" rotation="(0.0, 0.0, 0.0)" localscale="(1.0, 1.0, 1.0)" />
+    </door>
+    <door id="8774e0d407ef08d4b2974fbd1c2bb872" type="TeleporterDoorFrame" initialState="ACTIVE" targetID="6475d0bdbff840fd2ef7fe2dbc24cd48">
+      <transform position="(0.7, 1.3, 0.0)" rotation="(0.0, 0.0, 180.0)" localscale="(1.0, 1.0, 1.0)" />
+    </door>
+  </doors>
+  <activators />
+  <chunks chunkSize="(512,512)" chunkRealSize="(3.2, 3.2)">
+    <chunk filename="texture_-1_-1.png" logicalPosition="(-1,-1)" />
+    <chunk filename="texture_-1_0.png" logicalPosition="(-1,0)" />
+    <chunk filename="texture_0_-1.png" logicalPosition="(0,-1)" />
+    <chunk filename="texture_0_0.png" logicalPosition="(0,0)" />
+  </chunks>
+  <tiles>
+    <tile position="(-8,-12)" objectID="" />
+    <tile position="(-8,-11)" objectID="" />
+    <tile position="(-8,-10)" objectID="" />
+    <tile position="(-8,-9)" objectID="" />
+    <tile position="(-7,-12)" objectID="" />
+    <tile position="(-7,-11)" objectID="" />
+    <tile position="(-7,-10)" objectID="" />
+    <tile position="(-7,-9)" objectID="" />
+    <tile position="(-6,-12)" objectID="" />
+    <tile position="(-6,-11)" objectID="" />
+    <tile position="(-6,-10)" objectID="" />
+    <tile position="(-6,-9)" objectID="" />
+    <tile position="(-5,-12)" objectID="" />
+    <tile position="(-5,-11)" objectID="" />
+    <tile position="(-5,-10)" objectID="" />
+    <tile position="(-5,-9)" objectID="" />
+    <tile position="(-4,-12)" objectID="" />
+    <tile position="(-4,-11)" objectID="" />
+    <tile position="(-4,-10)" objectID="" />
+    <tile position="(-4,-9)" objectID="" />
+    <tile position="(-3,-12)" objectID="" />
+    <tile position="(-3,-11)" objectID="" />
+    <tile position="(-3,-10)" objectID="" />
+    <tile position="(-3,-9)" objectID="" />
+    <tile position="(-2,-12)" objectID="" />
+    <tile position="(-2,-11)" objectID="" />
+    <tile position="(-2,-10)" objectID="" />
+    <tile position="(-2,-9)" objectID="" />
+    <tile position="(-1,-12)" objectID="" />
+    <tile position="(-1,-11)" objectID="" />
+    <tile position="(-1,-10)" objectID="" />
+    <tile position="(-1,-9)" objectID="" />
+    <tile position="(-8,-8)" objectID="6954cc0e9f43e4520d8c8d7d9313fde0" />
+    <tile position="(-8,-7)" objectID="6954cc0e9f43e4520d8c8d7d9313fde0" />
+    <tile position="(-8,-6)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,-5)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,-4)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,-3)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,-2)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,-1)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,-8)" objectID="6954cc0e9f43e4520d8c8d7d9313fde0" />
+    <tile position="(-7,-7)" objectID="6954cc0e9f43e4520d8c8d7d9313fde0" />
+    <tile position="(-7,-6)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,-5)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,-4)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,-3)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,-2)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,-1)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-6,-8)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-6,-7)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-6,-6)" objectID="" />
+    <tile position="(-6,-5)" objectID="" />
+    <tile position="(-6,-4)" objectID="" />
+    <tile position="(-6,-3)" objectID="" />
+    <tile position="(-6,-2)" objectID="" />
+    <tile position="(-6,-1)" objectID="" />
+    <tile position="(-5,-8)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-5,-7)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-5,-6)" objectID="" />
+    <tile position="(-5,-5)" objectID="" />
+    <tile position="(-5,-4)" objectID="" />
+    <tile position="(-5,-3)" objectID="" />
+    <tile position="(-5,-2)" objectID="" />
+    <tile position="(-5,-1)" objectID="" />
+    <tile position="(-4,-8)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-4,-7)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-4,-6)" objectID="" />
+    <tile position="(-4,-5)" objectID="" />
+    <tile position="(-4,-4)" objectID="" />
+    <tile position="(-4,-3)" objectID="" />
+    <tile position="(-4,-2)" objectID="" />
+    <tile position="(-4,-1)" objectID="" />
+    <tile position="(-3,-8)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-3,-7)" objectID="6475d0bdbff840fd2ef7fe2dbc24cd48" />
+    <tile position="(-3,-6)" objectID="" />
+    <tile position="(-3,-5)" objectID="" />
+    <tile position="(-3,-4)" objectID="" />
+    <tile position="(-3,-3)" objectID="" />
+    <tile position="(-3,-2)" objectID="" />
+    <tile position="(-3,-1)" objectID="" />
+    <tile position="(-2,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-2,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-2,-6)" objectID="" />
+    <tile position="(-2,-5)" objectID="" />
+    <tile position="(-2,-4)" objectID="" />
+    <tile position="(-2,-3)" objectID="" />
+    <tile position="(-2,-2)" objectID="" />
+    <tile position="(-2,-1)" objectID="" />
+    <tile position="(-1,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-1,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-1,-6)" objectID="" />
+    <tile position="(-1,-5)" objectID="" />
+    <tile position="(-1,-4)" objectID="" />
+    <tile position="(-1,-3)" objectID="" />
+    <tile position="(-1,-2)" objectID="" />
+    <tile position="(-1,-1)" objectID="" />
+    <tile position="(-8,0)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,1)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,2)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,3)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,4)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,5)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,6)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-8,7)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,0)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,1)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,2)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,3)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,4)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,5)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,6)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-7,7)" objectID="3253ae7510085a461f4e08028ff35f40" />
+    <tile position="(-6,0)" objectID="" />
+    <tile position="(-6,1)" objectID="" />
+    <tile position="(-6,2)" objectID="" />
+    <tile position="(-6,3)" objectID="" />
+    <tile position="(-6,4)" objectID="" />
+    <tile position="(-6,5)" objectID="" />
+    <tile position="(-6,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-6,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-5,0)" objectID="" />
+    <tile position="(-5,1)" objectID="" />
+    <tile position="(-5,2)" objectID="" />
+    <tile position="(-5,3)" objectID="" />
+    <tile position="(-5,4)" objectID="" />
+    <tile position="(-5,5)" objectID="" />
+    <tile position="(-5,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-5,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-4,0)" objectID="" />
+    <tile position="(-4,1)" objectID="" />
+    <tile position="(-4,2)" objectID="" />
+    <tile position="(-4,3)" objectID="" />
+    <tile position="(-4,4)" objectID="" />
+    <tile position="(-4,5)" objectID="" />
+    <tile position="(-4,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-4,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-3,0)" objectID="" />
+    <tile position="(-3,1)" objectID="" />
+    <tile position="(-3,2)" objectID="" />
+    <tile position="(-3,3)" objectID="" />
+    <tile position="(-3,4)" objectID="" />
+    <tile position="(-3,5)" objectID="" />
+    <tile position="(-3,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-3,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-2,0)" objectID="" />
+    <tile position="(-2,1)" objectID="" />
+    <tile position="(-2,2)" objectID="" />
+    <tile position="(-2,3)" objectID="" />
+    <tile position="(-2,4)" objectID="" />
+    <tile position="(-2,5)" objectID="" />
+    <tile position="(-2,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-2,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-1,0)" objectID="" />
+    <tile position="(-1,1)" objectID="" />
+    <tile position="(-1,2)" objectID="" />
+    <tile position="(-1,3)" objectID="" />
+    <tile position="(-1,4)" objectID="" />
+    <tile position="(-1,5)" objectID="" />
+    <tile position="(-1,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-1,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(-8,8)" objectID="" />
+    <tile position="(-8,9)" objectID="" />
+    <tile position="(-8,10)" objectID="" />
+    <tile position="(-8,11)" objectID="" />
+    <tile position="(-7,8)" objectID="" />
+    <tile position="(-7,9)" objectID="" />
+    <tile position="(-7,10)" objectID="" />
+    <tile position="(-7,11)" objectID="" />
+    <tile position="(-6,8)" objectID="" />
+    <tile position="(-6,9)" objectID="" />
+    <tile position="(-6,10)" objectID="" />
+    <tile position="(-6,11)" objectID="" />
+    <tile position="(-5,8)" objectID="" />
+    <tile position="(-5,9)" objectID="" />
+    <tile position="(-5,10)" objectID="" />
+    <tile position="(-5,11)" objectID="" />
+    <tile position="(-4,8)" objectID="" />
+    <tile position="(-4,9)" objectID="" />
+    <tile position="(-4,10)" objectID="" />
+    <tile position="(-4,11)" objectID="" />
+    <tile position="(-3,8)" objectID="" />
+    <tile position="(-3,9)" objectID="" />
+    <tile position="(-3,10)" objectID="" />
+    <tile position="(-3,11)" objectID="" />
+    <tile position="(-2,8)" objectID="" />
+    <tile position="(-2,9)" objectID="" />
+    <tile position="(-2,10)" objectID="" />
+    <tile position="(-2,11)" objectID="" />
+    <tile position="(-1,8)" objectID="" />
+    <tile position="(-1,9)" objectID="" />
+    <tile position="(-1,10)" objectID="" />
+    <tile position="(-1,11)" objectID="" />
+    <tile position="(0,-12)" objectID="" />
+    <tile position="(0,-11)" objectID="" />
+    <tile position="(0,-10)" objectID="" />
+    <tile position="(0,-9)" objectID="" />
+    <tile position="(1,-12)" objectID="" />
+    <tile position="(1,-11)" objectID="" />
+    <tile position="(1,-10)" objectID="" />
+    <tile position="(1,-9)" objectID="" />
+    <tile position="(2,-12)" objectID="" />
+    <tile position="(2,-11)" objectID="" />
+    <tile position="(2,-10)" objectID="" />
+    <tile position="(2,-9)" objectID="" />
+    <tile position="(3,-12)" objectID="" />
+    <tile position="(3,-11)" objectID="" />
+    <tile position="(3,-10)" objectID="" />
+    <tile position="(3,-9)" objectID="" />
+    <tile position="(4,-12)" objectID="" />
+    <tile position="(4,-11)" objectID="" />
+    <tile position="(4,-10)" objectID="" />
+    <tile position="(4,-9)" objectID="" />
+    <tile position="(5,-12)" objectID="" />
+    <tile position="(5,-11)" objectID="" />
+    <tile position="(5,-10)" objectID="" />
+    <tile position="(5,-9)" objectID="" />
+    <tile position="(6,-12)" objectID="" />
+    <tile position="(6,-11)" objectID="" />
+    <tile position="(6,-10)" objectID="" />
+    <tile position="(6,-9)" objectID="" />
+    <tile position="(7,-12)" objectID="" />
+    <tile position="(7,-11)" objectID="" />
+    <tile position="(7,-10)" objectID="" />
+    <tile position="(7,-9)" objectID="" />
+    <tile position="(0,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(0,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(0,-6)" objectID="" />
+    <tile position="(0,-5)" objectID="" />
+    <tile position="(0,-4)" objectID="" />
+    <tile position="(0,-3)" objectID="" />
+    <tile position="(0,-2)" objectID="" />
+    <tile position="(0,-1)" objectID="" />
+    <tile position="(1,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(1,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(1,-6)" objectID="" />
+    <tile position="(1,-5)" objectID="" />
+    <tile position="(1,-4)" objectID="" />
+    <tile position="(1,-3)" objectID="" />
+    <tile position="(1,-2)" objectID="" />
+    <tile position="(1,-1)" objectID="" />
+    <tile position="(2,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(2,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(2,-6)" objectID="" />
+    <tile position="(2,-5)" objectID="" />
+    <tile position="(2,-4)" objectID="" />
+    <tile position="(2,-3)" objectID="" />
+    <tile position="(2,-2)" objectID="" />
+    <tile position="(2,-1)" objectID="" />
+    <tile position="(3,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(3,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(3,-6)" objectID="" />
+    <tile position="(3,-5)" objectID="" />
+    <tile position="(3,-4)" objectID="" />
+    <tile position="(3,-3)" objectID="" />
+    <tile position="(3,-2)" objectID="" />
+    <tile position="(3,-1)" objectID="" />
+    <tile position="(4,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(4,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(4,-6)" objectID="" />
+    <tile position="(4,-5)" objectID="" />
+    <tile position="(4,-4)" objectID="" />
+    <tile position="(4,-3)" objectID="" />
+    <tile position="(4,-2)" objectID="" />
+    <tile position="(4,-1)" objectID="" />
+    <tile position="(5,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(5,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(5,-6)" objectID="" />
+    <tile position="(5,-5)" objectID="" />
+    <tile position="(5,-4)" objectID="" />
+    <tile position="(5,-3)" objectID="" />
+    <tile position="(5,-2)" objectID="" />
+    <tile position="(5,-1)" objectID="" />
+    <tile position="(6,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,-6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,-5)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,-4)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,-3)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,-2)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,-1)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-8)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-5)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-4)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-3)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-2)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,-1)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(0,0)" objectID="" />
+    <tile position="(0,1)" objectID="" />
+    <tile position="(0,2)" objectID="" />
+    <tile position="(0,3)" objectID="" />
+    <tile position="(0,4)" objectID="" />
+    <tile position="(0,5)" objectID="" />
+    <tile position="(0,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(0,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(1,0)" objectID="" />
+    <tile position="(1,1)" objectID="" />
+    <tile position="(1,2)" objectID="" />
+    <tile position="(1,3)" objectID="" />
+    <tile position="(1,4)" objectID="" />
+    <tile position="(1,5)" objectID="" />
+    <tile position="(1,6)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(1,7)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(2,0)" objectID="" />
+    <tile position="(2,1)" objectID="" />
+    <tile position="(2,2)" objectID="" />
+    <tile position="(2,3)" objectID="" />
+    <tile position="(2,4)" objectID="" />
+    <tile position="(2,5)" objectID="" />
+    <tile position="(2,6)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(2,7)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(3,0)" objectID="" />
+    <tile position="(3,1)" objectID="" />
+    <tile position="(3,2)" objectID="" />
+    <tile position="(3,3)" objectID="" />
+    <tile position="(3,4)" objectID="" />
+    <tile position="(3,5)" objectID="" />
+    <tile position="(3,6)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(3,7)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(4,0)" objectID="" />
+    <tile position="(4,1)" objectID="" />
+    <tile position="(4,2)" objectID="" />
+    <tile position="(4,3)" objectID="" />
+    <tile position="(4,4)" objectID="" />
+    <tile position="(4,5)" objectID="" />
+    <tile position="(4,6)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(4,7)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(5,0)" objectID="" />
+    <tile position="(5,1)" objectID="" />
+    <tile position="(5,2)" objectID="" />
+    <tile position="(5,3)" objectID="" />
+    <tile position="(5,4)" objectID="" />
+    <tile position="(5,5)" objectID="" />
+    <tile position="(5,6)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(5,7)" objectID="8774e0d407ef08d4b2974fbd1c2bb872" />
+    <tile position="(6,0)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,1)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,2)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,3)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(6,4)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(6,5)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(6,6)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(6,7)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(7,0)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,1)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,2)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,3)" objectID="e4b2239dd4ddf0e106feb77b2667054b" />
+    <tile position="(7,4)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(7,5)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(7,6)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(7,7)" objectID="4e7742eaa9e10afbe542bbb02ad5d9df" />
+    <tile position="(0,8)" objectID="" />
+    <tile position="(0,9)" objectID="" />
+    <tile position="(0,10)" objectID="" />
+    <tile position="(0,11)" objectID="" />
+    <tile position="(1,8)" objectID="" />
+    <tile position="(1,9)" objectID="" />
+    <tile position="(1,10)" objectID="" />
+    <tile position="(1,11)" objectID="" />
+    <tile position="(2,8)" objectID="" />
+    <tile position="(2,9)" objectID="" />
+    <tile position="(2,10)" objectID="" />
+    <tile position="(2,11)" objectID="" />
+    <tile position="(3,8)" objectID="" />
+    <tile position="(3,9)" objectID="" />
+    <tile position="(3,10)" objectID="" />
+    <tile position="(3,11)" objectID="" />
+    <tile position="(4,8)" objectID="" />
+    <tile position="(4,9)" objectID="" />
+    <tile position="(4,10)" objectID="" />
+    <tile position="(4,11)" objectID="" />
+    <tile position="(5,8)" objectID="" />
+    <tile position="(5,9)" objectID="" />
+    <tile position="(5,10)" objectID="" />
+    <tile position="(5,11)" objectID="" />
+    <tile position="(6,8)" objectID="" />
+    <tile position="(6,9)" objectID="" />
+    <tile position="(6,10)" objectID="" />
+    <tile position="(6,11)" objectID="" />
+    <tile position="(7,8)" objectID="" />
+    <tile position="(7,9)" objectID="" />
+    <tile position="(7,10)" objectID="" />
+    <tile position="(7,11)" objectID="" />
+  </tiles>
+</level>

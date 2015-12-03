@@ -120,7 +120,7 @@ namespace Input
          */
         public bool get()
         {
-            if (!(mIsKey || mIsMouse))
+            if (!(mIsKey || mIsMouse || mIsButton))
                 return false;
 
             if (mIsKey)
@@ -139,7 +139,7 @@ namespace Input
          */
         public bool getDown()
         {
-            if (!(mIsKey || mIsMouse))
+			if (!(mIsKey || mIsMouse || mIsButton))
                 return false;
 
             if (mIsKey)
@@ -158,7 +158,7 @@ namespace Input
          */
         public bool getUp()
         {
-            if (!(mIsKey || mIsMouse))
+			if (!(mIsKey || mIsMouse || mIsButton))
                 return false;
 
             if (mIsKey)

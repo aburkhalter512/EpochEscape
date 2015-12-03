@@ -13,8 +13,6 @@ namespace Game
 {
     public class Importer : MonoBehaviour
     {
-        public string levelName;
-
         #region Instance Variables
         private string mLevelPath;
 
@@ -39,14 +37,13 @@ namespace Game
 
         private bool mImportedEnvironment;
 
-        private string mImportDirectory;
         private string mImportLevelName;
 
         private Player mPlayer;
         #endregion
 
-        public void Start()
-        {
+        public void playLevel(string levelPath)
+		{
             mPlayer = Player.Get();
             mPlayer.pause();
 
@@ -54,25 +51,50 @@ namespace Game
 
             mActivatables = new List<IActivatable>();
 
-            string outputDirectory = "Levels/";
-            mImportDirectory = outputDirectory + levelName + "/";
-
-            if (!Directory.Exists(mImportDirectory))
+			if (!Directory.Exists(levelPath))
             {
-                Debug.Log("The level " + levelName + " does not exist.");
+				Debug.Log("The level " + levelPath + " does not exist.");
                 return;
             }
 
             mImportLevelName = "gamedata.xml";
 
-            if (!File.Exists(mImportDirectory + mImportLevelName))
+			if (!File.Exists(levelPath + mImportLevelName))
             {
-                Debug.Log(mImportDirectory + mImportLevelName + " does not exist.");
+				Debug.Log(levelPath + mImportLevelName + " does not exist.");
                 return;
             }
 
             XmlDocument document = new XmlDocument();
-            document.Load(mImportDirectory + mImportLevelName);
+			document.Load(levelPath + mImportLevelName);
+
+			XmlElement tilesElement;
+			XmlElement staticWallElement;
+			XmlElement doorsElement;
+			XmlElement activatorsElement;
+
+			foreach (XmlNode child in document.ChildNodes)
+			{
+				XmlElement iterator = child as XmlElement;
+				if (iterator == null)
+					continue;
+
+				switch (iterator.Name)
+				{
+					case "tiles":
+						tilesElement = iterator;
+						break;
+					case "staticwalls":
+						staticWallElement = iterator;
+						break;
+					case "doors":
+						doorsElement = iterator;
+						break;
+					case "activators":
+						activatorsElement = iterator;
+						break;
+				}
+			}
 
             mImportedDoors = true;
             mImportedDynWalls = true;
@@ -157,7 +179,8 @@ namespace Game
 
         private IEnumerator importChunks(XmlElement parent)
         {
-            if (parent == null || parent.Name != "chunks")
+        	yield break;
+            /*if (parent == null || parent.Name != "chunks")
                 yield break;
 
             Debug.Log("Importing chunks...");
@@ -214,7 +237,7 @@ namespace Game
 
             Debug.Log("Done importing chunks");
 
-            mImportedChunks = true;
+            mImportedChunks = true;*/
         }
 
         private IEnumerator importStaticWalls(XmlElement parent)
@@ -271,10 +294,6 @@ namespace Game
                 XmlNode categoryIter = chamberElem.FirstChild;
                 XmlElement categoryElem;
 
-                XmlElement doors = null;
-                XmlElement dynamicWalls = null;
-                XmlElement activators = null;
-                XmlElement items = null;
                 while (categoryIter != null)
                 {
                     categoryElem = categoryIter as XmlElement;
@@ -288,22 +307,18 @@ namespace Game
                         case "doors":
                             mImportedDoors = false;
                             StartCoroutine(importDoors(categoryElem));
-                            doors = categoryElem;
                             break;
                         case "dynamicwalls":
                             mImportedDynWalls = false;
                             StartCoroutine(importDynamicWalls(categoryElem));
-                            dynamicWalls = categoryElem;
                             break;
                         case "activators":
                             mImportedActivators = false;
                             StartCoroutine(importActivators(categoryElem));
-                            activators = categoryElem;
                             break;//*/
                         case "items":
                             mImportedItems = false;
                             StartCoroutine(importItems(categoryElem));
-                            items = categoryElem;
                             break;
                     }
                 }

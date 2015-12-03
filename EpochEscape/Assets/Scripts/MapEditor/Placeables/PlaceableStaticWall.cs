@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
+using Utilities;
+
 namespace MapEditor
 {
-    public class PlaceableStaticWall : PlaceableObject
+    public class PlaceableStaticWall : PlaceableObject, ISerializable
     {
         #region Interface Variables
         public Tile bottomLeft;
@@ -41,15 +43,22 @@ namespace MapEditor
 
         protected override void Start()
         {
-            base.Start();
-
             if (mCM == null)
                 mCM = ChunkManager.Get();
             if (mSWM == null)
-                mSWM = StaticWallManager.Get();
+				mSWM = StaticWallManager.Get();
+
+            base.Start();
         }
 
         #region Interface Methods
+        public static void cleanup()
+        {
+        	mWallTextures = null;
+        	mCM = null;
+        	mSWM = null;
+        }
+
         public static void createStaticWall(Vector3 v)
         {
             GameObject _prefab = getPrefab();
@@ -60,7 +69,12 @@ namespace MapEditor
             PlaceableStaticWall staticWall =
                 (GameObject.Instantiate(_prefab) as GameObject).GetComponent<PlaceableStaticWall>();
 
-            staticWall.StartCoroutine(placeAtStart(staticWall, v));
+            staticWall.onStart = (obj) =>
+            {
+				obj.moveTo(v);
+	            if (!obj.place())
+	                GameObject.Destroy(obj.gameObject);
+            };
         }
         public override void rotate()
         {
@@ -163,12 +177,7 @@ namespace MapEditor
 
         public static GameObject getPrefab()
         {
-            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/StaticWall");
-
-            if (retVal == null)
-                Debug.LogError("_prefab is null!");
-
-            return retVal;
+			return ResourceManager.ResourceManager.Get().prefab("Prefabs/MapEditor/Placeables/StaticWall");
         }
 
         public PlaceableStaticWall getSide(Utilities.SIDE_4 side)
@@ -301,6 +310,18 @@ namespace MapEditor
             }
 
             mIsUpdatingWall = false;
+        }
+
+        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        {
+			XmlElement staticWall = doc.CreateElement("staticwall");
+			staticWall.SetAttribute("id", getID());
+
+			staticWall.AppendChild(Serialization.toXML(transform, doc));
+
+			callback(staticWall);
+
+			return null;
         }
         #endregion
 

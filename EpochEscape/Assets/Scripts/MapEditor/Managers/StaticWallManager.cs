@@ -13,10 +13,10 @@ namespace MapEditor
         #endregion
 
         #region Instance Variables
-        SortedList<Vec2Int, PlaceableStaticWall> mStaticWalls;
+        private SortedList<Vec2Int, PlaceableStaticWall> mStaticWalls;
 
-        static StaticWallManager mInstance;
-        static Map _map;
+        private static StaticWallManager mInstance;
+        private static Map _map;
         #endregion
 
         private StaticWallManager()
@@ -27,6 +27,22 @@ namespace MapEditor
         }
 
         #region Interface Methods
+        public void destroy()
+        {
+        	Debug.Log("Destroying " + mStaticWalls.Count + " objects");
+
+        	foreach (PlaceableStaticWall staticWall in mStaticWalls.Values)
+        		GameObject.Destroy(staticWall.gameObject);
+
+        	mStaticWalls.Clear();
+			mStaticWalls = null;
+
+        	_map.destroy();
+        	_map = null;
+
+        	mInstance = null;
+        }
+
         public static StaticWallManager Get()
         {
             if (mInstance == null)
@@ -62,7 +78,22 @@ namespace MapEditor
 
             XmlElement staticWalls = doc.CreateElement("staticwalls");
 
-            Vector2 tileSize = Map.tileSize;
+            int counter = 0;
+            foreach (PlaceableStaticWall staticWall in mStaticWalls.Values)
+            {
+            	staticWall.serialize(doc, (staticWallElem) =>
+            	{
+            		staticWalls.AppendChild(staticWallElem);
+            	});
+
+            	if (counter++ > CoroutineManager.yieldCount)
+            	{
+            		counter = 0;
+            		yield return null;
+            	}
+            }
+
+            /*Vector2 tileSize = Map.tileSize;
 
             Utilities.Vec2Int prevPos = null;
 
@@ -111,7 +142,7 @@ namespace MapEditor
             boxcollider2d.SetAttribute("size", new Vector2(tileSize.x * 2, tileSize.y * 2 * colliderHeight).ToString());
             boxcollider2d.SetAttribute("center", colliderPosition.ToString());
 
-            staticWalls.AppendChild(boxcollider2d);
+            staticWalls.AppendChild(boxcollider2d);*/
 
             callback(staticWalls);
         }

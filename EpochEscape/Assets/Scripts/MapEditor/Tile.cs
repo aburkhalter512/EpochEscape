@@ -19,8 +19,6 @@ namespace MapEditor
         Texture2D _floorTex;
 
         Vec2Int _pos;
-
-        private static ChunkManager mCM;
         #endregion
 
         public Tile(QuadNode<Tile> node, PlaceableObject placeableObject, Vec2Int v)
@@ -88,10 +86,7 @@ namespace MapEditor
             if (tex == null)
                 return;
 
-            if (mCM == null)
-                mCM = ChunkManager.Get();
-
-            mCM.setTileTexture(_pos, tex);
+			ChunkManager.Get().setTileTexture(_pos, tex);
         }
         public void resetTexture()
         {
@@ -101,7 +96,7 @@ namespace MapEditor
         {
             _floorTex = null;
 
-            mCM.clearTileTexture(_pos);
+			ChunkManager.Get().clearTileTexture(_pos);
         }
 
         public void clear()
@@ -112,13 +107,15 @@ namespace MapEditor
             _pos = null;
         }
 
-        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        public IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
         {
             XmlElement tile = doc.CreateElement("tile");
             tile.SetAttribute("position", _pos.ToString());
             tile.SetAttribute("objectID", _object == null ? "" : _object.getID());
 
-            return null;
+            callback(tile);
+
+            yield break;
         }
         #endregion
 

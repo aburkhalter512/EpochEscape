@@ -13,7 +13,7 @@ namespace MapEditor
                 return;
 
             Vec2Int basePos = pos;
-            if (basePos.x % 2 == 1)
+            if (basePos.x % 2 != 0)
             {
                 tile = tile.getSide(SIDE_4.LEFT);
 
@@ -21,7 +21,7 @@ namespace MapEditor
                     return;
             }
 
-            if (basePos.y % 2 == 1)
+            if (basePos.y % 2 != 0)
             {
                 tile = tile.getSide(SIDE_4.BOTTOM);
 

@@ -47,17 +47,6 @@ namespace MapEditor
             if (mDestination != null)
                 mDestination.unlight();
         }
-        protected override void selectUpdate()
-        {
-            base.selectUpdate();
-
-            if (_im.multiObjectSelector.getUp())
-            {
-                Tile tile = _map.getTile(_im.mouse.inWorld());
-                if (tile != null && tile.hasObject())
-                    connect(tile.getObject());
-            }
-        }
 
         public void connect(IConnectable door)
         {
@@ -105,9 +94,7 @@ namespace MapEditor
 
         public static GameObject getPrefab()
         {
-            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/TeleporterDoor");
-
-            return retVal;
+			return ResourceManager.ResourceManager.Get().prefab("Prefabs/MapEditor/Placeables/TeleporterDoor");
         }
         #endregion
 

@@ -14,6 +14,7 @@ namespace MapEditor
 
         public Axis objectChanger;
         public Hotkey objectDeleter;
+        public Hotkey objectDetacher;
 
         public Hotkey rotate;
         public Hotkey revRotate;
@@ -86,6 +87,7 @@ namespace MapEditor
             );
 
             objectDeleter = new Hotkey(new Button(KeyCode.Backspace));
+            objectDetacher = new Hotkey(new Button(KeyCode.D));
 
             rotate = new Hotkey(new Button(KeyCode.R));
             revRotate = new Hotkey(

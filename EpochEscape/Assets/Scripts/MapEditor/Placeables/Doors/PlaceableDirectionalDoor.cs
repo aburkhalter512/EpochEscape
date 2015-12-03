@@ -4,15 +4,17 @@ namespace MapEditor
 {
     public class PlaceableDirectionalDoor : PlaceableSimpleDoor
     {
+    	protected override void Start ()
+		{
+			base.Start ();
+
+			mFrontSide.deactivate();
+		}
+
         #region Interface Methods
         public static GameObject getPrefab()
         {
-            GameObject retVal = Resources.Load<GameObject>("Prefabs/MapEditor/Placeables/DirectionalDoor");
-
-            if (retVal == null)
-                Debug.LogError("_prefab is null!");
-
-            return retVal;
+			return ResourceManager.ResourceManager.Get().prefab("Prefabs/MapEditor/Placeables/DirectionalDoor");
         }
         #endregion
 

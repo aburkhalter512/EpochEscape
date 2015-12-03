@@ -42,9 +42,9 @@ namespace MapEditor
 
         protected override void Start()
         {
-            base.Start();
+			mAM = ActivatorManager.Get();
 
-            mAM = ActivatorManager.Get();
+            base.Start();
         }
 
         #region Interface Methods
@@ -162,17 +162,7 @@ namespace MapEditor
         }
 
         protected override void selectUpdate()
-        {
-            if (_im.multiObjectSelector.getUp())
-            {
-                Tile tile = _map.getTile(_im.mouse.inWorld());
-                if (tile != null && tile.hasObject())
-                {
-                    PlaceableObject connection = tile.getObject();
-                    connect(connection);
-                }
-            }
-        }
+        { }
 
         private string getType()
         {

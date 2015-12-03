@@ -6,22 +6,30 @@ namespace MapEditor
     public class TileManipulator : SquarePlacer<TileManipulator>, IActivatable
     {
         #region Interface Variables
-        public GameObject cursor;
         #endregion
 
         #region Instance Variables
         SortedDictionary<Utilities.Vec2Int, Tile> mSelection;
 
-        protected ChunkManager _cm;
+		protected ChunkManager _cm;
+
+        protected GameObject cursor;
+
+        protected bool _isControlEnabled;
         #endregion
 
         protected override void Awaken()
         {
+        	_step = 2;
+
             base.Awaken();
 
-            deactivate();
-
             mSelection = new SortedDictionary<Utilities.Vec2Int, Tile>(Utilities.Vec2IntComparer.Get());
+
+			cursor = new GameObject();
+
+			_isControlEnabled = true;
+            deactivate();
         }
 
         protected override void Initialize()
@@ -42,7 +50,7 @@ namespace MapEditor
         #region Interface Methods
         public override void activate()
         {
-            base.activate();
+        	base.activate();
 
             cursor.SetActive(true);
 
@@ -54,6 +62,19 @@ namespace MapEditor
 
             cursor.SetActive(false);
         }
+
+        public virtual void enableControls()
+        {
+			_isControlEnabled = true;
+        }
+        public virtual void disableControls()
+        {
+			_isControlEnabled = false;
+        }
+        public override bool isActive ()
+		{
+			return base.isActive() && _isControlEnabled;
+		}
         #endregion
 
         #region Instance Methods
@@ -66,7 +87,7 @@ namespace MapEditor
         {
             mSelection.Clear();
 
-            Utilities.Vec2Int pos = _map.toLogicalTilePos(mIM.mouse.inWorld());
+			Utilities.Vec2Int pos = _map.toLogicalTilePos(mIM.mouse.inWorld());
             Tile tile = _map.getExistingTile(pos);
 
             mBasePos = new Utilities.Vec2Int(pos);
@@ -76,8 +97,8 @@ namespace MapEditor
             if (tile != null)
                 return;
 
-            tile = _map.getTile(pos); //Creates a returns the tile
-            mSelection.Add(mBasePos.clone(), tile);
+    		tile = _map.getTile(pos.clone());
+			mSelection.Add(pos, tile);
 
             QuadNodeProcessors.createTile(tile.node(), tile.position());
         }

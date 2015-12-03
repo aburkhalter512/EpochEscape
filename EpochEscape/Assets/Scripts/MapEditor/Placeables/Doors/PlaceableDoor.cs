@@ -55,13 +55,18 @@ namespace MapEditor
 
         protected override void Start()
         {
-            base.Start();
-
             if (mDM == null)
-                mDM = DoorManager.Get();
+				mDM = DoorManager.Get();
+
+            base.Start();
         }
 
         #region Interface Methods
+        public static void cleanup()
+        {
+        	mDM = null;
+        }
+
         public abstract void activate();
         public abstract void deactivate();
 

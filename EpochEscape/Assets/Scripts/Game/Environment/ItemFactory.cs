@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Game
 {
-    public class ItemFactory : Factory<MonoBehaviour>
+    public class ItemFactory : IFactory<MonoBehaviour>
     {
         #region Instance Variables
         private GameObject mPowerCore1Prefab;

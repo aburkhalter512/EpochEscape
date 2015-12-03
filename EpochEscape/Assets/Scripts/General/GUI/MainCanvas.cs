@@ -6,17 +6,18 @@ namespace GUI
     public class MainCanvas : Manager<MainCanvas>
     {
         private Canvas _canvas;
-        private GraphicRaycaster _rayCaster;
-        private MainEventSystem _es;
+        private RectTransform _canvasRect;
 
         protected override void Awaken()
         {
             _canvas = gameObject.AddComponent<Canvas>();
             _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 
-            _rayCaster = gameObject.AddComponent<GraphicRaycaster>();
+            gameObject.AddComponent<GraphicRaycaster>();
 
-            _es = MainEventSystem.Get();
+            _canvasRect = GetComponent<RectTransform>();
+
+           MainEventSystem.Get();
         }
 
         protected override void Initialize()
@@ -25,6 +26,11 @@ namespace GUI
         public Canvas canvas()
         {
             return _canvas;
+        }
+
+        public Vector2 canvasSize()
+        {
+        	return _canvasRect.sizeDelta;
         }
     }
 }

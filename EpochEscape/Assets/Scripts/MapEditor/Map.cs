@@ -18,10 +18,11 @@ namespace MapEditor
 
         private SortedList<Vec2Int, Chunk> _chunks;
         private bool _processing;
+        private bool _isDestroyed;
         #endregion
 
         #region Class constants
-        private class Chunk : ISerializable
+        private class Chunk
         {
             public QuadNode<Tile>[,] _data;
 
@@ -29,9 +30,9 @@ namespace MapEditor
             {
                 _data = new QuadNode<Tile>[size.x, size.y];
 
-                for (int i = 0, j = 0; i < size.x; i++)
+                for (int i = 0; i < size.x; i++)
                 {
-                    for (j = 0; j < size.y; j++)
+                    for (int j = 0; j < size.y; j++)
                     {
                         _data[i, j] = new QuadNode<Tile>();
 
@@ -95,6 +96,8 @@ namespace MapEditor
 
         private Map()
         {
+        	_isDestroyed = false;
+
             _chunks = new SortedList<Vec2Int, Chunk>(Vec2IntComparer.Get());
             getChunk(new Vec2Int(0, 0), true);
             getChunk(new Vec2Int(0, -1), true);
@@ -105,6 +108,29 @@ namespace MapEditor
         }
 
         #region Interface Methods
+        public void initialize()
+		{
+            getChunk(new Vec2Int(0, 0), true);
+            getChunk(new Vec2Int(0, -1), true);
+            getChunk(new Vec2Int(-1, 0), true);
+            getChunk(new Vec2Int(-1, -1), true);
+        }
+
+        public void destroy()
+        {
+        	if (_isDestroyed)
+        		return;
+
+        	_isDestroyed = true;
+
+        	foreach (Chunk chunk in _chunks.Values)
+        		chunk._data = null;
+
+        	_chunks.Clear();
+
+        	_instance = null;
+        }
+
         public static Map Get()
         {
             if (_instance == null)
@@ -121,7 +147,6 @@ namespace MapEditor
                         processor(node.data(), v);
                 });
         }
-
         public void processAllNodes(Action<QuadNode<Tile>, Vec2Int> processor)
         {
             if (_processing)
@@ -238,24 +263,34 @@ namespace MapEditor
             node.data(null);
         }
 
-        public override IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
+        public IEnumerator serialize(XmlDocument doc, Action<XmlElement> callback)
         {
+        	if (doc == null)
+        		yield break;
+
             XmlElement tiles = doc.CreateElement("tiles");
 
             int tilesToProcess = _chunks.Keys.Count * Chunk.size.x * Chunk.size.y;
             int yielder = 0;
             foreach (Vec2Int chunkPos in _chunks.Keys)
-            {
+			{
+            	Debug.Assert(_chunks[chunkPos] != null, "Chunk Pos: " + chunkPos.ToString());
                 for (int i = 0; i < Chunk.size.x; i++)
                 {
                     for (int j = 0; j < Chunk.size.y; j++)
                     {
-                        _chunks[chunkPos]._data[i, j].data().serialize(doc, (tile) =>
+						Tile tile = _chunks[chunkPos]._data[i, j].data();
+                        if (tile != null)
                         {
-                            tiles.AppendChild(tile);
+	                        CoroutineManager.Get().StartCoroutine(tile.serialize(doc, (tileElem) =>
+	                        {
+	                            tiles.AppendChild(tileElem);
 
-                            tilesToProcess--;
-                        });
+	                            tilesToProcess--;
+	                        }));
+	                    }
+	                    else
+	                    	tilesToProcess--;
 
                         if (yielder++ >= CoroutineManager.yieldCount)
                         {
@@ -359,11 +394,11 @@ namespace MapEditor
                 if (_chunks.TryGetValue(pos + new Vec2Int(-1, 0), out connector))
                     connector.connectTo(searcher, SIDE_4.RIGHT);
                 if (_chunks.TryGetValue(pos + new Vec2Int(1, 0), out connector))
-                    connector.connectTo(searcher, SIDE_4.BOTTOM);
-                if (_chunks.TryGetValue(pos + new Vec2Int(0, -1), out connector))
                     connector.connectTo(searcher, SIDE_4.LEFT);
-                if (_chunks.TryGetValue(pos + new Vec2Int(0, 1), out connector))
+                if (_chunks.TryGetValue(pos + new Vec2Int(0, -1), out connector))
                     connector.connectTo(searcher, SIDE_4.TOP);
+                if (_chunks.TryGetValue(pos + new Vec2Int(0, 1), out connector))
+                    connector.connectTo(searcher, SIDE_4.BOTTOM);
             }
 
             return searcher;

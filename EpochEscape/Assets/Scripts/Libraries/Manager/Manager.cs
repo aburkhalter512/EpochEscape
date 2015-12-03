@@ -1,5 +1,23 @@
 ﻿using UnityEngine;
 
+public class ManagerContainer
+{
+	private static GameObject _go;
+
+	private ManagerContainer() { }
+
+	public static GameObject Get()
+	{
+		if (_go == null)
+		{
+			_go = new GameObject();
+			_go.name = "Managers";
+		}
+
+		return _go;
+	}
+}
+
 public abstract class Manager<T> : MonoBehaviour 
     where T : Component
 {
@@ -16,7 +34,7 @@ public abstract class Manager<T> : MonoBehaviour
             Awaken();
         }
         else
-            Destroy(gameObject);
+            Destroy(GetComponent<T>());
     }
 
     protected void Start()
@@ -32,14 +50,22 @@ public abstract class Manager<T> : MonoBehaviour
 
             if (m_instance == null)
             {
-                GameObject manager = new GameObject();
-                manager.name = typeof(T).ToString();
+				GameObject manager = new GameObject();
+				manager.name = typeof(T).ToString();
+
+				manager.transform.SetParent(ManagerContainer.Get().transform);
 
                 m_instance = manager.AddComponent<T>();
             }
         }
 
         return m_instance;
+    }
+
+    public virtual void destroy()
+    {
+    	GameObject.Destroy(m_instance.gameObject);
+    	m_instance = null;
     }
 
     //The following two methods provide full access to the gameobject's original functionality

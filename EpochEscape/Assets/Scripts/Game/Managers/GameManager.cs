@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using S = MapEditor.SaveManager;
+//using S = MapEditor.SaveManager;
 
 namespace Game
 {
@@ -108,7 +108,7 @@ namespace Game
             Application.targetFrameRate = 60;
             LoadFPS();
             LoadOptions();
-            S.Load();
+            //S.Load();
             PlayHoverSound = new bool[10];
         }
 
@@ -176,7 +176,7 @@ namespace Game
             if (GUILayout.Button("Main Menu", EpochSkin.GetStyle("Top Middle")))
             {
                 ClickSound.Play();
-                S.Save();
+                //S.Save();
                 Application.LoadLevel("MainMenu");
                 UnpauseGame();
             }
@@ -185,7 +185,7 @@ namespace Game
             if (GUILayout.Button("Save Game", EpochSkin.GetStyle("Middle")))
             {
                 ClickSound.Play();
-                S.Save();
+                //S.Save();
             }
             PlayHover(2);
             GUILayout.Space(10);
@@ -208,7 +208,7 @@ namespace Game
             if (GUILayout.Button("Quit Game", EpochSkin.GetStyle("Bottom")))
             {
                 ClickSound.Play();
-                S.Save();
+                //S.Save();
                 Application.Quit();
             }
             PlayHover(5);

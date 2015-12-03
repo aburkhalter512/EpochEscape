@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Game
 {
-    public class DoorFactory : Factory<DoorFrame>
+    public class DoorFactory : IFactory<DoorFrame>
     {
         #region Instance Variables
         private List<Utilities.Pair<TeleporterDoorFrame, string>> mToConnect;

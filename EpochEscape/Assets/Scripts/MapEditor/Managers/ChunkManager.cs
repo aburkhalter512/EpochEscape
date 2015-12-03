@@ -11,9 +11,10 @@ namespace MapEditor
     public class ChunkManager : Manager<ChunkManager>, ISerializable
     {
         #region Instance Variables
-        List<Pair<Utilities.Vec2Int, Texture2D>> mQueuedTiles;
+        List<Pair<Vec2Int, Texture2D>> mQueuedTiles;
         bool mIsAwake = false;
 
+        List<GameObject> mChunkGO;
         SortedList<Vec2Int, Texture2D> mChunks;
         SortedList<Vec2Int, Texture2D> mChunksToUpdate;
 
@@ -48,6 +49,7 @@ namespace MapEditor
                 mTileSize.x * mTilesPerChunk.x,
                 mTileSize.y * mTilesPerChunk.y);
 
+            mChunkGO = new List<GameObject>();
             mChunks = new SortedList<Vec2Int, Texture2D>(Vec2IntComparer.Get());
             mChunksToUpdate = new SortedList<Vec2Int, Texture2D>(Vec2IntComparer.Get());
 
@@ -71,6 +73,23 @@ namespace MapEditor
         }
 
         #region Interface Methods
+        public override void destroy()
+        {
+        	foreach (GameObject go in mChunkGO)
+        		GameObject.Destroy(go);
+
+        	mChunkGO.Clear();
+        	mChunkGO = null;
+
+        	mChunks.Clear();
+        	mChunks = null;
+
+        	mChunksToUpdate.Clear();
+        	mChunksToUpdate = null;
+
+        	base.destroy();
+        }
+
         public void clearTileTexture(Vec2Int logicalPosition)
         {
             if (logicalPosition == null)
@@ -199,6 +218,9 @@ namespace MapEditor
         protected Texture2D _createChunk(Vec2Int logicalChunkPos)
         {
             GameObject go = new GameObject();
+            mChunkGO.Add(go);
+            go.name = "Chunk: " + logicalChunkPos.ToString();
+
             go.transform.position = new Vector3(
                 logicalChunkPos.x * mChunkRealSize.x + mChunkRealSize.x / 2 - mTileSize.x / 2,
                 logicalChunkPos.y * mChunkRealSize.y + mChunkRealSize.y / 2 - mTileSize.y / 2,

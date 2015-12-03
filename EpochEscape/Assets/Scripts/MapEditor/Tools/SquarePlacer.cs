@@ -18,6 +18,7 @@ namespace MapEditor
 
         protected Utilities.Vec2Int mOldCursor = new Utilities.Vec2Int(0, 0);
         protected Utilities.Vec2Int mBasePos = new Utilities.Vec2Int(0, 0);
+        protected int _step = 1;
 
         private List<Utilities.Pair<bool, bool>> mCoTriggers;
         private List<Action> mCoroutines;
@@ -40,7 +41,7 @@ namespace MapEditor
 
         protected virtual void Update()
         {
-            if (mIsActivated)
+            if (isActive())
                 updateSelection();
         }
 
@@ -55,6 +56,10 @@ namespace MapEditor
 
             if (mIsActive)
                 finalizeSelection();
+        }
+        public virtual bool isActive()
+        {
+        	return mIsActivated;
         }
 
         public void registerCoroutine(Func<IEnumerator> coroutine)
@@ -106,14 +111,15 @@ namespace MapEditor
 
         private void updateSelection()
         {
-            if (mIM.primaryPlace.getDown() && !mIsActive)
+        	
+            if (mIM.objectSelector.getDown() && !mIsActive)
             {
                 mIsActive = true;
                 initSelection();
             }
-            else if (mIM.primaryPlace.get() && mIsActive)
+			else if (mIM.objectSelector.get() && mIsActive)
                 resizeSelection();
-            else if (mIM.primaryPlace.getUp() && mIsActive)
+			else if (mIM.objectSelector.getUp() && mIsActive)
             {
                 mIsActive = false;
                 finalizeSelection();
@@ -144,6 +150,8 @@ namespace MapEditor
         private IEnumerator resizeHorizontal()
         {
             Utilities.Vec2Int curCursor = _map.toLogicalTilePos(mIM.mouse.inWorld());
+			//curCursor.x = (curCursor.x % 2 != 0) ? curCursor.x : curCursor.x - 1;
+            //curCursor.y = (curCursor.y % 2 != 0) ? curCursor.y : curCursor.y - 1;
 
             int iIterator = (curCursor.x - mOldCursor.x >= 0) ? 1 : -1;
             Utilities.Comparer.OPERATOR iOP =
@@ -178,14 +186,14 @@ namespace MapEditor
 
         private IEnumerator resizeVertical()
         {
-            Utilities.Vec2Int curCursor = _map.toLogicalTilePos(mIM.mouse.inWorld());
+			Utilities.Vec2Int curCursor = _map.toLogicalTilePos(mIM.mouse.inWorld());
 
             int iIterator = (mOldCursor.x >= mBasePos.x) ? 1 : -1;
             Utilities.Comparer.OPERATOR iOP =
                 (iIterator == 1) ? Utilities.Comparer.OPERATOR.LE : Utilities.Comparer.OPERATOR.GE;
 
             int jIterator = (curCursor.y - mOldCursor.y >= 0) ? 1 : -1;
-            Utilities.Comparer.OPERATOR jOP =
+			Utilities.Comparer.OPERATOR jOP =
                 (jIterator == 1) ? Utilities.Comparer.OPERATOR.LE : Utilities.Comparer.OPERATOR.GE;
 
             int counter = 0;

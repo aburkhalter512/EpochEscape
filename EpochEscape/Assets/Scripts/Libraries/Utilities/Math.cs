@@ -20,7 +20,7 @@ namespace Utilities
             components = serialized.Split(','); // Get each component.
 
             // If the number of components is less than 3, then the string is corrupt.
-            if (components.Length != 3)
+            if (components.Length != 2)
                 return;
 
             // Trim any whitespace.
@@ -88,12 +88,22 @@ namespace Utilities
         {
             return "(" + x + "," + y + ")";
         }
+
+        public override bool Equals (object obj)
+		{
+			Vec2Int v = obj as Vec2Int;
+			if (v != null)
+				return x == v.x && y == v.y;
+			else
+				return base.Equals(obj);
+		}
     }
 
     public class Math
     {
         public static Vector2 copy(Vector2 v) { return new Vector2(v.x, v.y); }
         public static Vector2 toVector2(Vec2Int p) { return new Vector2(p.x, p.y); }
+        public static Vector2 toVector2(Vector3 v) { return new Vector2(v.x, v.y); }
 
         public static Vector3 toVector3(Vector2 v) { return new Vector3(v.x, v.y, 0.0f); }
         public static Vector3 toVector3(Vector2 v, float z) { return new Vector3(v.x, v.y, z); }

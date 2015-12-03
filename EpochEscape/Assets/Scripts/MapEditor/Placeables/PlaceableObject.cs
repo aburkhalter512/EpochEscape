@@ -10,6 +10,8 @@ namespace MapEditor
     {
         #region Interface Variables
         public GameObject selectionHighlighter;
+
+        public Action<PlaceableObject> onStart;
         #endregion
 
         #region Instance Variables
@@ -55,6 +57,9 @@ namespace MapEditor
 
             if (_prefab != null)
                 _prefab = prefab();
+
+            if (onStart != null)
+            	onStart(this);
         }
 
         protected virtual void Update()
@@ -64,17 +69,6 @@ namespace MapEditor
         }
 
         #region Interface Methods
-        public static IEnumerator placeAtStart(PlaceableObject obj, Vector3 v)
-        {
-            while (!obj.started())
-            {
-                yield return null;
-            }
-
-            obj.moveTo(v);
-            if (!obj.place())
-                GameObject.Destroy(obj.gameObject);
-        }
         public bool started()
         {
             return _started;
@@ -163,6 +157,41 @@ namespace MapEditor
 
             updateColor();
         }
+        public virtual void rotateTo(SIDE_4 orientation)
+		{
+            bool wasPlaced = placed();
+            if (wasPlaced)
+                remove();
+
+            while (orientation != _orientation)
+            {
+	            _orientation = Side.rotateLeft(_orientation);
+
+	            switch (_orientation)
+	            {
+	                case Utilities.SIDE_4.RIGHT:
+	                    transform.localEulerAngles = new Vector3(0, 0, 0.0f);
+	                    break;
+	                case Utilities.SIDE_4.TOP:
+	                    transform.localEulerAngles = new Vector3(0, 0, 90.0f);
+	                    break;
+	                case Utilities.SIDE_4.LEFT:
+	                    transform.localEulerAngles = new Vector3(0, 0, 180.0f);
+	                    break;
+	                case Utilities.SIDE_4.BOTTOM:
+	                    transform.localEulerAngles = new Vector3(0, 0, 270.0f);
+	                    break;
+	            }
+
+	            rotateArea();
+            }
+
+            if (wasPlaced)
+                place();
+
+            updateColor();
+         }
+
         public virtual bool canPlace()
         {
             if (!started())

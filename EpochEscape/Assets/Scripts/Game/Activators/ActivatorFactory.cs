@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Game
 {
-    public class ActivatorFactory : Factory<Activator>
+    public class ActivatorFactory : IFactory<Activator>
     {
         #region Interface Variables
         public List<IActivatable> toConnect; //ASSUMED TO BE CREATED BY THE FACTORY USER

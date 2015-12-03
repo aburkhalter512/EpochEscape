@@ -23,6 +23,17 @@ namespace MapEditor
         }
 
         #region Interface Methods
+        public void destroy()
+        {
+        	foreach (PlaceableDoor door in mDoors.Values)
+        		GameObject.Destroy(door.gameObject);
+
+        	mDoors.Clear();
+        	mDoors = null;
+
+        	mInstance = null;
+        }
+
         public static DoorManager Get()
         {
             if (mInstance == null)
